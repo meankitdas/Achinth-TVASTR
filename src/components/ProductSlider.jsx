@@ -192,16 +192,14 @@ export function ProductSlider() {
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUp}
           onMouseLeave={onMouseLeave}
-          className="flex overflow-x-auto snap-x snap-mandatory pb-2"
+          className="flex overflow-x-auto snap-x snap-mandatory pb-2 [&::-webkit-scrollbar]:hidden"
           style={{
             cursor: 'grab',
-            scrollbarWidth: 'none', // Firefox
-            msOverflowStyle: 'none', // IE
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
           }}
         >
-          {/* Hide scrollbar in WebKit */}
-          <style>{`.product-track::-webkit-scrollbar { display: none; }`}</style>
 
           {PRODUCTS.map((product, i) => (
             <div

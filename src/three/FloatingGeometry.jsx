@@ -1,6 +1,6 @@
 import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
+import { OctahedronGeometry, TetrahedronGeometry, IcosahedronGeometry } from 'three'
 
 /**
  * FloatingGeometry — Lightweight ambient particles for the hero background.
@@ -41,9 +41,9 @@ function Particle({ position, geometry, speed, rotAxis }) {
 
 export function FloatingGeometry() {
   // Reuse geometries across particles to minimize GPU allocations
-  const octaGeom = useMemo(() => new THREE.OctahedronGeometry(0.08, 0), [])
-  const tetraGeom = useMemo(() => new THREE.TetrahedronGeometry(0.07, 0), [])
-  const icoGeom = useMemo(() => new THREE.IcosahedronGeometry(0.05, 0), [])
+  const octaGeom = useMemo(() => new OctahedronGeometry(0.08, 0), [])
+  const tetraGeom = useMemo(() => new TetrahedronGeometry(0.07, 0), [])
+  const icoGeom = useMemo(() => new IcosahedronGeometry(0.05, 0), [])
 
   // Deterministic particle layout — spread around the hero canvas
   const particles = useMemo(() => [

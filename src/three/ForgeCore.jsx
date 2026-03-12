@@ -1,6 +1,6 @@
 import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
+import { IcosahedronGeometry, TorusGeometry } from 'three'
 
 /**
  * ForgeCore — The central metallic artifact in the hero section.
@@ -38,9 +38,9 @@ export function ForgeCore() {
   })
 
   // Wireframe geometry for outer shell
-  const wireframeGeom = useMemo(() => new THREE.IcosahedronGeometry(1.4, 1), [])
-  const solidGeom = useMemo(() => new THREE.IcosahedronGeometry(0.9, 0), [])
-  const torusGeom = useMemo(() => new THREE.TorusGeometry(1.8, 0.025, 8, 48), [])
+  const wireframeGeom = useMemo(() => new IcosahedronGeometry(1.4, 1), [])
+  const solidGeom = useMemo(() => new IcosahedronGeometry(0.9, 0), [])
+  const torusGeom = useMemo(() => new TorusGeometry(1.8, 0.025, 8, 48), [])
 
   return (
     <group>
