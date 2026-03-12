@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { Logo } from './Logo'
 
 /**
  * Navbar — Minimal fixed top navigation bar.
@@ -63,34 +64,10 @@ export function Navbar() {
           {/* Logo mark */}
           <Link
             to="/"
-            className="flex items-center gap-3 group"
+            className="group transition-opacity duration-200 hover:opacity-80"
             aria-label="Tvastr Home"
           >
-            {/* Diamond icon */}
-            <div
-              className="w-5 h-5 flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-              style={{
-                background: 'rgba(245,158,11,0.1)',
-                border: '1px solid rgba(245,158,11,0.3)',
-                transform: 'rotate(45deg)',
-              }}
-            >
-              <div
-                className="w-1.5 h-1.5"
-                style={{ background: '#f59e0b', transform: 'rotate(0deg)' }}
-              />
-            </div>
-            <span
-              className="text-sm font-black tracking-[0.2em] uppercase"
-              style={{
-                background: 'linear-gradient(135deg, #e8e8ec 0%, #888896 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              TVASTR
-            </span>
+            <Logo size="sm" />
           </Link>
 
           {/* Desktop nav */}

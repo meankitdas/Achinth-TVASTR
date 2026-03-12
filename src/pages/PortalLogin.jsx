@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { Logo } from '../components/Logo'
 
 /**
  * PortalLogin — Customer portal login page.
@@ -92,28 +93,8 @@ export function PortalLogin() {
           {/* Header */}
           <div className="mb-10">
             {/* Logo */}
-            <div className="flex items-center gap-3 mb-8">
-              <div
-                className="w-5 h-5 flex items-center justify-center"
-                style={{
-                  background: 'rgba(245,158,11,0.1)',
-                  border: '1px solid rgba(245,158,11,0.3)',
-                  transform: 'rotate(45deg)',
-                }}
-              >
-                <div className="w-1.5 h-1.5" style={{ background: '#f59e0b' }} />
-              </div>
-              <span
-                className="text-xs font-black tracking-[0.2em] uppercase"
-                style={{
-                  background: 'linear-gradient(135deg, #e8e8ec 0%, #888896 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                TVASTR
-              </span>
+            <div className="mb-8">
+              <Logo size="sm" />
             </div>
 
             <h1

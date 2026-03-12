@@ -130,8 +130,8 @@ export function AboutSection() {
           {/* Right: philosophy text */}
           <div className="flex flex-col justify-center">
             <p className="reveal reveal-delay-1 text-lg text-metallic-300 leading-relaxed mb-6">
-              Tvastr is named after{' '}
-              <span className="text-amber-glow font-medium">Tvāṣṭṛ</span>, the
+            Tvastr is named after{' '}
+              <span className="text-amber-glow font-medium">Tvaṣṭṛ</span>, the
               Vedic artisan deity — the divine architect who forged celestial
               tools and shaped the instruments of the gods.
             </p>

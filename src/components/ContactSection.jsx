@@ -1,4 +1,5 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { Logo } from './Logo'
 
 /**
  * ContactSection — Minimal footer contact panel.
@@ -74,7 +75,7 @@ export function ContactSection() {
           <div className="reveal reveal-delay-1 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 mb-12">
             {/* Email */}
             <a
-              href="mailto:placeholder@email.com"
+              href="mailto:achintharya@gmail.com"
               className="group flex items-center gap-3 text-sm text-metallic-300 hover:text-amber-glow transition-colors duration-300"
             >
               <span
@@ -89,7 +90,7 @@ export function ContactSection() {
                   <path d="M1 4.5L7 8.5L13 4.5" stroke="currentColor" strokeWidth="0.8" fill="none"/>
                 </svg>
               </span>
-              <span>placeholder@email.com</span>
+              <span>achintharya@gmail.com</span>
             </a>
 
             {/* Divider */}
@@ -97,7 +98,7 @@ export function ContactSection() {
 
             {/* LinkedIn */}
             <a
-              href="https://linkedin.com/"
+              href="https://www.linkedin.com/in/achintharya-patil-3a348a221/"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 text-sm text-metallic-300 hover:text-amber-glow transition-colors duration-300"
@@ -126,35 +127,7 @@ export function ContactSection() {
           style={{ borderTop: '1px solid rgba(168,168,180,0.06)' }}
         >
           {/* Mini logo */}
-          <div className="flex items-center gap-3">
-            <div
-              className="w-6 h-6 flex items-center justify-center"
-              style={{
-                background: 'rgba(245,158,11,0.08)',
-                border: '1px solid rgba(245,158,11,0.2)',
-                transform: 'rotate(45deg)',
-              }}
-            >
-              <div
-                className="w-2 h-2"
-                style={{
-                  background: 'rgba(245,158,11,0.6)',
-                  transform: 'rotate(0deg)',
-                }}
-              />
-            </div>
-            <span
-              className="text-sm font-black tracking-widest"
-              style={{
-                background: 'linear-gradient(135deg, #c8c8d0 0%, #686878 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              TVASTR
-            </span>
-          </div>
+          <Logo size="sm" />
 
           <p className="text-xs text-metallic-600 tracking-wide text-center">
             Industrial Intelligence, Forged. © {new Date().getFullYear()} Tvastr. All rights reserved.

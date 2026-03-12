@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabase'
+import { Logo } from '../components/Logo'
 
 /**
  * Update package definitions.
@@ -259,28 +260,8 @@ export function PortalDashboard() {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <div
-              className="w-5 h-5 flex items-center justify-center"
-              style={{
-                background: 'rgba(245,158,11,0.1)',
-                border: '1px solid rgba(245,158,11,0.3)',
-                transform: 'rotate(45deg)',
-              }}
-            >
-              <div className="w-1.5 h-1.5" style={{ background: '#f59e0b' }} />
-            </div>
-            <span
-              className="text-xs font-black tracking-[0.2em] uppercase"
-              style={{
-                background: 'linear-gradient(135deg, #e8e8ec 0%, #888896 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              TVASTR
-            </span>
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
+            <Logo size="sm" />
             <span className="text-metallic-600 text-xs">/ Customer Portal</span>
           </Link>
 
