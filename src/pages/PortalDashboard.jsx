@@ -1,255 +1,86 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { supabase } from '../lib/supabase'
+import { supabase } from '../lib/supabaseClient'
 import { Logo } from '../components/Logo'
 
 /**
- * Update package definitions.
+ * PortalDashboard — Authenticated customer dashboard.
  *
- * Each package has a `storagePath` which maps to a file in Supabase Storage
- * (bucket: "updates"). Download URLs are generated as signed URLs so only
- * authenticated users can access them.
+ * Fetches live data from Supabase:
+ *   - products table: product names + descriptions
+ *   - versions table: latest version per product (ordered by release_date desc)
  *
- * To add a new package:
- *   1. Upload the file to Supabase Storage → bucket "updates"
- *   2. Add an entry here with the correct storagePath
+ * Downloads are handled on the /portal/downloads page via
+ * signed Supabase Storage URLs.
  */
-const UPDATE_PACKAGES = [
-  {
-    id: 1,
-    product: 'Rejection Analysis System',
-    tag: 'Vision AI',
-    version: 'v1.3.0',
-    releaseDate: '2025-03-01',
-    description:
-      'Improved defect classification accuracy. Added support for new casting geometries. Enhanced root cause analysis reports with confidence scoring.',
-    size: '~42 MB',
-    storagePath: 'rejection-analysis/RAS_v1.3.0_installer.zip',
-    changelog: ['Defect classifier accuracy +8%', 'New geometry profiles', 'Confidence scoring in reports'],
-  },
-  {
-    id: 2,
-    product: 'Plant Intelligence',
-    tag: 'Plant AI',
-    version: 'v1.0.2',
-    releaseDate: '2025-02-15',
-    description:
-      'Initial stable release. Natural language query engine, ERP connector, RAG knowledge base. Bugfixes for SQL adapter edge cases.',
-    size: '~28 MB',
-    storagePath: 'plant-intelligence/PI_v1.0.2_installer.zip',
-    changelog: ['Initial stable release', 'NLQ engine v1', 'ERP connector', 'SQL adapter bugfixes'],
-  },
-]
+export function PortalDashboard() {
+  const { user, signOut } = useAuth()
+  const [products, setProducts] = useState([])
+  const [latestVersions, setLatestVersions] = useState({}) // productId → version row
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-/**
- * PackageCard — A single downloadable update card.
- *
- * Download flow:
- *   1. Call Supabase Storage to create a signed URL (60-second expiry)
- *   2. Programmatically trigger browser download
- *   3. On error: show inline error message
- *
- * This ensures files are never publicly accessible — only authenticated
- * users with a valid session can generate a download link.
- */
-function PackageCard({ pkg }) {
-  const [downloading, setDownloading] = useState(false)
-  const [downloadError, setDownloadError] = useState('')
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true)
+      setError(null)
 
-  const handleDownload = async () => {
-    setDownloading(true)
-    setDownloadError('')
+      try {
+        // Fetch all products
+        const { data: prods, error: prodErr } = await supabase
+          .from('products')
+          .select('id, name, description, created_at')
+          .order('created_at', { ascending: true })
 
-    try {
-      // Generate a short-lived signed URL from Supabase Storage
-      const { data, error } = await supabase.storage
-        .from('updates')
-        .createSignedUrl(pkg.storagePath, 60) // 60 second expiry
+        if (prodErr) throw prodErr
 
-      if (error) throw error
-      if (!data?.signedUrl) throw new Error('Could not generate download link.')
+        // Fetch latest version for each product in parallel
+        const versionMap = {}
+        await Promise.all(
+          prods.map(async (product) => {
+            const { data, error: verErr } = await supabase
+              .from('versions')
+              .select('version_number, release_date, changelog')
+              .eq('product_id', product.id)
+              .order('release_date', { ascending: false })
+              .limit(1)
 
-      // Trigger file download via a temporary anchor element
-      const anchor = document.createElement('a')
-      anchor.href = data.signedUrl
-      anchor.download = pkg.storagePath.split('/').pop()
-      document.body.appendChild(anchor)
-      anchor.click()
-      document.body.removeChild(anchor)
-    } catch (err) {
-      setDownloadError(err.message || 'Download failed. Please try again.')
-    } finally {
-      setDownloading(false)
+            if (verErr) throw verErr
+            versionMap[product.id] = data?.[0] ?? null
+          })
+        )
+
+        setProducts(prods)
+        setLatestVersions(versionMap)
+      } catch (err) {
+        console.error('[PortalDashboard]', err)
+        setError('Failed to load dashboard data. Please refresh.')
+      } finally {
+        setLoading(false)
+      }
     }
-  }
+
+    fetchData()
+  }, [])
 
   const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString('en-GB', {
+    if (!dateStr) return '—'
+    return new Date(dateStr).toLocaleDateString('en-IN', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     })
   }
 
-  return (
-    <div
-      className="group relative flex flex-col transition-all duration-300"
-      style={{
-        background: 'rgba(17,17,19,0.95)',
-        border: '1px solid rgba(168,168,180,0.08)',
-        backdropFilter: 'blur(10px)',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(245,158,11,0.2)'
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(168,168,180,0.08)'
-      }}
-    >
-      {/* Top accent */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.4), transparent)',
-        }}
-      />
-
-      <div className="p-6 flex-1 flex flex-col">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4 mb-5">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span
-                className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1"
-                style={{
-                  color: '#f59e0b',
-                  background: 'rgba(245,158,11,0.08)',
-                  border: '1px solid rgba(245,158,11,0.15)',
-                }}
-              >
-                {pkg.tag}
-              </span>
-            </div>
-            <h3
-              className="text-lg font-bold text-metallic-100 tracking-tight leading-tight"
-            >
-              {pkg.product}
-            </h3>
-          </div>
-
-          {/* Version badge */}
-          <div
-            className="flex-shrink-0 px-3 py-1.5 text-center"
-            style={{
-              background: 'rgba(168,168,180,0.04)',
-              border: '1px solid rgba(168,168,180,0.1)',
-            }}
-          >
-            <div className="text-xs font-mono font-bold text-metallic-100">{pkg.version}</div>
-            <div className="text-xs font-mono text-metallic-500">{formatDate(pkg.releaseDate)}</div>
-          </div>
-        </div>
-
-        {/* Description */}
-        <p className="text-sm text-metallic-400 leading-relaxed mb-5 flex-1">
-          {pkg.description}
-        </p>
-
-        {/* Changelog bullets */}
-        <div className="mb-5">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-metallic-600 mb-2">
-            Changes
-          </p>
-          <ul className="space-y-1">
-            {pkg.changelog.map((item, i) => (
-              <li key={i} className="flex items-center gap-2 text-xs text-metallic-500">
-                <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: '#f59e0b' }} />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* File size */}
-        <div className="flex items-center gap-2 mb-5 text-xs text-metallic-600">
-          <span>📦</span>
-          <span className="font-mono">{pkg.size}</span>
-          <span className="text-metallic-700">·</span>
-          <span className="font-mono">.zip</span>
-        </div>
-
-        {/* Error */}
-        {downloadError && (
-          <div
-            className="px-3 py-2 text-xs text-amber-forge mb-3"
-            style={{
-              background: 'rgba(245,158,11,0.06)',
-              border: '1px solid rgba(245,158,11,0.15)',
-            }}
-          >
-            {downloadError}
-          </div>
-        )}
-
-        {/* Download button */}
-        <button
-          onClick={handleDownload}
-          disabled={downloading}
-          className="w-full py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{
-            background: 'rgba(245,158,11,0.08)',
-            border: '1px solid rgba(245,158,11,0.25)',
-            color: '#fbbf24',
-          }}
-          onMouseEnter={(e) => {
-            if (!downloading) e.currentTarget.style.background = 'rgba(245,158,11,0.15)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(245,158,11,0.08)'
-          }}
-        >
-          {downloading ? (
-            <>
-              <span
-                className="w-3 h-3 border border-amber-forge border-t-transparent rounded-full"
-                style={{ animation: 'spin 0.6s linear infinite' }}
-              />
-              Preparing...
-            </>
-          ) : (
-            <>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-              Download Package
-            </>
-          )}
-        </button>
-      </div>
-    </div>
-  )
-}
-
-/**
- * PortalDashboard — Authenticated customer dashboard.
- *
- * Shows downloadable update packages. Downloads are signed via Supabase
- * Storage and only accessible to authenticated users.
- */
-export function PortalDashboard() {
-  const { user, signOut } = useAuth()
+  const productTags = ['Vision AI', 'Plant AI']
 
   return (
-    <div
-      className="min-h-screen relative"
-      style={{ background: '#0a0a0b' }}
-    >
+    <div className="min-h-screen relative" style={{ background: '#0a0a0b' }}>
       {/* Background grid */}
       <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
 
-      {/* Top nav bar */}
+      {/* Top nav */}
       <header
         className="sticky top-0 z-40"
         style={{
@@ -259,22 +90,25 @@ export function PortalDashboard() {
         }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
-          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
             <span className="text-metallic-600 text-xs">/ Customer Portal</span>
           </Link>
 
-          {/* User info + logout */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
+            <Link
+              to="/portal/downloads"
+              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200"
+              style={{ color: '#f59e0b' }}
+            >
+              Downloads
+            </Link>
             <div className="hidden sm:flex items-center gap-2">
               <div
                 className="w-2 h-2 rounded-full"
                 style={{ background: '#10b981', boxShadow: '0 0 6px rgba(16,185,129,0.5)' }}
               />
-              <span className="text-xs text-metallic-400 font-mono">
-                {user?.email}
-              </span>
+              <span className="text-xs text-metallic-400 font-mono">{user?.email}</span>
             </div>
             <button
               onClick={signOut}
@@ -293,7 +127,7 @@ export function PortalDashboard() {
           <div className="flex items-center gap-3 mb-4">
             <div className="w-6 h-px bg-amber-forge opacity-60" />
             <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
-              Secure Vault
+              Customer Portal
             </span>
           </div>
           <h1
@@ -305,47 +139,180 @@ export function PortalDashboard() {
               backgroundClip: 'text',
             }}
           >
-            Customer Updates
+            Dashboard
           </h1>
-          <p className="text-sm text-metallic-400 max-w-lg">
-            Download the latest software packages for your licensed Tvastr systems.
-            All downloads are authenticated and time-limited.
+          <p className="text-sm text-metallic-400">
+            Welcome back. Your licensed Tvastr systems are listed below.
           </p>
         </div>
 
-        {/* Package grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {UPDATE_PACKAGES.map((pkg) => (
-            <PackageCard key={pkg.id} pkg={pkg} />
-          ))}
-        </div>
-
-        {/* Support note */}
-        <div
-          className="mt-12 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-          style={{
-            background: 'rgba(17,17,19,0.8)',
-            border: '1px solid rgba(168,168,180,0.06)',
-          }}
-        >
-          <div>
-            <p className="text-sm font-medium text-metallic-300 mb-1">Need installation support?</p>
-            <p className="text-xs text-metallic-500">
-              Contact your Tvastr account manager or reach out directly.
-            </p>
+        {/* Content */}
+        {loading ? (
+          <div className="flex items-center justify-center py-32">
+            <div className="flex flex-col items-center gap-4">
+              <div
+                className="w-8 h-8"
+                style={{
+                  background: 'rgba(245,158,11,0.1)',
+                  border: '1px solid rgba(245,158,11,0.3)',
+                  transform: 'rotate(45deg)',
+                  animation: 'pulse 1.5s ease-in-out infinite',
+                }}
+              />
+              <span className="text-xs text-metallic-500 tracking-widest uppercase">
+                Loading systems…
+              </span>
+            </div>
           </div>
-          <a
-            href="mailto:placeholder@email.com?subject=Installation Support"
-            className="flex-shrink-0 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase transition-colors duration-200"
-            style={{
-              color: '#f59e0b',
-              border: '1px solid rgba(245,158,11,0.2)',
-              background: 'rgba(245,158,11,0.05)',
-            }}
+        ) : error ? (
+          <div
+            className="p-6 text-center"
+            style={{ border: '1px solid rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.05)' }}
           >
-            Contact Support
-          </a>
-        </div>
+            <p className="text-sm text-red-400">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
+            >
+              Retry
+            </button>
+          </div>
+        ) : (
+          <>
+            {/* Products grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
+              {products.map((product, i) => {
+                const version = latestVersions[product.id]
+                return (
+                  <div
+                    key={product.id}
+                    className="group relative flex flex-col transition-all duration-300"
+                    style={{
+                      background: 'rgba(17,17,19,0.95)',
+                      border: '1px solid rgba(168,168,180,0.08)',
+                    }}
+                  >
+                    {/* Hover top accent */}
+                    <div
+                      className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{
+                        background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.4), transparent)',
+                      }}
+                    />
+
+                    <div className="p-6 flex flex-col gap-4">
+                      {/* Header row */}
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <span
+                            className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1 inline-block mb-3"
+                            style={{
+                              color: '#f59e0b',
+                              background: 'rgba(245,158,11,0.08)',
+                              border: '1px solid rgba(245,158,11,0.15)',
+                            }}
+                          >
+                            {productTags[i] ?? 'System'}
+                          </span>
+                          <h3 className="text-lg font-bold text-metallic-100 tracking-tight leading-tight">
+                            {product.name}
+                          </h3>
+                        </div>
+
+                        {/* Version badge */}
+                        {version && (
+                          <div
+                            className="flex-shrink-0 px-3 py-1.5 text-center"
+                            style={{
+                              background: 'rgba(168,168,180,0.04)',
+                              border: '1px solid rgba(168,168,180,0.1)',
+                            }}
+                          >
+                            <div className="text-xs font-mono font-bold text-metallic-100">
+                              v{version.version_number}
+                            </div>
+                            <div className="text-xs font-mono text-metallic-500">
+                              {formatDate(version.release_date)}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-sm text-metallic-400 leading-relaxed">
+                        {product.description}
+                      </p>
+
+                      {/* Latest changelog */}
+                      {version?.changelog && (
+                        <div
+                          className="p-4"
+                          style={{
+                            background: 'rgba(10,10,11,0.6)',
+                            border: '1px solid rgba(168,168,180,0.06)',
+                          }}
+                        >
+                          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-metallic-600 mb-2">
+                            Latest Release Notes
+                          </p>
+                          <p className="text-xs text-metallic-400 leading-relaxed">
+                            {version.changelog}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Download CTA */}
+                      <Link
+                        to="/portal/downloads"
+                        className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
+                        style={{
+                          background: 'rgba(245,158,11,0.08)',
+                          border: '1px solid rgba(245,158,11,0.25)',
+                          color: '#fbbf24',
+                        }}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                          <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                          <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                        </svg>
+                        Download Latest
+                      </Link>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Support note */}
+            <div
+              className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              style={{
+                background: 'rgba(17,17,19,0.8)',
+                border: '1px solid rgba(168,168,180,0.06)',
+              }}
+            >
+              <div>
+                <p className="text-sm font-medium text-metallic-300 mb-1">
+                  Need installation support?
+                </p>
+                <p className="text-xs text-metallic-500">
+                  Contact your Tvastr account manager or reach out directly.
+                </p>
+              </div>
+              <a
+                href="mailto:placeholder@email.com?subject=Installation Support"
+                className="flex-shrink-0 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase transition-colors duration-200"
+                style={{
+                  color: '#f59e0b',
+                  border: '1px solid rgba(245,158,11,0.2)',
+                  background: 'rgba(245,158,11,0.05)',
+                }}
+              >
+                Contact Support
+              </a>
+            </div>
+          </>
+        )}
 
         {/* Back to site */}
         <div className="mt-8 text-center">

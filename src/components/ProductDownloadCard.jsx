@@ -1,0 +1,198 @@
+import { useState } from 'react'
+import { supabase } from '../lib/supabaseClient'
+
+/**
+ * ProductDownloadCard — Shows a product's latest version with a download button.
+ *
+ * Props:
+ *   product  — { id, name, description }
+ *   version  — { version_number, release_date, changelog, file_path, checksum }
+ *   index    — card position (0-based, for subtle styling variation)
+ *
+ * Download flow:
+ *   1. User clicks Download
+ *   2. Client requests a signed URL from Supabase Storage (60s expiry)
+ *   3. Browser opens the signed URL in a new tab
+ */
+export function ProductDownloadCard({ product, version, index }) {
+  const [downloading, setDownloading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const handleDownload = async () => {
+    if (!version?.file_path) {
+      setError('No file available for this version.')
+      return
+    }
+
+    setDownloading(true)
+    setError(null)
+
+    try {
+      // Generate a signed URL valid for 60 seconds
+      const { data, error: storageError } = await supabase.storage
+        .from('updates')
+        .createSignedUrl(version.file_path, 60)
+
+      if (storageError) throw storageError
+
+      // Open the signed URL — triggers browser download
+      window.open(data.signedUrl, '_blank', 'noopener,noreferrer')
+    } catch (err) {
+      setError('Download failed. Please try again or contact support.')
+      console.error('[Download]', err)
+    } finally {
+      setDownloading(false)
+    }
+  }
+
+  const formattedDate = version?.release_date
+    ? new Date(version.release_date).toLocaleDateString('en-IN', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : '—'
+
+  return (
+    <div
+      className="relative flex flex-col h-full"
+      style={{
+        background: 'rgba(17,17,19,0.95)',
+        border: '1px solid rgba(168,168,180,0.1)',
+      }}
+    >
+      {/* Top amber accent strip */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{
+          background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.5), transparent)',
+        }}
+      />
+
+      <div className="p-8 flex flex-col gap-6 h-full">
+        {/* Header */}
+        <div>
+          <div className="flex items-center gap-4 mb-5">
+            <span
+              className="text-xs font-mono tracking-widest opacity-40"
+              style={{ color: '#888896' }}
+            >
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div className="w-px h-4 bg-metallic-600 opacity-40" />
+            <span
+              className="text-xs font-semibold tracking-[0.2em] uppercase px-3 py-1"
+              style={{
+                color: '#f59e0b',
+                background: 'rgba(245,158,11,0.08)',
+                border: '1px solid rgba(245,158,11,0.15)',
+              }}
+            >
+              {index === 0 ? 'Vision AI' : 'Plant AI'}
+            </span>
+          </div>
+
+          <h3
+            className="text-2xl md:text-3xl font-black tracking-tight mb-3"
+            style={{
+              background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            {product.name}
+          </h3>
+
+          <p className="text-sm text-metallic-400 leading-relaxed">
+            {product.description}
+          </p>
+        </div>
+
+        {/* Version info */}
+        {version ? (
+          <div
+            className="flex-1 p-5 space-y-4"
+            style={{
+              background: 'rgba(10,10,11,0.6)',
+              border: '1px solid rgba(168,168,180,0.06)',
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                  Latest Version
+                </p>
+                <p className="text-2xl font-black text-amber-forge font-mono">
+                  v{version.version_number}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                  Released
+                </p>
+                <p className="text-sm text-metallic-300">{formattedDate}</p>
+              </div>
+            </div>
+
+            {version.changelog && (
+              <div>
+                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-2">
+                  Release Notes
+                </p>
+                <p className="text-sm text-metallic-300 leading-relaxed">
+                  {version.changelog}
+                </p>
+              </div>
+            )}
+
+            {version.checksum && (
+              <div>
+                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                  SHA-256
+                </p>
+                <p className="text-xs text-metallic-500 font-mono break-all opacity-60">
+                  {version.checksum}
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div
+            className="flex-1 flex items-center justify-center p-8"
+            style={{ border: '1px solid rgba(168,168,180,0.06)' }}
+          >
+            <p className="text-sm text-metallic-500 text-center">
+              No releases available yet.
+            </p>
+          </div>
+        )}
+
+        {/* Download button */}
+        <div className="space-y-3">
+          {error && (
+            <p className="text-xs text-red-400 text-center">{error}</p>
+          )}
+          <button
+            onClick={handleDownload}
+            disabled={!version || downloading}
+            className="w-full py-4 text-sm font-semibold tracking-widest uppercase transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed relative overflow-hidden group"
+            style={{
+              background: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05))',
+              border: '1px solid rgba(245,158,11,0.4)',
+              color: '#fbbf24',
+            }}
+          >
+            <span
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: 'rgba(245,158,11,0.08)' }}
+            />
+            <span className="relative">
+              {downloading ? 'Generating link…' : `Download v${version?.version_number ?? '—'}`}
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}

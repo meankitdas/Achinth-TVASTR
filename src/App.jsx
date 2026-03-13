@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext'
 import { Navbar } from './components/Navbar'
 import { ProtectedRoute } from './components/ProtectedRoute'
 
-// Main landing page sections — imported directly (above the fold sections load instantly)
+// Landing page sections — loaded eagerly (above the fold)
 import { HeroSection } from './components/HeroSection'
 import { AboutSection } from './components/AboutSection'
 import { ProductSlider } from './components/ProductSlider'
@@ -12,18 +12,17 @@ import { TechnologyPhilosophy } from './components/TechnologyPhilosophy'
 import { ContactSection } from './components/ContactSection'
 
 // Portal pages — lazy loaded to keep initial bundle small
-// They are only needed when users navigate to /portal routes
 const PortalLogin = lazy(() =>
   import('./pages/PortalLogin').then((m) => ({ default: m.PortalLogin }))
 )
 const PortalDashboard = lazy(() =>
   import('./pages/PortalDashboard').then((m) => ({ default: m.PortalDashboard }))
 )
+const PortalDownloads = lazy(() =>
+  import('./pages/PortalDownloads').then((m) => ({ default: m.PortalDownloads }))
+)
 
-/**
- * HomePage — The main single-page marketing site.
- * All sections stacked vertically for infinite scroll experience.
- */
+/** Main landing page — all sections stacked for infinite scroll */
 function HomePage() {
   return (
     <main>
@@ -36,9 +35,7 @@ function HomePage() {
   )
 }
 
-/**
- * PageLoader — Minimal loading state for lazy-loaded portal pages.
- */
+/** Minimal loader shown while lazy portal pages are fetching */
 function PageLoader() {
   return (
     <div
@@ -61,31 +58,25 @@ function PageLoader() {
 /**
  * App — Root component.
  *
- * Structure:
- *   BrowserRouter  — client-side routing
- *   └── AuthProvider  — session context for entire app
- *       ├── Navbar   — fixed top nav (present on all routes)
- *       └── Routes
- *           ├── /                    → HomePage (marketing site)
- *           ├── /portal              → PortalLogin (lazy)
- *           └── /portal/dashboard   → PortalDashboard (lazy + protected)
+ * Routes:
+ *   /                      → HomePage (marketing site)
+ *   /portal                → PortalLogin
+ *   /portal/dashboard      → PortalDashboard (protected)
+ *   /portal/downloads      → PortalDownloads (protected)
+ *   *                      → 404 fallback
  */
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        {/* Navbar is rendered on all routes */}
         <Navbar />
 
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            {/* Main landing page */}
             <Route path="/" element={<HomePage />} />
 
-            {/* Customer portal login */}
             <Route path="/portal" element={<PortalLogin />} />
 
-            {/* Protected customer dashboard — requires active session */}
             <Route
               path="/portal/dashboard"
               element={
@@ -95,7 +86,16 @@ export default function App() {
               }
             />
 
-            {/* Catch-all: redirect to home */}
+            <Route
+              path="/portal/downloads"
+              element={
+                <ProtectedRoute>
+                  <PortalDownloads />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* 404 fallback */}
             <Route
               path="*"
               element={
