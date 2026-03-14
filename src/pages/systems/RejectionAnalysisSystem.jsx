@@ -3,54 +3,58 @@ import { SystemDetailSection } from '../../components/systems/SystemDetailSectio
 import { SystemImageBlock } from '../../components/systems/SystemImageBlock'
 import { SystemWorkflow } from '../../components/systems/SystemWorkflow'
 import { SystemImpactGrid } from '../../components/systems/SystemImpactGrid'
+import { DownloadPresentationButton } from '../../components/DownloadPresentationButton'
 
 /**
- * RejectionAnalysisSystem — Technical detail page for the RAS product.
- * Light industrial theme. No CTAs. Structured like a presentation deck.
+ * RejectionAnalysisSystem — Technical detail page.
+ * Light industrial theme. Structured like a consulting presentation deck.
+ * Each section maps to one PDF slide via .presentation-slide class.
  * Route: /systems/rejection-analysis-system
  */
 export function RejectionAnalysisSystem() {
   return (
-    <div className="min-h-screen" style={{ background: '#ffffff', color: '#111827' }}>
+    <div id="presentation-root" style={{ background: '#ffffff', color: '#111827' }}>
 
-      {/* ── Top nav bar ───────────────────────────────────────────────── */}
+      {/* ── Top nav (not a slide — excluded from PDF) ─────────────── */}
       <div
         className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-12 h-14"
         style={{ background: 'rgba(255,255,255,0.95)', borderBottom: '1px solid #e5e7eb', backdropFilter: 'blur(8px)' }}
       >
-        <Link
-          to="/"
-          className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 hover:text-slate-700 transition-colors"
-        >
+        <Link to="/" className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 hover:text-slate-700 transition-colors">
           ← Tvastr
         </Link>
-        <span className="text-xs text-slate-400 tracking-wide hidden sm:block">
-          Rejection Analysis System
-        </span>
+        <span className="text-xs text-slate-400 tracking-wide hidden sm:block">Rejection Analysis System</span>
       </div>
 
-      {/* ── SECTION 1 — Title ─────────────────────────────────────────── */}
-      <div className="max-w-[900px] mx-auto px-6 md:px-8 pt-16 pb-12">
-        <p className="text-xs font-semibold tracking-[0.3em] uppercase text-slate-400 mb-4">
-          Tvastr · Industrial AI Systems
-        </p>
-        <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-5">
-          Rejection Analysis System
-        </h1>
-        <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-4">
-          AI-driven casting inspection and manufacturing quality intelligence.
-        </p>
-        <p className="text-base text-gray-600 max-w-[680px] leading-relaxed">
-          An industrial AI platform that transforms casting inspection into structured
-          plant-level quality intelligence.
-        </p>
-      </div>
+      {/* ── SLIDE 1 — Title ───────────────────────────────────────── */}
+      <section className="presentation-slide" style={{ background: '#ffffff' }}>
+        <div className="max-w-[900px] mx-auto w-full">
+          <p className="text-xs font-semibold tracking-[0.3em] uppercase text-slate-400 mb-6">
+            Tvastr · Industrial AI Systems
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
+            Rejection Analysis System
+          </h1>
+          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-5">
+            AI-driven casting inspection and manufacturing quality intelligence.
+          </p>
+          <p className="text-base text-gray-600 max-w-[680px] leading-relaxed">
+            An industrial AI platform that transforms casting inspection into structured
+            plant-level quality intelligence.
+          </p>
+        </div>
+        <div className="slide-footer">
+          <span>Tvastr</span>
+          <span>Rejection Analysis System</span>
+          <span className="slide-number" />
+        </div>
+      </section>
 
-      {/* ── SECTION 2 — The Problem ───────────────────────────────────── */}
+      {/* ── SLIDE 2 — The Problem ─────────────────────────────────── */}
       <SystemDetailSection
         label="01 / The Problem"
         title="Manual inspection is inconsistent and opaque."
-        body="In most foundries, casting inspection is performed manually. The process is subjective, shift-dependent, and difficult to audit. More critically, inspection data is rarely structured — defects are logged informally or not at all."
+        body="In most foundries, casting inspection is performed manually. The process is subjective, shift-dependent, and difficult to audit. Inspection data is rarely structured — defects are logged informally or not at all."
         bullets={[
           'Subjective evaluation that varies across inspectors',
           'Inconsistent decisions across shifts and operators',
@@ -60,11 +64,11 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SECTION 3 — The Opportunity ──────────────────────────────── */}
+      {/* ── SLIDE 3 — The Opportunity ────────────────────────────── */}
       <SystemDetailSection
         label="02 / The Opportunity"
         title="Every casting is inspected. That makes inspection the largest scalable data stream in a foundry."
-        body="If structured properly, inspection becomes far more than a quality gate. It becomes a real-time process diagnostic layer — one that runs automatically, on every part, at production speed."
+        body="If structured properly, inspection becomes far more than a quality gate. It becomes a real-time process diagnostic layer — running automatically, on every part, at production speed."
         bullets={[
           'A standardised decision engine operating at casting level',
           'A process diagnostic layer linked to manufacturing context',
@@ -73,11 +77,11 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SECTION 4 — The Solution ─────────────────────────────────── */}
+      {/* ── SLIDE 4 — The Solution ───────────────────────────────── */}
       <SystemDetailSection
         label="03 / The Solution"
         title="A structured inspection pipeline from image capture to operational decision."
-        body="The Rejection Analysis System processes casting images through a multi-stage AI pipeline. Each inspection produces a traceable structured record linked to process context."
+        body="The system processes casting images through a multi-stage AI pipeline. Each inspection produces a traceable structured record linked to process context."
       >
         <SystemWorkflow
           steps={[
@@ -93,31 +97,37 @@ export function RejectionAnalysisSystem() {
         />
       </SystemDetailSection>
 
-      {/* ── SECTION 5 — Application Interface ───────────────────────── */}
+      {/* ── SLIDE 5 — Inspection Interface ──────────────────────── */}
       <SystemDetailSection
         label="04 / Application Screens"
-        title="Operator-facing inspection interface and analytics dashboard."
-        body="The system provides a purpose-built interface for plant operators to upload castings and review inspection results, alongside a management analytics dashboard for quality KPIs."
+        title="Inspection Interface"
+        body="Operators upload casting images and manufacturing context before running inspection."
       >
         <SystemImageBlock
           src="/inspection_app_ss.png"
           alt="Rejection Analysis System — Inspection Interface"
-          label="Inspection Interface"
           caption="Operators upload casting images and manufacturing context before running inspection."
         />
+      </SystemDetailSection>
+
+      {/* ── SLIDE 6 — Analytics Dashboard ───────────────────────── */}
+      <SystemDetailSection
+        label="05 / Application Screens"
+        title="Analytics Dashboard"
+        body="Inspection results automatically generate plant-level quality analytics and operational KPIs."
+      >
         <SystemImageBlock
           src="/analytics_app_ss.png"
           alt="Rejection Analysis System — Analytics Dashboard"
-          label="Analytics Dashboard"
           caption="Inspection results automatically generate plant-level quality analytics and operational KPIs."
         />
       </SystemDetailSection>
 
-      {/* ── SECTION 6 — Inference Engine ─────────────────────────────── */}
+      {/* ── SLIDE 7 — Inference Engine ───────────────────────────── */}
       <SystemDetailSection
-        label="05 / Inference Engine"
+        label="06 / Inference Engine"
         title="Multi-stage AI pipeline from raw image to structured decision."
-        body="The inference pipeline processes each casting image through a sequence of specialised models, culminating in a rule-based decision engine that converts AI predictions into operational outcomes."
+        body="The inference pipeline processes each casting image through specialised models, culminating in a rule-based decision engine that converts AI predictions into operational outcomes."
         bullets={[
           'High-resolution image acquisition and preprocessing',
           'Casting segmentation to isolate inspection surfaces',
@@ -126,48 +136,32 @@ export function RejectionAnalysisSystem() {
           'Severity scoring per defect and per surface zone',
         ]}
       >
-        <div
-          className="mt-6 p-5"
-          style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}
-        >
+        <div className="mt-6 p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
           <p className="text-sm font-semibold text-gray-700 mb-3">Decision Engine Rules</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {['Area thresholds', 'Defect severity weights', 'Critical zone sensitivity', 'Customer-specific rules'].map((rule, i) => (
               <div key={i} className="text-sm text-slate-600 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-slate-300" />
-                {rule}
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-slate-300" />{rule}
               </div>
             ))}
           </div>
         </div>
       </SystemDetailSection>
 
-      {/* ── SECTION 7 — Root Cause Diagnostics ───────────────────────── */}
+      {/* ── SLIDE 8 — Root Cause Diagnostics ────────────────────── */}
       <SystemDetailSection
-        label="06 / Root Cause Diagnostics"
+        label="07 / Root Cause Diagnostics"
         title="Defect patterns mapped to manufacturing process sections."
-        body="Rather than simply flagging defects, the system links them to likely process causes. Each defect type carries a set of associated process hypotheses — enabling targeted corrective action."
+        body="Rather than simply flagging defects, the system links them to likely process causes — enabling targeted corrective action."
       >
         <div className="mt-6 space-y-4">
           {[
-            {
-              defect: 'Shrinkage near feeder zone',
-              cause: 'Verify riser design and solidification timing',
-            },
-            {
-              defect: 'Sand inclusion near mold interface',
-              cause: 'Check mold preparation and sand quality',
-            },
-            {
-              defect: 'Porosity cluster in thick section',
-              cause: 'Review gating design and pouring temperature',
-            },
+            { defect: 'Shrinkage near feeder zone', cause: 'Verify riser design and solidification timing' },
+            { defect: 'Sand inclusion near mold interface', cause: 'Check mold preparation and sand quality' },
+            { defect: 'Porosity cluster in thick section', cause: 'Review gating design and pouring temperature' },
           ].map((item, i) => (
-            <div
-              key={i}
-              className="flex flex-col sm:flex-row sm:items-center gap-3 p-4"
-              style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}
-            >
+            <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-3 p-4"
+              style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
               <div className="sm:w-1/2">
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Defect</p>
                 <p className="text-sm font-medium text-gray-700">{item.defect}</p>
@@ -182,16 +176,13 @@ export function RejectionAnalysisSystem() {
             </div>
           ))}
         </div>
-        <p className="mt-5 text-sm text-gray-500 italic">
-          Inspection becomes a structured diagnostic tool, not just visual marking.
-        </p>
       </SystemDetailSection>
 
-      {/* ── SECTION 8 — System Architecture ─────────────────────────── */}
+      {/* ── SLIDE 9 — System Architecture ───────────────────────── */}
       <SystemDetailSection
-        label="07 / System Architecture"
+        label="08 / System Architecture"
         title="On-premise deployment within the plant network."
-        body="The system runs entirely on-premise, on a dedicated inspection workstation inside the factory. No casting images or production data leave the plant network."
+        body="The system runs entirely on-premise on a dedicated inspection workstation. No casting images or production data leave the plant network."
         bullets={[
           'Runs on on-premise inspection workstation — no cloud dependency',
           'Processes images in real time at the inspection station',
@@ -201,9 +192,9 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SECTION 9 — Traceability ──────────────────────────────────── */}
+      {/* ── SLIDE 10 — Traceability ──────────────────────────────── */}
       <SystemDetailSection
-        label="08 / Traceability"
+        label="09 / Traceability"
         title="Every inspection generates a fully traceable structured record."
         body="The system stores a complete audit trail for every inspection event. Records link AI decisions to casting metadata, enabling post-hoc analysis and compliance reporting."
         bullets={[
@@ -216,11 +207,11 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SECTION 10 — Continuous Learning ────────────────────────── */}
+      {/* ── SLIDE 11 — Continuous Learning ──────────────────────── */}
       <SystemDetailSection
-        label="09 / Continuous Learning"
+        label="10 / Continuous Learning"
         title="Inspection intelligence evolves with plant operations."
-        body="The system includes a structured model improvement pipeline. Disagreements between AI decisions and supervisor corrections are used as training signal to improve subsequent model versions."
+        body="Disagreements between AI decisions and supervisor corrections become training signal to improve subsequent model versions."
       >
         <SystemWorkflow
           steps={[
@@ -233,11 +224,11 @@ export function RejectionAnalysisSystem() {
         />
       </SystemDetailSection>
 
-      {/* ── SECTION 11 — Quality Analytics ──────────────────────────── */}
+      {/* ── SLIDE 12 — Quality Analytics ────────────────────────── */}
       <SystemDetailSection
-        label="10 / Quality Analytics"
+        label="11 / Quality Analytics"
         title="Automated plant-level quality insights from inspection data."
-        body="The analytics layer aggregates inspection records into operational metrics. Management can monitor quality trends, identify recurring defect patterns, and detect process drift — all automatically."
+        body="The analytics layer aggregates inspection records into operational metrics — enabling management to detect scrap trends, recurring defects, and process drift."
         bullets={[
           'Total inspections and rejection rate by period',
           'Model-human agreement rate (accuracy proxy)',
@@ -247,11 +238,11 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SECTION 12 — Business Impact ─────────────────────────────── */}
+      {/* ── SLIDE 13 — Business Impact ───────────────────────────── */}
       <SystemDetailSection
-        label="11 / Business Impact"
+        label="12 / Business Impact"
         title="Measurable impact across operational and strategic dimensions."
-        body="Deploying structured AI inspection creates compounding value — both in day-to-day operations and in long-term process intelligence."
+        body="Deploying structured AI inspection creates compounding value — in day-to-day operations and in long-term process intelligence."
       >
         <SystemImpactGrid
           operational={[
@@ -262,29 +253,16 @@ export function RejectionAnalysisSystem() {
           ]}
           strategic={[
             'Quantified quality trends over time',
-            'Data-driven process improvement informed by real defect patterns',
+            'Data-driven process improvement from real defect patterns',
             'Traceable inspection intelligence for compliance and audit',
-            'Scalable deployment architecture across multiple plant lines',
+            'Scalable deployment across multiple plant lines',
           ]}
         />
       </SystemDetailSection>
 
-      {/* ── Footer ───────────────────────────────────────────────────── */}
-      <div
-        className="border-t border-gray-200 mt-8"
-      >
-        <div className="max-w-[900px] mx-auto px-6 md:px-8 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-sm text-slate-400">
-            Tvastr · Rejection Analysis System
-          </p>
-          <Link
-            to="/"
-            className="text-sm text-slate-400 hover:text-slate-700 transition-colors"
-          >
-            ← Return to tvastr.ai
-          </Link>
-        </div>
-      </div>
+      {/* ── SLIDE 14 — Download / Contact (final slide) ──────────── */}
+      <DownloadPresentationButton productName="Rejection_Analysis_System" />
+
     </div>
   )
 }

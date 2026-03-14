@@ -27,11 +27,11 @@ export function SystemDetailSection({ label, title, body, bullets, children, noD
   }, [])
 
   return (
-    <section className="w-full">
+    <section className="presentation-slide w-full">
       {!noDivider && <div className="border-t border-gray-200 w-full" />}
       <div
         ref={ref}
-        className="max-w-[900px] mx-auto px-6 md:px-8 py-16 md:py-20"
+        className="max-w-[900px] mx-auto w-full"
         style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
       >
         {label && (
@@ -60,6 +60,13 @@ export function SystemDetailSection({ label, title, body, bullets, children, noD
           </ul>
         )}
         {children}
+      </div>
+
+      {/* Slide footer — populated with page numbers by DownloadPresentationButton */}
+      <div className="slide-footer">
+        <span>Tvastr</span>
+        <span />
+        <span className="slide-number" />
       </div>
     </section>
   )

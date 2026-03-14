@@ -2,50 +2,54 @@ import { Link } from 'react-router-dom'
 import { SystemDetailSection } from '../../components/systems/SystemDetailSection'
 import { SystemWorkflow } from '../../components/systems/SystemWorkflow'
 import { SystemImpactGrid } from '../../components/systems/SystemImpactGrid'
+import { DownloadPresentationButton } from '../../components/DownloadPresentationButton'
 
 /**
- * PlantIntelligence — Technical detail page for the Plant Intelligence product.
- * Light industrial theme. No CTAs. Structured like a presentation deck.
+ * PlantIntelligence — Technical detail page.
+ * Light industrial theme. Structured like a consulting presentation deck.
+ * Each section maps to one PDF slide via .presentation-slide class.
  * Route: /systems/plant-intelligence
  */
 export function PlantIntelligence() {
   return (
-    <div className="min-h-screen" style={{ background: '#ffffff', color: '#111827' }}>
+    <div id="presentation-root" style={{ background: '#ffffff', color: '#111827' }}>
 
-      {/* ── Top nav bar ─────────────────────────────────────────────── */}
+      {/* ── Top nav (not a slide — excluded from PDF) ─────────────── */}
       <div
         className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-12 h-14"
         style={{ background: 'rgba(255,255,255,0.95)', borderBottom: '1px solid #e5e7eb', backdropFilter: 'blur(8px)' }}
       >
-        <Link
-          to="/"
-          className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 hover:text-slate-700 transition-colors"
-        >
+        <Link to="/" className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 hover:text-slate-700 transition-colors">
           ← Tvastr
         </Link>
-        <span className="text-xs text-slate-400 tracking-wide hidden sm:block">
-          Plant Intelligence
-        </span>
+        <span className="text-xs text-slate-400 tracking-wide hidden sm:block">Plant Intelligence</span>
       </div>
 
-      {/* ── SECTION 1 — Title ───────────────────────────────────────── */}
-      <div className="max-w-[900px] mx-auto px-6 md:px-8 pt-16 pb-12">
-        <p className="text-xs font-semibold tracking-[0.3em] uppercase text-slate-400 mb-4">
-          Tvastr · Industrial AI Systems
-        </p>
-        <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-5">
-          Plant Intelligence
-        </h1>
-        <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-4">
-          A factory intelligence layer that answers operational questions from plant data.
-        </p>
-        <p className="text-base text-gray-600 max-w-[680px] leading-relaxed">
-          Plant Intelligence reads ERP data, inspection databases, and production logs
-          to surface actionable operational insights — in natural language.
-        </p>
-      </div>
+      {/* ── SLIDE 1 — Title ───────────────────────────────────────── */}
+      <section className="presentation-slide" style={{ background: '#ffffff' }}>
+        <div className="max-w-[900px] mx-auto w-full">
+          <p className="text-xs font-semibold tracking-[0.3em] uppercase text-slate-400 mb-6">
+            Tvastr · Industrial AI Systems
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
+            Plant Intelligence
+          </h1>
+          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-5">
+            A factory intelligence layer that answers operational questions from plant data.
+          </p>
+          <p className="text-base text-gray-600 max-w-[680px] leading-relaxed">
+            Plant Intelligence reads ERP data, inspection databases, and production logs
+            to surface actionable operational insights — in natural language.
+          </p>
+        </div>
+        <div className="slide-footer">
+          <span>Tvastr</span>
+          <span>Plant Intelligence</span>
+          <span className="slide-number" />
+        </div>
+      </section>
 
-      {/* ── SECTION 2 — The Problem ─────────────────────────────────── */}
+      {/* ── SLIDE 2 — The Problem ─────────────────────────────────── */}
       <SystemDetailSection
         label="01 / The Problem"
         title="Plant data exists, but operational insight does not."
@@ -59,7 +63,7 @@ export function PlantIntelligence() {
         ]}
       />
 
-      {/* ── SECTION 3 — The Solution ────────────────────────────────── */}
+      {/* ── SLIDE 3 — The Solution ───────────────────────────────── */}
       <SystemDetailSection
         label="02 / The Solution"
         title="A unified factory intelligence layer that connects plant data sources."
@@ -73,7 +77,7 @@ export function PlantIntelligence() {
         ]}
       />
 
-      {/* ── SECTION 4 — How It Works ────────────────────────────────── */}
+      {/* ── SLIDE 4 — How It Works ───────────────────────────────── */}
       <SystemDetailSection
         label="03 / How It Works"
         title="Natural language queries resolved through a multi-layer intelligence pipeline."
@@ -90,19 +94,13 @@ export function PlantIntelligence() {
           ]}
         />
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div
-            className="p-5"
-            style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}
-          >
+          <div className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <p className="text-sm font-semibold text-gray-700 mb-3">SQL Analytics</p>
             <p className="text-sm text-gray-500 leading-relaxed">
               Translates natural language questions into SQL queries against structured plant databases — ERP tables, production logs, quality records.
             </p>
           </div>
-          <div
-            className="p-5"
-            style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}
-          >
+          <div className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <p className="text-sm font-semibold text-gray-700 mb-3">RAG Knowledge Retrieval</p>
             <p className="text-sm text-gray-500 leading-relaxed">
               Retrieves relevant context from production procedures, quality standards, and historical reports using retrieval-augmented generation.
@@ -111,7 +109,7 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SECTION 5 — Data Sources ────────────────────────────────── */}
+      {/* ── SLIDE 5 — Data Sources ───────────────────────────────── */}
       <SystemDetailSection
         label="04 / Data Sources"
         title="Connects to existing plant data infrastructure."
@@ -119,30 +117,16 @@ export function PlantIntelligence() {
       >
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            {
-              source: 'ERP System',
-              examples: ['Production orders', 'Material consumption', 'Inventory levels', 'Dispatch records'],
-            },
-            {
-              source: 'Inspection Database',
-              examples: ['Rejection records', 'Defect classifications', 'Quality KPIs', 'Inspector logs'],
-            },
-            {
-              source: 'Production Logs',
-              examples: ['Machine run times', 'Shift records', 'Process parameters', 'Maintenance events'],
-            },
+            { source: 'ERP System', examples: ['Production orders', 'Material consumption', 'Inventory levels', 'Dispatch records'] },
+            { source: 'Inspection Database', examples: ['Rejection records', 'Defect classifications', 'Quality KPIs', 'Inspector logs'] },
+            { source: 'Production Logs', examples: ['Machine run times', 'Shift records', 'Process parameters', 'Maintenance events'] },
           ].map((ds, i) => (
-            <div
-              key={i}
-              className="p-5"
-              style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}
-            >
+            <div key={i} className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
               <p className="text-sm font-semibold text-gray-800 mb-3">{ds.source}</p>
               <ul className="space-y-1.5">
                 {ds.examples.map((ex, j) => (
                   <li key={j} className="flex items-center gap-2 text-sm text-gray-500">
-                    <span className="w-1 h-1 rounded-full bg-slate-300 flex-shrink-0" />
-                    {ex}
+                    <span className="w-1 h-1 rounded-full bg-slate-300 flex-shrink-0" />{ex}
                   </li>
                 ))}
               </ul>
@@ -151,7 +135,7 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SECTION 6 — System Architecture ────────────────────────── */}
+      {/* ── SLIDE 6 — System Architecture ───────────────────────── */}
       <SystemDetailSection
         label="05 / System Architecture"
         title="On-premise data connectors within the plant network."
@@ -165,11 +149,11 @@ export function PlantIntelligence() {
         ]}
       />
 
-      {/* ── SECTION 7 — Operational Insights ───────────────────────── */}
+      {/* ── SLIDE 7 — Operational Insights ──────────────────────── */}
       <SystemDetailSection
         label="06 / Operational Insights"
         title="Examples of questions Plant Intelligence can answer."
-        body="The system is designed to answer the operational questions that plant managers and quality engineers ask every day — but currently cannot get answered quickly."
+        body="The system answers the operational questions that plant managers and quality engineers ask every day — but currently cannot get answered quickly."
       >
         <div className="mt-6 space-y-3">
           {[
@@ -180,11 +164,8 @@ export function PlantIntelligence() {
             'What is the trend in surface risk scores over the last 30 production runs?',
             'Which machine had the most downtime last month and what were the causes?',
           ].map((q, i) => (
-            <div
-              key={i}
-              className="flex items-start gap-3 p-4"
-              style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}
-            >
+            <div key={i} className="flex items-start gap-3 p-4"
+              style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
               <span className="mt-0.5 text-xs font-mono font-semibold text-slate-300 flex-shrink-0">
                 {String(i + 1).padStart(2, '0')}
               </span>
@@ -194,7 +175,7 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SECTION 8 — Business Impact ─────────────────────────────── */}
+      {/* ── SLIDE 8 — Business Impact ────────────────────────────── */}
       <SystemDetailSection
         label="07 / Business Impact"
         title="Measurable impact across operational and strategic dimensions."
@@ -216,20 +197,9 @@ export function PlantIntelligence() {
         />
       </SystemDetailSection>
 
-      {/* ── Footer ──────────────────────────────────────────────────── */}
-      <div className="border-t border-gray-200 mt-8">
-        <div className="max-w-[900px] mx-auto px-6 md:px-8 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-sm text-slate-400">
-            Tvastr · Plant Intelligence
-          </p>
-          <Link
-            to="/"
-            className="text-sm text-slate-400 hover:text-slate-700 transition-colors"
-          >
-            ← Return to tvastr.ai
-          </Link>
-        </div>
-      </div>
+      {/* ── SLIDE 9 — Download / Contact (final slide) ───────────── */}
+      <DownloadPresentationButton productName="Plant_Intelligence" />
+
     </div>
   )
 }
