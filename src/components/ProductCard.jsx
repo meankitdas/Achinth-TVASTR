@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 /**
  * DefectGrid — Animated visual for the Rejection Analysis System card.
@@ -166,46 +166,17 @@ function DataFlowNetwork() {
  *   index — card position (for accent color variation)
  */
 export function ProductCard({ product, visual, index }) {
-  const cardRef = useRef(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [hovered, setHovered] = useState(false)
-
-  /**
-   * 3D tilt: map mouse position within card to rotation values.
-   * Max ±8 degrees on each axis.
-   */
-  const handleMouseMove = (e) => {
-    const card = cardRef.current
-    if (!card) return
-    const rect = card.getBoundingClientRect()
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top + rect.height / 2
-    const dx = (e.clientX - cx) / (rect.width / 2)
-    const dy = (e.clientY - cy) / (rect.height / 2)
-    setTilt({ x: -dy * 6, y: dx * 6 })
-  }
-
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 })
-    setHovered(false)
-  }
 
   return (
     <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={() => setHovered(false)}
       className="relative w-full h-full cursor-default select-none"
-      style={{
-        perspective: '1000px',
-      }}
     >
       <div
-        className="relative h-full flex flex-col lg:flex-row overflow-hidden transition-all duration-150 ease-out"
+        className="relative h-full flex flex-col lg:flex-row overflow-hidden transition-all duration-300 ease-out"
         style={{
-          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-          transformStyle: 'preserve-3d',
           background: 'rgba(17,17,19,0.95)',
           border: hovered
             ? '1px solid rgba(245,158,11,0.3)'
