@@ -49,17 +49,18 @@ export function DownloadPresentationButton({
         if (numEl) numEl.textContent = `${i + 1} / ${totalSlides}`
       })
 
-      // A4 width in mm
+      // A4 width in mm — compress: true enables PDF-level deflate compression
       const A4_W = 210
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true })
 
       for (let i = 0; i < slides.length; i++) {
         setProgress(Math.round(((i + 1) / slides.length) * 100))
 
         const slide = slides[i]
 
+        // scale 1.2 = good quality at reduced file size vs scale 2
         const canvas = await html2canvas(slide, {
-          scale: 2,
+          scale: 1.2,
           useCORS: true,
           allowTaint: false,
           backgroundColor: '#ffffff',
@@ -68,11 +69,12 @@ export function DownloadPresentationButton({
           windowHeight: slide.scrollHeight,
         })
 
-        const imgData = canvas.toDataURL('image/png')
+        // JPEG at 0.8 quality — dramatically smaller than PNG, still sharp
+        const imgData = canvas.toDataURL('image/jpeg', 0.8)
         const imgHeight = (canvas.height * A4_W) / canvas.width
 
         if (i > 0) pdf.addPage()
-        pdf.addImage(imgData, 'PNG', 0, 0, A4_W, imgHeight)
+        pdf.addImage(imgData, 'JPEG', 0, 0, A4_W, imgHeight)
       }
 
       pdf.save(`Tvastr_${productName}.pdf`)
