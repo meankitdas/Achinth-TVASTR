@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 /**
  * DefectGrid — Animated visual for the Rejection Analysis System card.
@@ -237,12 +238,12 @@ export function ProductCard({ product, visual, index }) {
             </p>
           </div>
 
-          {/* Capabilities list */}
+          {/* Capabilities list + Learn More */}
           <div>
             <p className="text-xs font-semibold tracking-[0.25em] uppercase text-metallic-500 mb-4">
               Capabilities
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-2 mb-8">
               {product.capabilities.map((cap, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm text-metallic-300">
                   <span
@@ -253,6 +254,20 @@ export function ProductCard({ product, visual, index }) {
                 </li>
               ))}
             </ul>
+
+            {/* Learn More — only renders if product has a route */}
+            {product.route && (
+              <Link
+                to={product.route}
+                className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-200"
+                style={{ color: '#f59e0b' }}
+              >
+                Learn More
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                  <path d="M0 5h11M8 2l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+            )}
           </div>
         </div>
 

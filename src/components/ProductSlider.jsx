@@ -8,6 +8,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 const PRODUCTS = [
   {
     id: 1,
+    route: '/systems/rejection-analysis-system',
     tag: 'Vision AI',
     title: 'Rejection Analysis System',
     description:
@@ -22,6 +23,7 @@ const PRODUCTS = [
   },
   {
     id: 2,
+    route: '/systems/plant-intelligence',
     tag: 'Plant AI',
     title: 'Plant Intelligence',
     description:

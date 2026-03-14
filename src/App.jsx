@@ -11,6 +11,14 @@ import { ProductSlider } from './components/ProductSlider'
 import { TechnologyPhilosophy } from './components/TechnologyPhilosophy'
 import { ContactSection } from './components/ContactSection'
 
+// System detail pages — lazy loaded
+const RejectionAnalysisSystem = lazy(() =>
+  import('./pages/systems/RejectionAnalysisSystem').then((m) => ({ default: m.RejectionAnalysisSystem }))
+)
+const PlantIntelligence = lazy(() =>
+  import('./pages/systems/PlantIntelligence').then((m) => ({ default: m.PlantIntelligence }))
+)
+
 // Portal pages — lazy loaded to keep initial bundle small
 const PortalLogin = lazy(() =>
   import('./pages/PortalLogin').then((m) => ({ default: m.PortalLogin }))
@@ -74,6 +82,9 @@ export default function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+
+            <Route path="/systems/rejection-analysis-system" element={<RejectionAnalysisSystem />} />
+            <Route path="/systems/plant-intelligence" element={<PlantIntelligence />} />
 
             <Route path="/portal" element={<PortalLogin />} />
 
