@@ -28,7 +28,7 @@ export function RejectionAnalysisSystem() {
 
       {/* ── SLIDE 1 — Title ───────────────────────────────────────── */}
       <section className="presentation-slide" style={{ background: '#ffffff' }}>
-        <div className="max-w-[900px] mx-auto w-full">
+        <div className="max-w-[900px] mx-auto px-6 md:px-8 py-16 md:py-20 w-full">
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-slate-400 mb-6">
             Tvastr · Industrial AI Systems
           </p>

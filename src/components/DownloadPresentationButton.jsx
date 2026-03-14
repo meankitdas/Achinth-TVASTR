@@ -16,7 +16,7 @@ import jsPDF from 'jspdf'
 export function DownloadPresentationButton({
   productName,
   contactName = 'Achintharya Patil',
-  contactEmail = 'placeholder@email.com',
+  contactEmail = 'achintharya@gmail.com',
 }) {
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
