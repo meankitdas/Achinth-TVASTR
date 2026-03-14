@@ -140,19 +140,64 @@
   }
 
   /*
-   * PDF EXPORT MODE — activated by adding .pdf-export-mode to #presentation-root
-   * during PDF generation, then removed immediately after.
-   * These rules only apply during the export capture window.
+   * PDF EXPORT MODE — activated temporarily during PDF generation.
+   * Added to #presentation-root before capture, removed after.
+   * Fixed A4 dimensions ensure consistent slide output.
    */
   .pdf-export-mode .presentation-slide {
-    min-height: 1120px;
-    padding: 100px 120px;
+    width: 794px;
+    min-height: 1122px;
+    padding: 80px 80px 80px 80px;
     page-break-after: always;
     break-after: page;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
     background: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Title slides — center everything */
+  .pdf-export-mode .slide-title {
+    text-align: center;
+    align-items: center;
+  }
+
+  /* Typography overrides for PDF */
+  .pdf-export-mode h1 {
+    font-size: 42px !important;
+    margin-bottom: 20px !important;
+    color: #111827 !important;
+  }
+
+  .pdf-export-mode h2 {
+    font-size: 28px !important;
+    margin-bottom: 16px !important;
+    color: #111827 !important;
+  }
+
+  .pdf-export-mode p {
+    max-width: 650px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Images balanced in center */
+  .pdf-export-mode .slide-image {
+    max-width: 85%;
+    margin-top: 32px;
+    align-self: center;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  /* Grid layout for business impact */
+  .pdf-export-mode .slide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    width: 100%;
   }
 
   /* Slide footer shown only during PDF export */
@@ -160,19 +205,13 @@
     display: flex;
     position: absolute;
     bottom: 24px;
-    left: 120px;
-    right: 120px;
+    left: 80px;
+    right: 80px;
     justify-content: space-between;
     align-items: center;
-    font-size: 12px;
+    font-size: 11px;
     color: #9ca3af;
     border-top: 1px solid #e5e7eb;
     padding-top: 8px;
-  }
-
-  /* Larger images in PDF export */
-  .pdf-export-mode .slide-image {
-    max-width: 85%;
-    margin-top: 30px;
   }
 }
