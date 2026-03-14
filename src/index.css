@@ -200,6 +200,11 @@
     width: 100%;
   }
 
+  /* Hide download UI elements during PDF export */
+  .pdf-export-mode .no-pdf-export {
+    display: none !important;
+  }
+
   /* Slide footer shown only during PDF export */
   .pdf-export-mode .slide-footer {
     display: flex;
