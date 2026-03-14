@@ -31,7 +31,7 @@ export function SystemDetailSection({ label, title, body, bullets, children, noD
       {!noDivider && <div className="border-t border-gray-200 w-full" />}
       <div
         ref={ref}
-        className="max-w-[900px] mx-auto w-full"
+        className="max-w-[900px] mx-auto px-6 md:px-8 py-16 md:py-20 w-full"
         style={{ opacity: 0, transform: 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
       >
         {label && (

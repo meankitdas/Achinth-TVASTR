@@ -25,7 +25,16 @@ export function DownloadPresentationButton({
     setLoading(true)
     setProgress(0)
 
+    // Grab the root container to toggle pdf-export-mode
+    const root = document.getElementById('presentation-root')
+
     try {
+      // Apply PDF layout mode — triggers full-height slide CSS
+      if (root) root.classList.add('pdf-export-mode')
+
+      // Allow browser to repaint with new styles before capturing
+      await new Promise((resolve) => setTimeout(resolve, 200))
+
       const slides = document.querySelectorAll('.presentation-slide')
       const totalSlides = slides.length
 
@@ -34,25 +43,29 @@ export function DownloadPresentationButton({
         return
       }
 
-      // Inject slide numbers before capturing
+      // Inject slide numbers into each .slide-number span
       slides.forEach((slide, i) => {
         const numEl = slide.querySelector('.slide-number')
         if (numEl) numEl.textContent = `${i + 1} / ${totalSlides}`
       })
 
-      // A4 dimensions in mm
+      // A4 width in mm
       const A4_W = 210
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
 
-      for (let i = 0; i < totalSlides; i++) {
-        setProgress(Math.round(((i + 1) / totalSlides) * 100))
+      for (let i = 0; i < slides.length; i++) {
+        setProgress(Math.round(((i + 1) / slides.length) * 100))
 
-        const canvas = await html2canvas(slides[i], {
+        const slide = slides[i]
+
+        const canvas = await html2canvas(slide, {
           scale: 2,
           useCORS: true,
           allowTaint: false,
           backgroundColor: '#ffffff',
           logging: false,
+          windowWidth: slide.scrollWidth,
+          windowHeight: slide.scrollHeight,
         })
 
         const imgData = canvas.toDataURL('image/png')
@@ -66,6 +79,8 @@ export function DownloadPresentationButton({
     } catch (err) {
       console.error('[PDF export error]', err)
     } finally {
+      // Restore normal website layout
+      if (root) root.classList.remove('pdf-export-mode')
       setLoading(false)
       setProgress(0)
     }

@@ -85,44 +85,42 @@
 
   /* ── Presentation / PDF slide styles ──────────────────────────── */
 
-  /* Each .presentation-slide becomes one PDF page */
+  /*
+   * WEBSITE VIEW: .presentation-slide is just a normal section block.
+   * No full-viewport height, no flex centering — renders like a document.
+   * The outer padding comes from SystemDetailSection's own padding class.
+   */
   .presentation-slide {
     position: relative;
-    min-height: 100vh;
-    padding: 80px 120px;
     background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    page-break-after: always;
-    break-after: page;
   }
 
-  @media (max-width: 768px) {
-    .presentation-slide {
-      padding: 60px 32px;
-    }
+  /* Slide footer hidden on website — only visible during PDF export */
+  .slide-footer {
+    display: none;
   }
 
-  /* Readable paragraph width for consulting-style slides */
-  .presentation-slide p {
-    max-width: 800px;
-    line-height: 1.7;
+  /* Screenshot image style (website) */
+  .slide-image {
+    margin-top: 24px;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  /* Title hierarchy */
-  .presentation-slide h1 {
-    font-size: 42px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    color: #111827;
+  /* Two-column grid for impact slides */
+  .slide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 24px;
   }
 
-  .presentation-slide h2 {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    color: #111827;
+  @media (max-width: 640px) {
+    .slide-grid { grid-template-columns: 1fr; }
   }
 
   /* Bullet list */
@@ -141,36 +139,29 @@
     gap: 10px;
   }
 
-  /* Two-column grid for impact slides */
-  .slide-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-top: 24px;
+  /*
+   * PDF EXPORT MODE — activated by adding .pdf-export-mode to #presentation-root
+   * during PDF generation, then removed immediately after.
+   * These rules only apply during the export capture window.
+   */
+  .pdf-export-mode .presentation-slide {
+    min-height: 1120px;
+    padding: 100px 120px;
+    page-break-after: always;
+    break-after: page;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: #ffffff;
   }
 
-  @media (max-width: 640px) {
-    .slide-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Screenshot image style */
-  .slide-image {
-    margin-top: 24px;
-    border-radius: 6px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    max-width: 75%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Slide footer — branding + page number */
-  .slide-footer {
+  /* Slide footer shown only during PDF export */
+  .pdf-export-mode .slide-footer {
+    display: flex;
     position: absolute;
     bottom: 24px;
     left: 120px;
     right: 120px;
-    display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 12px;
@@ -179,7 +170,9 @@
     padding-top: 8px;
   }
 
-  @media (max-width: 768px) {
-    .slide-footer { left: 32px; right: 32px; }
+  /* Larger images in PDF export */
+  .pdf-export-mode .slide-image {
+    max-width: 85%;
+    margin-top: 30px;
   }
 }
