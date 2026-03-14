@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { ForgeCore } from '../three/ForgeCore'
 import { FloatingGeometry } from '../three/FloatingGeometry'
