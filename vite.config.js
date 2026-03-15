@@ -15,7 +15,7 @@ export default defineConfig({
           // React core
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           // Three.js rendering stack (large but cacheable)
-          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
+          'vendor-three': ['three', '@react-three/fiber'],
           // Supabase auth client
           'vendor-supabase': ['@supabase/supabase-js'],
         },
