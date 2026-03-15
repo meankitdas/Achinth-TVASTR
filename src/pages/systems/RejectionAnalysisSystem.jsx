@@ -136,9 +136,22 @@ export function RejectionAnalysisSystem() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 8 — Inference Engine ───────────────────────────── */}
+      {/* ── SLIDE 8 — Process Intelligence ──────────────────────── */}
       <SystemDetailSection
-        label="07 / Inference Engine"
+        label="07 / Application Screens"
+        title="Process Intelligence"
+        body="Plant managers query inspection and production data using natural language to surface operational insights and quality trends."
+      >
+        <SystemImageBlock
+          src="/procInt_app_ss.png"
+          alt="Rejection Analysis System — Process Intelligence"
+          caption="Natural language queries against plant data surface quality and operational insights directly."
+        />
+      </SystemDetailSection>
+
+      {/* ── SLIDE 9 — Inference Engine ───────────────────────────── */}
+      <SystemDetailSection
+        label="08 / Inference Engine"
         title="Multi-stage AI pipeline from raw image to structured decision."
         body="The inference pipeline processes each casting image through specialised models, culminating in a rule-based decision engine that converts AI predictions into operational outcomes."
         bullets={[
@@ -161,9 +174,9 @@ export function RejectionAnalysisSystem() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 9 — Root Cause Diagnostics ────────────────────── */}
+      {/* ── SLIDE 10 — Root Cause Diagnostics ───────────────────── */}
       <SystemDetailSection
-        label="08 / Root Cause Diagnostics"
+        label="09 / Root Cause Diagnostics"
         title="Defect patterns mapped to manufacturing process sections."
         body="Rather than simply flagging defects, the system links them to likely process causes — enabling targeted corrective action."
       >
@@ -191,9 +204,9 @@ export function RejectionAnalysisSystem() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 10 — System Architecture ──────────────────────── */}
+      {/* ── SLIDE 11 — System Architecture ──────────────────────── */}
       <SystemDetailSection
-        label="09 / System Architecture"
+        label="10 / System Architecture"
         title="On-premise deployment within the plant network."
         body="The system runs entirely on-premise on a dedicated inspection workstation. No casting images or production data leave the plant network."
         bullets={[
@@ -205,9 +218,9 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SLIDE 11 — Traceability ──────────────────────────────── */}
+      {/* ── SLIDE 12 — Traceability ──────────────────────────────── */}
       <SystemDetailSection
-        label="10 / Traceability"
+        label="11 / Traceability"
         title="Every inspection generates a fully traceable structured record."
         body="The system stores a complete audit trail for every inspection event. Records link AI decisions to casting metadata, enabling post-hoc analysis and compliance reporting."
         bullets={[
@@ -220,9 +233,9 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SLIDE 12 — Continuous Learning ──────────────────────── */}
+      {/* ── SLIDE 13 — Continuous Learning ──────────────────────── */}
       <SystemDetailSection
-        label="11 / Continuous Learning"
+        label="12 / Continuous Learning"
         title="Inspection intelligence evolves with plant operations."
         body="Disagreements between AI decisions and supervisor corrections become training signal to improve subsequent model versions."
       >
@@ -237,9 +250,9 @@ export function RejectionAnalysisSystem() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 13 — Quality Analytics ────────────────────────── */}
+      {/* ── SLIDE 14 — Quality Analytics ────────────────────────── */}
       <SystemDetailSection
-        label="12 / Quality Analytics"
+        label="13 / Quality Analytics"
         title="Automated plant-level quality insights from inspection data."
         body="The analytics layer aggregates inspection records into operational metrics — enabling management to detect scrap trends, recurring defects, and process drift."
         bullets={[
@@ -251,9 +264,9 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SLIDE 14 — Business Impact ───────────────────────────── */}
+      {/* ── SLIDE 15 — Business Impact ───────────────────────────── */}
       <SystemDetailSection
-        label="13 / Business Impact"
+        label="14 / Business Impact"
         title="Measurable impact across operational and strategic dimensions."
         body="Deploying structured AI inspection creates compounding value — in day-to-day operations and in long-term process intelligence."
       >
