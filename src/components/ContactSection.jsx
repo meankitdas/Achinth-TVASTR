@@ -98,7 +98,7 @@ export function ContactSection() {
 
             {/* LinkedIn */}
             <a
-              href="https://www.linkedin.com/in/achintharya-patil-3a348a221/"
+              href="https://www.linkedin.com/company/tvastrindustrialai"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 text-sm text-metallic-300 hover:text-amber-glow transition-colors duration-300"
