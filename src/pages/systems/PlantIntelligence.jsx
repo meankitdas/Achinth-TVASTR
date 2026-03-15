@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SystemDetailSection } from '../../components/systems/SystemDetailSection'
+import { SystemImageBlock } from '../../components/systems/SystemImageBlock'
 import { SystemWorkflow } from '../../components/systems/SystemWorkflow'
 import { SystemImpactGrid } from '../../components/systems/SystemImpactGrid'
 import { DownloadPresentationButton } from '../../components/DownloadPresentationButton'
@@ -109,9 +110,22 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 5 — Data Sources ───────────────────────────────── */}
+      {/* ── SLIDE 5 — Application Screen ────────────────────────── */}
       <SystemDetailSection
-        label="04 / Data Sources"
+        label="04 / Application Screens"
+        title="Process Intelligence Interface"
+        body="Plant managers query the system in natural language and receive structured operational insights sourced directly from plant data."
+      >
+        <SystemImageBlock
+          src="/procInt_app_ss.png"
+          alt="Plant Intelligence — Process Intelligence Interface"
+          caption="Plant managers query the system in natural language and receive structured operational insights."
+        />
+      </SystemDetailSection>
+
+      {/* ── SLIDE 6 — Data Sources ───────────────────────────────── */}
+      <SystemDetailSection
+        label="05 / Data Sources"
         title="Connects to existing plant data infrastructure."
         body="Plant Intelligence reads from data sources already present in the factory. No data migration or system replacement is required."
       >
@@ -135,9 +149,9 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 6 — System Architecture ───────────────────────── */}
+      {/* ── SLIDE 7 — System Architecture ───────────────────────── */}
       <SystemDetailSection
-        label="05 / System Architecture"
+        label="06 / System Architecture"
         title="On-premise data connectors within the plant network."
         body="The system runs on-premise within the factory network. Data connectors read from existing databases. No plant data is transmitted to external services."
         bullets={[
@@ -149,9 +163,9 @@ export function PlantIntelligence() {
         ]}
       />
 
-      {/* ── SLIDE 7 — Operational Insights ──────────────────────── */}
+      {/* ── SLIDE 8 — Operational Insights ──────────────────────── */}
       <SystemDetailSection
-        label="06 / Operational Insights"
+        label="07 / Operational Insights"
         title="Examples of questions Plant Intelligence can answer."
         body="The system answers the operational questions that plant managers and quality engineers ask every day — but currently cannot get answered quickly."
       >
@@ -175,9 +189,9 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 8 — Business Impact ────────────────────────────── */}
+      {/* ── SLIDE 9 — Business Impact ────────────────────────────── */}
       <SystemDetailSection
-        label="07 / Business Impact"
+        label="08 / Business Impact"
         title="Measurable impact across operational and strategic dimensions."
         body="Plant Intelligence reduces the time from question to insight — enabling faster decisions with better data."
       >

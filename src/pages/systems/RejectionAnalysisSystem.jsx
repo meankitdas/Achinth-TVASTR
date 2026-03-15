@@ -110,9 +110,22 @@ export function RejectionAnalysisSystem() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 6 — Analytics Dashboard ───────────────────────── */}
+      {/* ── SLIDE 6 — Batch Processing ───────────────────────────── */}
       <SystemDetailSection
         label="05 / Application Screens"
+        title="Batch Processing"
+        body="Multiple castings can be queued and processed in a single batch run, enabling high-throughput inspection across production shifts."
+      >
+        <SystemImageBlock
+          src="/batchProc_app_ss.png"
+          alt="Rejection Analysis System — Batch Processing"
+          caption="Multiple castings queued and processed in a single batch run for high-throughput inspection."
+        />
+      </SystemDetailSection>
+
+      {/* ── SLIDE 7 — Analytics Dashboard ───────────────────────── */}
+      <SystemDetailSection
+        label="06 / Application Screens"
         title="Analytics Dashboard"
         body="Inspection results automatically generate plant-level quality analytics and operational KPIs."
       >
@@ -123,9 +136,9 @@ export function RejectionAnalysisSystem() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 7 — Inference Engine ───────────────────────────── */}
+      {/* ── SLIDE 8 — Inference Engine ───────────────────────────── */}
       <SystemDetailSection
-        label="06 / Inference Engine"
+        label="07 / Inference Engine"
         title="Multi-stage AI pipeline from raw image to structured decision."
         body="The inference pipeline processes each casting image through specialised models, culminating in a rule-based decision engine that converts AI predictions into operational outcomes."
         bullets={[
@@ -148,9 +161,9 @@ export function RejectionAnalysisSystem() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 8 — Root Cause Diagnostics ────────────────────── */}
+      {/* ── SLIDE 9 — Root Cause Diagnostics ────────────────────── */}
       <SystemDetailSection
-        label="07 / Root Cause Diagnostics"
+        label="08 / Root Cause Diagnostics"
         title="Defect patterns mapped to manufacturing process sections."
         body="Rather than simply flagging defects, the system links them to likely process causes — enabling targeted corrective action."
       >
@@ -178,9 +191,9 @@ export function RejectionAnalysisSystem() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 9 — System Architecture ───────────────────────── */}
+      {/* ── SLIDE 10 — System Architecture ──────────────────────── */}
       <SystemDetailSection
-        label="08 / System Architecture"
+        label="09 / System Architecture"
         title="On-premise deployment within the plant network."
         body="The system runs entirely on-premise on a dedicated inspection workstation. No casting images or production data leave the plant network."
         bullets={[
@@ -192,9 +205,9 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SLIDE 10 — Traceability ──────────────────────────────── */}
+      {/* ── SLIDE 11 — Traceability ──────────────────────────────── */}
       <SystemDetailSection
-        label="09 / Traceability"
+        label="10 / Traceability"
         title="Every inspection generates a fully traceable structured record."
         body="The system stores a complete audit trail for every inspection event. Records link AI decisions to casting metadata, enabling post-hoc analysis and compliance reporting."
         bullets={[
@@ -207,9 +220,9 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SLIDE 11 — Continuous Learning ──────────────────────── */}
+      {/* ── SLIDE 12 — Continuous Learning ──────────────────────── */}
       <SystemDetailSection
-        label="10 / Continuous Learning"
+        label="11 / Continuous Learning"
         title="Inspection intelligence evolves with plant operations."
         body="Disagreements between AI decisions and supervisor corrections become training signal to improve subsequent model versions."
       >
@@ -224,9 +237,9 @@ export function RejectionAnalysisSystem() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 12 — Quality Analytics ────────────────────────── */}
+      {/* ── SLIDE 13 — Quality Analytics ────────────────────────── */}
       <SystemDetailSection
-        label="11 / Quality Analytics"
+        label="12 / Quality Analytics"
         title="Automated plant-level quality insights from inspection data."
         body="The analytics layer aggregates inspection records into operational metrics — enabling management to detect scrap trends, recurring defects, and process drift."
         bullets={[
@@ -238,9 +251,9 @@ export function RejectionAnalysisSystem() {
         ]}
       />
 
-      {/* ── SLIDE 13 — Business Impact ───────────────────────────── */}
+      {/* ── SLIDE 14 — Business Impact ───────────────────────────── */}
       <SystemDetailSection
-        label="12 / Business Impact"
+        label="13 / Business Impact"
         title="Measurable impact across operational and strategic dimensions."
         body="Deploying structured AI inspection creates compounding value — in day-to-day operations and in long-term process intelligence."
       >
