@@ -174,34 +174,119 @@ export function RejectionAnalysisSystem() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 10 — Root Cause Diagnostics ───────────────────── */}
+      {/* ── SLIDE 10 — Root Cause Mapping ───────────────────────── */}
       <SystemDetailSection
-        label="09 / Root Cause Diagnostics"
-        title="Defect patterns mapped to manufacturing process sections."
-        body="Rather than simply flagging defects, the system links them to likely process causes — enabling targeted corrective action."
+        label="09 / Root Cause Mapping"
+        title="Root Cause Mapping"
+        body="Each inspection event carries structured manufacturing context. Aggregated across multiple inspections, these records reveal recurring process-level patterns and their likely root causes."
       >
-        <div className="mt-6 space-y-4">
-          {[
-            { defect: 'Shrinkage near feeder zone', cause: 'Verify riser design and solidification timing' },
-            { defect: 'Sand inclusion near mold interface', cause: 'Check mold preparation and sand quality' },
-            { defect: 'Porosity cluster in thick section', cause: 'Review gating design and pouring temperature' },
-          ].map((item, i) => (
-            <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-3 p-4"
-              style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
-              <div className="sm:w-1/2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Defect</p>
-                <p className="text-sm font-medium text-gray-700">{item.defect}</p>
-              </div>
-              <svg className="hidden sm:block flex-shrink-0" width="20" height="16" viewBox="0 0 20 16" fill="none">
-                <path d="M0 8h16M12 4l4 4-4 4" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        {/* Two-column diagnostic layout */}
+        <div className="mt-6 flex flex-col md:flex-row items-stretch gap-0">
+
+          {/* LEFT — Inspection Record */}
+          <div className="flex-1 p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px 0 0 8px' }}>
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 mb-4">Inspection Record</p>
+            <div className="space-y-2 mb-5">
+              {[
+                ['Casting ID', 'C-11842'],
+                ['Heat Number', '2343'],
+                ['Batch', 'B-07'],
+                ['Mold ID', 'M12'],
+                ['Furnace', 'F2'],
+                ['Shift', 'Night'],
+              ].map(([k, v]) => (
+                <div key={k} className="flex items-baseline gap-2">
+                  <span className="text-xs text-slate-400 w-28 flex-shrink-0">{k}</span>
+                  <span className="text-sm font-medium text-gray-700">{v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="pt-3" style={{ borderTop: '1px solid #e2e8f0' }}>
+              {[
+                ['Detected Defect', 'Porosity', 'text-gray-700'],
+                ['Severity', 'High', 'text-red-600 font-semibold'],
+                ['Decision', 'Reject', 'text-red-600 font-semibold'],
+              ].map(([k, v, cls]) => (
+                <div key={k} className="flex items-baseline gap-2 mt-2">
+                  <span className="text-xs text-slate-400 w-28 flex-shrink-0">{k}</span>
+                  <span className={`text-sm ${cls}`}>{v}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-slate-400 italic mt-4">
+              Single inspection event with traceable manufacturing context.
+            </p>
+          </div>
+
+          {/* CONNECTOR — Pattern Detection */}
+          <div className="flex flex-row md:flex-col items-center justify-center px-2 py-4 md:py-0" style={{ minWidth: '80px' }}>
+            <div className="hidden md:flex flex-col items-center gap-1">
+              <div className="w-px flex-1" style={{ background: '#e2e8f0' }} />
+              <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                <path d="M0 12h26M20 6l6 6-6 6" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <div className="sm:w-1/2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Action</p>
-                <p className="text-sm text-gray-600">{item.cause}</p>
+              <div className="w-px flex-1" style={{ background: '#e2e8f0' }} />
+            </div>
+            <p className="text-xs font-semibold text-slate-400 tracking-[0.15em] uppercase md:mt-2 text-center leading-tight" style={{ fontSize: '10px' }}>
+              Pattern<br />Detection
+            </p>
+            {/* Mobile horizontal arrow */}
+            <svg className="md:hidden mx-3" width="24" height="16" viewBox="0 0 24 16" fill="none">
+              <path d="M0 8h18M14 4l4 4-4 4" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
+          {/* RIGHT — Process Insight */}
+          <div className="flex-1 p-5" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '0 8px 8px 0' }}>
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 mb-4">Process Insight</p>
+            <div className="space-y-2 mb-4">
+              {[
+                ['Heat Number', '2343'],
+                ['Total Castings', '112'],
+                ['Rejected Castings', '20'],
+                ['Rejection Rate', '17.8%'],
+              ].map(([k, v]) => (
+                <div key={k} className="flex items-baseline gap-2">
+                  <span className="text-xs text-slate-400 w-32 flex-shrink-0">{k}</span>
+                  <span className="text-sm font-medium text-gray-700">{v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="pt-3 space-y-3" style={{ borderTop: '1px solid #bae6fd' }}>
+              <div>
+                <p className="text-xs text-slate-400 mb-1">Dominant Defect</p>
+                <p className="text-sm font-semibold text-gray-800">Porosity</p>
+              </div>
+              <div>
+                <p className="text-xs text-slate-400 mb-1">Likely Process Cause</p>
+                <p className="text-sm text-gray-700">Gas entrapment or pouring temperature variation</p>
+              </div>
+              <div>
+                <p className="text-xs text-slate-400 mb-2">Recommended Checks</p>
+                <ul className="space-y-1">
+                  {[
+                    'Verify melt degassing procedure',
+                    'Review pouring temperature stability',
+                    'Inspect gating and venting conditions',
+                  ].map((check, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-slate-400 flex-shrink-0" />
+                      {check}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          ))}
+            <p className="text-xs text-slate-400 italic mt-4">
+              Aggregated inspection data reveals manufacturing patterns and likely root causes.
+            </p>
+          </div>
         </div>
+
+        {/* Bottom summary line */}
+        <p className="mt-6 text-sm text-slate-500 text-center italic">
+          Rejection data becomes a structured diagnostic layer for the manufacturing process.
+        </p>
       </SystemDetailSection>
 
       {/* ── SLIDE 11 — System Architecture ──────────────────────── */}
