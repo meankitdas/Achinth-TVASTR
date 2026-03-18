@@ -10,7 +10,6 @@ import { AboutSection } from './components/AboutSection'
 import { EcosystemSection } from './components/EcosystemSection'
 import { DeploymentSection } from './components/DeploymentSection'
 import { ProductSlider } from './components/ProductSlider'
-import { TechnologyPhilosophy } from './components/TechnologyPhilosophy'
 import { ContactSection } from './components/ContactSection'
 
 // System detail pages — lazy loaded
@@ -41,7 +40,6 @@ function HomePage() {
       <EcosystemSection />
       <DeploymentSection />
       <ProductSlider />
-      <TechnologyPhilosophy />
       <ContactSection />
     </main>
   )

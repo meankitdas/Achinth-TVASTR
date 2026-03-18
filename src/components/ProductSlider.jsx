@@ -12,13 +12,13 @@ const PRODUCTS = [
     tag: 'Vision AI',
     title: 'Rejection Analysis System',
     description:
-      'An AI-driven casting inspection and defect diagnosis platform that transforms raw inspection images into actionable quality intelligence.',
+      'An industrial AI platform that transforms casting inspection into structured quality intelligence — from defect detection and severity scoring to root cause mapping and plant-level analytics.',
     capabilities: [
-      'Computer vision defect detection',
-      'Root cause analysis engine',
-      'Inspection image processing',
-      'Manufacturing insight generation',
-      'Automated defect reporting',
+      'AI-powered defect detection and classification',
+      'Root cause mapping with manufacturing context',
+      'Multi-stage inspection pipeline (image → structured decision)',
+      'Traceable inspection records with full casting metadata',
+      'Plant-level quality analytics and KPI dashboards',
     ],
   },
   {
@@ -27,13 +27,13 @@ const PRODUCTS = [
     tag: 'Plant AI',
     title: 'Plant Intelligence',
     description:
-      'A factory intelligence layer that reads ERP data, inspection databases, and production logs to answer operational questions and surface actionable insights.',
+      'Manufacturing analytics and decision intelligence built on inspection and production data — from rejection trend analysis and process risk monitoring to cost of quality and natural language plant queries.',
     capabilities: [
-      'SQL analytics on plant data',
-      'Natural language factory queries',
-      'RAG-based knowledge retrieval',
-      'Production insight generation',
-      'ERP & database integration',
+      'Plant-level quality analytics and rejection trend analysis',
+      'Quality engineering frameworks (FMEA, Fishbone, SPC)',
+      'Process risk monitoring and anomaly detection',
+      'Cost of quality analytics by defect type and process stage',
+      'Natural language queries against plant data',
     ],
   },
 ]

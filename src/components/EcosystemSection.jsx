@@ -84,7 +84,7 @@ export function EcosystemSection() {
 
   return (
     <section
-      id="ecosystem"
+      id="technology"
       ref={ref}
       className="relative py-28 md:py-36 bg-charcoal-950 overflow-hidden"
     >
