@@ -7,6 +7,8 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 // Landing page sections — loaded eagerly (above the fold)
 import { HeroSection } from './components/HeroSection'
 import { AboutSection } from './components/AboutSection'
+import { EcosystemSection } from './components/EcosystemSection'
+import { DeploymentSection } from './components/DeploymentSection'
 import { ProductSlider } from './components/ProductSlider'
 import { TechnologyPhilosophy } from './components/TechnologyPhilosophy'
 import { ContactSection } from './components/ContactSection'
@@ -36,6 +38,8 @@ function HomePage() {
     <main>
       <HeroSection />
       <AboutSection />
+      <EcosystemSection />
+      <DeploymentSection />
       <ProductSlider />
       <TechnologyPhilosophy />
       <ContactSection />
