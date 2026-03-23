@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SystemDetailSection } from '../../components/systems/SystemDetailSection'
+import { SystemImageBlock } from '../../components/systems/SystemImageBlock'
 import { SystemImpactGrid } from '../../components/systems/SystemImpactGrid'
 import { DownloadPresentationButton } from '../../components/DownloadPresentationButton'
 
@@ -8,6 +9,11 @@ import { DownloadPresentationButton } from '../../components/DownloadPresentatio
  * Light industrial theme. Structured like a consulting presentation deck.
  * Each section maps to one PDF slide via .presentation-slide class.
  * Route: /systems/plant-intelligence
+ *
+ * Screenshot slides use images from /public/:
+ *   pi_overview_ss.png   — Overview dashboard
+ *   pi_aiquery_ss.png    — AI Query interface
+ *   pi_decisions_ss.png  — Decision Intelligence
  */
 export function PlantIntelligence() {
   return (
@@ -62,7 +68,6 @@ export function PlantIntelligence() {
         body="Both systems are designed as independent products. They can be deployed separately or together for deeper manufacturing intelligence."
       >
         <div className="mt-6 flex flex-col items-stretch gap-0" style={{ maxWidth: '600px' }}>
-
           {/* Card 1 — RAS */}
           <div className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px 8px 0 0' }}>
             <div className="flex items-center gap-2 mb-3">
@@ -71,26 +76,19 @@ export function PlantIntelligence() {
             </div>
             <p className="text-xs text-slate-400 mb-3">Operational inspection intelligence.</p>
             <ul className="space-y-1.5">
-              {[
-                'Defect detection and classification',
-                'Root cause diagnostics',
-                'Traceable inspection records',
-                'Shop-floor decision support',
-              ].map((c, i) => (
+              {['Defect detection and classification','Root cause diagnostics','Traceable inspection records','Shop-floor decision support'].map((c, i) => (
                 <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
                   <span className="w-1 h-1 rounded-full bg-slate-300 flex-shrink-0" />{c}
                 </li>
               ))}
             </ul>
           </div>
-
           {/* Connector */}
           <div className="flex items-center justify-center h-8" style={{ borderLeft: '1px solid #e2e8f0', borderRight: '1px solid #e2e8f0' }}>
             <svg width="14" height="20" viewBox="0 0 14 20" fill="none">
               <path d="M7 0v14M1 10l6 8 6-8" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-
           {/* Card 2 — PI */}
           <div className="p-5" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '0 0 8px 8px' }}>
             <div className="flex items-center gap-2 mb-3">
@@ -99,13 +97,7 @@ export function PlantIntelligence() {
             </div>
             <p className="text-xs text-slate-400 mb-3">Plant-level manufacturing analytics.</p>
             <ul className="space-y-1.5">
-              {[
-                'Rejection trend analysis',
-                'Defect pattern detection',
-                'Process risk scoring',
-                'Statistical process control',
-                'Quality engineering frameworks',
-              ].map((c, i) => (
+              {['Rejection trend analysis','Defect pattern detection','Process risk scoring','Statistical process control','Quality engineering frameworks'].map((c, i) => (
                 <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
                   <span className="w-1 h-1 rounded-full bg-sky-300 flex-shrink-0" />{c}
                 </li>
@@ -113,7 +105,6 @@ export function PlantIntelligence() {
             </ul>
           </div>
         </div>
-
         <p className="mt-5 text-sm text-slate-500 italic" style={{ maxWidth: '600px' }}>
           Both systems can be deployed independently or combined for deeper manufacturing intelligence.
         </p>
@@ -129,12 +120,7 @@ export function PlantIntelligence() {
           <div className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">Analytics Examples</p>
             <ul className="space-y-2">
-              {[
-                'Rejection rate trends across time',
-                'Pareto analysis of defect types',
-                'Cluster analysis of recurring defect patterns',
-                'Spatial defect density mapping across castings',
-              ].map((item, i) => (
+              {['Rejection rate trends across time','Pareto analysis of defect types','Cluster analysis of recurring defect patterns','Spatial defect density mapping across castings'].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-slate-400 flex-shrink-0" />{item}
                 </li>
@@ -151,30 +137,31 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 4 — Quality Engineering Frameworks ─────────────── */}
+      {/* ── SLIDE 4 — Plant Overview (Screenshot) ────────────────── */}
       <SystemDetailSection
-        label="03 / Quality Engineering"
+        label="03 / Application — Overview"
+        title="Plant Overview"
+        body="The overview dashboard provides a real-time summary of plant performance, combining production data with inspection outcomes to highlight key quality indicators."
+      >
+        <SystemImageBlock
+          src="/pi_overview_ss.png"
+          alt="Plant Intelligence — Overview Dashboard"
+          caption="Plant-level KPIs including total production, rejection rate trends, and dominant defect patterns."
+        />
+      </SystemDetailSection>
+
+      {/* ── SLIDE 5 — Quality Engineering Frameworks ─────────────── */}
+      <SystemDetailSection
+        label="04 / Quality Engineering"
         title="Integrated Quality Engineering Methods"
         body="Plant Intelligence automatically generates structured quality analysis frameworks used by manufacturing engineers."
       >
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
-            {
-              name: 'FMEA',
-              detail: 'Failure mode tables with calculated risk priority numbers across process stages.',
-            },
-            {
-              name: 'Fishbone Analysis',
-              detail: 'Root-cause analysis across 5M categories: Man, Machine, Material, Method, Milieu.',
-            },
-            {
-              name: 'Quality Gate Analysis',
-              detail: 'Defect yield and escape rate metrics tracked across each process stage.',
-            },
-            {
-              name: 'TPM Risk Indicators',
-              detail: 'Equipment-based risk indicators derived from maintenance and defect co-occurrence data.',
-            },
+            { name: 'FMEA', detail: 'Failure mode tables with calculated risk priority numbers across process stages.' },
+            { name: 'Fishbone Analysis', detail: 'Root-cause analysis across 5M categories: Man, Machine, Material, Method, Milieu.' },
+            { name: 'Quality Gate Analysis', detail: 'Defect yield and escape rate metrics tracked across each process stage.' },
+            { name: 'TPM Risk Indicators', detail: 'Equipment-based risk indicators derived from maintenance and defect co-occurrence data.' },
           ].map((fw, i) => (
             <div key={i} className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
               <p className="text-sm font-semibold text-gray-800 mb-2">{fw.name}</p>
@@ -187,9 +174,9 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 5 — Process Risk & SPC ─────────────────────────── */}
+      {/* ── SLIDE 6 — Process Risk & SPC ─────────────────────────── */}
       <SystemDetailSection
-        label="04 / Process Risk"
+        label="05 / Process Risk"
         title="Process Risk Monitoring"
         body="The system continuously monitors process stability using statistical quality methods."
       >
@@ -212,26 +199,17 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 6 — Cost of Quality ────────────────────────────── */}
+      {/* ── SLIDE 7 — Cost of Quality ────────────────────────────── */}
       <SystemDetailSection
-        label="05 / Cost of Quality"
+        label="06 / Cost of Quality"
         title="Cost of Quality Analytics"
         body="Quality data is translated into financial impact metrics."
       >
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            {
-              metric: 'Scrap Cost by Defect Type',
-              detail: 'Unit scrap cost attributed to each defect category across production periods.',
-            },
-            {
-              metric: 'Cost by Process Stage',
-              detail: 'Quality cost contribution broken down by each stage of the casting process.',
-            },
-            {
-              metric: 'Production Loss Impact',
-              detail: 'Financial loss estimate from abnormal rejection rate periods versus baseline.',
-            },
+            { metric: 'Scrap Cost by Defect Type', detail: 'Unit scrap cost attributed to each defect category across production periods.' },
+            { metric: 'Cost by Process Stage', detail: 'Quality cost contribution broken down by each stage of the casting process.' },
+            { metric: 'Production Loss Impact', detail: 'Financial loss estimate from abnormal rejection rate periods versus baseline.' },
           ].map((item, i) => (
             <div key={i} className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
               <p className="text-sm font-semibold text-gray-800 mb-2">{item.metric}</p>
@@ -244,9 +222,9 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 7 — Natural Language Queries ───────────────────── */}
+      {/* ── SLIDE 8 — Natural Language Queries ───────────────────── */}
       <SystemDetailSection
-        label="06 / Natural Language"
+        label="07 / Natural Language"
         title="Natural Language Process Queries"
         body="Engineers can query plant data using natural language. The system interprets queries and executes the appropriate analytics pipelines automatically."
       >
@@ -269,26 +247,30 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 8 — Operational Decision Support ───────────────── */}
+      {/* ── SLIDE 9 — Natural Language Query (Screenshot) ────────── */}
       <SystemDetailSection
-        label="07 / Decision Support"
+        label="08 / Application — AI Query"
+        title="Natural Language Query"
+        body="Engineers can query plant performance using natural language. The system interprets queries, executes analytics pipelines, and returns structured answers based on inspection and production data."
+      >
+        <SystemImageBlock
+          src="/pi_aiquery_ss.png"
+          alt="Plant Intelligence — AI Query Interface"
+          caption="Natural language interface for querying plant data."
+        />
+      </SystemDetailSection>
+
+      {/* ── SLIDE 10 — Operational Decision Support ──────────────── */}
+      <SystemDetailSection
+        label="09 / Decision Support"
         title="Operational Decision Support"
         body="Plant Intelligence provides continuous monitoring of manufacturing performance."
       >
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            {
-              title: 'Automated Reports',
-              detail: 'Daily plant quality reports generated automatically from inspection and production data.',
-            },
-            {
-              title: 'Rejection Rate Alerts',
-              detail: 'Automated alert notifications triggered when rejection rates exceed defined thresholds.',
-            },
-            {
-              title: 'Dashboard Updates',
-              detail: 'Real-time dashboard updates reflecting the latest production and inspection data.',
-            },
+            { title: 'Automated Reports', detail: 'Daily plant quality reports generated automatically from inspection and production data.' },
+            { title: 'Rejection Rate Alerts', detail: 'Automated alert notifications triggered when rejection rates exceed defined thresholds.' },
+            { title: 'Dashboard Updates', detail: 'Real-time dashboard updates reflecting the latest production and inspection data.' },
           ].map((item, i) => (
             <div key={i} className="p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
               <p className="text-sm font-semibold text-gray-800 mb-2">{item.title}</p>
@@ -301,32 +283,39 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 9 — Combined System Value ──────────────────────── */}
+      {/* ── SLIDE 11 — Decision Intelligence (Screenshot) ────────── */}
       <SystemDetailSection
-        label="08 / Combined System"
+        label="10 / Application — Decisions"
+        title="Decision Intelligence"
+        body="The system generates and prioritizes corrective actions based on defect patterns, process risk, and cost impact. Actions can be tracked and evaluated over time to measure effectiveness."
+      >
+        <SystemImageBlock
+          src="/pi_decisions_ss.png"
+          alt="Plant Intelligence — Decision Intelligence"
+          caption="Ranked corrective actions generated from process signals."
+        />
+      </SystemDetailSection>
+
+      {/* ── SLIDE 12 — Combined System Value ─────────────────────── */}
+      <SystemDetailSection
+        label="11 / Combined System"
         title="RAS + Plant Intelligence"
         body="When deployed together, the two systems create a continuous loop from casting-level inspection to plant-level process intelligence."
       >
         <div className="mt-6 flex flex-col md:flex-row items-stretch gap-0">
-
           {/* LEFT — RAS */}
           <div className="flex-1 p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px 0 0 8px' }}>
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 mb-4">
               Rejection Analysis System
             </p>
             <ul className="space-y-2">
-              {[
-                'Detects defects at casting level',
-                'Records structured inspection data',
-                'Identifies likely process causes',
-              ].map((item, i) => (
+              {['Detects defects at casting level','Records structured inspection data','Identifies likely process causes'].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-slate-400 flex-shrink-0" />{item}
                 </li>
               ))}
             </ul>
           </div>
-
           {/* CONNECTOR */}
           <div className="flex flex-row md:flex-col items-center justify-center px-2 py-4 md:py-0" style={{ minWidth: '72px' }}>
             <svg className="hidden md:block" width="32" height="24" viewBox="0 0 32 24" fill="none">
@@ -336,18 +325,13 @@ export function PlantIntelligence() {
               <path d="M0 8h18M14 4l4 4-4 4" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-
           {/* RIGHT — PI */}
           <div className="flex-1 p-5" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '0 8px 8px 0' }}>
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 mb-4">
               Plant Intelligence
             </p>
             <ul className="space-y-2">
-              {[
-                'Analyzes plant-level quality trends',
-                'Detects process drift across production',
-                'Generates engineering insights and reports',
-              ].map((item, i) => (
+              {['Analyzes plant-level quality trends','Detects process drift across production','Generates engineering insights and reports'].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-sky-400 flex-shrink-0" />{item}
                 </li>
@@ -355,7 +339,6 @@ export function PlantIntelligence() {
             </ul>
           </div>
         </div>
-
         <div className="mt-5 p-4" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
           <p className="text-sm text-gray-600 text-center leading-relaxed">
             Together, these systems create a continuous loop from inspection to plant-level process intelligence.
@@ -366,9 +349,9 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 10 — Business Impact ───────────────────────────── */}
+      {/* ── SLIDE 13 — Business Impact ───────────────────────────── */}
       <SystemDetailSection
-        label="09 / Business Impact"
+        label="12 / Business Impact"
         title="Measurable impact across operational and strategic dimensions."
         body="Plant Intelligence reduces the time from question to insight — enabling faster decisions grounded in actual production data."
       >
