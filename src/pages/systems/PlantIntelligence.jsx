@@ -99,8 +99,8 @@ export function PlantIntelligence() {
       {/* ── SLIDE 3 — Modular Product Architecture ───────────────── */}
       <SystemDetailSection
         label="02 / Product Architecture"
-        title="Modular Manufacturing Intelligence"
-        body="Both systems are designed as independent products. They can be deployed separately or together for deeper manufacturing intelligence."
+        title="Layered Manufacturing Intelligence"
+        body="Plant Intelligence is designed to operate on structured inspection data. It typically runs alongside the Rejection Analysis System (Enterprise) or integrates with existing plant data sources that provide equivalent structured quality data."
       >
         <div className="mt-6 flex flex-col items-stretch gap-0" style={{ maxWidth: '600px' }}>
           {/* Card 1 — RAS */}
@@ -141,7 +141,7 @@ export function PlantIntelligence() {
           </div>
         </div>
         <p className="mt-5 text-sm text-slate-500 italic" style={{ maxWidth: '600px' }}>
-          Both systems can be deployed independently or combined for deeper manufacturing intelligence.
+          Plant Intelligence is designed to operate on data produced by RAS Enterprise or equivalent structured inspection sources.
         </p>
       </SystemDetailSection>
 
