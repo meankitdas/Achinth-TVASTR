@@ -36,23 +36,26 @@ export function PlantIntelligence() {
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-slate-400 mb-6">
             Tvastr · Industrial AI Systems
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-3">
             Plant Intelligence
           </h1>
-          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-6">
-            Manufacturing analytics and decision intelligence for foundries.
+          <p className="text-lg text-slate-500 font-medium max-w-[680px] leading-relaxed mb-6">
+            Built on structured inspection data
           </p>
           <p className="text-base text-gray-600 max-w-[680px] leading-relaxed mb-3">
-            Plant Intelligence converts inspection and production data into plant-level operational insight.
+            Plant Intelligence operates on structured inspection and production data. It is typically deployed 
+            alongside the Rejection Analysis System (Enterprise configuration) or integrated with existing plant data sources.
           </p>
           <p className="text-base text-gray-600 max-w-[680px] leading-relaxed mb-3">
             The system reads structured inspection records and production data to generate analytics,
             process risk indicators, and quality engineering diagnostics.
           </p>
-          <p className="text-base text-gray-600 max-w-[680px] leading-relaxed">
-            Plant Intelligence can operate as a standalone analytics platform or as a companion
-            system to the Rejection Analysis System.
-          </p>
+          <div className="mt-6 p-4" style={{ background: '#fef3c7', border: '1px solid #fde68a', borderRadius: '6px' }}>
+            <p className="text-sm text-amber-900 leading-relaxed">
+              <strong>Note:</strong> Plant Intelligence requires consistent and structured data inputs to generate 
+              reliable analytics and decision outputs.
+            </p>
+          </div>
         </div>
         <div className="slide-footer">
           <span>Tvastr</span>
@@ -61,9 +64,41 @@ export function PlantIntelligence() {
         </div>
       </section>
 
-      {/* ── SLIDE 2 — Modular Product Architecture ───────────────── */}
+      {/* ── SLIDE 2 — System Relationship ────────────────────────── */}
       <SystemDetailSection
-        label="01 / Product Architecture"
+        label="01 / System Relationship"
+        title="Data Flow: From Inspection to Intelligence"
+        body="Plant Intelligence transforms inspection data into plant-level insights. The typical data flow follows this pattern:"
+      >
+        <div className="mt-6 mb-6 flex items-center justify-center gap-4 flex-wrap">
+          {['Inspection', 'RAS', 'Structured Data', 'Plant Intelligence', 'Decisions'].map((step, i, arr) => (
+            <div key={i} className="flex items-center gap-4">
+              <div
+                className="px-4 py-2.5 text-center min-w-[140px]"
+                style={{
+                  background: i === 4 ? '#f0f9ff' : i === 1 || i === 3 ? '#f8fafc' : '#fafafa',
+                  border: i === 4 ? '1px solid #bae6fd' : '1px solid #e2e8f0',
+                  borderRadius: '6px',
+                }}
+              >
+                <p className="text-sm font-semibold text-gray-800">{step}</p>
+              </div>
+              {i < arr.length - 1 && (
+                <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+                  <path d="M0 8h16M12 4l4 4-4 4" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+            </div>
+          ))}
+        </div>
+        <p className="text-sm text-slate-500 text-center italic">
+          Inspection becomes a continuous intelligence layer when structured data feeds analytics.
+        </p>
+      </SystemDetailSection>
+
+      {/* ── SLIDE 3 — Modular Product Architecture ───────────────── */}
+      <SystemDetailSection
+        label="02 / Product Architecture"
         title="Modular Manufacturing Intelligence"
         body="Both systems are designed as independent products. They can be deployed separately or together for deeper manufacturing intelligence."
       >
@@ -110,9 +145,9 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 3 — Plant-Level Quality Analytics ──────────────── */}
+      {/* ── SLIDE 4 — Plant-Level Quality Analytics ──────────────── */}
       <SystemDetailSection
-        label="02 / Analytics"
+        label="03 / Analytics"
         title="Plant-Level Quality Analytics"
         body="The system converts inspection and production records into measurable plant-level indicators."
       >
@@ -137,9 +172,9 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 4 — Plant Overview (Screenshot) ────────────────── */}
+      {/* ── SLIDE 5 — Plant Overview (Screenshot) ────────────────── */}
       <SystemDetailSection
-        label="03 / Application — Overview"
+        label="04 / Application — Overview"
         title="Plant Overview"
         body="The overview dashboard provides a real-time summary of plant performance, combining production data with inspection outcomes to highlight key quality indicators."
       >
@@ -150,9 +185,9 @@ export function PlantIntelligence() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 5 — Quality Engineering Frameworks ─────────────── */}
+      {/* ── SLIDE 6 — Quality Engineering Frameworks ─────────────── */}
       <SystemDetailSection
-        label="04 / Quality Engineering"
+        label="05 / Quality Engineering"
         title="Integrated Quality Engineering Methods"
         body="Plant Intelligence automatically generates structured quality analysis frameworks used by manufacturing engineers."
       >
@@ -174,9 +209,9 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 6 — Process Risk & SPC ─────────────────────────── */}
+      {/* ── SLIDE 7 — Process Risk & SPC ─────────────────────────── */}
       <SystemDetailSection
-        label="05 / Process Risk"
+        label="06 / Process Risk"
         title="Process Risk Monitoring"
         body="The system continuously monitors process stability using statistical quality methods."
       >
@@ -199,9 +234,9 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 7 — Cost of Quality ────────────────────────────── */}
+      {/* ── SLIDE 8 — Cost of Quality ────────────────────────────── */}
       <SystemDetailSection
-        label="06 / Cost of Quality"
+        label="07 / Cost of Quality"
         title="Cost of Quality Analytics"
         body="Quality data is translated into financial impact metrics."
       >
@@ -222,9 +257,9 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 8 — Natural Language Queries ───────────────────── */}
+      {/* ── SLIDE 9 — Natural Language Queries ───────────────────── */}
       <SystemDetailSection
-        label="07 / Natural Language"
+        label="08 / Natural Language"
         title="Natural Language Process Queries"
         body="Engineers can query plant data using natural language. The system interprets queries and executes the appropriate analytics pipelines automatically."
       >
@@ -247,9 +282,9 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 9 — Natural Language Query (Screenshot) ────────── */}
+      {/* ── SLIDE 10 — Natural Language Query (Screenshot) ────────── */}
       <SystemDetailSection
-        label="08 / Application — AI Query"
+        label="09 / Application — AI Query"
         title="Natural Language Query"
         body="Engineers can query plant performance using natural language. The system interprets queries, executes analytics pipelines, and returns structured answers based on inspection and production data."
       >
@@ -260,9 +295,9 @@ export function PlantIntelligence() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 10 — Operational Decision Support ──────────────── */}
+      {/* ── SLIDE 11 — Operational Decision Support ──────────────── */}
       <SystemDetailSection
-        label="09 / Decision Support"
+        label="10 / Decision Support"
         title="Operational Decision Support"
         body="Plant Intelligence provides continuous monitoring of manufacturing performance."
       >
@@ -283,9 +318,9 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 11 — Decision Intelligence (Screenshot) ────────── */}
+      {/* ── SLIDE 12 — Decision Intelligence (Screenshot) ────────── */}
       <SystemDetailSection
-        label="10 / Application — Decisions"
+        label="11 / Application — Decisions"
         title="Decision Intelligence"
         body="The system generates and prioritizes corrective actions based on defect patterns, process risk, and cost impact. Actions can be tracked and evaluated over time to measure effectiveness."
       >
@@ -296,9 +331,9 @@ export function PlantIntelligence() {
         />
       </SystemDetailSection>
 
-      {/* ── SLIDE 12 — Combined System Value ─────────────────────── */}
+      {/* ── SLIDE 13 — Combined System Value ─────────────────────── */}
       <SystemDetailSection
-        label="11 / Combined System"
+        label="12 / Combined System"
         title="RAS + Plant Intelligence"
         body="When deployed together, the two systems create a continuous loop from casting-level inspection to plant-level process intelligence."
       >
@@ -349,9 +384,9 @@ export function PlantIntelligence() {
         </div>
       </SystemDetailSection>
 
-      {/* ── SLIDE 13 — Business Impact ───────────────────────────── */}
+      {/* ── SLIDE 14 — Business Impact ───────────────────────────── */}
       <SystemDetailSection
-        label="12 / Business Impact"
+        label="13 / Business Impact"
         title="Measurable impact across operational and strategic dimensions."
         body="Plant Intelligence reduces the time from question to insight — enabling faster decisions grounded in actual production data."
       >

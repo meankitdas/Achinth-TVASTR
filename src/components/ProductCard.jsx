@@ -162,12 +162,13 @@ function DataFlowNetwork() {
  * ProductCard — Large interactive product card with 3D perspective tilt on hover.
  *
  * Props:
- *   product — { title, description, capabilities, tag }
+ *   product — { title, subtitle, description, capabilities, tag, badge, note }
  *   visual — 'defect' | 'dataflow'
  *   index — card position (for accent color variation)
  */
 export function ProductCard({ product, visual, index }) {
   const [hovered, setHovered] = useState(false)
+  const isAdvanced = product.badge === 'Full Stack Only' // Slightly dimmed for PI
 
   return (
     <div
@@ -199,9 +200,9 @@ export function ProductCard({ product, visual, index }) {
 
         {/* Content side */}
         <div className="flex-1 p-8 md:p-10 lg:p-12 flex flex-col justify-between">
-          {/* Product number + tag */}
+          {/* Product number + tag + badge */}
           <div>
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-8 flex-wrap">
               <span
                 className="text-xs font-mono tracking-widest opacity-40"
                 style={{ color: '#888896' }}
@@ -219,10 +220,25 @@ export function ProductCard({ product, visual, index }) {
               >
                 {product.tag}
               </span>
+              {product.badge && (
+                <>
+                  <div className="w-px h-4 bg-metallic-600 opacity-20" />
+                  <span
+                    className="text-xs font-medium tracking-wider uppercase px-2.5 py-1"
+                    style={{
+                      color: isAdvanced ? '#a8a8b4' : '#888896',
+                      background: isAdvanced ? 'rgba(168,168,180,0.06)' : 'rgba(168,168,180,0.04)',
+                      border: isAdvanced ? '1px solid rgba(168,168,180,0.15)' : '1px solid rgba(168,168,180,0.08)',
+                    }}
+                  >
+                    {product.badge}
+                  </span>
+                </>
+              )}
             </div>
 
             <h2
-              className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-6"
+              className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-3"
               style={{
                 background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)',
                 WebkitBackgroundClip: 'text',
@@ -233,9 +249,21 @@ export function ProductCard({ product, visual, index }) {
               {product.title}
             </h2>
 
+            {product.subtitle && (
+              <p className="text-sm text-metallic-500 tracking-wide mb-6">
+                {product.subtitle}
+              </p>
+            )}
+
             <p className="text-base text-metallic-300 leading-relaxed mb-10 max-w-md">
               {product.description}
             </p>
+
+            {product.note && (
+              <p className="text-xs text-metallic-500 leading-relaxed mb-6 max-w-md italic">
+                {product.note}
+              </p>
+            )}
           </div>
 
           {/* Capabilities list + Learn More */}
@@ -277,6 +305,7 @@ export function ProductCard({ product, visual, index }) {
           style={{
             background: 'rgba(10,10,11,0.6)',
             borderLeft: '1px solid rgba(168,168,180,0.06)',
+            opacity: isAdvanced ? 0.92 : 1,
           }}
         >
           {visual === 'defect' ? <DefectGrid /> : <DataFlowNetwork />}
