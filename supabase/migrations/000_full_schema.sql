@@ -101,6 +101,9 @@ values ('updates', 'updates', false)
 on conflict (id) do update set public = false;
 
 -- Authenticated users can download files (SELECT on objects)
+-- Drop existing policy if present (makes script idempotent)
+drop policy if exists "Authenticated users can download update packages" on storage.objects;
+
 create policy "Authenticated users can download update packages"
   on storage.objects for select
   to authenticated
