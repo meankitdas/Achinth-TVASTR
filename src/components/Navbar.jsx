@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useLicense } from '../context/LicenseContext'
 import { Logo } from './Logo'
 
 /**
@@ -11,11 +12,13 @@ import { Logo } from './Logo'
  *   - Smooth background transition
  *   - Mobile: hamburger menu with slide-down drawer
  *   - Shows "Dashboard" link when user is logged in to portal
+ *   - Conditionally shows/hides Plant Intelligence link based on tier
  */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { user, signOut } = useAuth()
+  const { capabilities } = useLicense()
   const location = useLocation()
   const isPortalPage = location.pathname.startsWith('/portal')
 
@@ -40,11 +43,23 @@ export function Navbar() {
     setMenuOpen(false)
   }
 
-  const navLinks = [
+  // Base nav links
+  const baseNavLinks = [
     { label: 'Home', action: () => scrollTo('hero') },
     { label: 'Systems', action: () => scrollTo('products') },
     { label: 'Technology', action: () => scrollTo('technology') },
   ]
+
+  // Conditionally add Plant Intelligence link if user has access
+  const navLinks = [...baseNavLinks]
+  if (user && capabilities?.plant_intelligence) {
+    navLinks.push({
+      label: 'Plant Intelligence',
+      action: () => {
+        window.location.href = '/portal/pi'
+      },
+    })
+  }
 
   return (
     <nav

@@ -1,56 +1,75 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useLicense } from '../context/LicenseContext'
 import { supabase } from '../lib/supabaseClient'
+import { isAllowed } from '../lib/capabilities'
 import { ProductDownloadCard } from '../components/ProductDownloadCard'
 import { Logo } from '../components/Logo'
 
 /**
- * PortalDownloads — Protected page showing latest versions of all products.
+ * PortalDownloads — Protected page showing latest versions filtered by tier.
  *
  * Data flow:
- *   1. Fetch all products from Supabase
- *   2. For each product, fetch the latest version (ordered by release_date desc)
- *   3. Render ProductDownloadCard for each
+ *   1. Fetch all versions from Supabase
+ *   2. Filter using isAllowed(version, tier) based on required_tier
+ *   3. Group by product and select latest allowed version per product
+ *   4. Render ProductDownloadCard for each
  *
- * Access: Authenticated users only (enforced by ProtectedRoute in App.jsx)
+ * Access: Authenticated users only (content filtered by tier)
  */
 export function PortalDownloads() {
   const { user, signOut } = useAuth()
+  const { tier, loading: licenseLoading } = useLicense()
   const [items, setItems] = useState([])   // [{ product, version }]
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    if (!tier) return // Wait for tier to load
+
     async function fetchData() {
       setLoading(true)
       setError(null)
 
       try {
-        // Fetch products
-        const { data: products, error: prodErr } = await supabase
-          .from('products')
-          .select('id, name, description')
-          .order('created_at', { ascending: true })
+        // Fetch all versions with product info
+        const { data: versions, error: verErr } = await supabase
+          .from('versions')
+          .select(`
+            version_number,
+            release_date,
+            changelog,
+            file_path,
+            checksum,
+            required_tier,
+            includes_pi,
+            product_id,
+            products (
+              id,
+              name,
+              description
+            )
+          `)
+          .order('release_date', { ascending: false })
 
-        if (prodErr) throw prodErr
+        if (verErr) throw verErr
 
-        // For each product, fetch latest version
-        const results = await Promise.all(
-          products.map(async (product) => {
-            const { data: versions, error: verErr } = await supabase
-              .from('versions')
-              .select('version_number, release_date, changelog, file_path, checksum')
-              .eq('product_id', product.id)
-              .order('release_date', { ascending: false })
-              .limit(1)
+        // Filter by tier access
+        const allowedVersions = versions.filter((v) => isAllowed(v, tier))
 
-            if (verErr) throw verErr
-            return { product, version: versions?.[0] ?? null }
-          })
-        )
+        // Group by product and pick latest per product
+        const productMap = new Map()
+        allowedVersions.forEach((version) => {
+          const product = version.products
+          const productId = product.id
 
-        setItems(results)
+          if (!productMap.has(productId)) {
+            productMap.set(productId, { product, version })
+          }
+        })
+
+        setItems(Array.from(productMap.values()))
       } catch (err) {
         console.error('[PortalDownloads]', err)
         setError('Failed to load product data. Please refresh.')
@@ -60,7 +79,7 @@ export function PortalDownloads() {
     }
 
     fetchData()
-  }, [])
+  }, [tier])
 
   return (
     <div className="min-h-screen" style={{ background: '#0a0a0b' }}>
@@ -133,10 +152,15 @@ export function PortalDownloads() {
               Signed in as <span className="text-metallic-300">{user.email}</span>
             </p>
           )}
+          {tier && (
+            <p className="text-xs text-metallic-500 mt-1">
+              License Tier: <span className="text-metallic-300 font-semibold uppercase">{tier}</span>
+            </p>
+          )}
         </div>
 
         {/* Content */}
-        {loading ? (
+        {loading || licenseLoading ? (
           <div className="flex items-center justify-center py-32">
             <div className="flex flex-col items-center gap-4">
               <div
@@ -165,6 +189,21 @@ export function PortalDownloads() {
             >
               Retry
             </button>
+          </div>
+        ) : items.length === 0 ? (
+          <div
+            className="p-8 text-center"
+            style={{ border: '1px solid rgba(168,168,180,0.08)', background: 'rgba(17,17,19,0.5)' }}
+          >
+            <p className="text-sm text-metallic-400">
+              No downloads available for your current license tier.
+            </p>
+            <a
+              href="mailto:placeholder@email.com?subject=License Upgrade Request"
+              className="mt-4 inline-block text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
+            >
+              Upgrade License
+            </a>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

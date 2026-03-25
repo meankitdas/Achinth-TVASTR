@@ -1,79 +1,47 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { supabase } from '../lib/supabaseClient'
+import { useLicense } from '../context/LicenseContext'
 import { Logo } from '../components/Logo'
+import { LockedProductCard } from '../components/LockedProductCard'
 
 /**
  * PortalDashboard — Authenticated customer dashboard.
  *
- * Fetches live data from Supabase:
- *   - products table: product names + descriptions
- *   - versions table: latest version per product (ordered by release_date desc)
+ * Shows 3 product cards based on user's license tier:
+ *   - RAS Core (active for all)
+ *   - RAS Enterprise (active for ras_enterprise & full_stack, locked for ras_core)
+ *   - Plant Intelligence (active for full_stack, locked for others)
  *
- * Downloads are handled on the /portal/downloads page via
- * signed Supabase Storage URLs.
+ * UI is fully tier-driven — no hardcoded logic.
  */
 export function PortalDashboard() {
   const { user, signOut } = useAuth()
-  const [products, setProducts] = useState([])
-  const [latestVersions, setLatestVersions] = useState({}) // productId → version row
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const { tier, capabilities, loading: licenseLoading } = useLicense()
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true)
-      setError(null)
-
-      try {
-        // Fetch all products
-        const { data: prods, error: prodErr } = await supabase
-          .from('products')
-          .select('id, name, description, created_at')
-          .order('created_at', { ascending: true })
-
-        if (prodErr) throw prodErr
-
-        // Fetch latest version for each product in parallel
-        const versionMap = {}
-        await Promise.all(
-          prods.map(async (product) => {
-            const { data, error: verErr } = await supabase
-              .from('versions')
-              .select('version_number, release_date, changelog')
-              .eq('product_id', product.id)
-              .order('release_date', { ascending: false })
-              .limit(1)
-
-            if (verErr) throw verErr
-            versionMap[product.id] = data?.[0] ?? null
-          })
-        )
-
-        setProducts(prods)
-        setLatestVersions(versionMap)
-      } catch (err) {
-        console.error('[PortalDashboard]', err)
-        setError('Failed to load dashboard data. Please refresh.')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  const formatDate = (dateStr) => {
-    if (!dateStr) return '—'
-    return new Date(dateStr).toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  }
-
-  const productTags = ['Vision AI', 'Plant AI']
+  // Define the 3 products statically
+  const products = [
+    {
+      id: 'ras_core',
+      name: 'RAS Core',
+      description: 'An AI-driven casting inspection and defect diagnosis platform that transforms raw inspection images into actionable quality intelligence.',
+      tag: 'Vision AI',
+      capability: 'ras_core',
+    },
+    {
+      id: 'ras_enterprise',
+      name: 'RAS Enterprise',
+      description: 'Integrated build with advanced process integration, ERP connectivity, and extended quality engineering frameworks.',
+      tag: 'Vision AI',
+      capability: 'ras_enterprise',
+    },
+    {
+      id: 'plant_intelligence',
+      name: 'Plant Intelligence',
+      description: 'A factory intelligence layer that reads ERP data, inspection databases, and production logs to answer operational questions and surface actionable insights.',
+      tag: 'Plant AI',
+      capability: 'plant_intelligence',
+    },
+  ]
 
   return (
     <div className="min-h-screen relative" style={{ background: '#0a0a0b' }}>
@@ -144,10 +112,15 @@ export function PortalDashboard() {
           <p className="text-sm text-metallic-400">
             Welcome back. Your licensed Tvastr systems are listed below.
           </p>
+          {tier && (
+            <p className="text-xs text-metallic-500 mt-2">
+              License Tier: <span className="text-metallic-300 font-semibold uppercase">{tier}</span>
+            </p>
+          )}
         </div>
 
         {/* Content */}
-        {loading ? (
+        {licenseLoading ? (
           <div className="flex items-center justify-center py-32">
             <div className="flex flex-col items-center gap-4">
               <div
@@ -164,122 +137,101 @@ export function PortalDashboard() {
               </span>
             </div>
           </div>
-        ) : error ? (
-          <div
-            className="p-6 text-center"
-            style={{ border: '1px solid rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.05)' }}
-          >
-            <p className="text-sm text-red-400">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="mt-4 text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
-            >
-              Retry
-            </button>
-          </div>
         ) : (
           <>
             {/* Products grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
               {products.map((product, i) => {
-                const version = latestVersions[product.id]
-                return (
-                  <div
-                    key={product.id}
-                    className="group relative flex flex-col transition-all duration-300"
-                    style={{
-                      background: 'rgba(17,17,19,0.95)',
-                      border: '1px solid rgba(168,168,180,0.08)',
-                    }}
-                  >
-                    {/* Hover top accent */}
+                const isActive = capabilities?.[product.capability]
+
+                if (isActive) {
+                  // Active product card
+                  return (
                     <div
-                      className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      key={product.id}
+                      className="group relative flex flex-col transition-all duration-300"
                       style={{
-                        background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.4), transparent)',
+                        background: 'rgba(17,17,19,0.95)',
+                        border: '1px solid rgba(168,168,180,0.08)',
                       }}
-                    />
+                    >
+                      {/* Hover top accent */}
+                      <div
+                        className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{
+                          background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.4), transparent)',
+                        }}
+                      />
 
-                    <div className="p-6 flex flex-col gap-4">
-                      {/* Header row */}
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <span
-                            className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1 inline-block mb-3"
-                            style={{
-                              color: '#f59e0b',
-                              background: 'rgba(245,158,11,0.08)',
-                              border: '1px solid rgba(245,158,11,0.15)',
-                            }}
-                          >
-                            {productTags[i] ?? 'System'}
-                          </span>
-                          <h3 className="text-lg font-bold text-metallic-100 tracking-tight leading-tight">
-                            {product.name}
-                          </h3>
-                        </div>
+                      <div className="p-6 flex flex-col gap-4">
+                        {/* Header row */}
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <span
+                              className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1 inline-block mb-3"
+                              style={{
+                                color: '#f59e0b',
+                                background: 'rgba(245,158,11,0.08)',
+                                border: '1px solid rgba(245,158,11,0.15)',
+                              }}
+                            >
+                              {product.tag}
+                            </span>
+                            <h3 className="text-lg font-bold text-metallic-100 tracking-tight leading-tight">
+                              {product.name}
+                            </h3>
+                          </div>
 
-                        {/* Version badge */}
-                        {version && (
+                          {/* Active badge */}
                           <div
                             className="flex-shrink-0 px-3 py-1.5 text-center"
                             style={{
-                              background: 'rgba(168,168,180,0.04)',
-                              border: '1px solid rgba(168,168,180,0.1)',
+                              background: 'rgba(16,185,129,0.08)',
+                              border: '1px solid rgba(16,185,129,0.2)',
                             }}
                           >
-                            <div className="text-xs font-mono font-bold text-metallic-100">
-                              v{version.version_number}
-                            </div>
-                            <div className="text-xs font-mono text-metallic-500">
-                              {formatDate(version.release_date)}
+                            <div className="text-xs font-semibold text-emerald-400">
+                              ACTIVE
                             </div>
                           </div>
-                        )}
-                      </div>
+                        </div>
 
-                      {/* Description */}
-                      <p className="text-sm text-metallic-400 leading-relaxed">
-                        {product.description}
-                      </p>
+                        {/* Description */}
+                        <p className="text-sm text-metallic-400 leading-relaxed">
+                          {product.description}
+                        </p>
 
-                      {/* Latest changelog */}
-                      {version?.changelog && (
-                        <div
-                          className="p-4"
+                        {/* Download CTA */}
+                        <Link
+                          to="/portal/downloads"
+                          className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
                           style={{
-                            background: 'rgba(10,10,11,0.6)',
-                            border: '1px solid rgba(168,168,180,0.06)',
+                            background: 'rgba(245,158,11,0.08)',
+                            border: '1px solid rgba(245,158,11,0.25)',
+                            color: '#fbbf24',
                           }}
                         >
-                          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-metallic-600 mb-2">
-                            Latest Release Notes
-                          </p>
-                          <p className="text-xs text-metallic-400 leading-relaxed">
-                            {version.changelog}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Download CTA */}
-                      <Link
-                        to="/portal/downloads"
-                        className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
-                        style={{
-                          background: 'rgba(245,158,11,0.08)',
-                          border: '1px solid rgba(245,158,11,0.25)',
-                          color: '#fbbf24',
-                        }}
-                      >
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                          <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                        </svg>
-                        Download Latest
-                      </Link>
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                            <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                          </svg>
+                          Download Latest
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                )
+                  )
+                } else {
+                  // Locked product card
+                  return (
+                    <LockedProductCard
+                      key={product.id}
+                      title={product.name}
+                      description={product.description}
+                      tag={product.tag}
+                      index={i}
+                    />
+                  )
+                }
               })}
             </div>
 

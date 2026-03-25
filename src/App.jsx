@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { LicenseProvider } from './context/LicenseContext'
 import { Navbar } from './components/Navbar'
 import { ProtectedRoute } from './components/ProtectedRoute'
 
@@ -79,57 +80,69 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Navbar />
+        <LicenseProvider>
+          <Navbar />
 
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
 
-            <Route path="/systems/rejection-analysis-system" element={<RejectionAnalysisSystem />} />
-            <Route path="/systems/plant-intelligence" element={<PlantIntelligence />} />
+              <Route path="/systems/rejection-analysis-system" element={<RejectionAnalysisSystem />} />
+              <Route path="/systems/plant-intelligence" element={<PlantIntelligence />} />
 
-            <Route path="/portal" element={<PortalLogin />} />
+              <Route path="/portal" element={<PortalLogin />} />
 
-            <Route
-              path="/portal/dashboard"
-              element={
-                <ProtectedRoute>
-                  <PortalDashboard />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/portal/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <PortalDashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="/portal/downloads"
-              element={
-                <ProtectedRoute>
-                  <PortalDownloads />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/portal/downloads"
+                element={
+                  <ProtectedRoute>
+                    <PortalDownloads />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* 404 fallback */}
-            <Route
-              path="*"
-              element={
-                <div
-                  className="min-h-screen flex flex-col items-center justify-center gap-6"
-                  style={{ background: '#0a0a0b' }}
-                >
-                  <p className="text-metallic-400 text-sm tracking-widest uppercase">
-                    Page not found
-                  </p>
-                  <a
-                    href="/"
-                    className="text-amber-forge text-xs tracking-widest uppercase underline underline-offset-4"
+              {/* Plant Intelligence route — requires full_stack tier */}
+              <Route
+                path="/portal/pi"
+                element={
+                  <ProtectedRoute requiredCapability="plant_intelligence">
+                    <PlantIntelligence />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* 404 fallback */}
+              <Route
+                path="*"
+                element={
+                  <div
+                    className="min-h-screen flex flex-col items-center justify-center gap-6"
+                    style={{ background: '#0a0a0b' }}
                   >
-                    Return Home
-                  </a>
-                </div>
-              }
-            />
-          </Routes>
-        </Suspense>
+                    <p className="text-metallic-400 text-sm tracking-widest uppercase">
+                      Page not found
+                    </p>
+                    <a
+                      href="/"
+                      className="text-amber-forge text-xs tracking-widest uppercase underline underline-offset-4"
+                    >
+                      Return Home
+                    </a>
+                  </div>
+                }
+              />
+            </Routes>
+          </Suspense>
+        </LicenseProvider>
       </AuthProvider>
     </BrowserRouter>
   )

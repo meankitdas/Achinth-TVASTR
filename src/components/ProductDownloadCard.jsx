@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import { getVersionLabel } from '../lib/capabilities'
 
 /**
  * ProductDownloadCard — Shows a product's latest version with a download button.
  *
  * Props:
  *   product  — { id, name, description }
- *   version  — { version_number, release_date, changelog, file_path, checksum }
+ *   version  — { version_number, release_date, changelog, file_path, checksum, required_tier }
  *   index    — card position (0-based, for subtle styling variation)
  *
  * Download flow:
@@ -53,6 +54,10 @@ export function ProductDownloadCard({ product, version, index }) {
       })
     : '—'
 
+  // Determine card tag based on version tier
+  const tierLabel = version?.required_tier ? getVersionLabel(version) : 'Unknown'
+  const cardTag = version?.includes_pi ? 'Plant AI' : 'Vision AI'
+
   return (
     <div
       className="relative flex flex-col h-full"
@@ -88,7 +93,7 @@ export function ProductDownloadCard({ product, version, index }) {
                 border: '1px solid rgba(245,158,11,0.15)',
               }}
             >
-              {index === 0 ? 'Vision AI' : 'Plant AI'}
+              {cardTag}
             </span>
           </div>
 
@@ -107,6 +112,13 @@ export function ProductDownloadCard({ product, version, index }) {
           <p className="text-sm text-metallic-400 leading-relaxed">
             {product.description}
           </p>
+
+          {/* Tier label */}
+          <div className="mt-3">
+            <span className="text-xs text-metallic-500 font-semibold tracking-wider uppercase">
+              {tierLabel}
+            </span>
+          </div>
         </div>
 
         {/* Version info */}
