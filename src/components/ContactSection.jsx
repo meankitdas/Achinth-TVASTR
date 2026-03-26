@@ -1,6 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Logo } from './Logo'
-import { CONFIG } from '../lib/config'
+import { CONFIG, openContact } from '../lib/config'
 
 /**
  * ContactSection — Minimal footer contact panel.
@@ -75,8 +75,8 @@ export function ContactSection() {
           {/* Contact links */}
           <div className="reveal reveal-delay-1 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 mb-12">
             {/* Email */}
-            <a
-              href={`mailto:${CONFIG.emails.contact}`}
+            <button
+              onClick={() => openContact(CONFIG.emails.contact, 'Inquiry', 'Hello, I would like to learn more about Tvastr.')}
               className="group flex items-center gap-3 text-sm text-metallic-300 hover:text-amber-glow transition-colors duration-300"
             >
               <span
@@ -92,7 +92,7 @@ export function ContactSection() {
                 </svg>
               </span>
               <span>{CONFIG.emails.contact}</span>
-            </a>
+            </button>
 
             {/* Divider */}
             <div className="hidden sm:block w-px h-4 bg-metallic-600 opacity-30" />
