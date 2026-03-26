@@ -64,15 +64,26 @@ export function ProtectedRoute({ children, requiredCapability }) {
 
   // Check tier-based capability if required
   if (requiredCapability && capabilities && !capabilities[requiredCapability]) {
-    const messages = {
-      plant_intelligence: 'Plant Intelligence is available in the Full Stack tier. Upgrade your license to access this feature.',
-      ras_enterprise: 'RAS Enterprise features are available in the Enterprise and Full Stack tiers.',
+    const config = {
+      plant_intelligence: {
+        title: 'Plant Intelligence not enabled',
+        message: 'This feature is available in Full Stack deployments.',
+      },
+      ras_enterprise: {
+        title: 'RAS Enterprise not enabled',
+        message: 'This feature is available in Enterprise and Full Stack deployments.',
+      },
+    }
+
+    const lockedConfig = config[requiredCapability] || {
+      title: 'Feature Locked',
+      message: 'This feature requires a higher license tier.',
     }
 
     return (
       <LockedScreen
-        title="Feature Locked"
-        message={messages[requiredCapability] || 'This feature requires a higher license tier.'}
+        title={lockedConfig.title}
+        message={lockedConfig.message}
       />
     )
   }

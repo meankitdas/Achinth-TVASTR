@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabaseClient'
 import { isAllowed } from '../lib/capabilities'
 import { ProductDownloadCard } from '../components/ProductDownloadCard'
 import { Logo } from '../components/Logo'
+import { LockedFeatureBlock } from '../components/LockedFeatureBlock'
 
 /**
  * PortalDownloads — Protected page showing latest versions filtered by tier.
@@ -206,16 +207,32 @@ export function PortalDownloads() {
             </a>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {items.map(({ product, version }, i) => (
-              <ProductDownloadCard
-                key={product.id}
-                product={product}
-                version={version}
-                index={i}
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+              {items.map(({ product, version }, i) => (
+                <ProductDownloadCard
+                  key={product.id}
+                  product={product}
+                  version={version}
+                  index={i}
+                />
+              ))}
+            </div>
+
+            {/* Upgrade prompt for non-full_stack users */}
+            {tier && tier !== 'full_stack' && (
+              <LockedFeatureBlock
+                title="Looking for plant-level analytics?"
+                description="Full Stack includes RAS + Plant Intelligence with integrated dashboards and decision systems."
+                requiredTier="Full Stack"
+                features={[
+                  'RAS + Plant Intelligence',
+                  'integrated dashboards and decision system',
+                  'advanced process intelligence',
+                ]}
               />
-            ))}
-          </div>
+            )}
+          </>
         )}
       </main>
     </div>

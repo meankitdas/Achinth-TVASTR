@@ -3,12 +3,14 @@
  * Used to show products that are available in a higher tier.
  *
  * Props:
- *   title       — Product name
- *   description — Product description
- *   tag         — Badge label (e.g., "Vision AI", "Plant AI")
- *   index       — Card position (for styling variation)
+ *   title         — Product name
+ *   description   — Product description
+ *   tag           — Badge label (e.g., "Vision AI", "Plant AI")
+ *   index         — Card position (for styling variation)
+ *   requiredTier  — Which tier unlocks this (e.g., "Enterprise", "Full Stack")
+ *   features      — Array of feature bullets specific to this tier
  */
-export function LockedProductCard({ title, description, tag, index }) {
+export function LockedProductCard({ title, description, tag, index, requiredTier, features }) {
   return (
     <div
       className="group relative flex flex-col transition-all duration-300 opacity-60 hover:opacity-75"
@@ -70,7 +72,7 @@ export function LockedProductCard({ title, description, tag, index }) {
           {description}
         </p>
 
-        {/* Locked notice */}
+        {/* Locked notice with features */}
         <div
           className="p-4"
           style={{
@@ -78,28 +80,38 @@ export function LockedProductCard({ title, description, tag, index }) {
             border: '1px solid rgba(168,168,180,0.06)',
           }}
         >
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-metallic-600 mb-2">
-            Available in Higher Tier
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-metallic-600 mb-3">
+            Available in {requiredTier}
           </p>
-          <p className="text-xs text-metallic-500 leading-relaxed">
-            Upgrade your license to access this system.
-          </p>
+          
+          {features && features.length > 0 && (
+            <ul className="space-y-2 mb-4">
+              {features.map((feature, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-metallic-500">
+                  <span className="flex-shrink-0 mt-1.5 w-1 h-1 rounded-full bg-metallic-600" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Upgrade CTA */}
-        <a
-          href="mailto:placeholder@email.com?subject=License Upgrade Request&body=Hello, I would like to upgrade my Tvastr license."
+        <button
+          onClick={() => {
+            window.location.href = `mailto:support@tvastr.ai?subject=License Upgrade Request&body=Hello,%0A%0AI would like to upgrade my license to ${requiredTier}.%0A%0AThank you.`
+          }}
           className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
           style={{
-            background: 'rgba(168,168,180,0.05)',
-            border: '1px solid rgba(168,168,180,0.12)',
-            color: '#888896',
+            background: 'rgba(245,158,11,0.12)',
+            border: '1px solid rgba(245,158,11,0.35)',
+            color: '#fbbf24',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(168,168,180,0.08)'
+            e.currentTarget.style.background = 'rgba(245,158,11,0.2)'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(168,168,180,0.05)'
+            e.currentTarget.style.background = 'rgba(245,158,11,0.12)'
           }}
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
@@ -110,8 +122,8 @@ export function LockedProductCard({ title, description, tag, index }) {
               strokeLinecap="round"
             />
           </svg>
-          Upgrade License
-        </a>
+          Upgrade to {requiredTier}
+        </button>
       </div>
     </div>
   )

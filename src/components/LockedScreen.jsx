@@ -2,10 +2,10 @@
  * LockedScreen — Full-page locked state for tier-restricted features.
  *
  * Props:
- *   title   — Feature name (e.g., "Plant Intelligence")
- *   message — Explanation text (e.g., "Available in Full Stack")
+ *   title   — Feature name (e.g., "Plant Intelligence not enabled")
+ *   message — Explanation text (e.g., "This feature is available in Full Stack deployments.")
  */
-export function LockedScreen({ title = 'Feature Locked', message }) {
+export function LockedScreen({ title = 'Feature Locked', message = 'This feature requires a higher license tier.' }) {
   return (
     <div
       className="min-h-screen flex items-center justify-center relative"
@@ -54,8 +54,10 @@ export function LockedScreen({ title = 'Feature Locked', message }) {
         </p>
 
         {/* Upgrade CTA */}
-        <a
-          href="mailto:placeholder@email.com?subject=License Upgrade Request&body=Hello, I would like to upgrade my Tvastr license to access additional features."
+        <button
+          onClick={() => {
+            window.location.href = 'mailto:support@tvastr.ai?subject=License Upgrade Request&body=Hello,%0A%0AI would like to upgrade my Tvastr license to access additional features.%0A%0AThank you.'
+          }}
           className="inline-block px-8 py-3.5 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200"
           style={{
             background: 'rgba(245,158,11,0.12)',
@@ -71,7 +73,7 @@ export function LockedScreen({ title = 'Feature Locked', message }) {
           }}
         >
           Upgrade License
-        </a>
+        </button>
 
         {/* Back link */}
         <div className="mt-10">

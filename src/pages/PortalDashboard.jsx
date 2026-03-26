@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext'
 import { useLicense } from '../context/LicenseContext'
 import { Logo } from '../components/Logo'
 import { LockedProductCard } from '../components/LockedProductCard'
+import { UpgradeBanner } from '../components/UpgradeBanner'
+import { TIER_ORDER } from '../lib/capabilities'
 
 /**
  * PortalDashboard — Authenticated customer dashboard.
@@ -18,7 +20,7 @@ export function PortalDashboard() {
   const { user, signOut } = useAuth()
   const { tier, capabilities, loading: licenseLoading } = useLicense()
 
-  // Define the 3 products statically
+  // Define the 3 products with tier requirements and upgrade features
   const products = [
     {
       id: 'ras_core',
@@ -26,6 +28,7 @@ export function PortalDashboard() {
       description: 'An AI-driven casting inspection and defect diagnosis platform that transforms raw inspection images into actionable quality intelligence.',
       tag: 'Vision AI',
       capability: 'ras_core',
+      requiredTier: 'ras_core',
     },
     {
       id: 'ras_enterprise',
@@ -33,6 +36,12 @@ export function PortalDashboard() {
       description: 'Integrated build with advanced process integration, ERP connectivity, and extended quality engineering frameworks.',
       tag: 'Vision AI',
       capability: 'ras_enterprise',
+      requiredTier: 'ras_enterprise',
+      upgradeFeatures: [
+        'ERP and SQL integration',
+        'batch processing and traceability',
+        'process intelligence',
+      ],
     },
     {
       id: 'plant_intelligence',
@@ -40,6 +49,12 @@ export function PortalDashboard() {
       description: 'A factory intelligence layer that reads ERP data, inspection databases, and production logs to answer operational questions and surface actionable insights.',
       tag: 'Plant AI',
       capability: 'plant_intelligence',
+      requiredTier: 'full_stack',
+      upgradeFeatures: [
+        'plant-level analytics dashboards',
+        'FMEA, Pareto, SPC',
+        'decision intelligence and action tracking',
+      ],
     },
   ]
 
@@ -139,13 +154,22 @@ export function PortalDashboard() {
           </div>
         ) : (
           <>
+            {/* Upgrade Banner */}
+            <UpgradeBanner />
+
             {/* Products grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
               {products.map((product, i) => {
                 const isActive = capabilities?.[product.capability]
+                const isIncluded = tier && TIER_ORDER[tier] > TIER_ORDER[product.requiredTier]
 
                 if (isActive) {
-                  // Active product card
+                  // Active or Included product card
+                  const statusBadge = isIncluded ? 'INCLUDED' : 'ACTIVE'
+                  const statusColor = isIncluded 
+                    ? { bg: 'rgba(168,168,180,0.08)', border: 'rgba(168,168,180,0.2)', text: '#a8a8b4' }
+                    : { bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.2)', text: '#10b981' }
+
                   return (
                     <div
                       key={product.id}
@@ -182,16 +206,16 @@ export function PortalDashboard() {
                             </h3>
                           </div>
 
-                          {/* Active badge */}
+                          {/* Status badge */}
                           <div
                             className="flex-shrink-0 px-3 py-1.5 text-center"
                             style={{
-                              background: 'rgba(16,185,129,0.08)',
-                              border: '1px solid rgba(16,185,129,0.2)',
+                              background: statusColor.bg,
+                              border: `1px solid ${statusColor.border}`,
                             }}
                           >
-                            <div className="text-xs font-semibold text-emerald-400">
-                              ACTIVE
+                            <div className="text-xs font-semibold" style={{ color: statusColor.text }}>
+                              {statusBadge}
                             </div>
                           </div>
                         </div>
@@ -222,6 +246,7 @@ export function PortalDashboard() {
                   )
                 } else {
                   // Locked product card
+                  const requiredTierLabel = product.requiredTier === 'full_stack' ? 'Full Stack' : 'Enterprise'
                   return (
                     <LockedProductCard
                       key={product.id}
@@ -229,6 +254,8 @@ export function PortalDashboard() {
                       description={product.description}
                       tag={product.tag}
                       index={i}
+                      requiredTier={requiredTierLabel}
+                      features={product.upgradeFeatures}
                     />
                   )
                 }
