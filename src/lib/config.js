@@ -9,13 +9,13 @@ export const CONFIG = {
   // Contact Emails
   emails: {
     // Support email for license upgrades and general assistance
-    support: 'support@tvastr.ai',
+    support: 'achinthary@gmail.com',
     
     // Sales/general contact email (used in contact forms)
     contact: 'achintharya@gmail.com',
     
     // Installation support email (used in dashboard)
-    installationSupport: 'support@tvastr.ai',
+    installationSupport: 'achintharya@gmail.com',
   },
 
   // Email Templates
