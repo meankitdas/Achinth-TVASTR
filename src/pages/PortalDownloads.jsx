@@ -60,18 +60,34 @@ export function PortalDownloads() {
         // Filter by tier access
         const allowedVersions = versions.filter((v) => isAllowed(v, tier))
 
-        // Group by product and pick latest per product
-        const productMap = new Map()
-        allowedVersions.forEach((version) => {
-          const product = version.products
-          const productId = product.id
-
-          if (!productMap.has(productId)) {
-            productMap.set(productId, { product, version })
+        // For TIER_3, show only the PIRAS package (includes_pi = true)
+        if (tier === 'TIER_3') {
+          const pirasVersion = allowedVersions.find((v) => v.includes_pi === true)
+          if (pirasVersion) {
+            // Create a merged PIRAS product
+            const pirasProduct = {
+              id: 'piras',
+              name: 'PIRAS',
+              description: 'Complete integrated system: RAS inspection + Plant Intelligence analytics',
+            }
+            setItems([{ product: pirasProduct, version: pirasVersion }])
+          } else {
+            setItems([])
           }
-        })
+        } else {
+          // For other tiers, group by product and pick latest per product
+          const productMap = new Map()
+          allowedVersions.forEach((version) => {
+            const product = version.products
+            const productId = product.id
 
-        setItems(Array.from(productMap.values()))
+            if (!productMap.has(productId)) {
+              productMap.set(productId, { product, version })
+            }
+          })
+
+          setItems(Array.from(productMap.values()))
+        }
       } catch (err) {
         console.error('[PortalDownloads]', err)
         setError('Failed to load product data. Please refresh.')

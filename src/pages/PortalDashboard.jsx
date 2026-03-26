@@ -160,7 +160,15 @@ export function PortalDashboard() {
 
             {/* Products grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
-              {products.map((product, i) => {
+              {products
+                .filter((product) => {
+                  // For TIER_3, only show PIRAS (it includes RAS Core and Enterprise)
+                  if (tier === 'TIER_3') {
+                    return product.id === 'plant_intelligence'
+                  }
+                  return true
+                })
+                .map((product, i) => {
                 const isActive = capabilities?.[product.capability]
                 const isIncluded = tier && TIER_ORDER[tier] > TIER_ORDER[product.requiredTier]
 

@@ -43,7 +43,8 @@ export function UpgradeBanner() {
   const handleUpgrade = () => {
     // Open mailto for upgrade request
     const template = CONFIG.emailTemplates.licenseUpgrade(config.targetTier)
-    window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
+    const mailtoLink = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
+    window.open(mailtoLink, '_blank')
   }
 
   return (

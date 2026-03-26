@@ -102,7 +102,8 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
         <button
           onClick={() => {
             const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
-            window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
+            const mailtoLink = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
+            window.open(mailtoLink, '_blank')
           }}
           className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
           style={{

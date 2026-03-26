@@ -12,7 +12,8 @@ import { CONFIG, generateMailtoLink } from '../lib/config'
 export function LockedFeatureBlock({ title, description, requiredTier, features }) {
   const handleUpgrade = () => {
     const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
-    window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
+    const mailtoLink = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
+    window.open(mailtoLink, '_blank')
   }
 
   return (

@@ -9,7 +9,7 @@ export const CONFIG = {
   // Contact Emails
   emails: {
     // Support email for license upgrades and general assistance
-    support: 'achinthary@gmail.com',
+    support: 'achintharya@gmail.com',
     
     // Sales/general contact email (used in contact forms)
     contact: 'achintharya@gmail.com',
