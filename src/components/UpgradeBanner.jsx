@@ -1,5 +1,5 @@
 import { useLicense } from '../context/LicenseContext'
-import { CONFIG, generateMailtoLink } from '../lib/config'
+import { CONFIG, openMailto } from '../lib/config'
 
 /**
  * UpgradeBanner — Top-of-dashboard upgrade prompt.
@@ -43,8 +43,7 @@ export function UpgradeBanner() {
   const handleUpgrade = () => {
     // Open mailto for upgrade request
     const template = CONFIG.emailTemplates.licenseUpgrade(config.targetTier)
-    const mailtoLink = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
-    window.open(mailtoLink, '_blank')
+    openMailto(CONFIG.emails.support, template.subject, template.body)
   }
 
   return (

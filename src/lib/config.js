@@ -50,3 +50,20 @@ export function generateMailtoLink(email, subject, body) {
   if (body) parts.push(`body=${encodeURIComponent(body)}`)
   return `mailto:${email}${parts.length ? '?' + parts.join('&') : ''}`
 }
+
+/**
+ * Reliable cross-browser mailto opener using hidden anchor click.
+ * This bypasses popup blockers and navigation cancellation issues.
+ * 
+ * @param {string} email - Email address
+ * @param {string} subject - Email subject
+ * @param {string} body - Email body
+ */
+export function openMailto(email, subject, body) {
+  const link = document.createElement('a')
+  link.href = generateMailtoLink(email, subject, body)
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}

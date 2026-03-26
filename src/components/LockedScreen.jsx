@@ -1,4 +1,4 @@
-import { CONFIG, generateMailtoLink } from '../lib/config'
+import { CONFIG, openMailto } from '../lib/config'
 
 /**
  * LockedScreen — Full-page locked state for tier-restricted features.
@@ -59,8 +59,7 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
         <button
           onClick={() => {
             const template = CONFIG.emailTemplates.licenseUpgrade('a higher tier')
-            const mailtoLink = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
-            window.open(mailtoLink, '_blank')
+            openMailto(CONFIG.emails.support, template.subject, template.body)
           }}
           className="inline-block px-8 py-3.5 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200"
           style={{
