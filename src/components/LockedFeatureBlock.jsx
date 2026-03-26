@@ -1,4 +1,4 @@
-import { CONFIG, openMailto } from '../lib/config'
+import { CONFIG, openContact } from '../lib/config'
 
 /**
  * LockedFeatureBlock — Reusable locked feature component.
@@ -12,7 +12,7 @@ import { CONFIG, openMailto } from '../lib/config'
 export function LockedFeatureBlock({ title, description, requiredTier, features }) {
   const handleUpgrade = () => {
     const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
-    openMailto(CONFIG.emails.support, template.subject, template.body)
+    openContact(CONFIG.emails.support, template.subject, template.body)
   }
 
   return (

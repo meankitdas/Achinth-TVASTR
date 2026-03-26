@@ -1,4 +1,4 @@
-import { CONFIG, openMailto } from '../lib/config'
+import { CONFIG, openContact } from '../lib/config'
 
 /**
  * LockedProductCard — Greyed-out product card for dashboard.
@@ -102,7 +102,7 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
         <button
           onClick={() => {
             const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
-            openMailto(CONFIG.emails.support, template.subject, template.body)
+            openContact(CONFIG.emails.support, template.subject, template.body)
           }}
           className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
           style={{

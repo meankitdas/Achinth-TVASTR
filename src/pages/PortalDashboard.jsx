@@ -5,7 +5,7 @@ import { Logo } from '../components/Logo'
 import { LockedProductCard } from '../components/LockedProductCard'
 import { UpgradeBanner } from '../components/UpgradeBanner'
 import { TIER_ORDER, TIER_LABELS } from '../lib/capabilities'
-import { CONFIG, generateMailtoLink } from '../lib/config'
+import { CONFIG, openContact } from '../lib/config'
 
 /**
  * PortalDashboard — Authenticated customer dashboard.
@@ -287,8 +287,11 @@ export function PortalDashboard() {
                   Contact your Tvastr account manager or reach out directly.
                 </p>
               </div>
-              <a
-                href={generateMailtoLink(CONFIG.emails.installationSupport, CONFIG.emailTemplates.installationSupport.subject, CONFIG.emailTemplates.installationSupport.body)}
+              <button
+                onClick={() => {
+                  const template = CONFIG.emailTemplates.installationSupport
+                  openContact(CONFIG.emails.installationSupport, template.subject, template.body)
+                }}
                 className="flex-shrink-0 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase transition-colors duration-200"
                 style={{
                   color: '#f59e0b',
@@ -297,7 +300,7 @@ export function PortalDashboard() {
                 }}
               >
                 Contact Support
-              </a>
+              </button>
             </div>
           </>
         )}

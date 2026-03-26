@@ -52,18 +52,20 @@ export function generateMailtoLink(email, subject, body) {
 }
 
 /**
- * Reliable cross-browser mailto opener using hidden anchor click.
- * This bypasses popup blockers and navigation cancellation issues.
+ * Open contact: Copy email to clipboard and open Gmail compose.
+ * This is more reliable than mailto: protocol which gets blocked by browsers.
  * 
  * @param {string} email - Email address
  * @param {string} subject - Email subject
  * @param {string} body - Email body
  */
-export function openMailto(email, subject, body) {
-  const link = document.createElement('a')
-  link.href = generateMailtoLink(email, subject, body)
-  link.style.display = 'none'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+export function openContact(email, subject, body) {
+  // Copy email to clipboard
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).catch(err => console.warn('Failed to copy email:', err))
+  }
+  
+  // Open Gmail compose with prefilled fields
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  window.open(gmailUrl, '_blank')
 }
