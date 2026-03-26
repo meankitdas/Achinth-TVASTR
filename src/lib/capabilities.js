@@ -13,18 +13,18 @@
  * Tier hierarchy map (lower number = lower tier)
  */
 export const TIER_ORDER = {
-  ras_core: 1,
-  ras_enterprise: 2,
-  full_stack: 3,
+  TIER_1: 1,
+  TIER_2: 2,
+  TIER_3: 3,
 }
 
 /**
  * Display labels for tiers (used in UI)
  */
 export const TIER_LABELS = {
-  ras_core: 'RAS (Standalone Build)',
-  ras_enterprise: 'RAS (Integrated Build)',
-  full_stack: 'Full Stack (RAS + Plant Intelligence)',
+  TIER_1: 'RAS Core',
+  TIER_2: 'RAS Enterprise',
+  TIER_3: 'Full Stack',
 }
 
 /**
@@ -37,8 +37,8 @@ export const TIER_LABELS = {
 export function getCapabilities(tier) {
   return {
     ras_core: true, // All tiers have RAS Core
-    ras_enterprise: tier !== 'ras_core',
-    plant_intelligence: tier === 'full_stack',
+    ras_enterprise: tier !== 'TIER_1',
+    plant_intelligence: tier === 'TIER_3',
   }
 }
 

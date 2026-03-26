@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLicense } from '../context/LicenseContext'
 import { supabase } from '../lib/supabaseClient'
-import { isAllowed } from '../lib/capabilities'
+import { isAllowed, TIER_LABELS } from '../lib/capabilities'
 import { ProductDownloadCard } from '../components/ProductDownloadCard'
 import { Logo } from '../components/Logo'
 import { LockedFeatureBlock } from '../components/LockedFeatureBlock'
@@ -156,7 +156,7 @@ export function PortalDownloads() {
           )}
           {tier && (
             <p className="text-xs text-metallic-500 mt-1">
-              License Tier: <span className="text-metallic-300 font-semibold uppercase">{tier}</span>
+              License Tier: <span className="text-metallic-300 font-semibold">{TIER_LABELS[tier] || tier}</span>
             </p>
           )}
         </div>
@@ -220,8 +220,8 @@ export function PortalDownloads() {
               ))}
             </div>
 
-            {/* Upgrade prompt for non-full_stack users */}
-            {tier && tier !== 'full_stack' && (
+            {/* Upgrade prompt for non-TIER_3 users */}
+            {tier && tier !== 'TIER_3' && (
               <LockedFeatureBlock
                 title="Looking for plant-level analytics?"
                 description="Full Stack includes RAS + Plant Intelligence with integrated dashboards and decision systems."

@@ -7,7 +7,8 @@ import { getCapabilities } from '../lib/capabilities'
  * LicenseContext — Provides license tier and capability information.
  *
  * Exposes:
- *   tier          — User's license tier ('ras_core', 'ras_enterprise', 'full_stack', or null)
+ *   tier          — User's license tier ('TIER_1', 'TIER_2', 'TIER_3', or null)
+ *   customerName  — Customer organization name
  *   capabilities  — Capability flags derived from tier
  *   loading       — True while fetching license data
  *   error         — Error message if license fetch fails
@@ -17,6 +18,7 @@ const LicenseContext = createContext(null)
 export function LicenseProvider({ children }) {
   const { user } = useAuth()
   const [tier, setTier] = useState(null)
+  const [customerName, setCustomerName] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -37,7 +39,7 @@ export function LicenseProvider({ children }) {
       try {
         const { data, error: fetchError } = await supabase
           .from('licenses')
-          .select('tier')
+          .select('tier, customer_name')
           .eq('user_id', user.id)
           .single()
 
@@ -50,6 +52,7 @@ export function LicenseProvider({ children }) {
         }
 
         setTier(data.tier)
+        setCustomerName(data.customer_name)
       } catch (err) {
         console.error('[LicenseContext] Failed to fetch license:', err)
         setError(err.message || 'Failed to load license information.')
@@ -65,7 +68,7 @@ export function LicenseProvider({ children }) {
   const capabilities = tier ? getCapabilities(tier) : null
 
   return (
-    <LicenseContext.Provider value={{ tier, capabilities, loading, error }}>
+    <LicenseContext.Provider value={{ tier, customerName, capabilities, loading, error }}>
       {children}
     </LicenseContext.Provider>
   )

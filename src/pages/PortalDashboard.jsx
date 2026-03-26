@@ -4,7 +4,7 @@ import { useLicense } from '../context/LicenseContext'
 import { Logo } from '../components/Logo'
 import { LockedProductCard } from '../components/LockedProductCard'
 import { UpgradeBanner } from '../components/UpgradeBanner'
-import { TIER_ORDER } from '../lib/capabilities'
+import { TIER_ORDER, TIER_LABELS } from '../lib/capabilities'
 import { CONFIG, generateMailtoLink } from '../lib/config'
 
 /**
@@ -19,7 +19,7 @@ import { CONFIG, generateMailtoLink } from '../lib/config'
  */
 export function PortalDashboard() {
   const { user, signOut } = useAuth()
-  const { tier, capabilities, loading: licenseLoading } = useLicense()
+  const { tier, customerName, capabilities, loading: licenseLoading } = useLicense()
 
   // Define the 3 products with tier requirements and upgrade features
   const products = [
@@ -29,7 +29,7 @@ export function PortalDashboard() {
       description: 'An AI-driven casting inspection and defect diagnosis platform that transforms raw inspection images into actionable quality intelligence.',
       tag: 'Vision AI',
       capability: 'ras_core',
-      requiredTier: 'ras_core',
+      requiredTier: 'TIER_1',
     },
     {
       id: 'ras_enterprise',
@@ -37,7 +37,7 @@ export function PortalDashboard() {
       description: 'Integrated build with advanced process integration, ERP connectivity, and extended quality engineering frameworks.',
       tag: 'Vision AI',
       capability: 'ras_enterprise',
-      requiredTier: 'ras_enterprise',
+      requiredTier: 'TIER_2',
       upgradeFeatures: [
         'ERP and SQL integration',
         'batch processing and traceability',
@@ -50,7 +50,7 @@ export function PortalDashboard() {
       description: 'A factory intelligence layer that reads ERP data, inspection databases, and production logs to answer operational questions and surface actionable insights.',
       tag: 'Plant AI',
       capability: 'plant_intelligence',
-      requiredTier: 'full_stack',
+      requiredTier: 'TIER_3',
       upgradeFeatures: [
         'plant-level analytics dashboards',
         'FMEA, Pareto, SPC',
@@ -123,14 +123,14 @@ export function PortalDashboard() {
               backgroundClip: 'text',
             }}
           >
-            Dashboard
+            {customerName || 'Dashboard'}
           </h1>
           <p className="text-sm text-metallic-400">
             Welcome back. Your licensed Tvastr systems are listed below.
           </p>
           {tier && (
             <p className="text-xs text-metallic-500 mt-2">
-              License Tier: <span className="text-metallic-300 font-semibold uppercase">{tier}</span>
+              License Tier: <span className="text-metallic-300 font-semibold">{TIER_LABELS[tier] || tier}</span>
             </p>
           )}
         </div>
@@ -247,7 +247,7 @@ export function PortalDashboard() {
                   )
                 } else {
                   // Locked product card
-                  const requiredTierLabel = product.requiredTier === 'full_stack' ? 'Full Stack' : 'Enterprise'
+                  const requiredTierLabel = product.requiredTier === 'TIER_3' ? 'Full Stack' : 'Enterprise'
                   return (
                     <LockedProductCard
                       key={product.id}

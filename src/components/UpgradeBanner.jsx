@@ -11,11 +11,11 @@ import { CONFIG, generateMailtoLink } from '../lib/config'
 export function UpgradeBanner() {
   const { tier } = useLicense()
 
-  // Don't show for full_stack or if tier is not loaded
-  if (!tier || tier === 'full_stack') return null
+  // Don't show for TIER_3 or if tier is not loaded
+  if (!tier || tier === 'TIER_3') return null
 
   const content = {
-    ras_core: {
+    TIER_1: {
       title: 'You are using RAS Core',
       features: [
         'SQL and ERP integration',
@@ -25,7 +25,7 @@ export function UpgradeBanner() {
       targetTier: 'RAS Enterprise',
       cta: 'Upgrade to Enterprise',
     },
-    ras_enterprise: {
+    TIER_2: {
       title: 'You are using RAS Enterprise',
       features: [
         'Plant Intelligence dashboards',
