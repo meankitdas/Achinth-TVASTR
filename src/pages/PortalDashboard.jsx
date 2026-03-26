@@ -46,15 +46,15 @@ export function PortalDashboard() {
     },
     {
       id: 'plant_intelligence',
-      name: 'Plant Intelligence',
-      description: 'A factory intelligence layer that reads ERP data, inspection databases, and production logs to answer operational questions and surface actionable insights.',
-      tag: 'Plant AI',
+      name: 'PIRAS',
+      description: 'The complete integrated system: AI-driven casting inspection (RAS) combined with plant-level intelligence (PI) for end-to-end manufacturing quality intelligence.',
+      tag: 'Integrated System',
       capability: 'plant_intelligence',
       requiredTier: 'TIER_3',
       upgradeFeatures: [
-        'plant-level analytics dashboards',
-        'FMEA, Pareto, SPC',
-        'decision intelligence and action tracking',
+        'RAS inspection + Plant Intelligence analytics',
+        'end-to-end quality intelligence pipeline',
+        'FMEA, Pareto, SPC, decision tracking',
       ],
     },
   ]
@@ -247,7 +247,7 @@ export function PortalDashboard() {
                   )
                 } else {
                   // Locked product card
-                  const requiredTierLabel = product.requiredTier === 'TIER_3' ? 'Full Stack' : 'Enterprise'
+                  const requiredTierLabel = product.requiredTier === 'TIER_3' ? 'PIRAS' : 'Enterprise'
                   return (
                     <LockedProductCard
                       key={product.id}

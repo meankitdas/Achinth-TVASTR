@@ -28,12 +28,12 @@ export function UpgradeBanner() {
     TIER_2: {
       title: 'You are using RAS Enterprise',
       features: [
-        'Plant Intelligence dashboards',
-        'decision intelligence and action tracking',
-        'cost of quality and risk analysis',
+        'Complete RAS + Plant Intelligence integration',
+        'end-to-end quality intelligence pipeline',
+        'decision tracking, FMEA, SPC, cost of quality',
       ],
-      targetTier: 'Full Stack',
-      cta: 'Upgrade to Full Stack',
+      targetTier: 'PIRAS',
+      cta: 'Upgrade to PIRAS',
     },
   }
 

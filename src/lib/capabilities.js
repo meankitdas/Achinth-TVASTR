@@ -24,7 +24,7 @@ export const TIER_ORDER = {
 export const TIER_LABELS = {
   TIER_1: 'RAS Core',
   TIER_2: 'RAS Enterprise',
-  TIER_3: 'Full Stack',
+  TIER_3: 'PIRAS',
 }
 
 /**

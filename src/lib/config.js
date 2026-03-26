@@ -45,10 +45,8 @@ export const CONFIG = {
  * @returns {string} Formatted mailto URL
  */
 export function generateMailtoLink(email, subject, body) {
-  const params = new URLSearchParams()
-  if (subject) params.append('subject', subject)
-  if (body) params.append('body', body)
-  
-  const queryString = params.toString()
-  return `mailto:${email}${queryString ? '?' + queryString : ''}`
+  const parts = []
+  if (subject) parts.push(`subject=${encodeURIComponent(subject)}`)
+  if (body) parts.push(`body=${encodeURIComponent(body)}`)
+  return `mailto:${email}${parts.length ? '?' + parts.join('&') : ''}`
 }

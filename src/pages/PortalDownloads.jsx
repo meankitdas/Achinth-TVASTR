@@ -223,13 +223,13 @@ export function PortalDownloads() {
             {/* Upgrade prompt for non-TIER_3 users */}
             {tier && tier !== 'TIER_3' && (
               <LockedFeatureBlock
-                title="Looking for plant-level analytics?"
-                description="Full Stack includes RAS + Plant Intelligence with integrated dashboards and decision systems."
-                requiredTier="Full Stack"
+                title="Looking for the complete integrated system?"
+                description="PIRAS combines RAS inspection and Plant Intelligence into a unified quality intelligence platform."
+                requiredTier="PIRAS"
                 features={[
-                  'RAS + Plant Intelligence',
-                  'integrated dashboards and decision system',
-                  'advanced process intelligence',
+                  'RAS inspection + Plant Intelligence analytics',
+                  'end-to-end quality intelligence pipeline',
+                  'FMEA, SPC, decision tracking, cost of quality',
                 ]}
               />
             )}

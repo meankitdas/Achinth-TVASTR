@@ -66,12 +66,12 @@ export function ProtectedRoute({ children, requiredCapability }) {
   if (requiredCapability && capabilities && !capabilities[requiredCapability]) {
     const config = {
       plant_intelligence: {
-        title: 'Plant Intelligence not enabled',
-        message: 'This feature is available in Full Stack deployments.',
+        title: 'PIRAS not enabled',
+        message: 'This feature is available in PIRAS deployments.',
       },
       ras_enterprise: {
         title: 'RAS Enterprise not enabled',
-        message: 'This feature is available in Enterprise and Full Stack deployments.',
+        message: 'This feature is available in Enterprise and PIRAS deployments.',
       },
     }
 
