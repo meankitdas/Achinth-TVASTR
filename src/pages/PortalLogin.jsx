@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { Logo } from '../components/Logo'
+import { CONFIG, generateMailtoLink } from '../lib/config'
 
 /**
  * PortalLogin — Customer portal login page.
@@ -236,7 +237,7 @@ export function PortalLogin() {
           <div className="text-center">
             <p className="text-xs text-metallic-500 mb-2">Don't have access yet?</p>
             <a
-              href="mailto:placeholder@email.com?subject=Portal Access Request&body=Hello, I would like to request access to the Tvastr Customer Portal."
+              href={generateMailtoLink(CONFIG.emails.support, CONFIG.emailTemplates.portalAccess.subject, CONFIG.emailTemplates.portalAccess.body)}
               className="text-sm font-medium text-metallic-300 hover:text-amber-glow transition-colors duration-200 underline underline-offset-4"
               style={{ textDecorationColor: 'rgba(245,158,11,0.3)' }}
             >

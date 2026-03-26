@@ -1,3 +1,5 @@
+import { CONFIG, generateMailtoLink } from '../lib/config'
+
 /**
  * LockedFeatureBlock — Reusable locked feature component.
  *
@@ -9,7 +11,8 @@
  */
 export function LockedFeatureBlock({ title, description, requiredTier, features }) {
   const handleUpgrade = () => {
-    window.location.href = `mailto:support@tvastr.ai?subject=License Upgrade Request&body=Hello,%0A%0AI would like to upgrade my license to ${requiredTier}.%0A%0AThank you.`
+    const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
+    window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
   }
 
   return (

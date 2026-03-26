@@ -1,5 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Logo } from './Logo'
+import { CONFIG } from '../lib/config'
 
 /**
  * ContactSection — Minimal footer contact panel.
@@ -75,7 +76,7 @@ export function ContactSection() {
           <div className="reveal reveal-delay-1 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 mb-12">
             {/* Email */}
             <a
-              href="mailto:achintharya@gmail.com"
+              href={`mailto:${CONFIG.emails.contact}`}
               className="group flex items-center gap-3 text-sm text-metallic-300 hover:text-amber-glow transition-colors duration-300"
             >
               <span
@@ -90,7 +91,7 @@ export function ContactSection() {
                   <path d="M1 4.5L7 8.5L13 4.5" stroke="currentColor" strokeWidth="0.8" fill="none"/>
                 </svg>
               </span>
-              <span>achintharya@gmail.com</span>
+              <span>{CONFIG.emails.contact}</span>
             </a>
 
             {/* Divider */}

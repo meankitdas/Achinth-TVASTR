@@ -1,0 +1,54 @@
+/**
+ * Application Configuration
+ * 
+ * Centralized configuration for contact emails and other app-wide settings.
+ * Update these values to change contact information across the entire application.
+ */
+
+export const CONFIG = {
+  // Contact Emails
+  emails: {
+    // Support email for license upgrades and general assistance
+    support: 'support@tvastr.ai',
+    
+    // Sales/general contact email (used in contact forms)
+    contact: 'achintharya@gmail.com',
+    
+    // Installation support email (used in dashboard)
+    installationSupport: 'support@tvastr.ai',
+  },
+
+  // Email Templates
+  emailTemplates: {
+    licenseUpgrade: (tier) => ({
+      subject: 'License Upgrade Request',
+      body: `Hello,\n\nI would like to upgrade my license to ${tier}.\n\nThank you.`
+    }),
+    
+    portalAccess: {
+      subject: 'Portal Access Request',
+      body: 'Hello, I would like to request access to the Tvastr Customer Portal.'
+    },
+    
+    installationSupport: {
+      subject: 'Installation Support',
+      body: 'Hello, I need assistance with installation.'
+    },
+  },
+}
+
+/**
+ * Helper function to generate mailto links
+ * @param {string} email - Email address
+ * @param {string} subject - Email subject
+ * @param {string} body - Email body
+ * @returns {string} Formatted mailto URL
+ */
+export function generateMailtoLink(email, subject, body) {
+  const params = new URLSearchParams()
+  if (subject) params.append('subject', subject)
+  if (body) params.append('body', body)
+  
+  const queryString = params.toString()
+  return `mailto:${email}${queryString ? '?' + queryString : ''}`
+}

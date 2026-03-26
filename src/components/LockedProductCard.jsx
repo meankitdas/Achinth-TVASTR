@@ -1,3 +1,5 @@
+import { CONFIG, generateMailtoLink } from '../lib/config'
+
 /**
  * LockedProductCard — Greyed-out product card for dashboard.
  * Used to show products that are available in a higher tier.
@@ -99,7 +101,8 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
         {/* Upgrade CTA */}
         <button
           onClick={() => {
-            window.location.href = `mailto:support@tvastr.ai?subject=License Upgrade Request&body=Hello,%0A%0AI would like to upgrade my license to ${requiredTier}.%0A%0AThank you.`
+            const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
+            window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
           }}
           className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
           style={{

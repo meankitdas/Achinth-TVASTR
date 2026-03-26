@@ -7,6 +7,7 @@ import { isAllowed } from '../lib/capabilities'
 import { ProductDownloadCard } from '../components/ProductDownloadCard'
 import { Logo } from '../components/Logo'
 import { LockedFeatureBlock } from '../components/LockedFeatureBlock'
+import { CONFIG, generateMailtoLink } from '../lib/config'
 
 /**
  * PortalDownloads — Protected page showing latest versions filtered by tier.
@@ -200,7 +201,7 @@ export function PortalDownloads() {
               No downloads available for your current license tier.
             </p>
             <a
-              href="mailto:placeholder@email.com?subject=License Upgrade Request"
+              href={generateMailtoLink(CONFIG.emails.support, CONFIG.emailTemplates.licenseUpgrade('Full Stack').subject, CONFIG.emailTemplates.licenseUpgrade('Full Stack').body)}
               className="mt-4 inline-block text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
             >
               Upgrade License

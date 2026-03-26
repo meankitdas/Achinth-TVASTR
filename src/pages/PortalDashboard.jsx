@@ -5,6 +5,7 @@ import { Logo } from '../components/Logo'
 import { LockedProductCard } from '../components/LockedProductCard'
 import { UpgradeBanner } from '../components/UpgradeBanner'
 import { TIER_ORDER } from '../lib/capabilities'
+import { CONFIG, generateMailtoLink } from '../lib/config'
 
 /**
  * PortalDashboard — Authenticated customer dashboard.
@@ -279,7 +280,7 @@ export function PortalDashboard() {
                 </p>
               </div>
               <a
-                href="mailto:placeholder@email.com?subject=Installation Support"
+                href={generateMailtoLink(CONFIG.emails.installationSupport, CONFIG.emailTemplates.installationSupport.subject, CONFIG.emailTemplates.installationSupport.body)}
                 className="flex-shrink-0 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase transition-colors duration-200"
                 style={{
                   color: '#f59e0b',

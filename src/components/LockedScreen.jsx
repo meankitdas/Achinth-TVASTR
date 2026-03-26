@@ -1,3 +1,5 @@
+import { CONFIG, generateMailtoLink } from '../lib/config'
+
 /**
  * LockedScreen — Full-page locked state for tier-restricted features.
  *
@@ -56,7 +58,8 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
         {/* Upgrade CTA */}
         <button
           onClick={() => {
-            window.location.href = 'mailto:support@tvastr.ai?subject=License Upgrade Request&body=Hello,%0A%0AI would like to upgrade my Tvastr license to access additional features.%0A%0AThank you.'
+            const template = CONFIG.emailTemplates.licenseUpgrade('a higher tier')
+            window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
           }}
           className="inline-block px-8 py-3.5 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200"
           style={{

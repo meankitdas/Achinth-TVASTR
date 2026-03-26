@@ -1,4 +1,5 @@
 import { useLicense } from '../context/LicenseContext'
+import { CONFIG, generateMailtoLink } from '../lib/config'
 
 /**
  * UpgradeBanner — Top-of-dashboard upgrade prompt.
@@ -41,7 +42,8 @@ export function UpgradeBanner() {
 
   const handleUpgrade = () => {
     // Open mailto for upgrade request
-    window.location.href = `mailto:support@tvastr.ai?subject=License Upgrade Request&body=Hello,%0A%0AI would like to upgrade my license to ${config.targetTier}.%0A%0AThank you.`
+    const template = CONFIG.emailTemplates.licenseUpgrade(config.targetTier)
+    window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
   }
 
   return (
