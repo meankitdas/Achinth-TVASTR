@@ -223,12 +223,22 @@ export function PortalDownloads() {
             <p className="text-sm text-metallic-400">
               No downloads available for your current license tier.
             </p>
-            <a
-              href={generateMailtoLink(CONFIG.emails.support, CONFIG.emailTemplates.licenseUpgrade('Full Stack').subject, CONFIG.emailTemplates.licenseUpgrade('Full Stack').body)}
-              className="mt-4 inline-block text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
-            >
-              Upgrade License
-            </a>
+            {tier !== 'TIER_3' && (
+              <a
+                href={generateMailtoLink(CONFIG.emails.support, CONFIG.emailTemplates.licenseUpgrade('Full Stack').subject, CONFIG.emailTemplates.licenseUpgrade('Full Stack').body)}
+                className="mt-4 inline-block text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
+              >
+                Upgrade License
+              </a>
+            )}
+            {tier === 'TIER_3' && (
+              <a
+                href={generateMailtoLink(CONFIG.emails.support, 'Product Download Issue', 'I have a PIRAS license but no downloads are available. Please assist.')}
+                className="mt-4 inline-block text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
+              >
+                Contact Support
+              </a>
+            )}
           </div>
         ) : (
           <>
