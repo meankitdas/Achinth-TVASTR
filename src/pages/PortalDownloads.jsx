@@ -132,6 +132,13 @@ export function PortalDownloads() {
           >
             Downloads
           </span>
+          <Link
+            to="/portal/manual"
+            className="text-xs tracking-widest uppercase transition-colors duration-200"
+            style={{ color: '#686878' }}
+          >
+            User Manual
+          </Link>
           <button
             onClick={signOut}
             className="text-xs tracking-widest uppercase transition-colors duration-200"

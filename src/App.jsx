@@ -31,6 +31,9 @@ const PortalDashboard = lazy(() =>
 const PortalDownloads = lazy(() =>
   import('./pages/PortalDownloads').then((m) => ({ default: m.PortalDownloads }))
 )
+const PortalManual = lazy(() =>
+  import('./pages/PortalManual').then((m) => ({ default: m.PortalManual }))
+)
 
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePage() {
@@ -106,6 +109,15 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <PortalDownloads />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/portal/manual"
+                element={
+                  <ProtectedRoute>
+                    <PortalManual />
                   </ProtectedRoute>
                 }
               />

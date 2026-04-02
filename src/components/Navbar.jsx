@@ -32,6 +32,9 @@ export function Navbar() {
   // Close mobile menu on route change
   useEffect(() => setMenuOpen(false), [location.pathname])
 
+  // Hide main navbar on portal pages (they have their own navigation)
+  if (isPortalPage) return null
+
   // Smooth scroll to section (only on home page)
   const scrollTo = (id) => {
     if (location.pathname !== '/') {
@@ -43,23 +46,13 @@ export function Navbar() {
     setMenuOpen(false)
   }
 
-  // Base nav links
-  const baseNavLinks = [
+  // Base nav links - Plant Intelligence removed from global navbar
+  // (it's only accessible from within the portal at /portal/pi)
+  const navLinks = [
     { label: 'Home', action: () => scrollTo('hero') },
     { label: 'Systems', action: () => scrollTo('products') },
     { label: 'Technology', action: () => scrollTo('technology') },
   ]
-
-  // Conditionally add Plant Intelligence link if user has access
-  const navLinks = [...baseNavLinks]
-  if (user && capabilities?.plant_intelligence) {
-    navLinks.push({
-      label: 'Plant Intelligence',
-      action: () => {
-        window.location.href = '/portal/pi'
-      },
-    })
-  }
 
   return (
     <nav

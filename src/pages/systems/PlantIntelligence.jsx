@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { SystemDetailSection } from '../../components/systems/SystemDetailSection'
 import { SystemImageBlock } from '../../components/systems/SystemImageBlock'
 import { SystemImpactGrid } from '../../components/systems/SystemImpactGrid'
@@ -8,7 +8,7 @@ import { DownloadPresentationButton } from '../../components/DownloadPresentatio
  * PlantIntelligence — Technical detail page.
  * Light industrial theme. Structured like a consulting presentation deck.
  * Each section maps to one PDF slide via .presentation-slide class.
- * Route: /systems/plant-intelligence
+ * Routes: /systems/plant-intelligence (public) OR /portal/pi (protected)
  *
  * Screenshot slides use images from /public/:
  *   pi_overview_ss.png   — Overview dashboard
@@ -16,19 +16,25 @@ import { DownloadPresentationButton } from '../../components/DownloadPresentatio
  *   pi_decisions_ss.png  — Decision Intelligence
  */
 export function PlantIntelligence() {
+  const location = useLocation()
+  const isPortalRoute = location.pathname.startsWith('/portal')
+
   return (
     <div id="presentation-root" style={{ background: '#ffffff', color: '#111827' }}>
 
       {/* ── Top nav (not a slide — excluded from PDF) ─────────────── */}
-      <div
-        className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-12 h-14"
-        style={{ background: 'rgba(255,255,255,0.95)', borderBottom: '1px solid #e5e7eb', backdropFilter: 'blur(8px)' }}
-      >
-        <Link to="/" className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 hover:text-slate-700 transition-colors">
-          ← Tvastr
-        </Link>
-        <span className="text-xs text-slate-400 tracking-wide hidden sm:block">Plant Intelligence</span>
-      </div>
+      {/* Hide this nav when in portal context — portal pages have their own navigation */}
+      {!isPortalRoute && (
+        <div
+          className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-12 h-14"
+          style={{ background: 'rgba(255,255,255,0.95)', borderBottom: '1px solid #e5e7eb', backdropFilter: 'blur(8px)' }}
+        >
+          <Link to="/" className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 hover:text-slate-700 transition-colors">
+            ← Tvastr
+          </Link>
+          <span className="text-xs text-slate-400 tracking-wide hidden sm:block">Plant Intelligence</span>
+        </div>
+      )}
 
       {/* ── SLIDE 1 — Title + Positioning ────────────────────────── */}
       <section className="presentation-slide" style={{ background: '#ffffff' }}>

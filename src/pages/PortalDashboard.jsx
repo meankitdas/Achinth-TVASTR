@@ -82,10 +82,15 @@ export function PortalDashboard() {
           <div className="flex items-center gap-6">
             <Link
               to="/portal/downloads"
-              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200"
-              style={{ color: '#f59e0b' }}
+              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
             >
               Downloads
+            </Link>
+            <Link
+              to="/portal/manual"
+              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+            >
+              User Manual
             </Link>
             <div className="hidden sm:flex items-center gap-2">
               <div
