@@ -5,6 +5,7 @@ import { useLicense } from '../context/LicenseContext'
 import { supabase } from '../lib/supabaseClient'
 import { isAllowed, TIER_LABELS } from '../lib/capabilities'
 import { ProductDownloadCard } from '../components/ProductDownloadCard'
+import { RollbackVersionCard } from '../components/RollbackVersionCard'
 import { Logo } from '../components/Logo'
 import { LockedFeatureBlock } from '../components/LockedFeatureBlock'
 import { CONFIG, generateMailtoLink } from '../lib/config'
@@ -23,7 +24,8 @@ import { CONFIG, generateMailtoLink } from '../lib/config'
 export function PortalDownloads() {
   const { user, signOut } = useAuth()
   const { tier, loading: licenseLoading } = useLicense()
-  const [items, setItems] = useState([])   // [{ product, version }]
+  const [items, setItems] = useState([])   // [{ product, version }] - latest versions
+  const [olderVersions, setOlderVersions] = useState([])  // [{ product, version }] - older versions
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -62,31 +64,53 @@ export function PortalDownloads() {
 
         // For TIER_3, show only the PIRAS package (includes_pi = true)
         if (tier === 'TIER_3') {
-          const pirasVersion = allowedVersions.find((v) => v.includes_pi === true)
-          if (pirasVersion) {
+          const pirasVersions = allowedVersions.filter((v) => v.includes_pi === true)
+          
+          if (pirasVersions.length > 0) {
             // Create a merged PIRAS product
             const pirasProduct = {
               id: 'piras',
               name: 'PIRAS',
               description: 'Complete integrated system: RAS inspection + Plant Intelligence analytics',
             }
-            setItems([{ product: pirasProduct, version: pirasVersion }])
+            
+            // Latest version
+            setItems([{ product: pirasProduct, version: pirasVersions[0] }])
+            
+            // Older versions (everything after the first)
+            const older = pirasVersions.slice(1).map((v) => ({ product: pirasProduct, version: v }))
+            setOlderVersions(older)
           } else {
             setItems([])
+            setOlderVersions([])
           }
         } else {
           // For other tiers, group by product and pick latest per product
           const productMap = new Map()
+          const olderMap = new Map() // Track older versions per product
+          
           allowedVersions.forEach((version) => {
             const product = version.products
             const productId = product.id
 
             if (!productMap.has(productId)) {
+              // First version encountered (latest due to ORDER BY)
               productMap.set(productId, { product, version })
+              olderMap.set(productId, [])
+            } else {
+              // Subsequent versions are older
+              olderMap.get(productId).push({ product, version })
             }
           })
 
           setItems(Array.from(productMap.values()))
+          
+          // Flatten all older versions from all products
+          const allOlder = []
+          olderMap.forEach((versions) => {
+            allOlder.push(...versions)
+          })
+          setOlderVersions(allOlder)
         }
       } catch (err) {
         console.error('[PortalDownloads]', err)
@@ -252,6 +276,33 @@ export function PortalDownloads() {
                 />
               ))}
             </div>
+
+            {/* Version Rollback Section */}
+            {olderVersions.length > 0 && (
+              <div className="mb-12">
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-6 h-px bg-metallic-600 opacity-40" />
+                    <span className="text-xs font-semibold tracking-[0.3em] uppercase text-metallic-500 opacity-60">
+                      Version Rollback
+                    </span>
+                  </div>
+                  <p className="text-sm text-metallic-400">
+                    Previous stable releases available for rollback or compatibility testing.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {olderVersions.map(({ product, version }, i) => (
+                    <RollbackVersionCard
+                      key={`${product.id}-${version.version_number}`}
+                      product={product}
+                      version={version}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Upgrade prompt for non-TIER_3 users */}
             {tier && tier !== 'TIER_3' && (

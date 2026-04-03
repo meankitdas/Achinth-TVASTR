@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabaseClient'
+import { useLicense } from '../context/LicenseContext'
 import { getVersionLabel } from '../lib/capabilities'
+
+const UPDATE_SERVER_URL = import.meta.env.VITE_UPDATE_SERVER_URL
 
 /**
  * ProductDownloadCard — Shows a product's latest version with a download button.
@@ -12,16 +14,27 @@ import { getVersionLabel } from '../lib/capabilities'
  *
  * Download flow:
  *   1. User clicks Download
- *   2. Client requests a signed URL from Supabase Storage (60s expiry)
+ *   2. Client calls update server API to get S3 pre-signed URL
  *   3. Browser opens the signed URL in a new tab
  */
 export function ProductDownloadCard({ product, version, index }) {
+  const { licenseKey } = useLicense()
   const [downloading, setDownloading] = useState(false)
   const [error, setError] = useState(null)
 
   const handleDownload = async () => {
-    if (!version?.file_path) {
+    if (!version?.version_number || !product?.name) {
       setError('No file available for this version.')
+      return
+    }
+
+    if (!licenseKey) {
+      setError('License key not found. Please contact support.')
+      return
+    }
+
+    if (!UPDATE_SERVER_URL) {
+      setError('Update server URL not configured.')
       return
     }
 
@@ -29,17 +42,22 @@ export function ProductDownloadCard({ product, version, index }) {
     setError(null)
 
     try {
-      // Generate a signed URL valid for 60 seconds
-      const { data, error: storageError } = await supabase.storage
-        .from('updates')
-        .createSignedUrl(version.file_path, 60)
+      // Call update server API to get S3 pre-signed URL
+      const response = await fetch(
+        `${UPDATE_SERVER_URL}/api/download/${encodeURIComponent(product.name)}/${encodeURIComponent(version.version_number)}?license_key=${encodeURIComponent(licenseKey)}`
+      )
 
-      if (storageError) throw storageError
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData.detail || 'Download request failed')
+      }
 
-      // Open the signed URL — triggers browser download
-      window.open(data.signedUrl, '_blank', 'noopener,noreferrer')
+      const data = await response.json()
+
+      // Open the S3 pre-signed URL — triggers browser download
+      window.open(data.download_url, '_blank', 'noopener,noreferrer')
     } catch (err) {
-      setError('Download failed. Please try again or contact support.')
+      setError(err.message || 'Download failed. Please try again or contact support.')
       console.error('[Download]', err)
     } finally {
       setDownloading(false)
