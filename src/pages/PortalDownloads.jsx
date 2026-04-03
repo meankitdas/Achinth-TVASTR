@@ -62,9 +62,9 @@ export function PortalDownloads() {
         // Filter by tier access
         const allowedVersions = versions.filter((v) => isAllowed(v, tier))
 
-        // For TIER_3, show only the PIRAS package (includes_pi = true)
+        // For TIER_3, show all allowed versions grouped as PIRAS
         if (tier === 'TIER_3') {
-          const pirasVersions = allowedVersions.filter((v) => v.includes_pi === true)
+          const pirasVersions = allowedVersions  // Show all allowed versions for TIER_3
           
           if (pirasVersions.length > 0) {
             // Create a merged PIRAS product
