@@ -17,6 +17,9 @@ dist-ssr
 .env.local
 .env.production
 
+# Update server (lives in separate repo)
+tvastr-update-server/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
