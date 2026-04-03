@@ -16,7 +16,12 @@ export const TIER_ORDER = {
   TIER_1: 1,
   TIER_2: 2,
   TIER_3: 3,
+  // Legacy aliases (used in versions.required_tier seed data)
+  ras_core: 1,
+  ras_enterprise: 2,
+  full_stack: 3,
 }
+
 
 /**
  * Display labels for tiers (used in UI)
