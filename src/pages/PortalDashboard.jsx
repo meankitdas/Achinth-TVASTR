@@ -286,8 +286,8 @@ export function PortalDashboard() {
             {/* Upgrade Banner */}
             <UpgradeBanner />
 
-            {/* Products grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
+            {/* Products - unified card showing product info + download */}
+            <div className="mb-10">
               {PRODUCTS
                 .filter((product) => {
                   // For TIER_3, only show PIRAS (it includes RAS Core and Enterprise)
@@ -299,30 +299,34 @@ export function PortalDashboard() {
                 .map((product, i) => {
                 const isActive = capabilities?.[product.capability]
                 const isIncluded = tier && TIER_ORDER[tier] > TIER_ORDER[product.requiredTier]
+                const productVersions = versions[product.id]
 
                 if (isActive) {
-                  // Active or Included product card (info only - no download)
+                  // Unified active product card with download functionality
                   const statusBadge = isIncluded ? 'INCLUDED' : 'ACTIVE'
                   const statusColor = isIncluded ? STATUS_COLORS.included : STATUS_COLORS.active
 
                   return (
-                    <div key={product.id} className="group relative flex flex-col transition-all duration-300" style={STYLES.card}>
+                    <div key={product.id} className="group relative flex flex-col transition-all duration-300 mb-6" style={STYLES.card}>
                       {/* Hover top accent */}
                       <div
                         className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         style={STYLES.cardHoverAccent}
                       />
 
-                      <div className="p-6 flex flex-col gap-4">
-                        {/* Header row */}
+                      <div className="p-8 flex flex-col gap-6">
+                        {/* Header row with product info and status */}
                         <div className="flex items-start justify-between gap-4">
-                          <div>
+                          <div className="flex-1">
                             <span className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1 inline-block mb-3" style={STYLES.tagVision}>
                               {product.tag}
                             </span>
-                            <h3 className="text-lg font-bold text-metallic-100 tracking-tight leading-tight">
+                            <h3 className="text-2xl font-bold text-metallic-100 tracking-tight leading-tight mb-3">
                               {product.name}
                             </h3>
+                            <p className="text-sm text-metallic-400 leading-relaxed">
+                              {product.description}
+                            </p>
                           </div>
 
                           {/* Status badge */}
@@ -339,10 +343,88 @@ export function PortalDashboard() {
                           </div>
                         </div>
 
-                        {/* Description */}
-                        <p className="text-sm text-metallic-400 leading-relaxed">
-                          {product.description}
-                        </p>
+                        {/* Version and download section */}
+                        {loadingVersions ? (
+                          <div className="flex items-center justify-center py-8 text-xs text-metallic-500">
+                            Loading versions...
+                          </div>
+                        ) : productVersions?.latest ? (
+                          <div className="space-y-4">
+                            {/* Version info box */}
+                            <div
+                              className="p-6 space-y-4"
+                              style={{
+                                background: 'rgba(10,10,11,0.6)',
+                                border: '1px solid rgba(168,168,180,0.06)',
+                              }}
+                            >
+                              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                <div>
+                                  <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                                    Latest Version
+                                  </p>
+                                  <p className="text-2xl font-black text-amber-forge font-mono">
+                                    v{productVersions.latest.version_number}
+                                  </p>
+                                </div>
+                                <div className="md:text-right">
+                                  <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                                    Released
+                                  </p>
+                                  <p className="text-sm text-metallic-300">
+                                    {new Date(productVersions.latest.release_date).toLocaleDateString('en-IN', { 
+                                      year: 'numeric', 
+                                      month: 'long', 
+                                      day: 'numeric' 
+                                    })}
+                                  </p>
+                                </div>
+                              </div>
+
+                              {productVersions.latest.changelog && (
+                                <div>
+                                  <p className="text-xs text-metallic-500 tracking-widest uppercase mb-2">
+                                    Release Notes
+                                  </p>
+                                  <p className="text-sm text-metallic-300 leading-relaxed">
+                                    {productVersions.latest.changelog}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Download error */}
+                            {downloadError && (
+                              <p className="text-xs text-red-400">{downloadError}</p>
+                            )}
+
+                            {/* Download button */}
+                            <button
+                              onClick={() => handleDownload(productVersions.latest.products.name, productVersions.latest.version_number)}
+                              disabled={downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}`}
+                              className="w-full flex items-center justify-center gap-2 py-4 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50 relative overflow-hidden group"
+                              style={STYLES.downloadButton}
+                            >
+                              <span
+                                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                style={{ background: 'rgba(245,158,11,0.08)' }}
+                              />
+                              <span className="relative flex items-center gap-2">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                  <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                  <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                </svg>
+                                {downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}` 
+                                  ? 'Generating link...' 
+                                  : `Download v${productVersions.latest.version_number}`}
+                              </span>
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center py-8 text-sm text-metallic-500">
+                            No releases available yet.
+                          </div>
+                        )}
                       </div>
                     </div>
                   )
@@ -350,32 +432,18 @@ export function PortalDashboard() {
                   // Locked product card
                   const requiredTierLabel = product.requiredTier === 'TIER_3' ? 'PIRAS' : 'Enterprise'
                   return (
-                    <LockedProductCard
-                      key={product.id}
-                      title={product.name}
-                      description={product.description}
-                      tag={product.tag}
-                      index={i}
-                      requiredTier={requiredTierLabel}
-                      features={product.upgradeFeatures}
-                    />
+                    <div key={product.id} className="mb-6">
+                      <LockedProductCard
+                        title={product.name}
+                        description={product.description}
+                        tag={product.tag}
+                        index={i}
+                        requiredTier={requiredTierLabel}
+                        features={product.upgradeFeatures}
+                      />
+                    </div>
                   )
                 }
-              })}
-
-              {/* Download card - shows beside product card for active products */}
-              {!loadingVersions && Object.keys(versions).length > 0 && Object.entries(versions).map(([productId, { latest, older }]) => {
-                if (!latest) return null
-                
-                const product = latest.products
-                return (
-                  <ProductDownloadCard
-                    key={`download-${productId}`}
-                    product={product}
-                    version={latest}
-                    index={1}
-                  />
-                )
               })}
             </div>
 
