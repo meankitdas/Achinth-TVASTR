@@ -7,6 +7,98 @@ import { UpgradeBanner } from '../components/UpgradeBanner'
 import { TIER_ORDER, TIER_LABELS } from '../lib/capabilities'
 import { CONFIG, openContact } from '../lib/config'
 
+// Styles extracted to constants for performance
+const STYLES = {
+  background: { background: '#0a0a0b' },
+  header: {
+    background: 'rgba(10,10,11,0.92)',
+    backdropFilter: 'blur(12px)',
+    borderBottom: '1px solid rgba(168,168,180,0.06)',
+  },
+  statusIndicator: { background: '#10b981', boxShadow: '0 0 6px rgba(16,185,129,0.5)' },
+  titleGradient: {
+    background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+  },
+  loadingBox: {
+    background: 'rgba(245,158,11,0.1)',
+    border: '1px solid rgba(245,158,11,0.3)',
+    transform: 'rotate(45deg)',
+    animation: 'pulse 1.5s ease-in-out infinite',
+  },
+  card: {
+    background: 'rgba(17,17,19,0.95)',
+    border: '1px solid rgba(168,168,180,0.08)',
+  },
+  cardHoverAccent: {
+    background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.4), transparent)',
+  },
+  tagVision: {
+    color: '#f59e0b',
+    background: 'rgba(245,158,11,0.08)',
+    border: '1px solid rgba(245,158,11,0.15)',
+  },
+  downloadButton: {
+    background: 'rgba(245,158,11,0.08)',
+    border: '1px solid rgba(245,158,11,0.25)',
+    color: '#fbbf24',
+  },
+  supportCard: {
+    background: 'rgba(17,17,19,0.8)',
+    border: '1px solid rgba(168,168,180,0.06)',
+  },
+  supportButton: {
+    color: '#f59e0b',
+    border: '1px solid rgba(245,158,11,0.2)',
+    background: 'rgba(245,158,11,0.05)',
+  },
+}
+
+const STATUS_COLORS = {
+  included: { bg: 'rgba(168,168,180,0.08)', border: 'rgba(168,168,180,0.2)', text: '#a8a8b4' },
+  active: { bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.2)', text: '#10b981' },
+}
+
+// Product definitions - moved outside component to prevent recreation
+const PRODUCTS = [
+  {
+    id: 'ras_core',
+    name: 'RAS Core',
+    description: 'An AI-driven casting inspection and defect diagnosis platform that transforms raw inspection images into actionable quality intelligence.',
+    tag: 'Vision AI',
+    capability: 'ras_core',
+    requiredTier: 'TIER_1',
+  },
+  {
+    id: 'ras_enterprise',
+    name: 'RAS Enterprise',
+    description: 'Integrated build with advanced process integration, ERP connectivity, and extended quality engineering frameworks.',
+    tag: 'Vision AI',
+    capability: 'ras_enterprise',
+    requiredTier: 'TIER_2',
+    upgradeFeatures: [
+      'ERP and SQL integration',
+      'batch processing and traceability',
+      'process intelligence',
+    ],
+  },
+  {
+    id: 'plant_intelligence',
+    name: 'PIRAS',
+    description: 'The complete integrated system: AI-driven casting inspection (RAS) combined with plant-level intelligence (PI) for end-to-end manufacturing quality intelligence.',
+    tag: 'Integrated System',
+    capability: 'plant_intelligence',
+    requiredTier: 'TIER_3',
+    upgradeFeatures: [
+      'RAS inspection + Plant Intelligence analytics',
+      'end-to-end quality intelligence pipeline',
+      'FMEA, Pareto, SPC, decision tracking',
+    ],
+  },
+]
+
 /**
  * PortalDashboard — Authenticated customer dashboard.
  *
@@ -21,58 +113,13 @@ export function PortalDashboard() {
   const { user, signOut } = useAuth()
   const { tier, customerName, capabilities, loading: licenseLoading } = useLicense()
 
-  // Define the 3 products with tier requirements and upgrade features
-  const products = [
-    {
-      id: 'ras_core',
-      name: 'RAS Core',
-      description: 'An AI-driven casting inspection and defect diagnosis platform that transforms raw inspection images into actionable quality intelligence.',
-      tag: 'Vision AI',
-      capability: 'ras_core',
-      requiredTier: 'TIER_1',
-    },
-    {
-      id: 'ras_enterprise',
-      name: 'RAS Enterprise',
-      description: 'Integrated build with advanced process integration, ERP connectivity, and extended quality engineering frameworks.',
-      tag: 'Vision AI',
-      capability: 'ras_enterprise',
-      requiredTier: 'TIER_2',
-      upgradeFeatures: [
-        'ERP and SQL integration',
-        'batch processing and traceability',
-        'process intelligence',
-      ],
-    },
-    {
-      id: 'plant_intelligence',
-      name: 'PIRAS',
-      description: 'The complete integrated system: AI-driven casting inspection (RAS) combined with plant-level intelligence (PI) for end-to-end manufacturing quality intelligence.',
-      tag: 'Integrated System',
-      capability: 'plant_intelligence',
-      requiredTier: 'TIER_3',
-      upgradeFeatures: [
-        'RAS inspection + Plant Intelligence analytics',
-        'end-to-end quality intelligence pipeline',
-        'FMEA, Pareto, SPC, decision tracking',
-      ],
-    },
-  ]
-
   return (
-    <div className="min-h-screen relative" style={{ background: '#0a0a0b' }}>
+    <div className="min-h-screen relative" style={STYLES.background}>
       {/* Background grid */}
       <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
 
       {/* Top nav */}
-      <header
-        className="sticky top-0 z-40"
-        style={{
-          background: 'rgba(10,10,11,0.92)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(168,168,180,0.06)',
-        }}
-      >
+      <header className="sticky top-0 z-40" style={STYLES.header}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
@@ -93,10 +140,7 @@ export function PortalDashboard() {
               User Manual
             </Link>
             <div className="hidden sm:flex items-center gap-2">
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{ background: '#10b981', boxShadow: '0 0 6px rgba(16,185,129,0.5)' }}
-              />
+              <div className="w-2 h-2 rounded-full" style={STYLES.statusIndicator} />
               <span className="text-xs text-metallic-400 font-mono">{user?.email}</span>
             </div>
             <button
@@ -119,15 +163,7 @@ export function PortalDashboard() {
               Customer Portal
             </span>
           </div>
-          <h1
-            className="text-3xl md:text-4xl font-black tracking-tight mb-3"
-            style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-3" style={STYLES.titleGradient}>
             {customerName || 'Dashboard'}
           </h1>
           <p className="text-sm text-metallic-400">
@@ -144,15 +180,7 @@ export function PortalDashboard() {
         {licenseLoading ? (
           <div className="flex items-center justify-center py-32">
             <div className="flex flex-col items-center gap-4">
-              <div
-                className="w-8 h-8"
-                style={{
-                  background: 'rgba(245,158,11,0.1)',
-                  border: '1px solid rgba(245,158,11,0.3)',
-                  transform: 'rotate(45deg)',
-                  animation: 'pulse 1.5s ease-in-out infinite',
-                }}
-              />
+              <div className="w-8 h-8" style={STYLES.loadingBox} />
               <span className="text-xs text-metallic-500 tracking-widest uppercase">
                 Loading systems…
               </span>
@@ -165,7 +193,7 @@ export function PortalDashboard() {
 
             {/* Products grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
-              {products
+              {PRODUCTS
                 .filter((product) => {
                   // For TIER_3, only show PIRAS (it includes RAS Core and Enterprise)
                   if (tier === 'TIER_3') {
@@ -180,39 +208,21 @@ export function PortalDashboard() {
                 if (isActive) {
                   // Active or Included product card
                   const statusBadge = isIncluded ? 'INCLUDED' : 'ACTIVE'
-                  const statusColor = isIncluded 
-                    ? { bg: 'rgba(168,168,180,0.08)', border: 'rgba(168,168,180,0.2)', text: '#a8a8b4' }
-                    : { bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.2)', text: '#10b981' }
+                  const statusColor = isIncluded ? STATUS_COLORS.included : STATUS_COLORS.active
 
                   return (
-                    <div
-                      key={product.id}
-                      className="group relative flex flex-col transition-all duration-300"
-                      style={{
-                        background: 'rgba(17,17,19,0.95)',
-                        border: '1px solid rgba(168,168,180,0.08)',
-                      }}
-                    >
+                    <div key={product.id} className="group relative flex flex-col transition-all duration-300" style={STYLES.card}>
                       {/* Hover top accent */}
                       <div
                         className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{
-                          background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.4), transparent)',
-                        }}
+                        style={STYLES.cardHoverAccent}
                       />
 
                       <div className="p-6 flex flex-col gap-4">
                         {/* Header row */}
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <span
-                              className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1 inline-block mb-3"
-                              style={{
-                                color: '#f59e0b',
-                                background: 'rgba(245,158,11,0.08)',
-                                border: '1px solid rgba(245,158,11,0.15)',
-                              }}
-                            >
+                            <span className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1 inline-block mb-3" style={STYLES.tagVision}>
                               {product.tag}
                             </span>
                             <h3 className="text-lg font-bold text-metallic-100 tracking-tight leading-tight">
@@ -243,11 +253,7 @@ export function PortalDashboard() {
                         <Link
                           to="/portal/downloads"
                           className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
-                          style={{
-                            background: 'rgba(245,158,11,0.08)',
-                            border: '1px solid rgba(245,158,11,0.25)',
-                            color: '#fbbf24',
-                          }}
+                          style={STYLES.downloadButton}
                         >
                           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                             <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
@@ -277,13 +283,7 @@ export function PortalDashboard() {
             </div>
 
             {/* Support note */}
-            <div
-              className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-              style={{
-                background: 'rgba(17,17,19,0.8)',
-                border: '1px solid rgba(168,168,180,0.06)',
-              }}
-            >
+            <div className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={STYLES.supportCard}>
               <div>
                 <p className="text-sm font-medium text-metallic-300 mb-1">
                   Need installation support?
@@ -298,11 +298,7 @@ export function PortalDashboard() {
                   openContact(CONFIG.emails.installationSupport, template.subject, template.body)
                 }}
                 className="flex-shrink-0 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase transition-colors duration-200"
-                style={{
-                  color: '#f59e0b',
-                  border: '1px solid rgba(245,158,11,0.2)',
-                  background: 'rgba(245,158,11,0.05)',
-                }}
+                style={STYLES.supportButton}
               >
                 Contact Support
               </button>

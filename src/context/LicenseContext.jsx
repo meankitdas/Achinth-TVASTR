@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useMemo } from 'react'
 import { useAuth } from './AuthContext'
 import { supabase } from '../lib/supabaseClient'
 import { getCapabilities } from '../lib/capabilities'
@@ -70,8 +70,14 @@ export function LicenseProvider({ children }) {
 
   const capabilities = tier ? getCapabilities(tier) : null
 
+  // Memoize context value to prevent unnecessary re-renders
+  const value = useMemo(
+    () => ({ tier, customerName, licenseKey, capabilities, loading, error }),
+    [tier, customerName, licenseKey, capabilities, loading, error]
+  )
+
   return (
-    <LicenseContext.Provider value={{ tier, customerName, licenseKey, capabilities, loading, error }}>
+    <LicenseContext.Provider value={value}>
       {children}
     </LicenseContext.Provider>
   )

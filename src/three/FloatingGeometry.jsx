@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { OctahedronGeometry, TetrahedronGeometry, IcosahedronGeometry } from 'three'
 
@@ -44,6 +44,15 @@ export function FloatingGeometry() {
   const octaGeom = useMemo(() => new OctahedronGeometry(0.08, 0), [])
   const tetraGeom = useMemo(() => new TetrahedronGeometry(0.07, 0), [])
   const icoGeom = useMemo(() => new IcosahedronGeometry(0.05, 0), [])
+
+  // Dispose geometries on unmount to prevent WebGL memory leak
+  useEffect(() => {
+    return () => {
+      octaGeom.dispose()
+      tetraGeom.dispose()
+      icoGeom.dispose()
+    }
+  }, [octaGeom, tetraGeom, icoGeom])
 
   // Deterministic particle layout — spread around the hero canvas
   const particles = useMemo(() => [
