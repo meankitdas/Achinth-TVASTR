@@ -299,7 +299,7 @@ export function PortalDashboard() {
                 .map((product, i) => {
                 const isActive = capabilities?.[product.capability]
                 const isIncluded = tier && TIER_ORDER[tier] > TIER_ORDER[product.requiredTier]
-                const productVersions = versions[product.id]
+                const productVersions = versions[product.id] || Object.values(versions)[0]
 
                 if (isActive) {
                   // Unified active product card with download functionality
