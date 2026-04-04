@@ -136,10 +136,10 @@ export function ContactSection() {
 
           {/* Nav links */}
           <nav className="flex items-center gap-6">
-            {['About', 'Systems', 'Philosophy'].map((item) => (
+            {['About', 'Systems', 'Technology'].map((item) => (
               <a
                 key={item}
-                href={`#${item.toLowerCase() === 'systems' ? 'products' : item.toLowerCase() === 'philosophy' ? 'technology' : item.toLowerCase()}`}
+                href={`#${item.toLowerCase() === 'systems' ? 'products' : item.toLowerCase()}`}
                 className="text-xs text-metallic-500 hover:text-metallic-200 transition-colors duration-200 tracking-wider uppercase"
               >
                 {item}
