@@ -1,11 +1,16 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLicense } from '../context/LicenseContext'
+import { supabase } from '../lib/supabaseClient'
 import { Logo } from '../components/Logo'
 import { LockedProductCard } from '../components/LockedProductCard'
 import { UpgradeBanner } from '../components/UpgradeBanner'
-import { TIER_ORDER, TIER_LABELS } from '../lib/capabilities'
+import { RollbackVersionCard } from '../components/RollbackVersionCard'
+import { TIER_ORDER, TIER_LABELS, isAllowed } from '../lib/capabilities'
 import { CONFIG, openContact } from '../lib/config'
+
+const UPDATE_SERVER_URL = import.meta.env.VITE_UPDATE_SERVER_URL
 
 // Styles extracted to constants for performance
 const STYLES = {
@@ -108,10 +113,105 @@ const PRODUCTS = [
  *   - Plant Intelligence (active for full_stack, locked for others)
  *
  * UI is fully tier-driven — no hardcoded logic.
+ * Download functionality is inline — no redirect to separate downloads page.
  */
 export function PortalDashboard() {
   const { user, signOut } = useAuth()
-  const { tier, customerName, capabilities, loading: licenseLoading } = useLicense()
+  const { tier, customerName, capabilities, loading: licenseLoading, licenseKey } = useLicense()
+  const [versions, setVersions] = useState({}) // { productId: { latest: version, older: [versions] } }
+  const [loadingVersions, setLoadingVersions] = useState(true)
+  const [downloadingVersion, setDownloadingVersion] = useState(null)
+  const [downloadError, setDownloadError] = useState(null)
+  const [expandedProduct, setExpandedProduct] = useState(null)
+
+  // Fetch versions from Supabase
+  useEffect(() => {
+    if (!tier) return
+
+    async function fetchVersions() {
+      setLoadingVersions(true)
+      try {
+        const { data: allVersions, error } = await supabase
+          .from('versions')
+          .select(`
+            version_number,
+            release_date,
+            changelog,
+            file_path,
+            checksum,
+            required_tier,
+            includes_pi,
+            product_id,
+            products (
+              id,
+              name,
+              description
+            )
+          `)
+          .order('release_date', { ascending: false })
+
+        if (error) throw error
+
+        // Filter by tier and organize by product
+        const allowedVersions = allVersions.filter((v) => isAllowed(v, tier))
+        const versionsByProduct = {}
+
+        allowedVersions.forEach((version) => {
+          const productId = version.products.id
+          if (!versionsByProduct[productId]) {
+            versionsByProduct[productId] = { latest: null, older: [] }
+          }
+          if (!versionsByProduct[productId].latest) {
+            versionsByProduct[productId].latest = version
+          } else {
+            versionsByProduct[productId].older.push(version)
+          }
+        })
+
+        setVersions(versionsByProduct)
+      } catch (err) {
+        console.error('[Dashboard] Error fetching versions:', err)
+      } finally {
+        setLoadingVersions(false)
+      }
+    }
+
+    fetchVersions()
+  }, [tier])
+
+  // Handle download
+  const handleDownload = async (productName, versionNumber) => {
+    if (!licenseKey) {
+      setDownloadError('License key not found.')
+      return
+    }
+    if (!UPDATE_SERVER_URL) {
+      setDownloadError('Update server not configured.')
+      return
+    }
+
+    setDownloadingVersion(`${productName}-${versionNumber}`)
+    setDownloadError(null)
+
+    try {
+      const response = await fetch(
+        `${UPDATE_SERVER_URL}/api/download/${encodeURIComponent(productName)}/${encodeURIComponent(versionNumber)}?license_key=${encodeURIComponent(licenseKey)}`
+      )
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData.detail || 'Download failed')
+      }
+
+      const data = await response.json()
+      window.open(data.download_url, '_blank', 'noopener,noreferrer')
+    } catch (err) {
+      setDownloadError(err.message || 'Download failed. Please try again.')
+      console.error('[Download]', err)
+    } finally {
+      setDownloadingVersion(null)
+    }
+  }
 
   return (
     <div className="min-h-screen relative" style={STYLES.background}>
@@ -249,18 +349,104 @@ export function PortalDashboard() {
                           {product.description}
                         </p>
 
-                        {/* Download CTA */}
-                        <Link
-                          to="/portal/downloads"
-                          className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
-                          style={STYLES.downloadButton}
-                        >
-                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                            <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                            <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                          </svg>
-                          Download Latest
-                        </Link>
+                        {/* Version info and download */}
+                        {loadingVersions ? (
+                          <div className="flex items-center justify-center py-4 text-xs text-metallic-500">
+                            Loading versions...
+                          </div>
+                        ) : versions[product.id]?.latest ? (
+                          <div className="space-y-3 mt-auto">
+                            {/* Latest version info */}
+                            <div className="text-xs text-metallic-400 space-y-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-amber-forge font-mono font-semibold">v{versions[product.id].latest.version_number}</span>
+                                <span>·</span>
+                                <span>{new Date(versions[product.id].latest.release_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                              </div>
+                              {versions[product.id].latest.changelog && (
+                                <p className="text-metallic-500 leading-relaxed">{versions[product.id].latest.changelog}</p>
+                              )}
+                            </div>
+
+                            {/* Download error */}
+                            {downloadError && (
+                              <p className="text-xs text-red-400">{downloadError}</p>
+                            )}
+
+                            {/* Download button */}
+                            <button
+                              onClick={() => handleDownload(versions[product.id].latest.products.name, versions[product.id].latest.version_number)}
+                              disabled={downloadingVersion === `${versions[product.id].latest.products.name}-${versions[product.id].latest.version_number}`}
+                              className="w-full flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50"
+                              style={STYLES.downloadButton}
+                            >
+                              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                              </svg>
+                              {downloadingVersion === `${versions[product.id].latest.products.name}-${versions[product.id].latest.version_number}` 
+                                ? 'Generating link...' 
+                                : `Download v${versions[product.id].latest.version_number}`}
+                            </button>
+
+                            {/* Older versions (collapsible) */}
+                            {versions[product.id].older.length > 0 && (
+                              <div className="pt-2" style={{ borderTop: '1px solid rgba(168,168,180,0.06)' }}>
+                                <button
+                                  onClick={() => setExpandedProduct(expandedProduct === product.id ? null : product.id)}
+                                  className="w-full text-xs text-metallic-500 hover:text-metallic-300 transition-colors duration-200 flex items-center justify-between py-2"
+                                >
+                                  <span>Older Versions ({versions[product.id].older.length})</span>
+                                  <svg 
+                                    width="12" 
+                                    height="12" 
+                                    viewBox="0 0 12 12" 
+                                    fill="none"
+                                    style={{ transform: expandedProduct === product.id ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                                  >
+                                    <path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                                  </svg>
+                                </button>
+
+                                {expandedProduct === product.id && (
+                                  <div className="space-y-2 mt-2">
+                                    {versions[product.id].older.map((version) => (
+                                      <div
+                                        key={version.version_number}
+                                        className="p-3 flex items-center justify-between gap-3"
+                                        style={{ background: 'rgba(10,10,11,0.5)', border: '1px solid rgba(168,168,180,0.06)' }}
+                                      >
+                                        <div className="flex-1 min-w-0">
+                                          <div className="flex items-center gap-2 text-xs">
+                                            <span className="text-amber-forge font-mono font-semibold">v{version.version_number}</span>
+                                            <span className="text-metallic-600">·</span>
+                                            <span className="text-metallic-500">{new Date(version.release_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short' })}</span>
+                                          </div>
+                                        </div>
+                                        <button
+                                          onClick={() => handleDownload(version.products.name, version.version_number)}
+                                          disabled={downloadingVersion === `${version.products.name}-${version.version_number}`}
+                                          className="px-4 py-1.5 text-xs font-semibold tracking-wider uppercase transition-all duration-200 disabled:opacity-50 whitespace-nowrap"
+                                          style={{
+                                            background: 'rgba(245,158,11,0.08)',
+                                            border: '1px solid rgba(245,158,11,0.25)',
+                                            color: '#fbbf24',
+                                          }}
+                                        >
+                                          {downloadingVersion === `${version.products.name}-${version.version_number}` ? 'Loading...' : 'Download'}
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center py-4 text-xs text-metallic-500">
+                            No releases available yet.
+                          </div>
+                        )}
                       </div>
                     </div>
                   )
