@@ -7,6 +7,7 @@ import { Logo } from '../components/Logo'
 import { LockedProductCard } from '../components/LockedProductCard'
 import { UpgradeBanner } from '../components/UpgradeBanner'
 import { RollbackVersionCard } from '../components/RollbackVersionCard'
+import { ProductDownloadCard } from '../components/ProductDownloadCard'
 import { TIER_ORDER, TIER_LABELS, isAllowed } from '../lib/capabilities'
 import { CONFIG, openContact } from '../lib/config'
 
@@ -228,12 +229,6 @@ export function PortalDashboard() {
 
           <div className="flex items-center gap-6">
             <Link
-              to="/portal/downloads"
-              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
-            >
-              Downloads
-            </Link>
-            <Link
               to="/portal/manual"
               className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
             >
@@ -306,7 +301,7 @@ export function PortalDashboard() {
                 const isIncluded = tier && TIER_ORDER[tier] > TIER_ORDER[product.requiredTier]
 
                 if (isActive) {
-                  // Active or Included product card
+                  // Active or Included product card (info only - no download)
                   const statusBadge = isIncluded ? 'INCLUDED' : 'ACTIVE'
                   const statusColor = isIncluded ? STATUS_COLORS.included : STATUS_COLORS.active
 
@@ -348,105 +343,6 @@ export function PortalDashboard() {
                         <p className="text-sm text-metallic-400 leading-relaxed">
                           {product.description}
                         </p>
-
-                        {/* Version info and download */}
-                        {loadingVersions ? (
-                          <div className="flex items-center justify-center py-4 text-xs text-metallic-500">
-                            Loading versions...
-                          </div>
-                        ) : versions[product.id]?.latest ? (
-                          <div className="space-y-3 mt-auto">
-                            {/* Latest version info */}
-                            <div className="text-xs text-metallic-400 space-y-1">
-                              <div className="flex items-center gap-2">
-                                <span className="text-amber-forge font-mono font-semibold">v{versions[product.id].latest.version_number}</span>
-                                <span>·</span>
-                                <span>{new Date(versions[product.id].latest.release_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                              </div>
-                              {versions[product.id].latest.changelog && (
-                                <p className="text-metallic-500 leading-relaxed">{versions[product.id].latest.changelog}</p>
-                              )}
-                            </div>
-
-                            {/* Download error */}
-                            {downloadError && (
-                              <p className="text-xs text-red-400">{downloadError}</p>
-                            )}
-
-                            {/* Download button */}
-                            <button
-                              onClick={() => handleDownload(versions[product.id].latest.products.name, versions[product.id].latest.version_number)}
-                              disabled={downloadingVersion === `${versions[product.id].latest.products.name}-${versions[product.id].latest.version_number}`}
-                              className="w-full flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50"
-                              style={STYLES.downloadButton}
-                            >
-                              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                                <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                              </svg>
-                              {downloadingVersion === `${versions[product.id].latest.products.name}-${versions[product.id].latest.version_number}` 
-                                ? 'Generating link...' 
-                                : `Download v${versions[product.id].latest.version_number}`}
-                            </button>
-
-                            {/* Older versions (collapsible) */}
-                            {versions[product.id].older.length > 0 && (
-                              <div className="pt-2" style={{ borderTop: '1px solid rgba(168,168,180,0.06)' }}>
-                                <button
-                                  onClick={() => setExpandedProduct(expandedProduct === product.id ? null : product.id)}
-                                  className="w-full text-xs text-metallic-500 hover:text-metallic-300 transition-colors duration-200 flex items-center justify-between py-2"
-                                >
-                                  <span>Older Versions ({versions[product.id].older.length})</span>
-                                  <svg 
-                                    width="12" 
-                                    height="12" 
-                                    viewBox="0 0 12 12" 
-                                    fill="none"
-                                    style={{ transform: expandedProduct === product.id ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
-                                  >
-                                    <path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                                  </svg>
-                                </button>
-
-                                {expandedProduct === product.id && (
-                                  <div className="space-y-2 mt-2">
-                                    {versions[product.id].older.map((version) => (
-                                      <div
-                                        key={version.version_number}
-                                        className="p-3 flex items-center justify-between gap-3"
-                                        style={{ background: 'rgba(10,10,11,0.5)', border: '1px solid rgba(168,168,180,0.06)' }}
-                                      >
-                                        <div className="flex-1 min-w-0">
-                                          <div className="flex items-center gap-2 text-xs">
-                                            <span className="text-amber-forge font-mono font-semibold">v{version.version_number}</span>
-                                            <span className="text-metallic-600">·</span>
-                                            <span className="text-metallic-500">{new Date(version.release_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short' })}</span>
-                                          </div>
-                                        </div>
-                                        <button
-                                          onClick={() => handleDownload(version.products.name, version.version_number)}
-                                          disabled={downloadingVersion === `${version.products.name}-${version.version_number}`}
-                                          className="px-4 py-1.5 text-xs font-semibold tracking-wider uppercase transition-all duration-200 disabled:opacity-50 whitespace-nowrap"
-                                          style={{
-                                            background: 'rgba(245,158,11,0.08)',
-                                            border: '1px solid rgba(245,158,11,0.25)',
-                                            color: '#fbbf24',
-                                          }}
-                                        >
-                                          {downloadingVersion === `${version.products.name}-${version.version_number}` ? 'Loading...' : 'Download'}
-                                        </button>
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center py-4 text-xs text-metallic-500">
-                            No releases available yet.
-                          </div>
-                        )}
                       </div>
                     </div>
                   )
@@ -466,7 +362,51 @@ export function PortalDashboard() {
                   )
                 }
               })}
+
+              {/* Download card - shows beside product card for active products */}
+              {!loadingVersions && Object.keys(versions).length > 0 && Object.entries(versions).map(([productId, { latest, older }]) => {
+                if (!latest) return null
+                
+                const product = latest.products
+                return (
+                  <ProductDownloadCard
+                    key={`download-${productId}`}
+                    product={product}
+                    version={latest}
+                    index={1}
+                  />
+                )
+              })}
             </div>
+
+            {/* Older versions rollback section */}
+            {!loadingVersions && Object.entries(versions).some(([_, { older }]) => older.length > 0) && (
+              <div className="mb-10">
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-6 h-px bg-metallic-600 opacity-40" />
+                    <span className="text-xs font-semibold tracking-[0.3em] uppercase text-metallic-500 opacity-60">
+                      Version Rollback
+                    </span>
+                  </div>
+                  <p className="text-sm text-metallic-400">
+                    Previous stable releases available for rollback or compatibility testing.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {Object.entries(versions).map(([productId, { older }]) =>
+                    older.map((version) => (
+                      <RollbackVersionCard
+                        key={`${productId}-${version.version_number}`}
+                        product={version.products}
+                        version={version}
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Support note */}
             <div className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={STYLES.supportCard}>
