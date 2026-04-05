@@ -134,9 +134,11 @@ export function RejectionAnalysisSystem() {
         <SystemWorkflow
           steps={[
             'Capture Casting Image',
+            'Verify Image Quality',
             'Detect & Localise Defects',
             'Dense Surface Analysis',
             'Severity & Spatial Scoring',
+            'Root Cause Reasoning',
             'Casting-Level Decision',
             'Process Section Linkage',
             'Structured Logging',
@@ -208,12 +210,14 @@ export function RejectionAnalysisSystem() {
           'Surface risk modelling across the full casting geometry',
           'Defect localisation and classification by type',
           'Severity scoring per defect and per surface zone',
+          'Recurring defect pattern recognition across production runs',
+          'Adaptive calibration per part type',
         ]}
       >
         <div className="mt-6 p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
           <p className="text-sm font-semibold text-gray-700 mb-3">Decision Engine Rules</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {['Area thresholds', 'Defect severity weights', 'Critical zone sensitivity', 'Customer-specific rules'].map((rule, i) => (
+            {['Area thresholds', 'Defect severity weights', 'Zone-based inspection sensitivity', 'Critical zone sensitivity', 'Customer-specific rules'].map((rule, i) => (
               <div key={i} className="text-sm text-slate-600 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-slate-300" />{rule}
               </div>
@@ -226,7 +230,7 @@ export function RejectionAnalysisSystem() {
       <SystemDetailSection
         label="10 / Root Cause Mapping"
         title="Root Cause Mapping"
-        body="Each inspection event carries structured manufacturing context. Aggregated across multiple inspections, these records reveal recurring process-level patterns and their likely root causes."
+        body="Each inspection event carries structured manufacturing context. Aggregated across multiple inspections, these records reveal recurring process-level patterns and their likely root causes. The system generates plain-language root cause explanations alongside statistical patterns."
       >
         {/* Two-column diagnostic layout */}
         <div className="mt-6 flex flex-col md:flex-row items-stretch gap-0">
