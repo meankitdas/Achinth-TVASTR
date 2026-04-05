@@ -50,8 +50,9 @@ export function Navbar() {
   // (it's only accessible from within the portal at /portal/pi)
   const navLinks = [
     { label: 'Home', action: () => scrollTo('hero') },
-    { label: 'Systems', action: () => scrollTo('products') },
+    { label: 'About', action: () => scrollTo('about') },
     { label: 'Technology', action: () => scrollTo('technology') },
+    { label: 'Systems', action: () => scrollTo('products') },
   ]
 
   return (

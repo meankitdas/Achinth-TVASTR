@@ -9,7 +9,6 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { HeroSection } from './components/HeroSection'
 import { AboutSection } from './components/AboutSection'
 import { EcosystemSection } from './components/EcosystemSection'
-import { DeploymentSection } from './components/DeploymentSection'
 import { ProductSlider } from './components/ProductSlider'
 import { ContactSection } from './components/ContactSection'
 
@@ -42,7 +41,6 @@ function HomePage() {
       <HeroSection />
       <AboutSection />
       <EcosystemSection />
-      <DeploymentSection />
       <ProductSlider />
       <ContactSection />
     </main>

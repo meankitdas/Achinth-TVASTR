@@ -174,27 +174,72 @@ export function EcosystemSection() {
           />
         </div>
 
-        {/* Modular Architecture note */}
-        <div
-          className="reveal reveal-delay-4 mt-16 mx-auto max-w-[560px] p-6"
-          style={{
-            border: '1px solid rgba(168,168,180,0.08)',
-            background: 'rgba(26,26,30,0.5)',
-          }}
-        >
-          <div className="flex items-center gap-3 mb-3">
+        {/* Deployment & Architecture note */}
+        <div className="reveal reveal-delay-4 mt-16 mx-auto max-w-[700px]">
+          <div className="flex items-center gap-3 mb-6">
             <div className="w-4 h-px bg-amber-forge opacity-60" />
             <span className="text-xs font-semibold tracking-[0.25em] uppercase text-amber-forge opacity-60">
-              Modular Architecture
+              Deployment & Architecture
             </span>
           </div>
-          <p className="text-sm text-metallic-300 leading-relaxed mb-2">
-            Tvastr systems are modular.
-          </p>
-          <p className="text-sm text-metallic-400 leading-relaxed">
-            Rejection Analysis System and Plant Intelligence can be deployed independently
-            or combined to create a complete manufacturing intelligence platform.
-          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* Left: Tier-Based Architecture */}
+            <div
+              className="p-6"
+              style={{
+                border: '1px solid rgba(168,168,180,0.08)',
+                background: 'rgba(26,26,30,0.5)',
+              }}
+            >
+              <p className="text-sm text-metallic-300 leading-relaxed mb-2">
+                Tvastr is built in tiers.
+              </p>
+              <p className="text-sm text-metallic-400 leading-relaxed">
+                Start with the Rejection Analysis System for AI-powered inspection, then upgrade to Plant Intelligence for plant-wide analytics. Individual features and technologies within each tier are modular and upgradable.
+              </p>
+            </div>
+
+            {/* Right: On-Premise Deployment */}
+            <div
+              className="p-6"
+              style={{
+                border: '1px solid rgba(168,168,180,0.08)',
+                background: 'rgba(26,26,30,0.5)',
+              }}
+            >
+              <p className="text-sm text-metallic-300 leading-relaxed mb-3">
+                Industrial deployment model:
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2 text-xs text-metallic-400">
+                  <span className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5" style={{ background: 'rgba(245,158,11,0.5)' }} />
+                  Runs on-premise inside the plant network
+                </li>
+                <li className="flex items-start gap-2 text-xs text-metallic-400">
+                  <span className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5" style={{ background: 'rgba(245,158,11,0.5)' }} />
+                  Processes casting images locally in real time
+                </li>
+                <li className="flex items-start gap-2 text-xs text-metallic-400">
+                  <span className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5" style={{ background: 'rgba(245,158,11,0.5)' }} />
+                  Integrates with ERP or MES systems
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Network boundary note */}
+          <div
+            className="px-5 py-3"
+            style={{
+              border: '1px dashed rgba(245,158,11,0.15)',
+              background: 'rgba(245,158,11,0.02)',
+            }}
+          >
+            <p className="text-xs text-center text-metallic-500">
+              All components operate within the plant network boundary. Inspection data remains on-site while enabling advanced analytics.
+            </p>
+          </div>
         </div>
       </div>
     </section>
