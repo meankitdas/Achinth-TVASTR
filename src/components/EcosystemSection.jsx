@@ -119,59 +119,114 @@ export function EcosystemSection() {
 
           <EcosystemCard
             icon="📷"
-            title="Inspection Images"
-            subtitle="Surface images captured during casting inspection at the foundry floor."
+            title="Casting Image Capture"
+            subtitle="Surface images from inspection station (single casting or batch queue)"
             delay={1}
           />
 
           <FlowArrow />
 
           <EcosystemCard
-            icon="⬡"
-            title="Rejection Analysis System"
-            subtitle="AI-powered defect detection and rejection diagnostics applied to each casting image."
+            icon="🔍"
+            title="Quality Gate & Defect Detection"
+            subtitle="Image verification and AI-powered surface analysis"
             bullets={[
-              'Defect detection and classification',
-              'Severity scoring per surface zone',
-              'Traceable inspection records',
-              'Root cause indicators',
+              'Image quality verification',
+              'AI defect detection (6 defect types)',
+              'Full surface analysis + defect heatmap',
             ]}
-            accent
-            delay={2}
+            delay={1}
           />
 
           <FlowArrow />
 
-          <EcosystemCard
-            icon="◈"
-            title="Structured Inspection Data"
-            subtitle="Each inspection becomes a structured manufacturing record. This creates a continuous data stream across production."
-            bullets={[
-              'Heat number',
-              'Mold identifier',
-              'Production shift',
-              'Operator',
-              'Defect types and locations',
-            ]}
-            delay={2}
-          />
+          <div className="relative w-full max-w-[560px]">
+            <EcosystemCard
+              icon="⬡"
+              title="Diagnosis & Decision"
+              subtitle="Root cause analysis and casting-level decision"
+              bullets={[
+                'Zone mapping (cope, drag, gate area)',
+                'Root cause reasoning (shape / AI / rules)',
+                'Casting decision: Accept / Check / Reject',
+                'Defect fingerprinting (recurring patterns)',
+                'PDF report + traceable inspection record',
+              ]}
+              accent
+              delay={2}
+            />
+            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 hidden lg:block">
+              <span className="text-xs font-semibold tracking-wider text-amber-forge opacity-60">
+                TIER 1
+              </span>
+            </div>
+          </div>
 
           <FlowArrow />
 
-          <EcosystemCard
-            icon="◎"
-            title="Plant Intelligence"
-            subtitle="Plant-level analytics and decision intelligence built on accumulated inspection data."
-            bullets={[
-              'Rejection trend analysis',
-              'Defect pattern detection',
-              'Process risk scoring',
-              'Statistical process control',
-              'Plant quality dashboards',
-            ]}
-            accent
-            delay={3}
-          />
+          <div className="relative w-full max-w-[560px]">
+            <EcosystemCard
+              icon="🔗"
+              title="Process Intelligence"
+              subtitle="ERP integration and cross-part learning"
+              bullets={[
+                'ERP/MES integration (heat, mold, shift)',
+                'Defect graph (cross-part patterns)',
+                'Drift detection (rejection rate shifts)',
+                'Heat intelligence (per-batch analysis)',
+                'Self-tuning inspection sensitivity',
+              ]}
+              delay={2}
+            />
+            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 hidden lg:block">
+              <span className="text-xs font-semibold tracking-wider text-amber-forge opacity-60">
+                TIER 2
+              </span>
+            </div>
+          </div>
+
+          <FlowArrow />
+
+          <div className="relative w-full max-w-[560px]">
+            <EcosystemCard
+              icon="◎"
+              title="Plant Intelligence"
+              subtitle="Plant-wide analytics and decision intelligence"
+              bullets={[
+                'Quality frameworks (FMEA, Fishbone, SPC)',
+                'Process risk monitoring + anomaly alerts',
+                'Cost of quality analytics',
+                'Natural language queries',
+                'Decision intelligence + action tracking',
+                'Automated daily/weekly reports',
+              ]}
+              accent
+              delay={3}
+            />
+            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 hidden lg:block">
+              <span className="text-xs font-semibold tracking-wider text-amber-forge opacity-60">
+                TIER 3
+              </span>
+            </div>
+          </div>
+
+          {/* Continuous Improvement Loop */}
+          <div className="reveal reveal-delay-4 mt-8 w-full max-w-[560px]">
+            <div
+              className="p-5 text-center"
+              style={{
+                border: '1px dashed rgba(245,158,11,0.25)',
+                background: 'rgba(245,158,11,0.03)',
+              }}
+            >
+              <p className="text-xs font-semibold text-amber-forge mb-2 tracking-wider uppercase">
+                Continuous Improvement Loop
+              </p>
+              <p className="text-xs text-metallic-400 leading-relaxed">
+                Supervisor corrections improve AI models. Process insights drive manufacturing change. Self-tuning adjusts sensitivity over time.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Deployment & Architecture note */}
