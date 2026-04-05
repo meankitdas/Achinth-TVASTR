@@ -67,6 +67,51 @@
     to   { transform: rotate(360deg); }
   }
 
+  /* Belt chevron scrolling — conveyor belt animation */
+  @keyframes beltMove {
+    from { transform: translateX(0); }
+    to   { transform: translateX(80px); }
+  }
+
+  @keyframes beltMoveVertical {
+    from { transform: translateY(0); }
+    to   { transform: translateY(80px); }
+  }
+
+  .belt-chevrons {
+    animation: beltMove 3s linear infinite;
+  }
+
+  .belt-chevrons-mobile {
+    animation: beltMoveVertical 3s linear infinite;
+  }
+
+  /* Tile active glow — applied to the tile the orb is currently passing through */
+  .tile-active-glow {
+    box-shadow: 0 0 25px rgba(245,158,11,0.5), inset 0 0 25px rgba(245,158,11,0.15) !important;
+  }
+
+  /* Disable animations for users with reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .belt-chevrons,
+    .belt-chevrons-mobile,
+    .animated-spheres,
+    .animated-spheres-mobile,
+    .return-spheres,
+    .return-spheres-mobile,
+    .animate-belt-travel,
+    .animate-belt-turn {
+      animation: none !important;
+    }
+    
+    .animated-spheres circle,
+    .animated-spheres-mobile circle,
+    .return-spheres circle,
+    .return-spheres-mobile circle {
+      display: none;
+    }
+  }
+
   /* Grid background pattern — used via .bg-grid class */
   .bg-grid {
     background-image:

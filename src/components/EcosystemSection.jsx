@@ -1,86 +1,243 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useEffect, useRef, useState } from 'react'
 
 /**
- * FlowArrow — SVG down-arrow connector between ecosystem cards.
+ * CapabilityTile — Compact tile representing a single capability in the pipeline.
  */
-function FlowArrow() {
+function CapabilityTile({ icon, title, description, accent, isActive, tileRef }) {
   return (
-    <div className="flex items-center justify-center h-10">
-      <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
-        <line x1="12" y1="0" x2="12" y2="22" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
-        <path d="M5 16l7 10 7-10" stroke="rgba(245,158,11,0.4)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    <div
+      ref={tileRef}
+      className={`relative flex flex-col items-center justify-center text-center p-4 flex-1 min-h-[110px] transition-shadow duration-300 ${
+        isActive ? 'tile-active-glow' : ''
+      }`}
+      style={{
+        background: accent ? 'rgba(245,158,11,0.06)' : 'rgba(26,26,30,0.8)',
+        border: accent ? '1px solid rgba(245,158,11,0.25)' : '1px solid rgba(168,168,180,0.1)',
+        backdropFilter: 'blur(12px)',
+        minWidth: '140px',
+      }}
+    >
+      <div className="text-2xl mb-2">{icon}</div>
+      <h4 className={`text-xs md:text-sm font-bold mb-1 ${accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
+        {title}
+      </h4>
+      <p className="text-xs text-metallic-500 leading-snug">{description}</p>
+    </div>
+  )
+}
+
+/**
+ * BeltConnector — Horizontal belt segment.
+ */
+function BeltConnector() {
+  return (
+    <div className="hidden md:flex items-center justify-center relative flex-shrink-0" style={{ width: '50px' }}>
+      <div className="w-full h-px bg-amber-forge opacity-30" />
+      <div className="absolute right-0 w-2 h-2 border-r border-t border-amber-forge opacity-40 transform rotate-45 -mr-1" />
+    </div>
+  )
+}
+
+/**
+ * RowTurn — Full-width U-turn connector from end of one row to start of next.
+ */
+function RowTurn({ turnRef }) {
+  return (
+    <div ref={turnRef} className="hidden md:block relative w-full" style={{ height: '50px' }}>
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 50" preserveAspectRatio="none">
+        <path
+          d="M 980 0 L 980 30 L 20 30 L 20 50"
+          fill="none"
+          stroke="rgba(245,158,11,0.3)"
+          strokeWidth="1"
+        />
+        <path d="M 978 8 L 980 12 L 982 8" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
+        <path d="M 18 42 L 20 46 L 22 42" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
       </svg>
     </div>
   )
 }
 
 /**
- * EcosystemCard — A single node in the flow diagram.
- *
- * Props:
- *   icon     — small emoji/symbol for the card header
- *   title    — card heading
- *   subtitle — short description line
- *   bullets  — optional string[] of output/content items
- *   accent   — if true, uses amber-tinted border to highlight key system nodes
- *   delay    — reveal delay class suffix (1-4)
- */
-function EcosystemCard({ icon, title, subtitle, bullets, accent, delay }) {
-  return (
-    <div
-      className={`reveal reveal-delay-${delay} relative p-6 w-full max-w-[560px] mx-auto`}
-      style={{
-        background: accent ? 'rgba(245,158,11,0.04)' : 'rgba(26,26,30,0.8)',
-        border: accent ? '1px solid rgba(245,158,11,0.2)' : '1px solid rgba(168,168,180,0.08)',
-        backdropFilter: 'blur(8px)',
-      }}
-    >
-      {/* Left accent bar */}
-      <div
-        className="absolute left-0 top-0 bottom-0 w-px"
-        style={{
-          background: accent
-            ? 'linear-gradient(to bottom, transparent, rgba(245,158,11,0.6), transparent)'
-            : 'linear-gradient(to bottom, transparent, rgba(168,168,180,0.15), transparent)',
-        }}
-      />
-
-      <div className="flex items-start gap-4">
-        <span className="text-xl flex-shrink-0 mt-0.5">{icon}</span>
-        <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-bold text-metallic-100 tracking-wide mb-1">{title}</h3>
-          <p className="text-xs text-metallic-400 leading-relaxed mb-3">{subtitle}</p>
-
-          {bullets && bullets.length > 0 && (
-            <ul className="space-y-1.5">
-              {bullets.map((b, i) => (
-                <li key={i} className="flex items-center gap-2 text-xs text-metallic-500">
-                  <span
-                    className="flex-shrink-0 w-1 h-1 rounded-full"
-                    style={{ background: accent ? 'rgba(245,158,11,0.5)' : 'rgba(168,168,180,0.3)' }}
-                  />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/**
- * EcosystemSection — Manufacturing Intelligence Ecosystem.
- *
- * Shows the data flow from raw inspection images through RAS and structured
- * records into Plant Intelligence analytics. Demonstrates how the two products
- * relate to each other in a real factory deployment.
- *
- * Inserted between AboutSection and ProductSlider on the homepage.
+ * EcosystemSection — Manufacturing Intelligence Ecosystem with serpentine conveyor belt.
  */
 export function EcosystemSection() {
   const ref = useScrollReveal()
+  const containerRef = useRef(null)
+  
+  // Refs for all 15 tiles and 2 U-turn connectors
+  const tileRefs = useRef([])
+  const turn1Ref = useRef(null) // U-turn between row 1 and 2
+  const turn2Ref = useRef(null) // U-turn between row 2 and 3
+  
+  // State for orb position and active tile
+  const [orbPosition, setOrbPosition] = useState({ x: 0, y: 0 })
+  const [activeTileIndex, setActiveTileIndex] = useState(-1)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    // Check if the section is visible on screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.2 }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    // Don't run animation if not visible or no tiles
+    if (!isVisible || tileRefs.current.length < 15) return
+
+    let animationFrameId
+    const cycleDuration = 45000 // 45 seconds for full cycle
+    let startTime = Date.now()
+
+    // Build waypoints from actual tile positions
+    const buildWaypoints = () => {
+      const container = containerRef.current
+      if (!container) return []
+
+      const containerRect = container.getBoundingClientRect()
+      const waypoints = []
+
+      // Get positions of all 15 tiles relative to container
+      tileRefs.current.forEach((tileEl, index) => {
+        if (!tileEl) return
+        const rect = tileEl.getBoundingClientRect()
+        const centerX = rect.left + rect.width / 2 - containerRect.left
+        const centerY = rect.top + rect.height / 2 - containerRect.top
+
+        waypoints.push({
+          x: centerX,
+          y: centerY,
+          tileIndex: index,
+          isUTurn: false,
+        })
+
+        // Add U-turn waypoints after tiles 4 and 9
+        if (index === 4 || index === 9) {
+          const nextTile = tileRefs.current[index + 1]
+          const turnRef = index === 4 ? turn1Ref.current : turn2Ref.current
+          
+          if (nextTile && turnRef) {
+            const nextRect = nextTile.getBoundingClientRect()
+            const nextCenterX = nextRect.left + nextRect.width / 2 - containerRect.left
+            const nextCenterY = nextRect.top + nextRect.height / 2 - containerRect.top
+
+            // Get the U-turn connector's actual position
+            const turnRect = turnRef.getBoundingClientRect()
+            const turnTop = turnRect.top - containerRect.top
+            const turnHeight = turnRect.height
+
+            // Get the actual container width for the U-turn path
+            // SVG path uses viewBox="0 0 1000 50" with path "M 980 0 L 980 30 L 20 30 L 20 50"
+            const containerWidth = containerRect.width
+            const rightEdge = containerWidth * 0.98 // 980/1000 = 98%
+            const leftEdge = containerWidth * 0.02 // 20/1000 = 2%
+
+            // Calculate the horizontal line position (30/50 = 60% of turn height)
+            const midY = turnTop + (turnHeight * 0.6)
+
+            // U-turn intermediate points following the SVG path exactly
+            // Path: tile center → right edge → down to horizontal line → across to left edge → down → next tile center
+            waypoints.push({
+              x: rightEdge,
+              y: centerY,
+              tileIndex: index,
+              isUTurn: true,
+            })
+            waypoints.push({
+              x: rightEdge,
+              y: midY,
+              tileIndex: index,
+              isUTurn: true,
+            })
+            waypoints.push({
+              x: leftEdge,
+              y: midY,
+              tileIndex: index,
+              isUTurn: true,
+            })
+            waypoints.push({
+              x: leftEdge,
+              y: nextCenterY,
+              tileIndex: index + 1,
+              isUTurn: true,
+            })
+          }
+        }
+      })
+
+      return waypoints
+    }
+
+    const waypoints = buildWaypoints()
+    if (waypoints.length === 0) return
+
+    // Animation loop
+    const animate = () => {
+      const elapsed = Date.now() - startTime
+      const progress = (elapsed % cycleDuration) / cycleDuration // 0 to 1
+
+      // Calculate total path length
+      const totalSegments = waypoints.length - 1
+      const currentSegment = Math.floor(progress * totalSegments)
+      const segmentProgress = (progress * totalSegments) % 1
+
+      if (currentSegment < totalSegments) {
+        const start = waypoints[currentSegment]
+        const end = waypoints[currentSegment + 1]
+
+        // Interpolate position
+        const x = start.x + (end.x - start.x) * segmentProgress
+        const y = start.y + (end.y - start.y) * segmentProgress
+
+        setOrbPosition({ x, y })
+
+        // Update active tile based on progress through segment
+        // Use end tile when more than 50% through the segment for smoother transition
+        if (!start.isUTurn && !end.isUTurn) {
+          // Both waypoints are tiles - use the one we're closer to
+          const activeTile = segmentProgress > 0.5 ? end.tileIndex : start.tileIndex
+          setActiveTileIndex(activeTile)
+        } else if (!start.isUTurn) {
+          // Moving from tile to U-turn - keep the start tile active
+          setActiveTileIndex(start.tileIndex)
+        } else if (!end.isUTurn) {
+          // Moving from U-turn to tile - activate the end tile
+          setActiveTileIndex(end.tileIndex)
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate)
+    }
+
+    animate()
+
+    // Rebuild waypoints on resize
+    const handleResize = () => {
+      startTime = Date.now() // Reset animation on resize
+    }
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      cancelAnimationFrame(animationFrameId)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isVisible])
+
+  // Helper to assign refs
+  const setTileRef = (index) => (el) => {
+    tileRefs.current[index] = el
+  }
 
   return (
     <section
@@ -90,14 +247,13 @@ export function EcosystemSection() {
     >
       {/* Subtle background glow */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(245,158,11,0.03) 0%, transparent 70%)' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse, rgba(245,158,11,0.04) 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-
+      <div className="relative z-10 w-full px-6 md:px-12 lg:px-16">
         {/* Section label */}
-        <div className="reveal flex items-center gap-3 mb-12">
+        <div className="reveal flex items-center gap-3 mb-12 max-w-7xl mx-auto">
           <div className="w-8 h-px bg-amber-forge opacity-60" />
           <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
             Product Ecosystem
@@ -105,255 +261,217 @@ export function EcosystemSection() {
         </div>
 
         {/* Header */}
-        <div className="reveal mb-4">
-          <h2 className="text-4xl md:text-5xl font-black text-metallic-100 leading-tight tracking-tight">
-            Manufacturing Intelligence Ecosystem
-          </h2>
+        <div className="max-w-7xl mx-auto mb-16">
+          <div className="reveal mb-4">
+            <h2 className="text-4xl md:text-5xl font-black text-metallic-100 leading-tight tracking-tight">
+              Manufacturing Intelligence Ecosystem
+            </h2>
+          </div>
+          <p className="reveal reveal-delay-1 text-base text-metallic-400 max-w-[640px] leading-relaxed">
+            Watch data flow through the complete manufacturing intelligence pipeline — from raw inspection to plant-level insights.
+          </p>
         </div>
-        <p className="reveal reveal-delay-1 text-base text-metallic-400 max-w-[560px] leading-relaxed mb-16">
-          How inspection data becomes plant-level manufacturing intelligence.
-        </p>
 
-        {/* Horizontal layered architecture diagram */}
-        <div className="space-y-6">
+        {/* Serpentine Conveyor Belt Diagram */}
+        <div ref={containerRef} className="reveal reveal-delay-2 space-y-6 max-w-[1400px] mx-auto relative">
+          
+          {/* Single glowing orb - positioned via JS with fade-out at last tile */}
+          <div
+            className="hidden md:block absolute w-3 h-3 rounded-full bg-amber-forge pointer-events-none z-10 transition-opacity duration-1000"
+            style={{
+              left: `${orbPosition.x}px`,
+              top: `${orbPosition.y}px`,
+              transform: 'translate(-50%, -50%)',
+              boxShadow: '0 0 20px rgba(245,158,11,0.9), 0 0 40px rgba(245,158,11,0.6)',
+              opacity: isVisible && activeTileIndex !== -1 ? (activeTileIndex === 14 ? 0.3 : 1) : 0,
+            }}
+          />
 
-          {/* TIER 3: Plant-Level Intelligence */}
-          <div className="reveal reveal-delay-1">
-            <div
-              className="p-6 md:p-8"
-              style={{
-                background: 'rgba(245,158,11,0.04)',
-                border: '1px solid rgba(245,158,11,0.2)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <span className="text-lg">◎</span>
-                <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
-                  Plant-Level Intelligence
-                </h3>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Quality Engineering</p>
-                  <ul className="space-y-1">
-                    {['FMEA', 'Fishbone', 'SPC/Cpk', 'Quality Gates', 'TPM'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Process Risk</p>
-                  <ul className="space-y-1">
-                    {['Anomaly detection', 'Real-time alerts', 'Threshold monitoring', 'Drift tracking'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Cost of Quality</p>
-                  <ul className="space-y-1">
-                    {['Scrap cost by defect', 'Cost by process stage', 'Financial impact analysis'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Natural Language</p>
-                  <ul className="space-y-1">
-                    {['Query plant data', 'Plain language interface', 'Automated insights'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Decision Intelligence</p>
-                  <ul className="space-y-1">
-                    {['Corrective actions', 'Action tracking', 'Daily/weekly reports'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+          {/* ROW 1: Inspection Pipeline */}
+          <div>
+            {/* Row label above */}
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-lg">⬡</span>
+              <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
+                Inspection Pipeline
+              </h3>
             </div>
+            
+            {/* Tiles */}
+            <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
+                <CapabilityTile
+                  icon="📷"
+                  title="Image Capture"
+                  description="Single or batch queue"
+                  accent={true}
+                  isActive={activeTileIndex === 0}
+                  tileRef={setTileRef(0)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="✓"
+                  title="Quality Gate"
+                  description="Image verification"
+                  accent={true}
+                  isActive={activeTileIndex === 1}
+                  tileRef={setTileRef(1)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="🔍"
+                  title="Defect Detection"
+                  description="6 types + heatmap"
+                  accent={true}
+                  isActive={activeTileIndex === 2}
+                  tileRef={setTileRef(2)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="⬡"
+                  title="Diagnosis & Decision"
+                  description="Root cause + Accept/Reject"
+                  accent={true}
+                  isActive={activeTileIndex === 3}
+                  tileRef={setTileRef(3)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="📋"
+                  title="Validation & Audit"
+                  description="Human review + reports"
+                  accent={true}
+                  isActive={activeTileIndex === 4}
+                  tileRef={setTileRef(4)}
+                />
+              </div>
           </div>
 
-          {/* Connector line */}
-          <div className="flex items-center justify-center h-8">
-            <div className="flex flex-col items-center">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <line x1="12" y1="0" x2="12" y2="18" stroke="rgba(245,158,11,0.3)" strokeWidth="1" />
-                <path d="M6 12l6-8 6 8" stroke="rgba(245,158,11,0.3)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="text-xs text-metallic-500 mt-1">data flows up</p>
+          {/* Turn connector Row 1 → Row 2 */}
+          <RowTurn turnRef={turn1Ref} />
+
+          {/* ROW 2: Process Intelligence */}
+          <div>
+            {/* Row label above */}
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-lg">🔗</span>
+              <h3 className="text-sm font-bold text-metallic-100 tracking-wide uppercase">
+                Process Intelligence
+              </h3>
             </div>
+            
+            {/* Tiles */}
+            <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
+                <CapabilityTile
+                  icon="📡"
+                  title="ERP/MES Integration"
+                  description="SQL connection, batch context"
+                  accent={false}
+                  isActive={activeTileIndex === 5}
+                  tileRef={setTileRef(5)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="🔗"
+                  title="Cross-Part Patterns"
+                  description="Defect graph, co-occurrence"
+                  accent={false}
+                  isActive={activeTileIndex === 6}
+                  tileRef={setTileRef(6)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="📈"
+                  title="Drift Detection"
+                  description="Rejection trends, alerts"
+                  accent={false}
+                  isActive={activeTileIndex === 7}
+                  tileRef={setTileRef(7)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="🔥"
+                  title="Heat Intelligence"
+                  description="Per-batch, mold risk"
+                  accent={false}
+                  isActive={activeTileIndex === 8}
+                  tileRef={setTileRef(8)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="⚙"
+                  title="Self-Tuning"
+                  description="Adaptive sensitivity"
+                  accent={false}
+                  isActive={activeTileIndex === 9}
+                  tileRef={setTileRef(9)}
+                />
+              </div>
           </div>
 
-          {/* TIER 2: Process Intelligence */}
-          <div className="reveal reveal-delay-2">
-            <div
-              className="p-6 md:p-8"
-              style={{
-                background: 'rgba(26,26,30,0.8)',
-                border: '1px solid rgba(168,168,180,0.08)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <span className="text-lg">🔗</span>
-                <h3 className="text-sm font-bold text-metallic-100 tracking-wide uppercase">
-                  Process Intelligence
-                </h3>
-              </div>
+          {/* Turn connector Row 2 → Row 3 */}
+          <RowTurn turnRef={turn2Ref} />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">ERP/MES Integration</p>
-                  <ul className="space-y-1">
-                    {['SQL connection', 'Batch ingestion', 'Manufacturing context'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Cross-Part Patterns</p>
-                  <ul className="space-y-1">
-                    {['Defect graph', 'Co-occurrence analysis', 'Pattern recognition'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Drift Detection</p>
-                  <ul className="space-y-1">
-                    {['Rejection rate trends', 'Statistical alerts', 'Baseline comparison'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Heat Intelligence</p>
-                  <ul className="space-y-1">
-                    {['Per-batch analysis', 'Mold risk profiling', 'Metallurgical causes'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs font-semibold text-metallic-200 mb-2">Self-Tuning</p>
-                  <ul className="space-y-1">
-                    {['Adaptive sensitivity', 'Auto-optimization', 'Continuous refinement'].map((item, i) => (
-                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+          {/* ROW 3: Plant-Level Intelligence */}
+          <div>
+            {/* Row label above */}
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-lg">◎</span>
+              <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
+                Plant-Level Intelligence
+              </h3>
             </div>
-          </div>
-
-          {/* Connector line */}
-          <div className="flex items-center justify-center h-8">
-            <div className="flex flex-col items-center">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <line x1="12" y1="0" x2="12" y2="18" stroke="rgba(245,158,11,0.3)" strokeWidth="1" />
-                <path d="M6 12l6-8 6 8" stroke="rgba(245,158,11,0.3)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="text-xs text-metallic-500 mt-1">data flows up</p>
-            </div>
-          </div>
-
-          {/* TIER 1: Inspection Pipeline */}
-          <div className="reveal reveal-delay-3">
-            <div
-              className="p-6 md:p-8"
-              style={{
-                background: 'rgba(245,158,11,0.04)',
-                border: '1px solid rgba(245,158,11,0.2)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <span className="text-lg">⬡</span>
-                <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
-                  Inspection Pipeline
-                </h3>
+            
+            {/* Tiles */}
+            <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
+                <CapabilityTile
+                  icon="📐"
+                  title="Quality Engineering"
+                  description="FMEA, Fishbone, SPC/Cpk"
+                  accent={true}
+                  isActive={activeTileIndex === 10}
+                  tileRef={setTileRef(10)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="⚠"
+                  title="Process Risk"
+                  description="Anomaly detection, alerts"
+                  accent={true}
+                  isActive={activeTileIndex === 11}
+                  tileRef={setTileRef(11)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="💰"
+                  title="Cost of Quality"
+                  description="Scrap cost by defect"
+                  accent={true}
+                  isActive={activeTileIndex === 12}
+                  tileRef={setTileRef(12)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="💬"
+                  title="Natural Language"
+                  description="Query plant data"
+                  accent={true}
+                  isActive={activeTileIndex === 13}
+                  tileRef={setTileRef(13)}
+                />
+                <BeltConnector />
+                <CapabilityTile
+                  icon="📋"
+                  title="Decision Intelligence"
+                  description="Corrective actions"
+                  accent={true}
+                  isActive={activeTileIndex === 14}
+                  tileRef={setTileRef(14)}
+                />
               </div>
-
-              {/* Pipeline flow */}
-              <div className="flex flex-col lg:flex-row items-center gap-4 mb-6">
-                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-lg mb-1">📷</p>
-                  <p className="text-xs font-semibold text-metallic-200 mb-1">Image Capture</p>
-                  <p className="text-xs text-metallic-500">Single or batch queue</p>
-                </div>
-
-                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
-                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-
-                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-lg mb-1">✓</p>
-                  <p className="text-xs font-semibold text-metallic-200 mb-1">Quality Gate</p>
-                  <p className="text-xs text-metallic-500">Image verification</p>
-                </div>
-
-                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
-                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-
-                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-lg mb-1">🔍</p>
-                  <p className="text-xs font-semibold text-metallic-200 mb-1">Defect Detection</p>
-                  <p className="text-xs text-metallic-500">6 types + heatmap</p>
-                </div>
-
-                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
-                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-
-                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-lg mb-1">⬡</p>
-                  <p className="text-xs font-semibold text-metallic-200 mb-1">Diagnosis</p>
-                  <p className="text-xs text-metallic-500">Root cause + zones</p>
-                </div>
-
-                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
-                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-
-                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-lg mb-1">✓</p>
-                  <p className="text-xs font-semibold text-metallic-200 mb-1">Decision</p>
-                  <p className="text-xs text-metallic-500">Accept/Check/Reject</p>
-                </div>
-              </div>
-
-              {/* Additional capabilities */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="p-3 text-center" style={{ background: 'rgba(26,26,30,0.4)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs text-metallic-400">Defect fingerprinting • Recurring pattern detection</p>
-                </div>
-                <div className="p-3 text-center" style={{ background: 'rgba(26,26,30,0.4)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs text-metallic-400">Human validation • Supervisor review + training</p>
-                </div>
-                <div className="p-3 text-center" style={{ background: 'rgba(26,26,30,0.4)', border: '1px solid rgba(168,168,180,0.08)' }}>
-                  <p className="text-xs text-metallic-400">PDF reports • Full traceability • Audit trail</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Continuous Improvement Loop */}
-          <div className="reveal reveal-delay-4 mt-8">
+          <div className="mt-8">
             <div
               className="p-5 text-center"
               style={{
@@ -371,8 +489,8 @@ export function EcosystemSection() {
           </div>
         </div>
 
-        {/* Deployment & Architecture note */}
-        <div className="reveal reveal-delay-4 mt-16 mx-auto max-w-[700px]">
+        {/* Deployment note */}
+        <div className="reveal reveal-delay-4 mt-20 mx-auto max-w-[800px]">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-4 h-px bg-amber-forge opacity-60" />
             <span className="text-xs font-semibold tracking-[0.25em] uppercase text-amber-forge opacity-60">
@@ -380,8 +498,8 @@ export function EcosystemSection() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Left: Tier-Based Architecture */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Tier-Based */}
             <div
               className="p-6"
               style={{
@@ -389,7 +507,7 @@ export function EcosystemSection() {
                 background: 'rgba(26,26,30,0.5)',
               }}
             >
-              <p className="text-sm text-metallic-300 leading-relaxed mb-2">
+              <p className="text-sm text-metallic-300 leading-relaxed mb-3">
                 Tvastr is built in tiers.
               </p>
               <p className="text-sm text-metallic-400 leading-relaxed">
@@ -397,7 +515,7 @@ export function EcosystemSection() {
               </p>
             </div>
 
-            {/* Right: On-Premise Deployment */}
+            {/* On-Premise */}
             <div
               className="p-6"
               style={{
@@ -409,16 +527,25 @@ export function EcosystemSection() {
                 Industrial deployment model:
               </p>
               <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-xs text-metallic-400">
-                  <span className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5" style={{ background: 'rgba(245,158,11,0.5)' }} />
+                <li className="flex items-start gap-2 text-sm text-metallic-400">
+                  <span
+                    className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5"
+                    style={{ background: 'rgba(245,158,11,0.5)' }}
+                  />
                   Runs on-premise inside the plant network
                 </li>
-                <li className="flex items-start gap-2 text-xs text-metallic-400">
-                  <span className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5" style={{ background: 'rgba(245,158,11,0.5)' }} />
+                <li className="flex items-start gap-2 text-sm text-metallic-400">
+                  <span
+                    className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5"
+                    style={{ background: 'rgba(245,158,11,0.5)' }}
+                  />
                   Processes casting images locally in real time
                 </li>
-                <li className="flex items-start gap-2 text-xs text-metallic-400">
-                  <span className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5" style={{ background: 'rgba(245,158,11,0.5)' }} />
+                <li className="flex items-start gap-2 text-sm text-metallic-400">
+                  <span
+                    className="flex-shrink-0 w-1 h-1 rounded-full mt-1.5"
+                    style={{ background: 'rgba(245,158,11,0.5)' }}
+                  />
                   Integrates with ERP or MES systems
                 </li>
               </ul>
@@ -427,7 +554,7 @@ export function EcosystemSection() {
 
           {/* Network boundary note */}
           <div
-            className="px-5 py-3"
+            className="mt-6 px-5 py-3"
             style={{
               border: '1px dashed rgba(245,158,11,0.15)',
               background: 'rgba(245,158,11,0.02)',
