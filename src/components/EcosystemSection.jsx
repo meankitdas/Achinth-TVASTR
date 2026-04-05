@@ -114,104 +114,246 @@ export function EcosystemSection() {
           How inspection data becomes plant-level manufacturing intelligence.
         </p>
 
-        {/* Vertical flow diagram */}
-        <div className="flex flex-col items-center">
+        {/* Horizontal layered architecture diagram */}
+        <div className="space-y-6">
 
-          <EcosystemCard
-            icon="📷"
-            title="Casting Image Capture"
-            subtitle="Surface images from inspection station (single casting or batch queue)"
-            delay={1}
-          />
+          {/* TIER 3: Plant-Level Intelligence */}
+          <div className="reveal reveal-delay-1">
+            <div
+              className="p-6 md:p-8"
+              style={{
+                background: 'rgba(245,158,11,0.04)',
+                border: '1px solid rgba(245,158,11,0.2)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-lg">◎</span>
+                <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
+                  Plant-Level Intelligence
+                </h3>
+              </div>
 
-          <FlowArrow />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Quality Engineering</p>
+                  <ul className="space-y-1">
+                    {['FMEA', 'Fishbone', 'SPC/Cpk', 'Quality Gates', 'TPM'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
 
-          <EcosystemCard
-            icon="🔍"
-            title="Quality Gate & Defect Detection"
-            subtitle="Image verification and AI-powered surface analysis"
-            bullets={[
-              'Image quality verification',
-              'AI defect detection (6 defect types)',
-              'Full surface analysis + defect heatmap',
-            ]}
-            delay={1}
-          />
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Process Risk</p>
+                  <ul className="space-y-1">
+                    {['Anomaly detection', 'Real-time alerts', 'Threshold monitoring', 'Drift tracking'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
 
-          <FlowArrow />
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Cost of Quality</p>
+                  <ul className="space-y-1">
+                    {['Scrap cost by defect', 'Cost by process stage', 'Financial impact analysis'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
 
-          <div className="relative w-full max-w-[560px]">
-            <EcosystemCard
-              icon="⬡"
-              title="Diagnosis & Decision"
-              subtitle="Root cause analysis and casting-level decision"
-              bullets={[
-                'Zone mapping (cope, drag, gate area)',
-                'Root cause reasoning (shape / AI / rules)',
-                'Casting decision: Accept / Check / Reject',
-                'Defect fingerprinting (recurring patterns)',
-                'PDF report + traceable inspection record',
-              ]}
-              accent
-              delay={2}
-            />
-            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 hidden lg:block">
-              <span className="text-xs font-semibold tracking-wider text-amber-forge opacity-60">
-                TIER 1
-              </span>
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Natural Language</p>
+                  <ul className="space-y-1">
+                    {['Query plant data', 'Plain language interface', 'Automated insights'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Decision Intelligence</p>
+                  <ul className="space-y-1">
+                    {['Corrective actions', 'Action tracking', 'Daily/weekly reports'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
 
-          <FlowArrow />
-
-          <div className="relative w-full max-w-[560px]">
-            <EcosystemCard
-              icon="🔗"
-              title="Process Intelligence"
-              subtitle="ERP integration and cross-part learning"
-              bullets={[
-                'ERP/MES integration (heat, mold, shift)',
-                'Defect graph (cross-part patterns)',
-                'Drift detection (rejection rate shifts)',
-                'Heat intelligence (per-batch analysis)',
-                'Self-tuning inspection sensitivity',
-              ]}
-              delay={2}
-            />
-            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 hidden lg:block">
-              <span className="text-xs font-semibold tracking-wider text-amber-forge opacity-60">
-                TIER 2
-              </span>
+          {/* Connector line */}
+          <div className="flex items-center justify-center h-8">
+            <div className="flex flex-col items-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <line x1="12" y1="0" x2="12" y2="18" stroke="rgba(245,158,11,0.3)" strokeWidth="1" />
+                <path d="M6 12l6-8 6 8" stroke="rgba(245,158,11,0.3)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="text-xs text-metallic-500 mt-1">data flows up</p>
             </div>
           </div>
 
-          <FlowArrow />
+          {/* TIER 2: Process Intelligence */}
+          <div className="reveal reveal-delay-2">
+            <div
+              className="p-6 md:p-8"
+              style={{
+                background: 'rgba(26,26,30,0.8)',
+                border: '1px solid rgba(168,168,180,0.08)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-lg">🔗</span>
+                <h3 className="text-sm font-bold text-metallic-100 tracking-wide uppercase">
+                  Process Intelligence
+                </h3>
+              </div>
 
-          <div className="relative w-full max-w-[560px]">
-            <EcosystemCard
-              icon="◎"
-              title="Plant Intelligence"
-              subtitle="Plant-wide analytics and decision intelligence"
-              bullets={[
-                'Quality frameworks (FMEA, Fishbone, SPC)',
-                'Process risk monitoring + anomaly alerts',
-                'Cost of quality analytics',
-                'Natural language queries',
-                'Decision intelligence + action tracking',
-                'Automated daily/weekly reports',
-              ]}
-              accent
-              delay={3}
-            />
-            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 hidden lg:block">
-              <span className="text-xs font-semibold tracking-wider text-amber-forge opacity-60">
-                TIER 3
-              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">ERP/MES Integration</p>
+                  <ul className="space-y-1">
+                    {['SQL connection', 'Batch ingestion', 'Manufacturing context'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Cross-Part Patterns</p>
+                  <ul className="space-y-1">
+                    {['Defect graph', 'Co-occurrence analysis', 'Pattern recognition'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Drift Detection</p>
+                  <ul className="space-y-1">
+                    {['Rejection rate trends', 'Statistical alerts', 'Baseline comparison'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Heat Intelligence</p>
+                  <ul className="space-y-1">
+                    {['Per-batch analysis', 'Mold risk profiling', 'Metallurgical causes'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs font-semibold text-metallic-200 mb-2">Self-Tuning</p>
+                  <ul className="space-y-1">
+                    {['Adaptive sensitivity', 'Auto-optimization', 'Continuous refinement'].map((item, i) => (
+                      <li key={i} className="text-xs text-metallic-500">• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Connector line */}
+          <div className="flex items-center justify-center h-8">
+            <div className="flex flex-col items-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <line x1="12" y1="0" x2="12" y2="18" stroke="rgba(245,158,11,0.3)" strokeWidth="1" />
+                <path d="M6 12l6-8 6 8" stroke="rgba(245,158,11,0.3)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="text-xs text-metallic-500 mt-1">data flows up</p>
+            </div>
+          </div>
+
+          {/* TIER 1: Inspection Pipeline */}
+          <div className="reveal reveal-delay-3">
+            <div
+              className="p-6 md:p-8"
+              style={{
+                background: 'rgba(245,158,11,0.04)',
+                border: '1px solid rgba(245,158,11,0.2)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-lg">⬡</span>
+                <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
+                  Inspection Pipeline
+                </h3>
+              </div>
+
+              {/* Pipeline flow */}
+              <div className="flex flex-col lg:flex-row items-center gap-4 mb-6">
+                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-lg mb-1">📷</p>
+                  <p className="text-xs font-semibold text-metallic-200 mb-1">Image Capture</p>
+                  <p className="text-xs text-metallic-500">Single or batch queue</p>
+                </div>
+
+                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+
+                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-lg mb-1">✓</p>
+                  <p className="text-xs font-semibold text-metallic-200 mb-1">Quality Gate</p>
+                  <p className="text-xs text-metallic-500">Image verification</p>
+                </div>
+
+                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+
+                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-lg mb-1">🔍</p>
+                  <p className="text-xs font-semibold text-metallic-200 mb-1">Defect Detection</p>
+                  <p className="text-xs text-metallic-500">6 types + heatmap</p>
+                </div>
+
+                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+
+                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-lg mb-1">⬡</p>
+                  <p className="text-xs font-semibold text-metallic-200 mb-1">Diagnosis</p>
+                  <p className="text-xs text-metallic-500">Root cause + zones</p>
+                </div>
+
+                <svg className="hidden lg:block" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                  <path d="M0 8h16M12 4l4 4-4 4" stroke="rgba(245,158,11,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+
+                <div className="flex-1 p-4 text-center" style={{ background: 'rgba(26,26,30,0.6)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-lg mb-1">✓</p>
+                  <p className="text-xs font-semibold text-metallic-200 mb-1">Decision</p>
+                  <p className="text-xs text-metallic-500">Accept/Check/Reject</p>
+                </div>
+              </div>
+
+              {/* Additional capabilities */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="p-3 text-center" style={{ background: 'rgba(26,26,30,0.4)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs text-metallic-400">Defect fingerprinting • Recurring pattern detection</p>
+                </div>
+                <div className="p-3 text-center" style={{ background: 'rgba(26,26,30,0.4)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs text-metallic-400">Human validation • Supervisor review + training</p>
+                </div>
+                <div className="p-3 text-center" style={{ background: 'rgba(26,26,30,0.4)', border: '1px solid rgba(168,168,180,0.08)' }}>
+                  <p className="text-xs text-metallic-400">PDF reports • Full traceability • Audit trail</p>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Continuous Improvement Loop */}
-          <div className="reveal reveal-delay-4 mt-8 w-full max-w-[560px]">
+          <div className="reveal reveal-delay-4 mt-8">
             <div
               className="p-5 text-center"
               style={{
@@ -220,7 +362,7 @@ export function EcosystemSection() {
               }}
             >
               <p className="text-xs font-semibold text-amber-forge mb-2 tracking-wider uppercase">
-                Continuous Improvement Loop
+                ↻ Continuous Improvement Loop
               </p>
               <p className="text-xs text-metallic-400 leading-relaxed">
                 Supervisor corrections improve AI models. Process insights drive manufacturing change. Self-tuning adjusts sensitivity over time.
