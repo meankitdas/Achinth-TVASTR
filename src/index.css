@@ -87,9 +87,11 @@
   }
 
   /* Tile active glow — applied to the tile the orb is currently passing through */
-  .tile-active-glow {
-    box-shadow: 0 0 25px rgba(245,158,11,0.5), inset 0 0 25px rgba(245,158,11,0.15) !important;
-  }
+.tile-active-glow {
+  background: rgba(245,158,11,0.2) !important;
+  box-shadow: 0 0 30px rgba(245,158,11,0.6), inset 0 0 40px rgba(245,158,11,0.3) !important;
+  border: 1px solid rgba(245,158,11,0.6) !important;
+}
 
   /* Disable animations for users with reduced motion preference */
   @media (prefers-reduced-motion: reduce) {
