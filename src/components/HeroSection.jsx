@@ -32,7 +32,7 @@ export function HeroSection() {
     const updateScale = () => {
       const width = window.innerWidth
       if (width < 768) {
-        setScaleFactor(0.6) // Mobile: smaller scene
+        setScaleFactor(0.35) // Mobile: much smaller scene
       } else if (width < 1024) {
         setScaleFactor(0.8) // Tablet: medium scene
       } else {
@@ -68,7 +68,7 @@ export function HeroSection() {
 
       {/* Three.js Canvas — full section, pointer-events-none */}
       {/* On low-power devices, show static fallback */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none opacity-50 md:opacity-100">
         {shouldRenderThree ? (
           <Canvas
             camera={{ position: [0, 0, 5], fov: 50 }}
@@ -92,7 +92,7 @@ export function HeroSection() {
       </div>
 
       {/* Content layer */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-32">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-40 pb-24 md:py-32">
         <div className="max-w-2xl">
           {/* Eyebrow label */}
           <div className="flex items-center gap-3 mb-8">
@@ -124,7 +124,7 @@ export function HeroSection() {
           </h1>
 
           {/* Description */}
-          <p className="text-base md:text-lg text-metallic-300 leading-relaxed mb-12 max-w-lg">
+          <p className="text-base md:text-lg text-metallic-300 leading-relaxed mb-16 md:mb-12 max-w-lg">
             Tvastr builds intelligent systems that bring perception, reasoning,
             and operational insight to heavy manufacturing environments.
           </p>

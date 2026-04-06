@@ -75,7 +75,7 @@ export function ContactSection() {
           </p>
 
           {/* Contact links */}
-          <div className="reveal reveal-delay-1 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 mb-12">
+          <div className="reveal reveal-delay-1 flex flex-row items-center gap-6 sm:gap-8 mb-12">
             {/* Email */}
             <button
               onClick={() => openContact(CONFIG.emails.contact, 'Inquiry', 'Hello, I would like to learn more about Tvastr.')}
@@ -97,7 +97,7 @@ export function ContactSection() {
             </button>
 
             {/* Divider */}
-            <div className="hidden sm:block w-px h-4 bg-metallic-600 opacity-30" />
+            <div className="w-px h-4 bg-metallic-600 opacity-30" />
 
             {/* LinkedIn */}
             <a

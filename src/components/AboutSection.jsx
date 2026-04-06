@@ -97,7 +97,7 @@ export function AboutSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-12 lg:px-16">
         {/* Section label */}
         <div className="reveal flex items-center gap-3 mb-12">
           <div className="w-8 h-px bg-amber-forge opacity-60" />
@@ -154,7 +154,7 @@ export function AboutSection() {
         <YantraLine />
 
         {/* Focus area cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
           <FocusCard
             icon="⬡"
             title="Industrial AI"

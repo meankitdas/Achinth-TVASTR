@@ -12,7 +12,6 @@ import { AboutSection } from './components/AboutSection'
 import { EcosystemSection } from './components/EcosystemSection'
 import { ProductSlider } from './components/ProductSlider'
 import { ContactSection } from './components/ContactSection'
-import { Footer } from './components/Footer'
 
 // System detail pages — lazy loaded
 const RejectionAnalysisSystem = lazy(() =>
@@ -51,7 +50,6 @@ function HomePage() {
       <EcosystemSection />
       <ProductSlider />
       <ContactSection />
-      <Footer />
     </>
   )
 }

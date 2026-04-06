@@ -390,7 +390,7 @@ export function EcosystemSection() {
     if (!isVisible || tileRefs.current.length < 15) return
 
     let animationFrameId
-    const cycleDuration = 25000 // 25 seconds for full cycle (faster than 45s)
+    const cycleDuration = window.innerWidth < 768 ? 12000 : 25000 // Mobile: 12s, Desktop: 25s
     let startTime = Date.now()
 
     // Build waypoints from actual tile positions
@@ -866,8 +866,10 @@ export function EcosystemSection() {
               />
             </div>
           </div>
+          </div>
+          {/* End desktop layout */}
 
-          {/* Continuous Improvement Loop */}
+          {/* Continuous Improvement Loop - shown on all screen sizes */}
           <div className="mt-8">
             <div
               className="p-5 text-center rounded-lg"
@@ -884,8 +886,6 @@ export function EcosystemSection() {
               </p>
             </div>
           </div>
-          </div>
-          {/* End desktop layout */}
 
         </div>
         {/* End container */}
