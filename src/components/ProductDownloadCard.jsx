@@ -77,22 +77,16 @@ export function ProductDownloadCard({ product, version, index }) {
   const cardTag = version?.includes_pi ? 'Plant AI' : 'Vision AI'
 
   return (
-    <div
-      className="relative flex flex-col h-full"
-      style={{
-        background: 'rgba(17,17,19,0.95)',
-        border: '1px solid rgba(168,168,180,0.1)',
-      }}
-    >
+    <div className="liquid-glass rounded-xl flex flex-col h-full">
       {/* Top amber accent strip */}
       <div
-        className="absolute top-0 left-0 right-0 h-px"
+        className="absolute top-0 left-0 right-0 h-px z-10"
         style={{
           background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.5), transparent)',
         }}
       />
 
-      <div className="p-8 flex flex-col gap-6 h-full">
+      <div className="relative z-10 p-8 flex flex-col gap-6 h-full">
         {/* Header */}
         <div>
           <div className="flex items-center gap-4 mb-5">

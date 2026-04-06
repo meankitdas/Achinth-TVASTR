@@ -54,21 +54,16 @@ function YantraLine() {
 function FocusCard({ icon, title, description, delay }) {
   return (
     <div
-      className={`reveal reveal-delay-${delay} group relative p-6 transition-all duration-500 rounded-xl`}
-      style={{
-        background: 'rgba(26,26,30,0.8)',
-        border: '1px solid rgba(168,168,180,0.08)',
-        backdropFilter: 'blur(8px)',
-      }}
+      className={`liquid-glass reveal reveal-delay-${delay} group relative p-6 transition-all duration-500 rounded-xl`}
     >
       {/* Amber left accent */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-px transition-all duration-500 group-hover:opacity-100 opacity-30"
+        className="absolute left-0 top-0 bottom-0 w-px transition-all duration-500 group-hover:opacity-100 opacity-30 z-10"
         style={{ background: 'linear-gradient(to bottom, transparent, #f59e0b, transparent)' }}
       />
-      <div className="text-2xl mb-3">{icon}</div>
-      <h3 className="text-base font-semibold text-metallic-100 mb-2 tracking-wide">{title}</h3>
-      <p className="text-sm text-metallic-400 leading-relaxed">{description}</p>
+      <div className="relative z-10 text-2xl mb-3">{icon}</div>
+      <h3 className="relative z-10 text-base font-semibold text-metallic-100 mb-2 tracking-wide">{title}</h3>
+      <p className="relative z-10 text-sm text-metallic-400 leading-relaxed">{description}</p>
     </div>
   )
 }

@@ -145,6 +145,97 @@
     background-clip: text;
   }
 
+  /* ── Liquid Glass / Glassmorphism Effect ─────────────────────── */
+  
+  /*
+   * Base liquid glass card with frosted glass blur, semi-transparent
+   * background, subtle borders, and animated liquid highlight.
+   */
+  .liquid-glass {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.6);
+    border: 1px solid rgba(168, 168, 180, 0.12);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  /*
+   * Animated liquid highlight — a subtle light that slowly drifts
+   * inside the glass using mix-blend-mode for realistic blending.
+   */
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 30%,
+      transparent 60%
+    );
+    mix-blend-mode: overlay;
+    animation: liquidShift 10s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /*
+   * Amber-tinted glass variant for accent cards.
+   * Uses amber border and subtle amber inner glow.
+   */
+  .liquid-glass-amber {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.6);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 40px rgba(245, 158, 11, 0.05),
+      0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .liquid-glass-amber::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(245, 158, 11, 0.12) 0%,
+      rgba(245, 158, 11, 0.05) 30%,
+      transparent 60%
+    );
+    mix-blend-mode: overlay;
+    animation: liquidShift 10s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /*
+   * Liquid shift animation — slow, gentle movement of the internal
+   * highlight to create a "living glass" effect.
+   */
+  @keyframes liquidShift {
+    0%, 100% {
+      transform: translate(0%, 0%) scale(1) rotate(0deg);
+    }
+    33% {
+      transform: translate(10%, 15%) scale(1.05) rotate(5deg);
+    }
+    66% {
+      transform: translate(-10%, 10%) scale(0.95) rotate(-5deg);
+    }
+  }
+
   /* ── Presentation / PDF slide styles ──────────────────────────── */
 
   /*

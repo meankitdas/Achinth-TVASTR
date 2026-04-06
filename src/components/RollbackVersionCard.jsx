@@ -65,14 +65,8 @@ export function RollbackVersionCard({ product, version }) {
   const tierLabel = version?.required_tier ? getVersionLabel(version) : 'Unknown'
 
   return (
-    <div
-      className="p-6"
-      style={{
-        background: 'rgba(17,17,19,0.8)',
-        border: '1px solid rgba(168,168,180,0.08)',
-      }}
-    >
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="liquid-glass p-6 rounded-xl">
+      <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* Version info */}
         <div className="flex-1 space-y-2">
           <div className="flex items-center gap-4">

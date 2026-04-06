@@ -89,7 +89,7 @@ export function PortalManual() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
-            <span className="text-metallic-600 text-xs">/ Customer Portal</span>
+            <span className="text-metallic-600 text-xs hidden md:inline">/ Customer Portal</span>
           </Link>
 
           <div className="flex items-center gap-6">

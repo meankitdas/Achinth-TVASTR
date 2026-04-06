@@ -48,14 +48,12 @@ export function UpgradeBanner() {
 
   return (
     <div
-      className="mb-8 p-6 md:p-8"
+      className="liquid-glass-amber mb-8 p-6 md:p-8"
       style={{
-        background: 'rgba(245,158,11,0.04)',
-        border: '1px solid rgba(245,158,11,0.15)',
         borderRadius: '4px',
       }}
     >
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         {/* Left: Title + Features */}
         <div className="flex-1">
           <h3 className="text-lg font-bold text-metallic-100 mb-4">

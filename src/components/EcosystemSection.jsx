@@ -198,32 +198,15 @@ function CapabilityTile({ tile, isActive, tileRef, onClick, compact = false }) {
     <div
       ref={tileRef}
       onClick={onClick}
-      className={`relative flex flex-col items-center justify-center text-center p-3 md:p-4 flex-1 min-h-[110px] max-w-[280px] md:max-w-none mx-auto md:mx-0 transition-all duration-300 cursor-pointer hover:scale-105 transform-gpu ${
+      className={`${tile.accent ? 'liquid-glass-amber' : 'liquid-glass'} relative flex flex-col items-center justify-center text-center p-3 md:p-4 flex-1 min-h-[110px] max-w-[280px] md:max-w-none mx-auto md:mx-0 transition-all duration-300 cursor-pointer hover:scale-105 transform-gpu ${
         isActive ? 'tile-active-glow' : ''
       }`}
       style={{
-        background: tile.accent 
-          ? 'linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(245,158,11,0.03) 100%)'
-          : 'linear-gradient(135deg, rgba(26,26,30,0.75) 0%, rgba(17,17,19,0.7) 100%)',
-        border: tile.accent ? '1px solid rgba(245,158,11,0.3)' : '1px solid rgba(168,168,180,0.15)',
-        backdropFilter: 'blur(28px)',
-        boxShadow: tile.accent
-          ? 'inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 12px rgba(245,158,11,0.15)'
-          : 'inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.3)',
         minWidth: compact ? 'auto' : '140px',
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         borderRadius: '12px',
       }}
     >
-      {/* Glass shine overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 50%)',
-          borderRadius: 'inherit',
-        }}
-      />
-      
       <div className="relative z-10">
         {!compact && <div className="text-2xl mb-2">{tile.icon}</div>}
         <h4 className={`text-xs md:text-sm font-bold ${compact ? '' : 'mb-1'} ${tile.accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
@@ -286,25 +269,14 @@ function TileModal({ tile, onClose }) {
       style={{ background: 'rgba(0,0,0,0.7)' }}
     >
       <div
-        className="relative max-w-2xl w-full p-8 rounded-xl"
+        className={`${tile.accent ? 'liquid-glass-amber' : 'liquid-glass'} relative max-w-2xl w-full p-8 rounded-xl`}
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: 'linear-gradient(135deg, rgba(26,26,30,0.8) 0%, rgba(17,17,19,0.75) 100%)',
-          border: tile.accent ? '1px solid rgba(245,158,11,0.4)' : '1px solid rgba(168,168,180,0.2)',
-          backdropFilter: 'blur(28px)',
           boxShadow: tile.accent
-            ? 'inset 0 1px 0 rgba(255,255,255,0.1), 0 20px 60px rgba(245,158,11,0.15), 0 0 80px rgba(0,0,0,0.5)'
-            : 'inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.5)',
+            ? '0 20px 60px rgba(245,158,11,0.15), 0 0 80px rgba(0,0,0,0.5)'
+            : '0 20px 60px rgba(0,0,0,0.5)',
         }}
       >
-        {/* Glass shine overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none rounded-xl"
-          style={{
-            background: 'linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 50%)',
-          }}
-        />
-
         {/* Close button */}
         <button
           onClick={onClose}

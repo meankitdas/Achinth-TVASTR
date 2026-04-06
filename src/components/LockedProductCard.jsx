@@ -15,22 +15,20 @@ import { CONFIG, openContact } from '../lib/config'
 export function LockedProductCard({ title, description, tag, index, requiredTier, features }) {
   return (
     <div
-      className="group relative flex flex-col transition-all duration-300 opacity-60 hover:opacity-75 rounded-xl"
+      className="liquid-glass group relative flex flex-col transition-all duration-300 opacity-60 hover:opacity-75 rounded-xl"
       style={{
-        background: 'rgba(17,17,19,0.5)',
-        border: '1px solid rgba(168,168,180,0.08)',
         filter: 'grayscale(0.5)',
       }}
     >
       {/* Muted top accent */}
       <div
-        className="absolute top-0 left-0 right-0 h-px opacity-20"
+        className="absolute top-0 left-0 right-0 h-px opacity-20 z-10"
         style={{
           background: 'linear-gradient(to right, transparent, rgba(168,168,180,0.3), transparent)',
         }}
       />
 
-      <div className="p-6 flex flex-col gap-4">
+      <div className="relative z-10 p-6 flex flex-col gap-4">
         {/* Header row */}
         <div className="flex items-start justify-between gap-4">
           <div>

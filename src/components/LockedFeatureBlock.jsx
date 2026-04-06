@@ -17,14 +17,12 @@ export function LockedFeatureBlock({ title, description, requiredTier, features 
 
   return (
     <div
-      className="p-6 md:p-8 rounded-xl"
+      className="liquid-glass p-6 md:p-8 rounded-xl"
       style={{
-        background: 'rgba(17,17,19,0.8)',
-        border: '1px solid rgba(168,168,180,0.12)',
         opacity: 0.9,
       }}
     >
-      <div className="flex flex-col md:flex-row md:items-start gap-6">
+      <div className="relative z-10 flex flex-col md:flex-row md:items-start gap-6">
         {/* Lock icon */}
         <div
           className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg"
