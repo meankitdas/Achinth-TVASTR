@@ -36,7 +36,7 @@ TvastrRAS is an AI-powered casting defect detection and root cause analysis syst
 | **UI** | Streamlit (RAS dashboard), Next.js (PI dashboard - TIER_3) |
 | **API** | FastAPI, WebSocket |
 | **Database** | SQL Server, SQLite |
-| **Deployment** | PyWebView (native desktop), Nuitka (compilation), Inno Setup (installer) |
+| **Deployment** | PyWebView (native desktop), Python embeddable distribution (compilation), Inno Setup (installer) |
 
 ---
 
