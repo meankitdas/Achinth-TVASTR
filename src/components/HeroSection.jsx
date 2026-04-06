@@ -60,25 +60,25 @@ export function HeroSection() {
           </div>
 
           {/* Main title */}
-          <h1
-            className="text-[clamp(4rem,12vw,9rem)] font-black leading-none tracking-tight mb-6"
-            style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 40%, #888896 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              textShadow: 'none',
-              filter: 'drop-shadow(0 0 40px rgba(245,158,11,0.2))',
-            }}
-          >
-            TVASTR
+          <h1 className="mb-6">
+            <span
+              className="block text-[clamp(4rem,12vw,9rem)] font-black leading-none tracking-tight"
+              style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 40%, #888896 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                textShadow: 'none',
+                filter: 'drop-shadow(0 0 40px rgba(245,158,11,0.2))',
+              }}
+            >
+              TVASTR
+            </span>
+            <span className="block text-xl md:text-2xl lg:text-3xl font-light text-amber-glow mt-4 tracking-wide">
+              Industrial Intelligence,{' '}
+              <span className="font-semibold text-amber-forge">Forged.</span>
+            </span>
           </h1>
-
-          {/* Tagline */}
-          <p className="text-xl md:text-2xl lg:text-3xl font-light text-amber-glow mb-6 tracking-wide">
-            Industrial Intelligence,{' '}
-            <span className="font-semibold text-amber-forge">Forged.</span>
-          </p>
 
           {/* Description */}
           <p className="text-base md:text-lg text-metallic-300 leading-relaxed mb-12 max-w-lg">
@@ -88,9 +88,13 @@ export function HeroSection() {
 
           {/* CTA */}
           <div className="flex items-center gap-6">
-            <button
-              onClick={scrollToProducts}
-              className="group relative px-8 py-4 text-sm font-semibold tracking-widest uppercase overflow-hidden transition-all duration-300"
+            <a
+              href="#products"
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToProducts()
+              }}
+              className="group relative inline-block px-8 py-4 text-sm font-semibold tracking-widest uppercase overflow-hidden transition-all duration-300"
               style={{
                 background: 'linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.05) 100%)',
                 border: '1px solid rgba(245,158,11,0.4)',
@@ -109,7 +113,7 @@ export function HeroSection() {
                 style={{ boxShadow: 'inset 0 0 20px rgba(245,158,11,0.15)' }}
               />
               <span className="relative">Explore Systems</span>
-            </button>
+            </a>
 
             {/* Secondary scroll indicator */}
             <div className="flex items-center gap-2 text-metallic-400 text-xs tracking-widest uppercase opacity-60">

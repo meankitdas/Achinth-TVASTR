@@ -3,6 +3,7 @@ import { SystemDetailSection } from '../../components/systems/SystemDetailSectio
 import { SystemImageBlock } from '../../components/systems/SystemImageBlock'
 import { SystemImpactGrid } from '../../components/systems/SystemImpactGrid'
 import { DownloadPresentationButton } from '../../components/DownloadPresentationButton'
+import { useDocumentHead } from '../../hooks/useDocumentHead'
 
 /**
  * PlantIntelligence — Technical detail page.
@@ -18,6 +19,12 @@ import { DownloadPresentationButton } from '../../components/DownloadPresentatio
 export function PlantIntelligence() {
   const location = useLocation()
   const isPortalRoute = location.pathname.startsWith('/portal')
+
+  useDocumentHead(
+    'Plant Intelligence — Process Analytics & AI Query | Tvastr',
+    'Real-time process analytics for manufacturing. AI-powered insights, drift detection, decision intelligence, and conversational data access.',
+    'https://tvastr.co/systems/plant-intelligence'
+  )
 
   return (
     <div id="presentation-root" style={{ background: '#ffffff', color: '#111827' }}>

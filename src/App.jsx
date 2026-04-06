@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext'
 import { LicenseProvider } from './context/LicenseContext'
 import { Navbar } from './components/Navbar'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { useDocumentHead } from './hooks/useDocumentHead'
 
 // Landing page sections — loaded eagerly (above the fold)
 import { HeroSection } from './components/HeroSection'
@@ -36,6 +37,12 @@ const PortalManual = lazy(() =>
 
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePage() {
+  useDocumentHead(
+    'Tvastr — Industrial Intelligence, Forged | AI for Heavy Manufacturing',
+    'Tvastr builds intelligent AI systems for heavy manufacturing. Vision AI inspection, defect detection, root cause analysis, and process intelligence for industrial environments.',
+    'https://tvastr.co/'
+  )
+
   return (
     <main>
       <HeroSection />
@@ -63,6 +70,32 @@ function PageLoader() {
           animation: 'pulse 1.5s ease-in-out infinite',
         }}
       />
+    </div>
+  )
+}
+
+/** 404 Not Found page */
+function NotFoundPage() {
+  useDocumentHead(
+    'Page Not Found | Tvastr',
+    'The page you are looking for does not exist.',
+    'https://tvastr.co/404'
+  )
+
+  return (
+    <div
+      className="min-h-screen flex flex-col items-center justify-center gap-6"
+      style={{ background: '#0a0a0b' }}
+    >
+      <p className="text-metallic-400 text-sm tracking-widest uppercase">
+        Page not found
+      </p>
+      <a
+        href="/"
+        className="text-amber-forge text-xs tracking-widest uppercase underline underline-offset-4"
+      >
+        Return Home
+      </a>
     </div>
   )
 }
@@ -131,25 +164,7 @@ export default function App() {
               />
 
               {/* 404 fallback */}
-              <Route
-                path="*"
-                element={
-                  <div
-                    className="min-h-screen flex flex-col items-center justify-center gap-6"
-                    style={{ background: '#0a0a0b' }}
-                  >
-                    <p className="text-metallic-400 text-sm tracking-widest uppercase">
-                      Page not found
-                    </p>
-                    <a
-                      href="/"
-                      className="text-amber-forge text-xs tracking-widest uppercase underline underline-offset-4"
-                    >
-                      Return Home
-                    </a>
-                  </div>
-                }
-              />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
         </LicenseProvider>

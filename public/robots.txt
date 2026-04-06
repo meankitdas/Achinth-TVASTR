@@ -1,0 +1,14 @@
+# Tvastr — robots.txt
+# Allow all crawlers on public pages, block authenticated portal
+
+User-agent: *
+Allow: /
+Disallow: /portal/dashboard
+Disallow: /portal/downloads
+Disallow: /portal/manual
+Disallow: /portal/pi
+
+# Allow portal login page (public)
+Allow: /portal$
+
+Sitemap: https://tvastr.co/sitemap.xml

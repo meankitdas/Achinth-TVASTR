@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { Logo } from '../components/Logo'
 import { CONFIG, generateMailtoLink } from '../lib/config'
+import { useDocumentHead } from '../hooks/useDocumentHead'
 
 /**
  * PortalLogin — Customer portal login page.
@@ -20,6 +21,12 @@ export function PortalLogin() {
 
   const { signIn, session } = useAuth()
   const navigate = useNavigate()
+
+  useDocumentHead(
+    'Client Portal Login | Tvastr',
+    'Access your Tvastr client portal for system downloads, documentation, and support.',
+    'https://tvastr.co/portal'
+  )
 
   // Redirect if already logged in
   useEffect(() => {

@@ -4,6 +4,7 @@ import { SystemImageBlock } from '../../components/systems/SystemImageBlock'
 import { SystemWorkflow } from '../../components/systems/SystemWorkflow'
 import { SystemImpactGrid } from '../../components/systems/SystemImpactGrid'
 import { DownloadPresentationButton } from '../../components/DownloadPresentationButton'
+import { useDocumentHead } from '../../hooks/useDocumentHead'
 
 /**
  * RejectionAnalysisSystem — Technical detail page.
@@ -12,6 +13,12 @@ import { DownloadPresentationButton } from '../../components/DownloadPresentatio
  * Route: /systems/rejection-analysis-system
  */
 export function RejectionAnalysisSystem() {
+  useDocumentHead(
+    'Rejection Analysis System — AI Inspection & Quality Control | Tvastr',
+    'AI-powered inspection platform for heavy manufacturing. Automated defect detection, root cause mapping, and process-aware quality intelligence.',
+    'https://tvastr.co/systems/rejection-analysis-system'
+  )
+
   return (
     <div id="presentation-root" style={{ background: '#ffffff', color: '#111827' }}>
 

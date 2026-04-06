@@ -1,0 +1,16 @@
+{
+  "name": "Tvastr — Industrial Intelligence, Forged",
+  "short_name": "Tvastr",
+  "description": "AI systems for heavy manufacturing environments",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#f59e0b",
+  "background_color": "#0a0a0b",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
