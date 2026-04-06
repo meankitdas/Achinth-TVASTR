@@ -56,19 +56,32 @@ export function Navbar() {
   ]
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      style={{
-        background: scrolled || isPortalPage
-          ? 'rgba(10,10,11,0.92)'
-          : 'transparent',
-        backdropFilter: scrolled || isPortalPage ? 'blur(12px)' : 'none',
-        borderBottom: scrolled || isPortalPage
-          ? '1px solid rgba(168,168,180,0.06)'
-          : '1px solid transparent',
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+    <>
+      {/* Skip to main content link for accessibility */}
+      <a
+        href="#hero"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:tracking-widest focus:uppercase focus:transition-all"
+        style={{
+          background: 'rgba(245,158,11,0.95)',
+          color: '#0a0a0b',
+        }}
+      >
+        Skip to main content
+      </a>
+
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        style={{
+          background: scrolled || isPortalPage
+            ? 'rgba(10,10,11,0.92)'
+            : 'transparent',
+          backdropFilter: scrolled || isPortalPage ? 'blur(12px)' : 'none',
+          borderBottom: scrolled || isPortalPage
+            ? '1px solid rgba(168,168,180,0.06)'
+            : '1px solid transparent',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex items-center justify-between h-16">
           {/* Logo mark */}
           <Link

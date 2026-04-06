@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 import { ProductCard } from './ProductCard'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
@@ -76,6 +76,30 @@ export function ProductSlider() {
     track.scrollTo({ left: slideWidth * index, behavior: 'smooth' })
     setActiveIndex(index)
   }, [])
+
+  /**
+   * Keyboard navigation: Arrow keys to navigate slides
+   */
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        const newIndex = Math.max(0, activeIndex - 1)
+        if (newIndex !== activeIndex) goToSlide(newIndex)
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        const newIndex = Math.min(PRODUCTS.length - 1, activeIndex + 1)
+        if (newIndex !== activeIndex) goToSlide(newIndex)
+      }
+    }
+
+    // Only add listener when slider is in viewport
+    const track = trackRef.current
+    if (track) {
+      window.addEventListener('keydown', handleKeyDown)
+      return () => window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [activeIndex, goToSlide])
 
   // ─── Scroll sync: update active dot on native scroll ──────────────────
   const handleScroll = useCallback(() => {

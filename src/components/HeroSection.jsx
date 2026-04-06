@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { ForgeCore } from '../three/ForgeCore'
 import { FloatingGeometry } from '../three/FloatingGeometry'
@@ -11,8 +11,23 @@ import { FloatingGeometry } from '../three/FloatingGeometry'
  *
  * The Three.js canvas renders ForgeCore + FloatingGeometry.
  * Canvas is pointer-events-none so scroll/interactions pass through.
+ * 
+ * On low-power devices, shows a static fallback instead of 3D canvas.
  */
 export function HeroSection() {
+  const [shouldRenderThree, setShouldRenderThree] = useState(true)
+
+  useEffect(() => {
+    // Detect low-power devices
+    const isLowPower = 
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) ||
+      (navigator.deviceMemory && navigator.deviceMemory < 4)
+
+    if (isLowPower) {
+      setShouldRenderThree(false)
+    }
+  }, [])
+
   const scrollToProducts = () => {
     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -35,17 +50,28 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
 
       {/* Three.js Canvas — full section, pointer-events-none */}
+      {/* On low-power devices, show static fallback */}
       <div className="absolute inset-0 pointer-events-none">
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 50 }}
-          gl={{ antialias: true, alpha: true }}
-          dpr={[1, 1.5]} // cap pixel ratio for performance
-        >
-          <Suspense fallback={null}>
-            <ForgeCore />
-            <FloatingGeometry />
-          </Suspense>
-        </Canvas>
+        {shouldRenderThree ? (
+          <Canvas
+            camera={{ position: [0, 0, 5], fov: 50 }}
+            gl={{ antialias: true, alpha: true }}
+            dpr={[1, 1.5]} // cap pixel ratio for performance
+          >
+            <Suspense fallback={null}>
+              <ForgeCore />
+              <FloatingGeometry />
+            </Suspense>
+          </Canvas>
+        ) : (
+          // Static fallback for low-power devices
+          <div 
+            className="w-full h-full"
+            style={{
+              background: 'radial-gradient(ellipse 60% 50% at 60% 50%, rgba(245,158,11,0.12) 0%, transparent 70%)',
+            }}
+          />
+        )}
       </div>
 
       {/* Content layer */}
