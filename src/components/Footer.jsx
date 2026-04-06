@@ -59,7 +59,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href={`mailto:${CONFIG.emails.sales}`}
+                  href={`mailto:${CONFIG.emails.contact}`}
                   className="text-sm text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
                 >
                   Sales
@@ -97,10 +97,10 @@ export function Footer() {
             © {currentYear} Tvastr. All rights reserved.
           </p>
 
-          {/* Social links placeholder - add when available */}
+          {/* Social links - update with actual URLs */}
           <div className="flex items-center gap-4">
             <a
-              href={CONFIG.company.linkedIn}
+              href="https://www.linkedin.com/company/tvastr"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
