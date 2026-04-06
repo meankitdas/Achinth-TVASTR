@@ -106,6 +106,7 @@
   background: rgba(245,158,11,0.2) !important;
   box-shadow: 0 0 30px rgba(245,158,11,0.6), inset 0 0 40px rgba(245,158,11,0.3) !important;
   border: 1px solid rgba(245,158,11,0.6) !important;
+  transition: background 0.8s ease, box-shadow 0.8s ease, border 0.8s ease !important;
 }
 
   /* Disable animations for users with reduced motion preference */

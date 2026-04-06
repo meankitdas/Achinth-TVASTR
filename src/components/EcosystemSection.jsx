@@ -506,6 +506,9 @@ export function EcosystemSection() {
         tileIndex = start.tileIndex
       } else if (!end.isUTurn) {
         tileIndex = end.tileIndex
+      } else {
+        // Both are U-turn waypoints — use the nearest tile index
+        tileIndex = segmentProgress > 0.5 ? end.tileIndex : start.tileIndex
       }
 
       return { x, y, tileIndex }
@@ -521,11 +524,11 @@ export function EcosystemSection() {
       setOrbPosition(forwardPos)
       setActiveTileIndex(forwardPos.tileIndex)
 
-      // Reverse orbs (tile 14 → tile 0) - 3 orbs staggered at 33% intervals
+      // Reverse orbs (tile 14 → tile 0) - 3 orbs in a tight queue
       const reverseOrbs = [
         getPositionAtProgress(1 - progress), // Orb 1: no offset
-        getPositionAtProgress(1 - ((progress + 0.33) % 1)), // Orb 2: 33% behind
-        getPositionAtProgress(1 - ((progress + 0.66) % 1)), // Orb 3: 66% behind
+        getPositionAtProgress(1 - ((progress + 0.008) % 1)), // Orb 2: 0.8% behind
+        getPositionAtProgress(1 - ((progress + 0.016) % 1)), // Orb 3: 1.6% behind
       ]
       setReverseOrbPositions(reverseOrbs)
 
@@ -613,10 +616,11 @@ export function EcosystemSection() {
                 left: `${pos.x}px`,
                 top: `${pos.y}px`,
                 transform: 'translate(-50%, -50%)',
-                background: 'rgba(147,197,253,0.8)', // Light blue tint for feedback
-                boxShadow: '0 0 12px rgba(147,197,253,0.6), 0 0 24px rgba(147,197,253,0.3)',
+                marginTop: 0, // Override space-y-6 margin
+                background: 'rgba(147,197,253,0.9)', // Light blue tint for feedback
+                boxShadow: '0 0 20px rgba(147,197,253,0.9), 0 0 40px rgba(147,197,253,0.6), 0 0 60px rgba(147,197,253,0.3)',
                 opacity: isVisible && pos.tileIndex !== -1 
-                  ? (pos.tileIndex === 14 ? 0.3 : pos.tileIndex === 0 ? 0.3 : 0.7) 
+                  ? (pos.tileIndex === 14 ? 0.3 : pos.tileIndex === 0 ? 0.3 : 0.8) 
                   : 0,
               }}
             />
@@ -877,16 +881,16 @@ export function EcosystemSection() {
             <div
               className="p-5 text-center rounded-lg"
               style={{
-                border: '1px dashed rgba(245,158,11,0.25)',
-                background: 'rgba(245,158,11,0.03)',
-                boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
+                border: '1px dashed rgba(147,197,253,0.25)',
+                background: 'rgba(147,197,253,0.03)',
+                boxShadow: '0 0 15px rgba(147,197,253,0.08), 0 0 30px rgba(147,197,253,0.04)',
               }}
             >
-              <p className="text-xs font-semibold text-amber-forge mb-2 tracking-wider uppercase">
+              <p className="text-xs font-semibold mb-2 tracking-wider uppercase" style={{ color: 'rgba(147,197,253,0.9)' }}>
                 ↻ Continuous Improvement Loop
               </p>
               <p className="text-xs text-metallic-400 leading-relaxed">
-                Supervisor corrections improve AI models. Process insights drive manufacturing change. Self-tuning adjusts sensitivity over time.
+                Supervisor corrections improve analysis. Continuous feedback and logging enable auto‑tuning and auto‑calibration of the system over time.
               </p>
             </div>
           </div>
