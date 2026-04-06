@@ -86,6 +86,7 @@ export function ContactSection() {
                 style={{
                   border: '1px solid rgba(168,168,180,0.15)',
                   background: 'rgba(26,26,30,0.8)',
+                  boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
                 }}
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -111,6 +112,7 @@ export function ContactSection() {
                 style={{
                   border: '1px solid rgba(168,168,180,0.15)',
                   background: 'rgba(26,26,30,0.8)',
+                  boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
                 }}
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">

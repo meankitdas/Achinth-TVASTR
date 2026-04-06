@@ -14,7 +14,7 @@ import { useDocumentHead } from '../../hooks/useDocumentHead'
  */
 export function RejectionAnalysisSystem() {
   useDocumentHead(
-    'Rejection Analysis System — AI Inspection & Quality Control | Tvastr',
+    'Rejection Analysis System — AI Inspection & Quality Control | Tvastr Industrial Intelligence',
     'AI-powered inspection platform for heavy manufacturing. Automated defect detection, root cause mapping, and process-aware quality intelligence.',
     'https://tvastr.co/systems/rejection-analysis-system'
   )

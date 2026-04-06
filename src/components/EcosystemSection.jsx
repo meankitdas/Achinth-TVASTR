@@ -848,6 +848,7 @@ export function EcosystemSection() {
               style={{
                 border: '1px dashed rgba(245,158,11,0.25)',
                 background: 'rgba(245,158,11,0.03)',
+                boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
               }}
             >
               <p className="text-xs font-semibold text-amber-forge mb-2 tracking-wider uppercase">
@@ -878,6 +879,7 @@ export function EcosystemSection() {
               style={{
                 border: '1px solid rgba(168,168,180,0.08)',
                 background: 'rgba(26,26,30,0.5)',
+                boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
               }}
             >
               <p className="text-sm text-metallic-300 leading-relaxed mb-3">
@@ -894,6 +896,7 @@ export function EcosystemSection() {
               style={{
                 border: '1px solid rgba(168,168,180,0.08)',
                 background: 'rgba(26,26,30,0.5)',
+                boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
               }}
             >
               <p className="text-sm text-metallic-300 leading-relaxed mb-3">
@@ -931,6 +934,7 @@ export function EcosystemSection() {
             style={{
               border: '1px dashed rgba(245,158,11,0.15)',
               background: 'rgba(245,158,11,0.02)',
+              boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
             }}
           >
             <p className="text-xs text-center text-metallic-500">

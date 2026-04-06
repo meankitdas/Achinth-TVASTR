@@ -10,6 +10,7 @@ function ArchNode({ label, sublabel, delay }) {
       style={{
         border: '1px solid rgba(168,168,180,0.15)',
         background: 'rgba(26,26,30,0.6)',
+        boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
       }}
     >
       <p className="text-xs font-semibold text-metallic-200 tracking-wide">{label}</p>

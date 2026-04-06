@@ -23,8 +23,8 @@ export function PortalLogin() {
   const navigate = useNavigate()
 
   useDocumentHead(
-    'Client Portal Login | Tvastr',
-    'Access your Tvastr client portal for system downloads, documentation, and support.',
+    'Client Portal Login | Tvastr Industrial Intelligence',
+    'Access your Tvastr Industrial Intelligence client portal for system downloads, documentation, and support.',
     'https://tvastr.co/portal'
   )
 
@@ -87,6 +87,8 @@ export function PortalLogin() {
           background: 'rgba(17,17,19,0.95)',
           border: '1px solid rgba(168,168,180,0.08)',
           backdropFilter: 'blur(12px)',
+          borderRadius: '0.75rem',
+          boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
         }}
       >
         {/* Top amber accent */}
@@ -147,6 +149,7 @@ export function PortalLogin() {
                     focusedField === 'email'
                       ? '1px solid rgba(245,158,11,0.4)'
                       : '1px solid rgba(168,168,180,0.1)',
+                  borderRadius: '0.5rem',
                   boxShadow:
                     focusedField === 'email'
                       ? '0 0 0 2px rgba(245,158,11,0.06)'
@@ -179,6 +182,7 @@ export function PortalLogin() {
                     focusedField === 'password'
                       ? '1px solid rgba(245,158,11,0.4)'
                       : '1px solid rgba(168,168,180,0.1)',
+                  borderRadius: '0.5rem',
                   boxShadow:
                     focusedField === 'password'
                       ? '0 0 0 2px rgba(245,158,11,0.06)'
@@ -194,6 +198,7 @@ export function PortalLogin() {
                 style={{
                   background: 'rgba(245,158,11,0.06)',
                   border: '1px solid rgba(245,158,11,0.15)',
+                  borderRadius: '0.5rem',
                 }}
               >
                 {error}
@@ -211,6 +216,7 @@ export function PortalLogin() {
                   : 'rgba(245,158,11,0.12)',
                 border: '1px solid rgba(245,158,11,0.35)',
                 color: '#fbbf24',
+                borderRadius: '0.5rem',
               }}
               onMouseEnter={(e) => {
                 if (!loading) e.currentTarget.style.background = 'rgba(245,158,11,0.2)'
@@ -256,7 +262,11 @@ export function PortalLogin() {
         {/* Bottom security notice */}
         <div
           className="px-8 md:px-10 py-4 flex items-center gap-2"
-          style={{ borderTop: '1px solid rgba(168,168,180,0.06)' }}
+          style={{ 
+            borderTop: '1px solid rgba(168,168,180,0.06)',
+            borderBottomLeftRadius: '0.75rem',
+            borderBottomRightRadius: '0.75rem',
+          }}
         >
           <span className="text-xs text-metallic-600">
             🔒 Secured by Supabase Auth · Authorized users only

@@ -31,12 +31,16 @@ const STYLES = {
   loadingBox: {
     background: 'rgba(245,158,11,0.1)',
     border: '1px solid rgba(245,158,11,0.3)',
+    borderRadius: '0.375rem',
     transform: 'rotate(45deg)',
     animation: 'pulse 1.5s ease-in-out infinite',
+    boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
   },
   card: {
     background: 'rgba(17,17,19,0.95)',
     border: '1px solid rgba(168,168,180,0.08)',
+    borderRadius: '0.75rem',
+    boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
   },
   cardHoverAccent: {
     background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.4), transparent)',
@@ -45,20 +49,25 @@ const STYLES = {
     color: '#f59e0b',
     background: 'rgba(245,158,11,0.08)',
     border: '1px solid rgba(245,158,11,0.15)',
+    borderRadius: '0.375rem',
   },
   downloadButton: {
     background: 'rgba(245,158,11,0.08)',
     border: '1px solid rgba(245,158,11,0.25)',
     color: '#fbbf24',
+    borderRadius: '0.5rem',
   },
   supportCard: {
     background: 'rgba(17,17,19,0.8)',
     border: '1px solid rgba(168,168,180,0.06)',
+    borderRadius: '0.75rem',
+    boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
   },
   supportButton: {
     color: '#f59e0b',
     border: '1px solid rgba(245,158,11,0.2)',
     background: 'rgba(245,158,11,0.05)',
+    borderRadius: '0.5rem',
   },
 }
 
@@ -335,6 +344,7 @@ export function PortalDashboard() {
                             style={{
                               background: statusColor.bg,
                               border: `1px solid ${statusColor.border}`,
+                              borderRadius: '0.375rem',
                             }}
                           >
                             <div className="text-xs font-semibold" style={{ color: statusColor.text }}>
@@ -356,6 +366,8 @@ export function PortalDashboard() {
                               style={{
                                 background: 'rgba(10,10,11,0.6)',
                                 border: '1px solid rgba(168,168,180,0.06)',
+                                borderRadius: '0.75rem',
+                                boxShadow: '0 0 15px rgba(245,158,11,0.08), 0 0 30px rgba(245,158,11,0.04)',
                               }}
                             >
                               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

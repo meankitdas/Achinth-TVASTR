@@ -38,8 +38,8 @@ const PortalManual = lazy(() =>
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePage() {
   useDocumentHead(
-    'Tvastr — Industrial Intelligence, Forged | AI for Heavy Manufacturing',
-    'Tvastr builds intelligent AI systems for heavy manufacturing. Vision AI inspection, defect detection, root cause analysis, and process intelligence for industrial environments.',
+    'Tvastr Industrial Intelligence — AI Systems for Heavy Manufacturing',
+    'Tvastr Industrial Intelligence builds AI systems for heavy manufacturing. Vision AI inspection, defect detection, root cause analysis, and process intelligence for industrial environments.',
     'https://tvastr.co/'
   )
 

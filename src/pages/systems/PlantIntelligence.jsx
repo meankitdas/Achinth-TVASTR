@@ -21,7 +21,7 @@ export function PlantIntelligence() {
   const isPortalRoute = location.pathname.startsWith('/portal')
 
   useDocumentHead(
-    'Plant Intelligence — Process Analytics & AI Query | Tvastr',
+    'Plant Intelligence — Process Analytics & AI Query | Tvastr Industrial Intelligence',
     'Real-time process analytics for manufacturing. AI-powered insights, drift detection, decision intelligence, and conversational data access.',
     'https://tvastr.co/systems/plant-intelligence'
   )
