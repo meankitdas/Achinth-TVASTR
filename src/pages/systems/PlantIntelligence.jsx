@@ -49,24 +49,15 @@ export function PlantIntelligence() {
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-slate-400 mb-6">
             Tvastr · Industrial AI Systems
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-3">
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
             Plant Intelligence
           </h1>
-          <p className="text-lg text-slate-500 font-medium max-w-[680px] leading-relaxed mb-6">
-            Built on structured inspection data
-          </p>
-          <p className="text-base text-gray-600 max-w-[680px] leading-relaxed mb-3">
-            Plant Intelligence operates on structured inspection and production data. It is typically deployed 
-            alongside the Rejection Analysis System (Enterprise configuration) or integrated with existing plant data sources.
-          </p>
-          <p className="text-base text-gray-600 max-w-[680px] leading-relaxed mb-3">
-            The system reads structured inspection records and production data to generate analytics,
-            process risk indicators, and quality engineering diagnostics.
+          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-3">
+            Plant-level analytics and decision support system built on structured inspection and production data.
           </p>
           <div className="mt-6 p-4" style={{ background: '#fef3c7', border: '1px solid #fde68a', borderRadius: '6px' }}>
             <p className="text-sm text-amber-900 leading-relaxed">
-              <strong>Note:</strong> Plant Intelligence requires consistent and structured data inputs to generate 
-              reliable analytics and decision outputs.
+              <strong>Note:</strong> Requires structured inspection data from RAS Enterprise or equivalent data sources.
             </p>
           </div>
         </div>
@@ -113,7 +104,6 @@ export function PlantIntelligence() {
       <SystemDetailSection
         label="02 / Product Architecture"
         title="Layered Manufacturing Intelligence"
-        body="Plant Intelligence is designed to operate on structured inspection data. It typically runs alongside the Rejection Analysis System (Enterprise) or integrates with existing plant data sources that provide equivalent structured quality data."
       >
         <div className="mt-6 flex flex-col items-stretch gap-0" style={{ maxWidth: '600px' }}>
           {/* Card 1 — RAS */}
@@ -270,13 +260,13 @@ export function PlantIntelligence() {
         </p>
       </SystemDetailSection>
 
-      {/* ── SLIDE 9 — Natural Language Queries ───────────────────── */}
+      {/* ── SLIDE 9 — Natural Language Queries + Screenshot ─────── */}
       <SystemDetailSection
         label="08 / Natural Language"
         title="Natural Language Process Queries"
-        body="Engineers can query plant data using natural language. The system interprets queries and executes the appropriate analytics pipelines automatically."
+        body="Engineers can query plant performance using natural language. The system interprets queries, executes analytics pipelines, and returns structured answers based on inspection and production data."
       >
-        <div className="mt-6 space-y-3">
+        <div className="mt-6 space-y-3 mb-6">
           {[
             'Which molds produced the highest defect rate this week?',
             'Show rejection trends by heat number.',
@@ -293,14 +283,6 @@ export function PlantIntelligence() {
             </div>
           ))}
         </div>
-      </SystemDetailSection>
-
-      {/* ── SLIDE 10 — Natural Language Query (Screenshot) ────────── */}
-      <SystemDetailSection
-        label="09 / Application — AI Query"
-        title="Natural Language Query"
-        body="Engineers can query plant performance using natural language. The system interprets queries, executes analytics pipelines, and returns structured answers based on inspection and production data."
-      >
         <SystemImageBlock
           src="/pi_aiquery_ss.png"
           alt="Plant Intelligence — AI Query Interface"
@@ -386,14 +368,6 @@ export function PlantIntelligence() {
               ))}
             </ul>
           </div>
-        </div>
-        <div className="mt-5 p-4" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
-          <p className="text-sm text-gray-600 text-center leading-relaxed">
-            Together, these systems create a continuous loop from inspection to plant-level process intelligence.
-          </p>
-          <p className="text-sm text-slate-500 text-center italic mt-2">
-            Inspection data becomes a foundation for long-term manufacturing improvement.
-          </p>
         </div>
       </SystemDetailSection>
 

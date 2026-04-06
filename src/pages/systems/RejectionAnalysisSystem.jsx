@@ -42,12 +42,8 @@ export function RejectionAnalysisSystem() {
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
             Rejection Analysis System
           </h1>
-          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-5">
-            AI-driven casting inspection and manufacturing quality intelligence.
-          </p>
-          <p className="text-base text-gray-600 max-w-[680px] leading-relaxed">
-            An industrial AI platform that transforms casting inspection into structured
-            plant-level quality intelligence.
+          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed">
+            An industrial AI platform that transforms casting inspection into structured plant-level quality intelligence.
           </p>
         </div>
         <div className="slide-footer">
@@ -136,7 +132,6 @@ export function RejectionAnalysisSystem() {
       <SystemDetailSection
         label="04 / The Solution"
         title="A structured inspection pipeline from image capture to operational decision."
-        body="The system processes casting images through a multi-stage AI pipeline. Each inspection produces a traceable structured record linked to process context."
       >
         <SystemWorkflow
           steps={[
@@ -184,7 +179,6 @@ export function RejectionAnalysisSystem() {
       <SystemDetailSection
         label="07 / Application Screens"
         title="Analytics Dashboard"
-        body="Inspection results automatically generate plant-level quality analytics and operational KPIs."
       >
         <SystemImageBlock
           src="/analytics_app_ss.png"
@@ -209,17 +203,8 @@ export function RejectionAnalysisSystem() {
       {/* ── SLIDE 10 — Inference Engine ───────────────────────────── */}
       <SystemDetailSection
         label="09 / Inference Engine"
-        title="Multi-stage AI pipeline from raw image to structured decision."
-        body="The inference pipeline processes each casting image through specialised models, culminating in a rule-based decision engine that converts AI predictions into operational outcomes."
-        bullets={[
-          'High-resolution image acquisition and preprocessing',
-          'Casting segmentation to isolate inspection surfaces',
-          'Surface risk modelling across the full casting geometry',
-          'Defect localisation and classification by type',
-          'Severity scoring per defect and per surface zone',
-          'Recurring defect pattern recognition across production runs',
-          'Adaptive calibration per part type',
-        ]}
+        title="Rule-based decision engine converts AI predictions into operational outcomes."
+        body="The inference pipeline culminates in a decision engine that applies configurable rules to determine inspection outcomes."
       >
         <div className="mt-6 p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
           <p className="text-sm font-semibold text-gray-700 mb-3">Decision Engine Rules</p>
@@ -354,11 +339,10 @@ export function RejectionAnalysisSystem() {
         title="On-premise deployment within the plant network."
         body="The system runs entirely on-premise on a dedicated inspection workstation. No casting images or production data leave the plant network."
         bullets={[
-          'Runs on on-premise inspection workstation — no cloud dependency',
           'Processes images in real time at the inspection station',
           'Stores inspection records in a local SQL database',
           'Integrates with ERP and MES data for manufacturing context',
-          'Operates within the plant network — data sovereignty maintained',
+          'Full data sovereignty — no cloud dependency',
         ]}
       />
 
