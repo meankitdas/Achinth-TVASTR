@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, useMemo } from 'react'
 import { useAuth } from './AuthContext'
 import { supabase } from '../lib/supabaseClient'
 import { getCapabilities } from '../lib/capabilities'
+import { isAdmin as checkIsAdmin } from '../lib/admin'
 
 /**
  * LicenseContext — Provides license tier and capability information.
@@ -11,6 +12,7 @@ import { getCapabilities } from '../lib/capabilities'
  *   customerName  — Customer organization name
  *   licenseKey    — User's license key (for update server API calls)
  *   capabilities  — Capability flags derived from tier
+ *   isAdmin       — True if user is admin (achintharya@gmail.com or TVASTR-ACHINTH license)
  *   loading       — True while fetching license data
  *   error         — Error message if license fetch fails
  */
@@ -69,11 +71,17 @@ export function LicenseProvider({ children }) {
   }, [user])
 
   const capabilities = tier ? getCapabilities(tier) : null
+  
+  // Check if current user is admin
+  const isAdmin = useMemo(
+    () => checkIsAdmin(user, licenseKey),
+    [user, licenseKey]
+  )
 
   // Memoize context value to prevent unnecessary re-renders
   const value = useMemo(
-    () => ({ tier, customerName, licenseKey, capabilities, loading, error }),
-    [tier, customerName, licenseKey, capabilities, loading, error]
+    () => ({ tier, customerName, licenseKey, capabilities, isAdmin, loading, error }),
+    [tier, customerName, licenseKey, capabilities, isAdmin, loading, error]
   )
 
   return (

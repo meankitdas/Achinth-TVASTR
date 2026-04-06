@@ -9,17 +9,19 @@ import { LockedScreen } from './LockedScreen'
  * Props:
  *   children             — Route content
  *   requiredCapability   — Optional capability name (e.g., 'plant_intelligence')
+ *   adminOnly            — If true, only admin users can access (redirects others to /portal/dashboard)
  *
  * Behavior:
  *   - While loading session: shows a minimal loading indicator
  *   - If no session: redirects to /portal (login page)
  *   - If session exists but license loading: shows loader
+ *   - If adminOnly and not admin: redirects to /portal/dashboard
  *   - If requiredCapability specified and not met: shows LockedScreen
  *   - Otherwise: renders children
  */
-export function ProtectedRoute({ children, requiredCapability }) {
+export function ProtectedRoute({ children, requiredCapability, adminOnly }) {
   const { session, loading: authLoading } = useAuth()
-  const { capabilities, loading: licenseLoading, error: licenseError } = useLicense()
+  const { capabilities, isAdmin, loading: licenseLoading, error: licenseError } = useLicense()
 
   const loading = authLoading || licenseLoading
 
@@ -50,6 +52,11 @@ export function ProtectedRoute({ children, requiredCapability }) {
 
   if (!session) {
     return <Navigate to="/portal" replace />
+  }
+
+  // If adminOnly route and user is not admin, redirect to regular dashboard
+  if (adminOnly && !isAdmin) {
+    return <Navigate to="/portal/dashboard" replace />
   }
 
   // Show license error if present

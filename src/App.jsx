@@ -31,6 +31,9 @@ const PortalDashboard = lazy(() =>
 const PortalManual = lazy(() =>
   import('./pages/PortalManual').then((m) => ({ default: m.PortalManual }))
 )
+const AdminDashboard = lazy(() =>
+  import('./pages/AdminDashboard').then((m) => ({ default: m.AdminDashboard }))
+)
 
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePage() {
@@ -137,6 +140,15 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <PortalManual />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/portal/admin"
+                element={
+                  <ProtectedRoute adminOnly>
+                    <AdminDashboard />
                   </ProtectedRoute>
                 }
               />

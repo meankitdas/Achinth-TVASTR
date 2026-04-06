@@ -127,7 +127,7 @@ const PRODUCTS = [
  */
 export function PortalDashboard() {
   const { user, signOut } = useAuth()
-  const { tier, customerName, capabilities, loading: licenseLoading, licenseKey } = useLicense()
+  const { tier, customerName, capabilities, loading: licenseLoading, licenseKey, isAdmin } = useLicense()
   const [versions, setVersions] = useState({}) // { productId: { latest: version, older: [versions] } }
   const [loadingVersions, setLoadingVersions] = useState(true)
   const [downloadingVersion, setDownloadingVersion] = useState(null)
@@ -237,6 +237,14 @@ export function PortalDashboard() {
           </Link>
 
           <div className="flex items-center gap-6">
+            {isAdmin && (
+              <Link
+                to="/portal/admin"
+                className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              >
+                Admin Portal
+              </Link>
+            )}
             <Link
               to="/portal/manual"
               className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useLicense } from '../context/LicenseContext'
 import { Logo } from '../components/Logo'
 import { CONFIG, generateMailtoLink } from '../lib/config'
 import { useDocumentHead } from '../hooks/useDocumentHead'
@@ -20,6 +21,7 @@ export function PortalLogin() {
   const [focusedField, setFocusedField] = useState(null)
 
   const { signIn, session } = useAuth()
+  const { isAdmin, loading: licenseLoading } = useLicense()
   const navigate = useNavigate()
 
   useDocumentHead(
@@ -30,8 +32,12 @@ export function PortalLogin() {
 
   // Redirect if already logged in
   useEffect(() => {
-    if (session) navigate('/portal/dashboard', { replace: true })
-  }, [session, navigate])
+    if (session && !licenseLoading) {
+      // Route admin to admin dashboard, others to regular dashboard
+      const destination = isAdmin ? '/portal/admin' : '/portal/dashboard'
+      navigate(destination, { replace: true })
+    }
+  }, [session, isAdmin, licenseLoading, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
