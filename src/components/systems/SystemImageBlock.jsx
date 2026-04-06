@@ -23,12 +23,13 @@ export function SystemImageBlock({ src, alt, caption, label }) {
           border: '1px solid #e5e7eb',
         }}
       >
-        <img
-          src={src}
-          alt={alt}
-          className="w-full h-auto block"
-          loading="lazy"
-        />
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className="w-full"
+        style={{ border: '1px solid #e5e7eb' }}
+      />
       </div>
       {caption && (
         <p className="text-sm text-slate-500 text-center mt-3 italic">

@@ -14,6 +14,7 @@ function YantraLine() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="opacity-40"
+        aria-hidden="true"
       >
         {/* Left extending line */}
         <line x1="0" y1="20" x2="110" y2="20" stroke="#f59e0b" strokeWidth="0.5" />

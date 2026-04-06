@@ -86,7 +86,7 @@ export function ContactSection() {
                   background: 'rgba(26,26,30,0.8)',
                 }}
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <rect x="1" y="3" width="12" height="9" rx="1" stroke="currentColor" strokeWidth="0.8" fill="none"/>
                   <path d="M1 4.5L7 8.5L13 4.5" stroke="currentColor" strokeWidth="0.8" fill="none"/>
                 </svg>
@@ -111,7 +111,7 @@ export function ContactSection() {
                   background: 'rgba(26,26,30,0.8)',
                 }}
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <rect x="1" y="1" width="12" height="12" rx="1.5" stroke="currentColor" strokeWidth="0.8" fill="none"/>
                   <circle cx="4.5" cy="4.5" r="1" fill="currentColor"/>
                   <line x1="4.5" y1="6.5" x2="4.5" y2="11" stroke="currentColor" strokeWidth="0.8"/>
