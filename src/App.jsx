@@ -28,9 +28,6 @@ const PortalLogin = lazy(() =>
 const PortalDashboard = lazy(() =>
   import('./pages/PortalDashboard').then((m) => ({ default: m.PortalDashboard }))
 )
-const PortalDownloads = lazy(() =>
-  import('./pages/PortalDownloads').then((m) => ({ default: m.PortalDownloads }))
-)
 const PortalManual = lazy(() =>
   import('./pages/PortalManual').then((m) => ({ default: m.PortalManual }))
 )
@@ -131,15 +128,6 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <PortalDashboard />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/portal/downloads"
-                element={
-                  <ProtectedRoute>
-                    <PortalDownloads />
                   </ProtectedRoute>
                 }
               />

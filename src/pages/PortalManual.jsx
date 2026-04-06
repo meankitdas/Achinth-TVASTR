@@ -99,12 +99,6 @@ export function PortalManual() {
             >
               Dashboard
             </Link>
-            <Link
-              to="/portal/downloads"
-              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
-            >
-              Downloads
-            </Link>
             <span
               className="text-xs font-semibold tracking-widest uppercase"
               style={{ color: '#f59e0b' }}

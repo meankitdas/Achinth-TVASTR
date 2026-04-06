@@ -328,6 +328,11 @@ export function EcosystemSection() {
   // State for orb position and active tile
   const [orbPosition, setOrbPosition] = useState({ x: 0, y: 0 })
   const [activeTileIndex, setActiveTileIndex] = useState(-1)
+  const [reverseOrbPositions, setReverseOrbPositions] = useState([
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 }
+  ])
   const [isVisible, setIsVisible] = useState(false)
   const [expandedTile, setExpandedTile] = useState(null)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
@@ -466,15 +471,10 @@ export function EcosystemSection() {
       cumulativeDistances.push(cumulativeDistances[i] + segmentDistances[i])
     }
 
-    // Animation loop
-    const animate = () => {
-      const elapsed = Date.now() - startTime
-      const progress = (elapsed % cycleDuration) / cycleDuration // 0 to 1
-
-      // Calculate current position based on distance traveled
+    // Helper function to calculate position along path
+    const getPositionAtProgress = (progress) => {
       const targetDistance = progress * totalDistance
 
-      // Find which segment we're in based on cumulative distance
       let currentSegment = 0
       for (let i = 0; i < cumulativeDistances.length - 1; i++) {
         if (targetDistance >= cumulativeDistances[i] && targetDistance < cumulativeDistances[i + 1]) {
@@ -483,7 +483,6 @@ export function EcosystemSection() {
         }
       }
 
-      // Clamp to valid segment range
       if (currentSegment >= waypoints.length - 1) {
         currentSegment = waypoints.length - 2
       }
@@ -491,32 +490,44 @@ export function EcosystemSection() {
       const start = waypoints[currentSegment]
       const end = waypoints[currentSegment + 1]
 
-      // Calculate progress within this segment based on distance
       const segmentStartDist = cumulativeDistances[currentSegment]
       const segmentLength = segmentDistances[currentSegment]
       const segmentProgress = segmentLength > 0 
         ? (targetDistance - segmentStartDist) / segmentLength 
         : 0
 
-      // Interpolate position
       const x = start.x + (end.x - start.x) * segmentProgress
       const y = start.y + (end.y - start.y) * segmentProgress
 
-      setOrbPosition({ x, y })
-
-      // Update active tile based on progress through segment
-      // Use end tile when more than 50% through the segment for smoother transition
+      let tileIndex = -1
       if (!start.isUTurn && !end.isUTurn) {
-        // Both waypoints are tiles - use the one we're closer to
-        const activeTile = segmentProgress > 0.5 ? end.tileIndex : start.tileIndex
-        setActiveTileIndex(activeTile)
+        tileIndex = segmentProgress > 0.5 ? end.tileIndex : start.tileIndex
       } else if (!start.isUTurn) {
-        // Moving from tile to U-turn - keep the start tile active
-        setActiveTileIndex(start.tileIndex)
+        tileIndex = start.tileIndex
       } else if (!end.isUTurn) {
-        // Moving from U-turn to tile - activate the end tile
-        setActiveTileIndex(end.tileIndex)
+        tileIndex = end.tileIndex
       }
+
+      return { x, y, tileIndex }
+    }
+
+    // Animation loop
+    const animate = () => {
+      const elapsed = Date.now() - startTime
+      const progress = (elapsed % cycleDuration) / cycleDuration // 0 to 1
+
+      // Forward orb (tile 0 → tile 14)
+      const forwardPos = getPositionAtProgress(progress)
+      setOrbPosition(forwardPos)
+      setActiveTileIndex(forwardPos.tileIndex)
+
+      // Reverse orbs (tile 14 → tile 0) - 3 orbs staggered at 33% intervals
+      const reverseOrbs = [
+        getPositionAtProgress(1 - progress), // Orb 1: no offset
+        getPositionAtProgress(1 - ((progress + 0.33) % 1)), // Orb 2: 33% behind
+        getPositionAtProgress(1 - ((progress + 0.66) % 1)), // Orb 3: 66% behind
+      ]
+      setReverseOrbPositions(reverseOrbs)
 
       animationFrameId = requestAnimationFrame(animate)
     }
@@ -579,7 +590,7 @@ export function EcosystemSection() {
         {/* Serpentine Conveyor Belt Diagram */}
         <div ref={containerRef} className="reveal reveal-delay-2 space-y-6 max-w-[1400px] mx-auto relative">
           
-          {/* Single glowing orb - positioned via JS with fade-out at last tile */}
+          {/* Forward orb - fades in at tile 0, fades out at tile 14 */}
           <div
             className="absolute w-3 h-3 rounded-full bg-amber-forge pointer-events-none z-10 transition-opacity duration-1000"
             style={{
@@ -587,9 +598,29 @@ export function EcosystemSection() {
               top: `${orbPosition.y}px`,
               transform: 'translate(-50%, -50%)',
               boxShadow: '0 0 20px rgba(245,158,11,0.9), 0 0 40px rgba(245,158,11,0.6)',
-              opacity: isVisible && activeTileIndex !== -1 ? (activeTileIndex === 14 ? 0.3 : 1) : 0,
+              opacity: isVisible && activeTileIndex !== -1 
+                ? (activeTileIndex === 0 ? 0.3 : activeTileIndex === 14 ? 0.3 : 1) 
+                : 0,
             }}
           />
+
+          {/* 3 Reverse orbs (feedback/auto-tuning) - smaller, lighter, traveling backward */}
+          {reverseOrbPositions.map((pos, i) => (
+            <div
+              key={`reverse-orb-${i}`}
+              className="absolute w-2 h-2 rounded-full pointer-events-none z-10 transition-opacity duration-1000"
+              style={{
+                left: `${pos.x}px`,
+                top: `${pos.y}px`,
+                transform: 'translate(-50%, -50%)',
+                background: 'rgba(147,197,253,0.8)', // Light blue tint for feedback
+                boxShadow: '0 0 12px rgba(147,197,253,0.6), 0 0 24px rgba(147,197,253,0.3)',
+                opacity: isVisible && pos.tileIndex !== -1 
+                  ? (pos.tileIndex === 14 ? 0.3 : pos.tileIndex === 0 ? 0.3 : 0.7) 
+                  : 0,
+              }}
+            />
+          ))}
 
           {/* MOBILE ZIGZAG LAYOUT */}
           <div className="md:hidden relative">
