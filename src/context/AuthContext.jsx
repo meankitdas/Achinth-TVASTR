@@ -5,11 +5,13 @@ import { supabase } from '../lib/supabaseClient'
  * AuthContext — Provides authentication state and actions throughout the app.
  *
  * Exposes:
- *   session  — Supabase session object (null when logged out)
- *   user     — Supabase user object (null when logged out)
- *   loading  — true while initial session is being fetched
- *   signIn   — async (email, password) → { error }
- *   signOut  — async () → void
+ *   session        — Supabase session object (null when logged out)
+ *   user           — Supabase user object (null when logged out)
+ *   loading        — true while initial session is being fetched
+ *   signIn         — async (email, password) → { error }
+ *   signOut        — async () → void
+ *   resetPassword  — async (email) → { error }
+ *   updatePassword — async (newPassword) → { error }
  */
 const AuthContext = createContext(null)
 
@@ -51,6 +53,28 @@ export function AuthProvider({ children }) {
     setSession(null)
   }, [])
 
+  /**
+   * Request password reset email.
+   * @param {string} email - User email address
+   * @returns {{ error: Error|null }}
+   */
+  const resetPassword = useCallback(async (email) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/portal/reset-password`,
+    })
+    return { error }
+  }, [])
+
+  /**
+   * Update user password (must be called when user is logged in or has valid reset token).
+   * @param {string} newPassword - New password
+   * @returns {{ error: Error|null }}
+   */
+  const updatePassword = useCallback(async (newPassword) => {
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    return { error }
+  }, [])
+
   // Memoize context value to prevent unnecessary re-renders
   const value = useMemo(
     () => ({
@@ -59,8 +83,10 @@ export function AuthProvider({ children }) {
       loading,
       signIn,
       signOut,
+      resetPassword,
+      updatePassword,
     }),
-    [session, loading, signIn, signOut]
+    [session, loading, signIn, signOut, resetPassword, updatePassword]
   )
 
   return (
