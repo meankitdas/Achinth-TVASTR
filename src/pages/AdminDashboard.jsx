@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import ReactMarkdown from 'react-markdown'
 import { useAuth } from '../context/AuthContext'
 import { useLicense } from '../context/LicenseContext'
 import { supabase } from '../lib/supabaseClient'
@@ -83,6 +84,63 @@ export function AdminDashboard() {
   const [customers, setCustomers] = useState([])
   const [loadingCustomers, setLoadingCustomers] = useState(true)
   const [error, setError] = useState(null)
+
+  // Documentation state
+  const [manifest, setManifest] = useState(null)
+  const [selectedDoc, setSelectedDoc] = useState(null)
+  const [docContent, setDocContent] = useState('')
+  const [loadingDoc, setLoadingDoc] = useState(false)
+  const [docError, setDocError] = useState(null)
+
+  // Fetch documentation manifest
+  useEffect(() => {
+    if (activeTab !== 'docs') return
+
+    async function fetchManifest() {
+      try {
+        const response = await fetch('/docs/manifest.json')
+        if (!response.ok) throw new Error('Failed to load documentation manifest')
+        const data = await response.json()
+        setManifest(data)
+        
+        // Auto-select first doc
+        if (data.sections?.[0]?.docs?.[0]) {
+          const firstDoc = data.sections[0].docs[0]
+          setSelectedDoc(firstDoc.file)
+        }
+      } catch (err) {
+        console.error('[AdminDashboard] Error loading manifest:', err)
+        setDocError(err.message)
+      }
+    }
+
+    fetchManifest()
+  }, [activeTab])
+
+  // Fetch selected document content
+  useEffect(() => {
+    if (!selectedDoc) return
+
+    async function fetchDocContent() {
+      setLoadingDoc(true)
+      setDocError(null)
+
+      try {
+        const response = await fetch(`/docs/${selectedDoc}`)
+        if (!response.ok) throw new Error('Failed to load document')
+        const content = await response.text()
+        setDocContent(content)
+      } catch (err) {
+        console.error('[AdminDashboard] Error loading document:', err)
+        setDocError(err.message)
+        setDocContent('')
+      } finally {
+        setLoadingDoc(false)
+      }
+    }
+
+    fetchDocContent()
+  }, [selectedDoc])
 
   // Fetch all customers
   useEffect(() => {
@@ -281,40 +339,104 @@ export function AdminDashboard() {
         )}
 
         {activeTab === 'docs' && (
-          <div style={STYLES.card} className="p-8">
-            <div className="text-center py-16">
-              <div className="mb-6">
-                <svg
-                  className="mx-auto"
-                  width="64"
-                  height="64"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  style={{ color: '#a8a8b4', opacity: 0.4 }}
-                >
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold text-metallic-300 mb-3">
-                System Documentation
-              </h3>
-              <p className="text-sm text-metallic-500 max-w-md mx-auto mb-6">
-                This section will display comprehensive system documentation as Markdown files.
-                Upload your documentation files to <code className="text-amber-forge">public/docs/</code> to get started.
-              </p>
-              <div className="inline-block px-4 py-2 text-xs font-mono text-metallic-600" style={{
-                background: 'rgba(10,10,11,0.6)',
-                border: '1px solid rgba(168,168,180,0.06)',
-                borderRadius: '0.375rem',
-              }}>
-                Feature placeholder — Coming soon
-              </div>
+          <div style={STYLES.card} className="flex">
+            {/* Sidebar */}
+            <div
+              className="w-64 border-r overflow-y-auto"
+              style={{
+                borderColor: 'rgba(168,168,180,0.08)',
+                maxHeight: '70vh',
+              }}
+            >
+              {manifest ? (
+                <div className="p-4">
+                  {manifest.sections.map((section) => (
+                    <div key={section.id} className="mb-6">
+                      <h3 className="text-xs font-semibold tracking-widest uppercase text-amber-forge mb-3 px-3">
+                        {section.title}
+                      </h3>
+                      <div className="space-y-1">
+                        {section.docs.map((doc) => (
+                          <button
+                            key={doc.file}
+                            onClick={() => setSelectedDoc(doc.file)}
+                            className="w-full text-left px-3 py-2 rounded text-sm transition-colors duration-150"
+                            style={{
+                              color: selectedDoc === doc.file ? '#fbbf24' : '#a8a8b4',
+                              background: selectedDoc === doc.file ? 'rgba(245,158,11,0.08)' : 'transparent',
+                              border: selectedDoc === doc.file ? '1px solid rgba(245,158,11,0.15)' : '1px solid transparent',
+                            }}
+                          >
+                            {doc.title}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-4 text-center">
+                  <span className="text-xs text-metallic-500">Loading...</span>
+                </div>
+              )}
+            </div>
+
+            {/* Content area */}
+            <div className="flex-1 overflow-y-auto" style={{ maxHeight: '70vh' }}>
+              {loadingDoc ? (
+                <div className="flex items-center justify-center py-16">
+                  <div className="flex flex-col items-center gap-4">
+                    <div
+                      className="w-8 h-8"
+                      style={{
+                        background: 'rgba(245,158,11,0.1)',
+                        border: '1px solid rgba(245,158,11,0.3)',
+                        borderRadius: '0.375rem',
+                        transform: 'rotate(45deg)',
+                        animation: 'pulse 1.5s ease-in-out infinite',
+                      }}
+                    />
+                    <span className="text-xs text-metallic-500 tracking-widest uppercase">
+                      Loading document...
+                    </span>
+                  </div>
+                </div>
+              ) : docError ? (
+                <div className="p-8 text-center">
+                  <p className="text-sm text-red-400">{docError}</p>
+                </div>
+              ) : docContent ? (
+                <div className="p-8 prose prose-invert prose-amber max-w-none">
+                  <ReactMarkdown
+                    components={{
+                      h1: ({ node, ...props }) => <h1 className="text-2xl font-bold text-metallic-100 mb-4 border-b border-metallic-800 pb-3" {...props} />,
+                      h2: ({ node, ...props }) => <h2 className="text-xl font-bold text-metallic-200 mb-3 mt-8" {...props} />,
+                      h3: ({ node, ...props }) => <h3 className="text-lg font-semibold text-metallic-300 mb-2 mt-6" {...props} />,
+                      p: ({ node, ...props }) => <p className="text-sm text-metallic-400 mb-4 leading-relaxed" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="text-sm text-metallic-400 mb-4 ml-6 list-disc space-y-1" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="text-sm text-metallic-400 mb-4 ml-6 list-decimal space-y-1" {...props} />,
+                      li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
+                      code: ({ node, inline, ...props }) =>
+                        inline ? (
+                          <code className="px-1.5 py-0.5 rounded text-amber-forge font-mono text-xs" style={{ background: 'rgba(245,158,11,0.1)' }} {...props} />
+                        ) : (
+                          <code className="block p-4 rounded font-mono text-xs text-metallic-300 overflow-x-auto" style={{ background: 'rgba(10,10,11,0.6)', border: '1px solid rgba(168,168,180,0.08)' }} {...props} />
+                        ),
+                      pre: ({ node, ...props }) => <pre className="mb-4" {...props} />,
+                      strong: ({ node, ...props }) => <strong className="font-bold text-amber-forge" {...props} />,
+                      em: ({ node, ...props }) => <em className="italic text-metallic-300" {...props} />,
+                      a: ({ node, ...props }) => <a className="text-amber-forge hover:underline" {...props} />,
+                      hr: ({ node, ...props }) => <hr className="my-8 border-metallic-800" {...props} />,
+                    }}
+                  >
+                    {docContent}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                <div className="p-8 text-center">
+                  <p className="text-sm text-metallic-500">Select a document to view</p>
+                </div>
+              )}
             </div>
           </div>
         )}

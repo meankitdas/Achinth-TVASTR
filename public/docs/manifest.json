@@ -1,0 +1,52 @@
+{
+  "sections": [
+    {
+      "id": "01_overview",
+      "title": "Overview",
+      "docs": [
+        { "id": "introduction", "title": "Introduction", "file": "01_overview/introduction.md" },
+        { "id": "architecture", "title": "System Architecture", "file": "01_overview/architecture.md" }
+      ]
+    },
+    {
+      "id": "02_pipeline",
+      "title": "Pipeline",
+      "docs": [
+        { "id": "data-ingestion", "title": "Data Ingestion", "file": "02_pipeline/data-ingestion.md" },
+        { "id": "processing", "title": "Processing", "file": "02_pipeline/processing.md" }
+      ]
+    },
+    {
+      "id": "03_intelligence",
+      "title": "Intelligence",
+      "docs": [
+        { "id": "ai-models", "title": "AI Models", "file": "03_intelligence/ai-models.md" },
+        { "id": "analytics", "title": "Analytics", "file": "03_intelligence/analytics.md" }
+      ]
+    },
+    {
+      "id": "04_configuration",
+      "title": "Configuration",
+      "docs": [
+        { "id": "setup", "title": "Initial Setup", "file": "04_configuration/setup.md" },
+        { "id": "parameters", "title": "Parameters", "file": "04_configuration/parameters.md" }
+      ]
+    },
+    {
+      "id": "05_deployment",
+      "title": "Deployment",
+      "docs": [
+        { "id": "installation", "title": "Installation", "file": "05_deployment/installation.md" },
+        { "id": "maintenance", "title": "Maintenance", "file": "05_deployment/maintenance.md" }
+      ]
+    },
+    {
+      "id": "06_reference",
+      "title": "Reference",
+      "docs": [
+        { "id": "api", "title": "API Reference", "file": "06_reference/api.md" },
+        { "id": "glossary", "title": "Glossary", "file": "06_reference/glossary.md" }
+      ]
+    }
+  ]
+}
