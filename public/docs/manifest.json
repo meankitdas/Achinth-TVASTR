@@ -4,48 +4,61 @@
       "id": "01_overview",
       "title": "Overview",
       "docs": [
-        { "id": "introduction", "title": "Introduction", "file": "01_overview/introduction.md" },
-        { "id": "architecture", "title": "System Architecture", "file": "01_overview/architecture.md" }
+        { "id": "system_overview", "title": "System Overview", "file": "01_overview/system_overview.md" },
+        { "id": "architecture", "title": "Architecture", "file": "01_overview/architecture.md" },
+        { "id": "technical_reference", "title": "Technical Reference", "file": "01_overview/technical_reference.md" }
       ]
     },
     {
       "id": "02_pipeline",
       "title": "Pipeline",
       "docs": [
-        { "id": "data-ingestion", "title": "Data Ingestion", "file": "02_pipeline/data-ingestion.md" },
-        { "id": "processing", "title": "Processing", "file": "02_pipeline/processing.md" }
+        { "id": "full_pipeline", "title": "Full Pipeline", "file": "02_pipeline/full_pipeline.md" },
+        { "id": "patch_system", "title": "Patch System", "file": "02_pipeline/patch_system.md" },
+        { "id": "anomaly_system", "title": "Anomaly System", "file": "02_pipeline/anomaly_system.md" },
+        { "id": "signal_system", "title": "Signal System", "file": "02_pipeline/signal_system.md" },
+        { "id": "fusion_logic", "title": "Fusion Logic", "file": "02_pipeline/fusion_logic.md" }
       ]
     },
     {
       "id": "03_intelligence",
       "title": "Intelligence",
       "docs": [
-        { "id": "ai-models", "title": "AI Models", "file": "03_intelligence/ai-models.md" },
-        { "id": "analytics", "title": "Analytics", "file": "03_intelligence/analytics.md" }
+        { "id": "prototype_system", "title": "Prototype System", "file": "03_intelligence/prototype_system.md" },
+        { "id": "scrata_system", "title": "SCRATA System", "file": "03_intelligence/scrata_system.md" },
+        { "id": "reasoning_pipeline", "title": "Reasoning Pipeline", "file": "03_intelligence/reasoning_pipeline.md" },
+        { "id": "auto_calibration", "title": "Auto Calibration", "file": "03_intelligence/auto_calibration.md" },
+        { "id": "fingerprinting", "title": "Fingerprinting", "file": "03_intelligence/fingerprinting.md" },
+        { "id": "traceability", "title": "Traceability", "file": "03_intelligence/traceability.md" },
+        { "id": "plant_intelligence", "title": "Plant Intelligence", "file": "03_intelligence/plant_intelligence.md" }
       ]
     },
     {
       "id": "04_configuration",
       "title": "Configuration",
       "docs": [
-        { "id": "setup", "title": "Initial Setup", "file": "04_configuration/setup.md" },
-        { "id": "parameters", "title": "Parameters", "file": "04_configuration/parameters.md" }
+        { "id": "parameters", "title": "Parameters", "file": "04_configuration/parameters.md" },
+        { "id": "config_guide", "title": "Configuration Guide", "file": "04_configuration/config_guide.md" }
       ]
     },
     {
       "id": "05_deployment",
       "title": "Deployment",
       "docs": [
-        { "id": "installation", "title": "Installation", "file": "05_deployment/installation.md" },
-        { "id": "maintenance", "title": "Maintenance", "file": "05_deployment/maintenance.md" }
+        { "id": "setup", "title": "Setup", "file": "05_deployment/setup.md" },
+        { "id": "runtime", "title": "Runtime", "file": "05_deployment/runtime.md" },
+        { "id": "licensing", "title": "Licensing", "file": "05_deployment/licensing.md" },
+        { "id": "software_updates", "title": "Software Updates", "file": "05_deployment/software_updates.md" }
       ]
     },
     {
       "id": "06_reference",
       "title": "Reference",
       "docs": [
-        { "id": "api", "title": "API Reference", "file": "06_reference/api.md" },
-        { "id": "glossary", "title": "Glossary", "file": "06_reference/glossary.md" }
+        { "id": "api_contracts", "title": "API Contracts", "file": "06_reference/api_contracts.md" },
+        { "id": "data_structures", "title": "Data Structures", "file": "06_reference/data_structures.md" },
+        { "id": "iso_compliance", "title": "ISO Compliance", "file": "06_reference/iso_compliance.md" },
+        { "id": "dashboard_guide", "title": "Dashboard Guide", "file": "06_reference/dashboard_guide.md" }
       ]
     }
   ]
