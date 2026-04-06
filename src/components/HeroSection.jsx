@@ -16,6 +16,7 @@ import { FloatingGeometry } from '../three/FloatingGeometry'
  */
 export function HeroSection() {
   const [shouldRenderThree, setShouldRenderThree] = useState(true)
+  const [scaleFactor, setScaleFactor] = useState(1)
 
   useEffect(() => {
     // Detect low-power devices
@@ -26,6 +27,22 @@ export function HeroSection() {
     if (isLowPower) {
       setShouldRenderThree(false)
     }
+
+    // Compute initial scale based on viewport width
+    const updateScale = () => {
+      const width = window.innerWidth
+      if (width < 768) {
+        setScaleFactor(0.6) // Mobile: smaller scene
+      } else if (width < 1024) {
+        setScaleFactor(0.8) // Tablet: medium scene
+      } else {
+        setScaleFactor(1.0) // Desktop: full scene
+      }
+    }
+
+    updateScale()
+    window.addEventListener('resize', updateScale)
+    return () => window.removeEventListener('resize', updateScale)
   }, [])
 
   const scrollToProducts = () => {
@@ -59,8 +76,8 @@ export function HeroSection() {
             dpr={[1, 1.5]} // cap pixel ratio for performance
           >
             <Suspense fallback={null}>
-              <ForgeCore />
-              <FloatingGeometry />
+              <ForgeCore scale={scaleFactor} />
+              <FloatingGeometry scale={scaleFactor} />
             </Suspense>
           </Canvas>
         ) : (

@@ -7,8 +7,10 @@ import { IcosahedronGeometry, TorusGeometry } from 'three'
  * An icosahedron with layered geometry suggesting a forged industrial core.
  * Warm amber point lights simulate a forge glow.
  * Animates with slow rotation + gentle float.
+ * 
+ * @param {number} scale - Responsive scale factor (0.6 mobile, 0.8 tablet, 1.0 desktop)
  */
-export function ForgeCore() {
+export function ForgeCore({ scale = 1 }) {
   const outerRef = useRef()
   const innerRef = useRef()
   const ringRef = useRef()
@@ -43,7 +45,7 @@ export function ForgeCore() {
   const torusGeom = useMemo(() => new TorusGeometry(1.8, 0.025, 8, 48), [])
 
   return (
-    <group>
+    <group scale={scale}>
       {/* Forge glow lights — warm amber tones */}
       <pointLight position={[2, 2, 2]} color="#f59e0b" intensity={3} distance={8} />
       <pointLight position={[-2, -1, 1]} color="#d97706" intensity={2} distance={6} />

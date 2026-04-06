@@ -7,10 +7,12 @@ import { OctahedronGeometry, TetrahedronGeometry, IcosahedronGeometry } from 'th
  * Small geometric shapes (octahedrons, tetrahedrons) drifting slowly in 3D.
  * Each particle has a unique speed, axis, and starting position.
  * Kept minimal: max 12 particles, no textures.
+ * 
+ * @param {number} scale - Responsive scale factor (0.6 mobile, 0.8 tablet, 1.0 desktop)
  */
 
 // Single particle component — isolated to avoid re-renders
-function Particle({ position, geometry, speed, rotAxis }) {
+function Particle({ position, geometry, speed, rotAxis, scale }) {
   const ref = useRef()
   const time = useRef(Math.random() * Math.PI * 2) // random phase offset
 
@@ -39,7 +41,7 @@ function Particle({ position, geometry, speed, rotAxis }) {
   )
 }
 
-export function FloatingGeometry() {
+export function FloatingGeometry({ scale = 1 }) {
   // Reuse geometries across particles to minimize GPU allocations
   const octaGeom = useMemo(() => new OctahedronGeometry(0.08, 0), [])
   const tetraGeom = useMemo(() => new TetrahedronGeometry(0.07, 0), [])
@@ -55,6 +57,7 @@ export function FloatingGeometry() {
   }, [octaGeom, tetraGeom, icoGeom])
 
   // Deterministic particle layout — spread around the hero canvas
+  // Positions are scaled responsively to keep particles in view
   const particles = useMemo(() => [
     { id: 0, pos: [-3.2, 1.8, -1.5], geom: octaGeom, speed: 0.3, axis: 'y' },
     { id: 1, pos: [3.5, 0.5, -2.0], geom: tetraGeom, speed: 0.25, axis: 'x' },
@@ -71,7 +74,7 @@ export function FloatingGeometry() {
   ], [octaGeom, tetraGeom, icoGeom])
 
   return (
-    <group>
+    <group scale={scale}>
       {particles.map((p) => (
         <Particle
           key={p.id}
@@ -79,6 +82,7 @@ export function FloatingGeometry() {
           geometry={p.geom}
           speed={p.speed}
           rotAxis={p.axis}
+          scale={scale}
         />
       ))}
     </group>
