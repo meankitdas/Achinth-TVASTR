@@ -13,12 +13,12 @@ const PRODUCTS = [
     badge: 'Core / Enterprise',
     title: 'Rejection Analysis System',
     description:
-      'AI-powered visual inspection that detects defects, maps root causes, and generates structured, traceable records.',
+      'Automated visual inspection platform that transforms casting images into structured, traceable quality records.',
     capabilities: [
-      'AI-powered defect detection and classification',
+      'Defect detection and classification',
       'Root cause mapping with manufacturing context',
       'Multi-stage inspection pipeline (image → structured decision)',
-      'Recurring defect pattern recognition across production runs',
+      'Recurring pattern recognition across production runs',
     ],
   },
   {
