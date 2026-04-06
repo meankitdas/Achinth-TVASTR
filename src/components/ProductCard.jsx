@@ -238,7 +238,7 @@ export function ProductCard({ product, visual, index }) {
             </div>
 
             <h2
-              className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-3"
+              className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-4"
               style={{
                 background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)',
                 WebkitBackgroundClip: 'text',
@@ -249,21 +249,9 @@ export function ProductCard({ product, visual, index }) {
               {product.title}
             </h2>
 
-            {product.subtitle && (
-              <p className="text-sm text-metallic-500 tracking-wide mb-4">
-                {product.subtitle}
-              </p>
-            )}
-
             <p className="text-base text-metallic-300 leading-relaxed mb-6">
               {product.description}
             </p>
-
-            {product.note && (
-              <p className="text-xs text-metallic-500 leading-relaxed mb-5 italic">
-                {product.note}
-              </p>
-            )}
           </div>
 
           {/* Capabilities list + Learn More */}

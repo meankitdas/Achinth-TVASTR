@@ -12,17 +12,13 @@ const PRODUCTS = [
     tag: 'Vision AI',
     badge: 'Core / Enterprise',
     title: 'Rejection Analysis System',
-    subtitle: 'Inspection and Process-Aware Analysis',
     description:
-      'The Rejection Analysis System (RAS) is an AI-powered inspection platform that detects defects, maps root causes, and generates structured inspection records.',
-    note: 'Available in two configurations: Core (standalone inspection) and Enterprise (integrated with full traceability and process intelligence).',
+      'AI-powered visual inspection that detects defects, maps root causes, and generates structured, traceable records.',
     capabilities: [
       'AI-powered defect detection and classification',
       'Root cause mapping with manufacturing context',
       'Multi-stage inspection pipeline (image → structured decision)',
-      'Traceable inspection records with full casting metadata',
       'Recurring defect pattern recognition across production runs',
-      'Process intelligence (Enterprise): drift detection, defect graph, heat analysis',
     ],
   },
   {
@@ -31,16 +27,12 @@ const PRODUCTS = [
     tag: 'Plant AI',
     badge: 'Full Stack Only',
     title: 'Plant Intelligence',
-    subtitle: 'Manufacturing Analytics and Decision Intelligence',
     description:
-      'Plant Intelligence (PI) is a plant-level analytics and decision support system that transforms structured inspection and production data into actionable insights.',
-    note: 'Requires structured inspection data (RAS Enterprise or equivalent data source).',
+      'Plant-level analytics that transforms inspection and production data into actionable quality insights.',
     capabilities: [
       'Rejection trend analysis and defect pattern detection',
       'Quality engineering frameworks (FMEA, Fishbone, SPC)',
-      'Process risk detection and anomaly monitoring',
       'Natural language queries against plant data',
-      'Cost of quality analytics by defect type and process stage',
       'Decision intelligence and action tracking',
     ],
   },
