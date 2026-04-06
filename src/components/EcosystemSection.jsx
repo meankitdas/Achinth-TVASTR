@@ -193,7 +193,7 @@ const capabilityTiles = [
 /**
  * CapabilityTile — Compact tile representing a single capability in the pipeline.
  */
-function CapabilityTile({ tile, isActive, tileRef, onClick }) {
+function CapabilityTile({ tile, isActive, tileRef, onClick, compact = false }) {
   return (
     <div
       ref={tileRef}
@@ -210,7 +210,7 @@ function CapabilityTile({ tile, isActive, tileRef, onClick }) {
         boxShadow: tile.accent
           ? 'inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 12px rgba(245,158,11,0.15)'
           : 'inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.3)',
-        minWidth: '140px',
+        minWidth: compact ? 'auto' : '140px',
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         borderRadius: '12px',
       }}
@@ -225,11 +225,11 @@ function CapabilityTile({ tile, isActive, tileRef, onClick }) {
       />
       
       <div className="relative z-10">
-        <div className="text-2xl mb-2">{tile.icon}</div>
-        <h4 className={`text-xs md:text-sm font-bold mb-1 ${tile.accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
+        {!compact && <div className="text-2xl mb-2">{tile.icon}</div>}
+        <h4 className={`text-xs md:text-sm font-bold ${compact ? '' : 'mb-1'} ${tile.accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
           {tile.title}
         </h4>
-        <p className="text-xs text-metallic-500 leading-snug">{tile.description}</p>
+        {!compact && <p className="text-xs text-metallic-500 leading-snug">{tile.description}</p>}
       </div>
     </div>
   )
@@ -358,6 +358,7 @@ export function EcosystemSection() {
   const [activeTileIndex, setActiveTileIndex] = useState(-1)
   const [isVisible, setIsVisible] = useState(false)
   const [expandedTile, setExpandedTile] = useState(null)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   useEffect(() => {
     // Check if the section is visible on screen
@@ -376,6 +377,15 @@ export function EcosystemSection() {
   }, [])
 
   useEffect(() => {
+    // Track mobile/desktop state for conditional ref assignment
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
     // Don't run animation if not visible or no tiles
     if (!isVisible || tileRefs.current.length < 15) return
 
@@ -390,6 +400,7 @@ export function EcosystemSection() {
 
       const containerRect = container.getBoundingClientRect()
       const waypoints = []
+      const isMobile = window.innerWidth < 768 // md breakpoint
 
       // Get positions of all 15 tiles relative to container
       tileRefs.current.forEach((tileEl, index) => {
@@ -405,8 +416,9 @@ export function EcosystemSection() {
           isUTurn: false,
         })
 
-        // Add U-turn waypoints after tiles 4 and 9
-        if (index === 4 || index === 9) {
+        // Desktop: Add U-turn waypoints after tiles 4 and 9
+        // Mobile: Skip U-turns, go directly tile-to-tile (zigzag)
+        if (!isMobile && (index === 4 || index === 9)) {
           const nextTile = tileRefs.current[index + 1]
           const turnRef = index === 4 ? turn1Ref.current : turn2Ref.current
           
@@ -597,7 +609,7 @@ export function EcosystemSection() {
           
           {/* Single glowing orb - positioned via JS with fade-out at last tile */}
           <div
-            className="hidden md:block absolute w-3 h-3 rounded-full bg-amber-forge pointer-events-none z-10 transition-opacity duration-1000"
+            className="absolute w-3 h-3 rounded-full bg-amber-forge pointer-events-none z-10 transition-opacity duration-1000"
             style={{
               left: `${orbPosition.x}px`,
               top: `${orbPosition.y}px`,
@@ -607,6 +619,101 @@ export function EcosystemSection() {
             }}
           />
 
+          {/* MOBILE ZIGZAG LAYOUT */}
+          <div className="md:hidden relative">
+            {/* Draw connecting lines using actual tile positions */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
+              {capabilityTiles.slice(0, -1).map((tile, index) => {
+                const currentTile = tileRefs.current[index]
+                const nextTile = tileRefs.current[index + 1]
+                
+                if (!currentTile || !nextTile || !containerRef.current) return null
+                
+                const containerRect = containerRef.current.getBoundingClientRect()
+                const currentRect = currentTile.getBoundingClientRect()
+                const nextRect = nextTile.getBoundingClientRect()
+                
+                const x1 = currentRect.left + currentRect.width / 2 - containerRect.left
+                const y1 = currentRect.top + currentRect.height / 2 - containerRect.top
+                const x2 = nextRect.left + nextRect.width / 2 - containerRect.left
+                const y2 = nextRect.top + nextRect.height / 2 - containerRect.top
+                
+                return (
+                  <g key={index}>
+                    <line
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
+                      stroke="rgba(245,158,11,0.3)"
+                      strokeWidth="1"
+                    />
+                    {/* Arrow head */}
+                    <circle
+                      cx={x2}
+                      cy={y2}
+                      r="2"
+                      fill="rgba(245,158,11,0.4)"
+                    />
+                  </g>
+                )
+              })}
+            </svg>
+
+            {/* Tiles */}
+            <div className="relative space-y-3" style={{ zIndex: 1 }}>
+              {capabilityTiles.map((tile, index) => {
+                const isLeft = index % 2 === 0
+                
+                // Section headers before tiles 0, 5, 10
+                const sectionHeader = index === 0 ? (
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-lg">⬡</span>
+                    <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
+                      Inspection Pipeline
+                    </h3>
+                  </div>
+                ) : index === 5 ? (
+                  <div className="flex items-center gap-3 mb-3 mt-6">
+                    <span className="text-lg">🔗</span>
+                    <h3 className="text-sm font-bold text-metallic-100 tracking-wide uppercase">
+                      Process Intelligence
+                    </h3>
+                  </div>
+                ) : index === 10 ? (
+                  <div className="flex items-center gap-3 mb-3 mt-6">
+                    <span className="text-lg">◎</span>
+                    <h3 className="text-sm font-bold text-amber-forge tracking-wide uppercase">
+                      Plant-Level Intelligence
+                    </h3>
+                  </div>
+                ) : null
+
+                return (
+                  <div key={index}>
+                    {sectionHeader}
+                    
+                    {/* Tile */}
+                    <div
+                      className={`relative ${isLeft ? 'mr-auto' : 'ml-auto'}`}
+                      style={{ width: '48%' }}
+                    >
+                      <CapabilityTile
+                        tile={tile}
+                        isActive={activeTileIndex === index}
+                        tileRef={isMobile ? setTileRef(index) : undefined}
+                        onClick={() => setExpandedTile(tile)}
+                        compact={true}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* DESKTOP HORIZONTAL LAYOUT */}
+          <div className="hidden md:block space-y-6">
           {/* ROW 1: Inspection Pipeline */}
           <div>
             {/* Row label above */}
@@ -622,35 +729,35 @@ export function EcosystemSection() {
               <CapabilityTile
                 tile={capabilityTiles[0]}
                 isActive={activeTileIndex === 0}
-                tileRef={setTileRef(0)}
+                tileRef={!isMobile ? setTileRef(0) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[0])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[1]}
                 isActive={activeTileIndex === 1}
-                tileRef={setTileRef(1)}
+                tileRef={!isMobile ? setTileRef(1) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[1])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[2]}
                 isActive={activeTileIndex === 2}
-                tileRef={setTileRef(2)}
+                tileRef={!isMobile ? setTileRef(2) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[2])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[3]}
                 isActive={activeTileIndex === 3}
-                tileRef={setTileRef(3)}
+                tileRef={!isMobile ? setTileRef(3) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[3])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[4]}
                 isActive={activeTileIndex === 4}
-                tileRef={setTileRef(4)}
+                tileRef={!isMobile ? setTileRef(4) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[4])}
               />
             </div>
@@ -674,35 +781,35 @@ export function EcosystemSection() {
               <CapabilityTile
                 tile={capabilityTiles[5]}
                 isActive={activeTileIndex === 5}
-                tileRef={setTileRef(5)}
+                tileRef={!isMobile ? setTileRef(5) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[5])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[6]}
                 isActive={activeTileIndex === 6}
-                tileRef={setTileRef(6)}
+                tileRef={!isMobile ? setTileRef(6) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[6])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[7]}
                 isActive={activeTileIndex === 7}
-                tileRef={setTileRef(7)}
+                tileRef={!isMobile ? setTileRef(7) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[7])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[8]}
                 isActive={activeTileIndex === 8}
-                tileRef={setTileRef(8)}
+                tileRef={!isMobile ? setTileRef(8) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[8])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[9]}
                 isActive={activeTileIndex === 9}
-                tileRef={setTileRef(9)}
+                tileRef={!isMobile ? setTileRef(9) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[9])}
               />
             </div>
@@ -726,35 +833,35 @@ export function EcosystemSection() {
               <CapabilityTile
                 tile={capabilityTiles[10]}
                 isActive={activeTileIndex === 10}
-                tileRef={setTileRef(10)}
+                tileRef={!isMobile ? setTileRef(10) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[10])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[11]}
                 isActive={activeTileIndex === 11}
-                tileRef={setTileRef(11)}
+                tileRef={!isMobile ? setTileRef(11) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[11])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[12]}
                 isActive={activeTileIndex === 12}
-                tileRef={setTileRef(12)}
+                tileRef={!isMobile ? setTileRef(12) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[12])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[13]}
                 isActive={activeTileIndex === 13}
-                tileRef={setTileRef(13)}
+                tileRef={!isMobile ? setTileRef(13) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[13])}
               />
               <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[14]}
                 isActive={activeTileIndex === 14}
-                tileRef={setTileRef(14)}
+                tileRef={!isMobile ? setTileRef(14) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[14])}
               />
             </div>
@@ -777,7 +884,11 @@ export function EcosystemSection() {
               </p>
             </div>
           </div>
+          </div>
+          {/* End desktop layout */}
+
         </div>
+        {/* End container */}
 
         {/* Deployment note */}
         <div className="reveal reveal-delay-4 mt-20 mx-auto max-w-[800px]">

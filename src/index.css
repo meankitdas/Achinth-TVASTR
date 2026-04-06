@@ -17,8 +17,8 @@
   body {
     background-color: #0a0a0b;
     background-image:
-      linear-gradient(rgba(168, 168, 180, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(168, 168, 180, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(168, 168, 180, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168, 168, 180, 0.05) 1px, transparent 1px);
     background-size: 60px 60px;
     background-attachment: fixed;
     color: #e8e8ec;
@@ -132,8 +132,8 @@
   /* Grid background pattern — used via .bg-grid class */
   .bg-grid {
     background-image:
-      linear-gradient(rgba(168, 168, 180, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(168, 168, 180, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(168, 168, 180, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168, 168, 180, 0.05) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 
