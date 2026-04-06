@@ -19,21 +19,21 @@ export function ForgeCore() {
   useFrame((state, delta) => {
     time.current += delta
 
-    // Slow rotation on multiple axes for an organic feel
+    // Faster rotation on multiple axes for an organic feel
     if (outerRef.current) {
-      outerRef.current.rotation.y += delta * 0.12
-      outerRef.current.rotation.x += delta * 0.05
-      outerRef.current.position.y = Math.sin(time.current * 0.5) * 0.12
+      outerRef.current.rotation.y += delta * 0.28
+      outerRef.current.rotation.x += delta * 0.12
+      outerRef.current.position.y = Math.sin(time.current * 1.0) * 0.12
     }
 
     if (innerRef.current) {
-      innerRef.current.rotation.y -= delta * 0.2
-      innerRef.current.rotation.z += delta * 0.08
+      innerRef.current.rotation.y -= delta * 0.45
+      innerRef.current.rotation.z += delta * 0.18
     }
 
     if (ringRef.current) {
-      ringRef.current.rotation.x += delta * 0.15
-      ringRef.current.rotation.z -= delta * 0.1
+      ringRef.current.rotation.x += delta * 0.35
+      ringRef.current.rotation.z -= delta * 0.22
     }
   })
 

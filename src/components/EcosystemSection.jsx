@@ -2,27 +2,235 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useEffect, useRef, useState } from 'react'
 
 /**
+ * Tile data with foundry-optimized copy
+ */
+const capabilityTiles = [
+  // ROW 1: Inspection Pipeline
+  {
+    icon: "📷",
+    title: "Image Capture",
+    description: "Capture casting images for inspection",
+    accent: true,
+    details: [
+      "Supports single and batch image upload from shop floor",
+      "Works with camera or manual upload",
+      "Queue-based processing for multiple parts",
+      "Organizes images by part, batch, and time"
+    ]
+  },
+  {
+    icon: "✓",
+    title: "Inspection Readiness Check",
+    description: "Ensures image is suitable for inspection",
+    accent: true,
+    details: [
+      "Rejects blurred or unclear images before analysis",
+      "Checks lighting and surface visibility",
+      "Prevents wrong defect detection due to poor input",
+      "Reduces rework caused by bad inspection images"
+    ]
+  },
+  {
+    icon: "🔍",
+    title: "Defect Detection",
+    description: "Detects surface defects automatically",
+    accent: true,
+    details: [
+      "Detects pinholes, blowholes, shrinkage, misrun, and cracks",
+      "Marks exact defect locations on casting image",
+      "Provides confidence score for each defect",
+      "Reduces manual inspection time and misses"
+    ]
+  },
+  {
+    icon: "⬡",
+    title: "Diagnosis & Decision",
+    description: "Finds root cause and suggests action",
+    accent: true,
+    details: [
+      "Identifies whether issue is moulding, pouring, or core related",
+      "Suggests accept, reject, or manual review decision",
+      "Helps reduce dependency on expert inspectors",
+      "Standardizes decision-making across shifts"
+    ]
+  },
+  {
+    icon: "📋",
+    title: "Validation & Audit",
+    description: "Human review and traceability",
+    accent: true,
+    details: [
+      "Allows supervisor validation of AI decisions",
+      "Maintains complete inspection history",
+      "Supports audit and compliance requirements",
+      "Tracks who approved or modified decisions"
+    ]
+  },
+  // ROW 2: Process Intelligence
+  {
+    icon: "📡",
+    title: "ERP / MES Integration",
+    description: "Connects inspection with production data",
+    accent: false,
+    details: [
+      "Links inspection data with heat number, mould, and shift",
+      "Supports SQL, CSV, and ERP systems like SAP",
+      "Enables batch-level traceability",
+      "No manual data entry required"
+    ]
+  },
+  {
+    icon: "🔗",
+    title: "Cross-Part Pattern Analysis",
+    description: "Finds repeating defect patterns",
+    accent: false,
+    details: [
+      "Identifies recurring defects across similar parts",
+      "Detects common problem areas in part families",
+      "Helps identify tooling or design issues",
+      "Improves long-term process stability"
+    ]
+  },
+  {
+    icon: "📈",
+    title: "Drift Detection",
+    description: "Tracks quality changes over time",
+    accent: false,
+    details: [
+      "Monitors increase in rejection rates",
+      "Detects gradual process drift",
+      "Triggers alerts when quality deviates",
+      "Helps take action before defects increase"
+    ]
+  },
+  {
+    icon: "🔥",
+    title: "Heat Intelligence",
+    description: "Analyzes quality by heat",
+    accent: false,
+    details: [
+      "Tracks rejection trends per heat number",
+      "Identifies problematic heats early",
+      "Helps isolate metallurgical issues",
+      "Links defects to specific batches"
+    ]
+  },
+  {
+    icon: "⚙",
+    title: "Self-Tuning System",
+    description: "Adapts to your process automatically",
+    accent: false,
+    details: [
+      "Adjusts detection sensitivity based on plant data",
+      "Learns from past inspection decisions",
+      "Improves accuracy over time",
+      "Reduces need for manual parameter tuning"
+    ]
+  },
+  // ROW 3: Plant-Level Intelligence
+  {
+    icon: "📐",
+    title: "Quality Engineering Tools",
+    description: "Supports process improvement methods",
+    accent: true,
+    details: [
+      "Generates Pareto charts of defects",
+      "Supports SPC and process capability analysis",
+      "Helps with FMEA and root cause studies",
+      "Improves structured quality improvement"
+    ]
+  },
+  {
+    icon: "⚠",
+    title: "Process Risk Monitoring",
+    description: "Identifies high-risk conditions",
+    accent: true,
+    details: [
+      "Detects abnormal patterns in production",
+      "Assigns risk scores to heat, mould, or shift",
+      "Triggers alerts for critical conditions",
+      "Helps prevent large-scale rejection"
+    ]
+  },
+  {
+    icon: "💰",
+    title: "Cost of Quality",
+    description: "Tracks financial impact of defects",
+    accent: true,
+    details: [
+      "Calculates scrap and rework cost",
+      "Maps defects to cost impact",
+      "Identifies highest cost problem areas",
+      "Helps prioritize improvement efforts"
+    ]
+  },
+  {
+    icon: "💬",
+    title: "Natural Language Queries",
+    description: "Ask questions about your plant",
+    accent: true,
+    details: [
+      "Ask questions like 'Which heat has highest rejection?'",
+      "Get answers in simple language",
+      "No need for manual report generation",
+      "Speeds up decision-making"
+    ]
+  },
+  {
+    icon: "📋",
+    title: "Decision Intelligence",
+    description: "Recommends corrective actions",
+    accent: true,
+    details: [
+      "Suggests actions to reduce defects",
+      "Ranks actions based on impact and urgency",
+      "Tracks effectiveness of implemented actions",
+      "Creates a feedback loop for improvement"
+    ]
+  }
+]
+
+/**
  * CapabilityTile — Compact tile representing a single capability in the pipeline.
  */
-function CapabilityTile({ icon, title, description, accent, isActive, tileRef }) {
+function CapabilityTile({ tile, isActive, tileRef, onClick }) {
   return (
     <div
       ref={tileRef}
-      className={`relative flex flex-col items-center justify-center text-center p-4 flex-1 min-h-[110px] transition-shadow duration-300 ${
+      onClick={onClick}
+      className={`relative flex flex-col items-center justify-center text-center p-4 flex-1 min-h-[110px] transition-all duration-300 cursor-pointer hover:scale-105 transform-gpu ${
         isActive ? 'tile-active-glow' : ''
       }`}
       style={{
-        background: accent ? 'rgba(245,158,11,0.06)' : 'rgba(26,26,30,0.8)',
-        border: accent ? '1px solid rgba(245,158,11,0.25)' : '1px solid rgba(168,168,180,0.1)',
-        backdropFilter: 'blur(12px)',
+        background: tile.accent 
+          ? 'linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(245,158,11,0.03) 100%)'
+          : 'linear-gradient(135deg, rgba(26,26,30,0.75) 0%, rgba(17,17,19,0.7) 100%)',
+        border: tile.accent ? '1px solid rgba(245,158,11,0.3)' : '1px solid rgba(168,168,180,0.15)',
+        backdropFilter: 'blur(28px)',
+        boxShadow: tile.accent
+          ? 'inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 12px rgba(245,158,11,0.15)'
+          : 'inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.3)',
         minWidth: '140px',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        borderRadius: '12px',
       }}
     >
-      <div className="text-2xl mb-2">{icon}</div>
-      <h4 className={`text-xs md:text-sm font-bold mb-1 ${accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
-        {title}
-      </h4>
-      <p className="text-xs text-metallic-500 leading-snug">{description}</p>
+      {/* Glass shine overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 50%)',
+          borderRadius: 'inherit',
+        }}
+      />
+      
+      <div className="relative z-10">
+        <div className="text-2xl mb-2">{tile.icon}</div>
+        <h4 className={`text-xs md:text-sm font-bold mb-1 ${tile.accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
+          {tile.title}
+        </h4>
+        <p className="text-xs text-metallic-500 leading-snug">{tile.description}</p>
+      </div>
     </div>
   )
 }
@@ -60,6 +268,80 @@ function RowTurn({ turnRef }) {
 }
 
 /**
+ * TileModal — Expanded detail view when a tile is clicked
+ */
+function TileModal({ tile, onClose }) {
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleEscape)
+    return () => window.removeEventListener('keydown', handleEscape)
+  }, [onClose])
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-6 animate-fade-in"
+      onClick={onClose}
+      style={{ background: 'rgba(0,0,0,0.7)' }}
+    >
+      <div
+        className="relative max-w-2xl w-full p-8 rounded-xl"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: 'linear-gradient(135deg, rgba(26,26,30,0.8) 0%, rgba(17,17,19,0.75) 100%)',
+          border: tile.accent ? '1px solid rgba(245,158,11,0.4)' : '1px solid rgba(168,168,180,0.2)',
+          backdropFilter: 'blur(28px)',
+          boxShadow: tile.accent
+            ? 'inset 0 1px 0 rgba(255,255,255,0.1), 0 20px 60px rgba(245,158,11,0.15), 0 0 80px rgba(0,0,0,0.5)'
+            : 'inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.5)',
+        }}
+      >
+        {/* Glass shine overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none rounded-xl"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 50%)',
+          }}
+        />
+
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-metallic-400 hover:text-metallic-100 transition-colors z-10"
+          aria-label="Close"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Title */}
+        <h3 className={`relative z-10 text-2xl font-bold mb-2 ${tile.accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
+          {tile.title}
+        </h3>
+
+        {/* Subtitle */}
+        <p className="relative z-10 text-base text-metallic-300 mb-6">{tile.description}</p>
+
+        {/* Details */}
+        <ul className="relative z-10 space-y-3">
+          {tile.details.map((detail, index) => (
+            <li key={index} className="flex items-start gap-3 text-sm text-metallic-400 leading-relaxed">
+              <span
+                className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-2"
+                style={{ background: tile.accent ? '#f59e0b' : '#888896' }}
+              />
+              {detail}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+/**
  * EcosystemSection — Manufacturing Intelligence Ecosystem with serpentine conveyor belt.
  */
 export function EcosystemSection() {
@@ -75,6 +357,7 @@ export function EcosystemSection() {
   const [orbPosition, setOrbPosition] = useState({ x: 0, y: 0 })
   const [activeTileIndex, setActiveTileIndex] = useState(-1)
   const [isVisible, setIsVisible] = useState(false)
+  const [expandedTile, setExpandedTile] = useState(null)
 
   useEffect(() => {
     // Check if the section is visible on screen
@@ -97,7 +380,7 @@ export function EcosystemSection() {
     if (!isVisible || tileRefs.current.length < 15) return
 
     let animationFrameId
-    const cycleDuration = 45000 // 45 seconds for full cycle
+    const cycleDuration = 25000 // 25 seconds for full cycle (faster than 45s)
     let startTime = Date.now()
 
     // Build waypoints from actual tile positions
@@ -268,7 +551,7 @@ export function EcosystemSection() {
             </h2>
           </div>
           <p className="reveal reveal-delay-1 text-base text-metallic-400 max-w-[640px] leading-relaxed">
-            Watch data flow through the complete manufacturing intelligence pipeline — from raw inspection to plant-level insights.
+            Watch data flow through the complete manufacturing intelligence pipeline — from raw inspection to plant-level insights. Click any tile to learn more.
           </p>
         </div>
 
@@ -299,51 +582,41 @@ export function EcosystemSection() {
             
             {/* Tiles */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
-                <CapabilityTile
-                  icon="📷"
-                  title="Image Capture"
-                  description="Single or batch queue"
-                  accent={true}
-                  isActive={activeTileIndex === 0}
-                  tileRef={setTileRef(0)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="✓"
-                  title="Quality Gate"
-                  description="Image verification"
-                  accent={true}
-                  isActive={activeTileIndex === 1}
-                  tileRef={setTileRef(1)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="🔍"
-                  title="Defect Detection"
-                  description="6 types + heatmap"
-                  accent={true}
-                  isActive={activeTileIndex === 2}
-                  tileRef={setTileRef(2)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="⬡"
-                  title="Diagnosis & Decision"
-                  description="Root cause + Accept/Reject"
-                  accent={true}
-                  isActive={activeTileIndex === 3}
-                  tileRef={setTileRef(3)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="📋"
-                  title="Validation & Audit"
-                  description="Human review + reports"
-                  accent={true}
-                  isActive={activeTileIndex === 4}
-                  tileRef={setTileRef(4)}
-                />
-              </div>
+              <CapabilityTile
+                tile={capabilityTiles[0]}
+                isActive={activeTileIndex === 0}
+                tileRef={setTileRef(0)}
+                onClick={() => setExpandedTile(capabilityTiles[0])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[1]}
+                isActive={activeTileIndex === 1}
+                tileRef={setTileRef(1)}
+                onClick={() => setExpandedTile(capabilityTiles[1])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[2]}
+                isActive={activeTileIndex === 2}
+                tileRef={setTileRef(2)}
+                onClick={() => setExpandedTile(capabilityTiles[2])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[3]}
+                isActive={activeTileIndex === 3}
+                tileRef={setTileRef(3)}
+                onClick={() => setExpandedTile(capabilityTiles[3])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[4]}
+                isActive={activeTileIndex === 4}
+                tileRef={setTileRef(4)}
+                onClick={() => setExpandedTile(capabilityTiles[4])}
+              />
+            </div>
           </div>
 
           {/* Turn connector Row 1 → Row 2 */}
@@ -361,51 +634,41 @@ export function EcosystemSection() {
             
             {/* Tiles */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
-                <CapabilityTile
-                  icon="📡"
-                  title="ERP/MES Integration"
-                  description="SQL connection, batch context"
-                  accent={false}
-                  isActive={activeTileIndex === 5}
-                  tileRef={setTileRef(5)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="🔗"
-                  title="Cross-Part Patterns"
-                  description="Defect graph, co-occurrence"
-                  accent={false}
-                  isActive={activeTileIndex === 6}
-                  tileRef={setTileRef(6)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="📈"
-                  title="Drift Detection"
-                  description="Rejection trends, alerts"
-                  accent={false}
-                  isActive={activeTileIndex === 7}
-                  tileRef={setTileRef(7)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="🔥"
-                  title="Heat Intelligence"
-                  description="Per-batch, mold risk"
-                  accent={false}
-                  isActive={activeTileIndex === 8}
-                  tileRef={setTileRef(8)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="⚙"
-                  title="Self-Tuning"
-                  description="Adaptive sensitivity"
-                  accent={false}
-                  isActive={activeTileIndex === 9}
-                  tileRef={setTileRef(9)}
-                />
-              </div>
+              <CapabilityTile
+                tile={capabilityTiles[5]}
+                isActive={activeTileIndex === 5}
+                tileRef={setTileRef(5)}
+                onClick={() => setExpandedTile(capabilityTiles[5])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[6]}
+                isActive={activeTileIndex === 6}
+                tileRef={setTileRef(6)}
+                onClick={() => setExpandedTile(capabilityTiles[6])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[7]}
+                isActive={activeTileIndex === 7}
+                tileRef={setTileRef(7)}
+                onClick={() => setExpandedTile(capabilityTiles[7])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[8]}
+                isActive={activeTileIndex === 8}
+                tileRef={setTileRef(8)}
+                onClick={() => setExpandedTile(capabilityTiles[8])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[9]}
+                isActive={activeTileIndex === 9}
+                tileRef={setTileRef(9)}
+                onClick={() => setExpandedTile(capabilityTiles[9])}
+              />
+            </div>
           </div>
 
           {/* Turn connector Row 2 → Row 3 */}
@@ -423,57 +686,47 @@ export function EcosystemSection() {
             
             {/* Tiles */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
-                <CapabilityTile
-                  icon="📐"
-                  title="Quality Engineering"
-                  description="FMEA, Fishbone, SPC/Cpk"
-                  accent={true}
-                  isActive={activeTileIndex === 10}
-                  tileRef={setTileRef(10)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="⚠"
-                  title="Process Risk"
-                  description="Anomaly detection, alerts"
-                  accent={true}
-                  isActive={activeTileIndex === 11}
-                  tileRef={setTileRef(11)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="💰"
-                  title="Cost of Quality"
-                  description="Scrap cost by defect"
-                  accent={true}
-                  isActive={activeTileIndex === 12}
-                  tileRef={setTileRef(12)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="💬"
-                  title="Natural Language"
-                  description="Query plant data"
-                  accent={true}
-                  isActive={activeTileIndex === 13}
-                  tileRef={setTileRef(13)}
-                />
-                <BeltConnector />
-                <CapabilityTile
-                  icon="📋"
-                  title="Decision Intelligence"
-                  description="Corrective actions"
-                  accent={true}
-                  isActive={activeTileIndex === 14}
-                  tileRef={setTileRef(14)}
-                />
-              </div>
+              <CapabilityTile
+                tile={capabilityTiles[10]}
+                isActive={activeTileIndex === 10}
+                tileRef={setTileRef(10)}
+                onClick={() => setExpandedTile(capabilityTiles[10])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[11]}
+                isActive={activeTileIndex === 11}
+                tileRef={setTileRef(11)}
+                onClick={() => setExpandedTile(capabilityTiles[11])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[12]}
+                isActive={activeTileIndex === 12}
+                tileRef={setTileRef(12)}
+                onClick={() => setExpandedTile(capabilityTiles[12])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[13]}
+                isActive={activeTileIndex === 13}
+                tileRef={setTileRef(13)}
+                onClick={() => setExpandedTile(capabilityTiles[13])}
+              />
+              <BeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[14]}
+                isActive={activeTileIndex === 14}
+                tileRef={setTileRef(14)}
+                onClick={() => setExpandedTile(capabilityTiles[14])}
+              />
+            </div>
           </div>
 
           {/* Continuous Improvement Loop */}
           <div className="mt-8">
             <div
-              className="p-5 text-center"
+              className="p-5 text-center rounded-lg"
               style={{
                 border: '1px dashed rgba(245,158,11,0.25)',
                 background: 'rgba(245,158,11,0.03)',
@@ -501,7 +754,7 @@ export function EcosystemSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Tier-Based */}
             <div
-              className="p-6"
+              className="p-6 rounded-lg"
               style={{
                 border: '1px solid rgba(168,168,180,0.08)',
                 background: 'rgba(26,26,30,0.5)',
@@ -517,7 +770,7 @@ export function EcosystemSection() {
 
             {/* On-Premise */}
             <div
-              className="p-6"
+              className="p-6 rounded-lg"
               style={{
                 border: '1px solid rgba(168,168,180,0.08)',
                 background: 'rgba(26,26,30,0.5)',
@@ -554,7 +807,7 @@ export function EcosystemSection() {
 
           {/* Network boundary note */}
           <div
-            className="mt-6 px-5 py-3"
+            className="mt-6 px-5 py-3 rounded-lg"
             style={{
               border: '1px dashed rgba(245,158,11,0.15)',
               background: 'rgba(245,158,11,0.02)',
@@ -566,6 +819,14 @@ export function EcosystemSection() {
           </div>
         </div>
       </div>
+
+      {/* Tile Modal */}
+      {expandedTile && (
+        <TileModal
+          tile={expandedTile}
+          onClose={() => setExpandedTile(null)}
+        />
+      )}
     </section>
   )
 }

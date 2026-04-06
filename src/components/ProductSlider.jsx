@@ -238,14 +238,16 @@ export function ProductSlider() {
           {PRODUCTS.map((product, i) => (
             <div
               key={product.id}
-              className="flex-shrink-0 w-full snap-start px-6 md:px-12 lg:px-16"
-              style={{ minHeight: '560px' }}
+              className="flex-shrink-0 w-full snap-start px-6 md:px-12 lg:px-16 flex justify-center"
+              style={{ minHeight: '420px' }}
             >
-              <ProductCard
-                product={product}
-                visual={i === 0 ? 'defect' : 'dataflow'}
-                index={i}
-              />
+              <div className="w-full max-w-5xl">
+                <ProductCard
+                  product={product}
+                  visual={i === 0 ? 'defect' : 'dataflow'}
+                  index={i}
+                />
+              </div>
             </div>
           ))}
         </div>

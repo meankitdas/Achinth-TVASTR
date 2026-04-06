@@ -80,7 +80,7 @@ export function ContactSection() {
               className="group flex items-center gap-3 text-sm text-metallic-300 hover:text-amber-glow transition-colors duration-300"
             >
               <span
-                className="w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:border-amber-forge"
+                className="w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:border-amber-forge rounded-md"
                 style={{
                   border: '1px solid rgba(168,168,180,0.15)',
                   background: 'rgba(26,26,30,0.8)',
@@ -105,7 +105,7 @@ export function ContactSection() {
               className="group flex items-center gap-3 text-sm text-metallic-300 hover:text-amber-glow transition-colors duration-300"
             >
               <span
-                className="w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:border-amber-forge"
+                className="w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:border-amber-forge rounded-md"
                 style={{
                   border: '1px solid rgba(168,168,180,0.15)',
                   background: 'rgba(26,26,30,0.8)',

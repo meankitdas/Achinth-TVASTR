@@ -21,6 +21,7 @@ export function Navbar() {
   const { capabilities } = useLicense()
   const location = useLocation()
   const isPortalPage = location.pathname.startsWith('/portal')
+  const isSystemPage = location.pathname.startsWith('/systems')
 
   // Detect scroll position to toggle background
   useEffect(() => {
@@ -32,8 +33,8 @@ export function Navbar() {
   // Close mobile menu on route change
   useEffect(() => setMenuOpen(false), [location.pathname])
 
-  // Hide main navbar on portal pages (they have their own navigation)
-  if (isPortalPage) return null
+  // Hide main navbar on portal and system detail pages (they have their own navigation)
+  if (isPortalPage || isSystemPage) return null
 
   // Smooth scroll to section (only on home page)
   const scrollTo = (id) => {

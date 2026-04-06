@@ -17,22 +17,20 @@ export function LockedFeatureBlock({ title, description, requiredTier, features 
 
   return (
     <div
-      className="p-6 md:p-8"
+      className="p-6 md:p-8 rounded-xl"
       style={{
         background: 'rgba(17,17,19,0.8)',
         border: '1px solid rgba(168,168,180,0.12)',
-        borderRadius: '4px',
         opacity: 0.9,
       }}
     >
       <div className="flex flex-col md:flex-row md:items-start gap-6">
         {/* Lock icon */}
         <div
-          className="flex-shrink-0 w-12 h-12 flex items-center justify-center"
+          className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg"
           style={{
             background: 'rgba(168,168,180,0.06)',
             border: '1px solid rgba(168,168,180,0.15)',
-            borderRadius: '6px',
           }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -70,12 +68,11 @@ export function LockedFeatureBlock({ title, description, requiredTier, features 
 
           <button
             onClick={handleUpgrade}
-            className="px-5 py-2.5 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200"
+            className="px-5 py-2.5 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 rounded-lg"
             style={{
               background: 'rgba(245,158,11,0.12)',
               border: '1px solid rgba(245,158,11,0.35)',
               color: '#fbbf24',
-              borderRadius: '4px',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(245,158,11,0.2)'

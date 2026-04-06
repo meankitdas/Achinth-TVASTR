@@ -6,7 +6,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 function ArchNode({ label, sublabel, delay }) {
   return (
     <div
-      className={`reveal reveal-delay-${delay} w-full max-w-[400px] mx-auto px-5 py-3`}
+      className={`reveal reveal-delay-${delay} w-full max-w-[400px] mx-auto px-5 py-3 rounded-lg`}
       style={{
         border: '1px solid rgba(168,168,180,0.15)',
         background: 'rgba(26,26,30,0.6)',
@@ -116,7 +116,7 @@ export function DeploymentSection() {
 
             {/* Description paragraphs */}
             <div
-              className="reveal reveal-delay-3 p-5"
+              className="reveal reveal-delay-3 p-5 rounded-lg"
               style={{
                 border: '1px solid rgba(168,168,180,0.08)',
                 background: 'rgba(26,26,30,0.6)',
@@ -167,7 +167,7 @@ export function DeploymentSection() {
 
             {/* Network boundary note */}
             <div
-              className="reveal reveal-delay-4 mt-6 px-5 py-3 w-full max-w-[400px] mx-auto"
+              className="reveal reveal-delay-4 mt-6 px-5 py-3 w-full max-w-[400px] mx-auto rounded-lg"
               style={{
                 border: '1px dashed rgba(245,158,11,0.15)',
                 background: 'rgba(245,158,11,0.02)',

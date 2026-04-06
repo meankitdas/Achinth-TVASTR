@@ -177,16 +177,16 @@ export function ProductCard({ product, visual, index }) {
       className="relative w-full h-full cursor-default select-none"
     >
       <div
-        className="relative h-full flex flex-col lg:flex-row overflow-hidden transition-all duration-300 ease-out"
+        className="relative h-full flex flex-col lg:flex-row overflow-hidden transition-all duration-300 ease-out rounded-2xl"
         style={{
-          background: 'rgba(17,17,19,0.95)',
+          background: 'rgba(17,17,19,0.85)',
           border: hovered
             ? '1px solid rgba(245,158,11,0.3)'
             : '1px solid rgba(168,168,180,0.08)',
           boxShadow: hovered
             ? '0 0 60px rgba(245,158,11,0.08), 0 40px 80px rgba(0,0,0,0.6)'
             : '0 20px 60px rgba(0,0,0,0.4)',
-          backdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(24px)',
         }}
       >
         {/* Top amber accent strip */}
@@ -199,10 +199,10 @@ export function ProductCard({ product, visual, index }) {
         />
 
         {/* Content side */}
-        <div className="flex-1 p-8 md:p-10 lg:p-12 flex flex-col justify-between">
+        <div className="flex-1 p-6 md:p-8 lg:p-10 flex flex-col justify-between">
           {/* Product number + tag + badge */}
           <div>
-            <div className="flex items-center gap-4 mb-8 flex-wrap">
+            <div className="flex items-center gap-4 mb-5 flex-wrap">
               <span
                 className="text-xs font-mono tracking-widest opacity-40"
                 style={{ color: '#888896' }}
@@ -250,17 +250,17 @@ export function ProductCard({ product, visual, index }) {
             </h2>
 
             {product.subtitle && (
-              <p className="text-sm text-metallic-500 tracking-wide mb-6">
+              <p className="text-sm text-metallic-500 tracking-wide mb-4">
                 {product.subtitle}
               </p>
             )}
 
-            <p className="text-base text-metallic-300 leading-relaxed mb-10 max-w-md">
+            <p className="text-base text-metallic-300 leading-relaxed mb-6">
               {product.description}
             </p>
 
             {product.note && (
-              <p className="text-xs text-metallic-500 leading-relaxed mb-6 max-w-md italic">
+              <p className="text-xs text-metallic-500 leading-relaxed mb-5 italic">
                 {product.note}
               </p>
             )}
@@ -268,10 +268,10 @@ export function ProductCard({ product, visual, index }) {
 
           {/* Capabilities list + Learn More */}
           <div>
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-metallic-500 mb-4">
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-metallic-500 mb-3">
               Capabilities
             </p>
-            <ul className="space-y-2 mb-8">
+            <ul className="space-y-2 mb-6">
               {product.capabilities.map((cap, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm text-metallic-300">
                   <span
@@ -301,7 +301,7 @@ export function ProductCard({ product, visual, index }) {
 
         {/* Visual side */}
         <div
-          className="lg:w-[380px] xl:w-[440px] flex-shrink-0 min-h-[280px] lg:min-h-0 relative"
+          className="lg:w-[320px] xl:w-[360px] flex-shrink-0 min-h-[240px] lg:min-h-0 relative"
           style={{
             background: 'rgba(10,10,11,0.6)',
             borderLeft: '1px solid rgba(168,168,180,0.06)',

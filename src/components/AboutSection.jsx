@@ -54,7 +54,7 @@ function YantraLine() {
 function FocusCard({ icon, title, description, delay }) {
   return (
     <div
-      className={`reveal reveal-delay-${delay} group relative p-6 transition-all duration-500`}
+      className={`reveal reveal-delay-${delay} group relative p-6 transition-all duration-500 rounded-xl`}
       style={{
         background: 'rgba(26,26,30,0.8)',
         border: '1px solid rgba(168,168,180,0.08)',

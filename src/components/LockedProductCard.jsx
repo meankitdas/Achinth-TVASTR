@@ -15,7 +15,7 @@ import { CONFIG, openContact } from '../lib/config'
 export function LockedProductCard({ title, description, tag, index, requiredTier, features }) {
   return (
     <div
-      className="group relative flex flex-col transition-all duration-300 opacity-60 hover:opacity-75"
+      className="group relative flex flex-col transition-all duration-300 opacity-60 hover:opacity-75 rounded-xl"
       style={{
         background: 'rgba(17,17,19,0.5)',
         border: '1px solid rgba(168,168,180,0.08)',
@@ -51,11 +51,10 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
 
           {/* Lock icon badge */}
           <div
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg"
             style={{
               background: 'rgba(168,168,180,0.04)',
               border: '1px solid rgba(168,168,180,0.1)',
-              borderRadius: '4px',
             }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -76,7 +75,7 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
 
         {/* Locked notice with features */}
         <div
-          className="p-4"
+          className="p-4 rounded-lg"
           style={{
             background: 'rgba(168,168,180,0.03)',
             border: '1px solid rgba(168,168,180,0.06)',
@@ -104,7 +103,7 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
             const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
             openContact(CONFIG.emails.support, template.subject, template.body)
           }}
-          className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto"
+          className="flex items-center justify-center gap-2 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-200 mt-auto rounded-lg"
           style={{
             background: 'rgba(245,158,11,0.12)',
             border: '1px solid rgba(245,158,11,0.35)',
