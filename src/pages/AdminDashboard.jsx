@@ -7,6 +7,75 @@ import { supabase } from '../lib/supabaseClient'
 import { Logo } from '../components/Logo'
 import { TIER_LABELS } from '../lib/capabilities'
 
+// Mobile-friendly section selector for docs
+function MobileDocSelector({ manifest, selectedDoc, setSelectedDoc }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const selectedDocTitle = manifest?.sections
+    .flatMap(s => s.docs)
+    .find(d => d.file === selectedDoc)?.title || 'Select document'
+
+  return (
+    <div className="md:hidden mb-4">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between px-4 py-3 text-sm rounded"
+        style={{
+          background: 'rgba(245,158,11,0.1)',
+          border: '1px solid rgba(245,158,11,0.2)',
+          color: '#fbbf24',
+        }}
+      >
+        <span>{selectedDocTitle}</span>
+        <svg
+          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div
+          className="mt-2 rounded overflow-hidden"
+          style={{
+            background: 'rgba(17,17,19,0.95)',
+            border: '1px solid rgba(168,168,180,0.08)',
+          }}
+        >
+          {manifest.sections.map((section) => (
+            <div key={section.id} className="border-b border-metallic-900 last:border-b-0">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-amber-forge px-4 py-3 bg-[rgba(10,10,11,0.6)]">
+                {section.title}
+              </h3>
+              <div className="p-2">
+                {section.docs.map((doc) => (
+                  <button
+                    key={doc.file}
+                    onClick={() => {
+                      setSelectedDoc(doc.file)
+                      setIsOpen(false)
+                    }}
+                    className="w-full text-left px-3 py-2 rounded text-sm transition-colors duration-150"
+                    style={{
+                      color: selectedDoc === doc.file ? '#fbbf24' : '#a8a8b4',
+                      background: selectedDoc === doc.file ? 'rgba(245,158,11,0.08)' : 'transparent',
+                    }}
+                  >
+                    {doc.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 const STYLES = {
   background: { background: '#0a0a0b' },
   header: {
@@ -190,26 +259,28 @@ export function AdminDashboard() {
 
       {/* Top nav */}
       <header className="sticky top-0 z-40" style={STYLES.header}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
             <span className="text-metallic-600 text-xs hidden md:inline">/ Admin Portal</span>
           </Link>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
             <Link
               to="/portal/dashboard"
-              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              title="Customer View"
             >
-              Customer View
+              <span className="hidden sm:inline">Customer View</span>
+              <span className="sm:hidden">👤</span>
             </Link>
             <div className="hidden sm:flex items-center gap-2">
               <div className="w-2 h-2 rounded-full" style={STYLES.statusIndicator} />
-              <span className="text-xs text-metallic-400 font-mono">{user?.email}</span>
+              <span className="text-xs text-metallic-400 font-mono truncate max-w-[120px] md:max-w-none">{user?.email}</span>
             </div>
             <button
               onClick={signOut}
-              className="text-xs font-medium tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
+              className="text-xs font-medium tracking-wider md:tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
             >
               Logout
             </button>
@@ -218,25 +289,25 @@ export function AdminDashboard() {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 lg:px-12 py-8 md:py-12 lg:py-16">
         {/* Page header */}
-        <div className="mb-12">
+        <div className="mb-8 md:mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-6 h-px bg-amber-forge opacity-60" />
-            <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
+            <span className="text-xs font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase text-amber-forge opacity-60">
               Admin Portal
             </span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-3" style={STYLES.titleGradient}>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight mb-3" style={STYLES.titleGradient}>
             System Administration
           </h1>
-          <p className="text-sm text-metallic-400">
+          <p className="text-xs md:text-sm text-metallic-400">
             Manage customers, licenses, and system documentation.
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="mb-8 flex gap-3">
+        <div className="mb-6 md:mb-8 flex flex-wrap gap-2 md:gap-3">
           <button
             onClick={() => setActiveTab('customers')}
             style={{
@@ -253,7 +324,8 @@ export function AdminDashboard() {
               ...(activeTab === 'docs' ? STYLES.tab.active : STYLES.tab.inactive),
             }}
           >
-            System Documentation
+            <span className="hidden sm:inline">System Documentation</span>
+            <span className="sm:hidden">Docs</span>
           </button>
         </div>
 
@@ -287,162 +359,221 @@ export function AdminDashboard() {
                 <p className="text-sm text-metallic-500">No customers found.</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left" style={STYLES.table.header}>Customer Name</th>
-                      <th className="text-left" style={STYLES.table.header}>Email</th>
-                      <th className="text-left" style={STYLES.table.header}>License Key</th>
-                      <th className="text-left" style={STYLES.table.header}>Tier</th>
-                      <th className="text-left" style={STYLES.table.header}>Created</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {customers.map((customer) => (
-                      <tr key={customer.user_id} className="hover:bg-[rgba(245,158,11,0.02)] transition-colors">
-                        <td style={STYLES.table.cell}>{customer.customer_name}</td>
-                        <td style={STYLES.table.cell}>
-                          <span className="font-mono text-xs">{customer.email || 'N/A'}</span>
-                        </td>
-                        <td style={STYLES.table.cell}>
-                          <span className="font-mono text-xs text-amber-forge">{customer.license_key}</span>
-                        </td>
-                        <td style={STYLES.table.cell}>
-                          <span
-                            className="px-2 py-1 text-xs font-semibold rounded"
-                            style={{
-                              background: 'rgba(16,185,129,0.1)',
-                              color: '#10b981',
-                              border: '1px solid rgba(16,185,129,0.2)',
-                            }}
-                          >
-                            {TIER_LABELS[customer.tier] || customer.tier}
-                          </span>
-                        </td>
-                        <td style={STYLES.table.cell}>
-                          <span className="text-xs text-metallic-500">
+              <>
+                {/* Desktop table view */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="text-left" style={STYLES.table.header}>Customer Name</th>
+                        <th className="text-left" style={STYLES.table.header}>Email</th>
+                        <th className="text-left" style={STYLES.table.header}>License Key</th>
+                        <th className="text-left" style={STYLES.table.header}>Tier</th>
+                        <th className="text-left" style={STYLES.table.header}>Created</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {customers.map((customer) => (
+                        <tr key={customer.user_id} className="hover:bg-[rgba(245,158,11,0.02)] transition-colors">
+                          <td style={STYLES.table.cell}>{customer.customer_name}</td>
+                          <td style={STYLES.table.cell}>
+                            <span className="font-mono text-xs">{customer.email || 'N/A'}</span>
+                          </td>
+                          <td style={STYLES.table.cell}>
+                            <span className="font-mono text-xs text-amber-forge">{customer.license_key}</span>
+                          </td>
+                          <td style={STYLES.table.cell}>
+                            <span
+                              className="px-2 py-1 text-xs font-semibold rounded"
+                              style={{
+                                background: 'rgba(16,185,129,0.1)',
+                                color: '#10b981',
+                                border: '1px solid rgba(16,185,129,0.2)',
+                              }}
+                            >
+                              {TIER_LABELS[customer.tier] || customer.tier}
+                            </span>
+                          </td>
+                          <td style={STYLES.table.cell}>
+                            <span className="text-xs text-metallic-500">
+                              {new Date(customer.created_at).toLocaleDateString('en-IN', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                              })}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile card view */}
+                <div className="md:hidden p-4 space-y-4">
+                  {customers.map((customer) => (
+                    <div
+                      key={customer.user_id}
+                      className="p-4 rounded-lg"
+                      style={{
+                        background: 'rgba(10,10,11,0.6)',
+                        border: '1px solid rgba(168,168,180,0.08)',
+                      }}
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="text-sm font-bold text-metallic-200">{customer.customer_name}</h3>
+                        <span
+                          className="px-2 py-1 text-xs font-semibold rounded"
+                          style={{
+                            background: 'rgba(16,185,129,0.1)',
+                            color: '#10b981',
+                            border: '1px solid rgba(16,185,129,0.2)',
+                          }}
+                        >
+                          {TIER_LABELS[customer.tier] || customer.tier}
+                        </span>
+                      </div>
+                      
+                      <div className="space-y-2 text-xs">
+                        <div>
+                          <span className="text-metallic-600 uppercase tracking-wider">Email:</span>
+                          <span className="ml-2 font-mono text-metallic-400">{customer.email || 'N/A'}</span>
+                        </div>
+                        <div>
+                          <span className="text-metallic-600 uppercase tracking-wider">License:</span>
+                          <span className="ml-2 font-mono text-amber-forge">{customer.license_key}</span>
+                        </div>
+                        <div>
+                          <span className="text-metallic-600 uppercase tracking-wider">Created:</span>
+                          <span className="ml-2 text-metallic-500">
                             {new Date(customer.created_at).toLocaleDateString('en-IN', {
                               year: 'numeric',
                               month: 'short',
                               day: 'numeric',
                             })}
                           </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         )}
 
         {activeTab === 'docs' && (
-          <div style={STYLES.card} className="flex">
-            {/* Sidebar */}
-            <div
-              className="w-64 border-r overflow-y-auto"
-              style={{
-                borderColor: 'rgba(168,168,180,0.08)',
-                maxHeight: '70vh',
-              }}
-            >
-              {manifest ? (
-                <div className="p-4">
-                  {manifest.sections.map((section) => (
-                    <div key={section.id} className="mb-6">
-                      <h3 className="text-xs font-semibold tracking-widest uppercase text-amber-forge mb-3 px-3">
-                        {section.title}
-                      </h3>
-                      <div className="space-y-1">
-                        {section.docs.map((doc) => (
-                          <button
-                            key={doc.file}
-                            onClick={() => setSelectedDoc(doc.file)}
-                            className="w-full text-left px-3 py-2 rounded text-sm transition-colors duration-150"
-                            style={{
-                              color: selectedDoc === doc.file ? '#fbbf24' : '#a8a8b4',
-                              background: selectedDoc === doc.file ? 'rgba(245,158,11,0.08)' : 'transparent',
-                              border: selectedDoc === doc.file ? '1px solid rgba(245,158,11,0.15)' : '1px solid transparent',
-                            }}
-                          >
-                            {doc.title}
-                          </button>
-                        ))}
+          <div style={STYLES.card}>
+            <div className="md:flex">
+              {/* Desktop sidebar */}
+              <div
+                className="hidden md:block w-64 border-r overflow-y-auto"
+                style={{
+                  borderColor: 'rgba(168,168,180,0.08)',
+                  maxHeight: '70vh',
+                }}
+              >
+                {manifest ? (
+                  <div className="p-4">
+                    {manifest.sections.map((section) => (
+                      <div key={section.id} className="mb-6">
+                        <h3 className="text-xs font-semibold tracking-widest uppercase text-amber-forge mb-3 px-3">
+                          {section.title}
+                        </h3>
+                        <div className="space-y-1">
+                          {section.docs.map((doc) => (
+                            <button
+                              key={doc.file}
+                              onClick={() => setSelectedDoc(doc.file)}
+                              className="w-full text-left px-3 py-2 rounded text-sm transition-colors duration-150"
+                              style={{
+                                color: selectedDoc === doc.file ? '#fbbf24' : '#a8a8b4',
+                                background: selectedDoc === doc.file ? 'rgba(245,158,11,0.08)' : 'transparent',
+                                border: selectedDoc === doc.file ? '1px solid rgba(245,158,11,0.15)' : '1px solid transparent',
+                              }}
+                            >
+                              {doc.title}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-4 text-center">
+                    <span className="text-xs text-metallic-500">Loading...</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Content area */}
+              <div className="flex-1">
+                {/* Mobile document selector */}
+                {manifest && <MobileDocSelector manifest={manifest} selectedDoc={selectedDoc} setSelectedDoc={setSelectedDoc} />}
+
+                <div className="overflow-y-auto" style={{ maxHeight: '70vh' }}>
+                  {loadingDoc ? (
+                    <div className="flex items-center justify-center py-16">
+                      <div className="flex flex-col items-center gap-4">
+                        <div
+                          className="w-8 h-8"
+                          style={{
+                            background: 'rgba(245,158,11,0.1)',
+                            border: '1px solid rgba(245,158,11,0.3)',
+                            borderRadius: '0.375rem',
+                            transform: 'rotate(45deg)',
+                            animation: 'pulse 1.5s ease-in-out infinite',
+                          }}
+                        />
+                        <span className="text-xs text-metallic-500 tracking-widest uppercase">
+                          Loading document...
+                        </span>
                       </div>
                     </div>
-                  ))}
+                  ) : docError ? (
+                    <div className="p-4 md:p-8 text-center">
+                      <p className="text-sm text-red-400">{docError}</p>
+                    </div>
+                  ) : docContent ? (
+                    <div className="p-4 md:p-8 prose prose-invert prose-amber max-w-none">
+                      <ReactMarkdown
+                        components={{
+                          h1: ({ node, ...props }) => <h1 className="text-xl md:text-2xl font-bold text-metallic-100 mb-4 border-b border-metallic-800 pb-3" {...props} />,
+                          h2: ({ node, ...props }) => <h2 className="text-lg md:text-xl font-bold text-metallic-200 mb-3 mt-6 md:mt-8" {...props} />,
+                          h3: ({ node, ...props }) => <h3 className="text-base md:text-lg font-semibold text-metallic-300 mb-2 mt-4 md:mt-6" {...props} />,
+                          p: ({ node, ...props }) => <p className="text-xs md:text-sm text-metallic-400 mb-4 leading-relaxed" {...props} />,
+                          ul: ({ node, ...props }) => <ul className="text-xs md:text-sm text-metallic-400 mb-4 ml-4 md:ml-6 list-disc space-y-1" {...props} />,
+                          ol: ({ node, ...props }) => <ol className="text-xs md:text-sm text-metallic-400 mb-4 ml-4 md:ml-6 list-decimal space-y-1" {...props} />,
+                          li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
+                          code: ({ node, inline, ...props }) =>
+                            inline ? (
+                              <code className="px-1.5 py-0.5 rounded text-amber-forge font-mono text-xs" style={{ background: 'rgba(245,158,11,0.1)' }} {...props} />
+                            ) : (
+                              <code className="block p-3 md:p-4 rounded font-mono text-xs text-metallic-300 overflow-x-auto" style={{ background: 'rgba(10,10,11,0.6)', border: '1px solid rgba(168,168,180,0.08)' }} {...props} />
+                            ),
+                          pre: ({ node, ...props }) => <pre className="mb-4" {...props} />,
+                          strong: ({ node, ...props }) => <strong className="font-bold text-amber-forge" {...props} />,
+                          em: ({ node, ...props }) => <em className="italic text-metallic-300" {...props} />,
+                          a: ({ node, ...props }) => <a className="text-amber-forge hover:underline break-words" {...props} />,
+                          hr: ({ node, ...props }) => <hr className="my-6 md:my-8 border-metallic-800" {...props} />,
+                        }}
+                      >
+                        {docContent}
+                      </ReactMarkdown>
+                    </div>
+                  ) : (
+                    <div className="p-4 md:p-8 text-center">
+                      <p className="text-sm text-metallic-500">Select a document to view</p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="p-4 text-center">
-                  <span className="text-xs text-metallic-500">Loading...</span>
-                </div>
-              )}
-            </div>
-
-            {/* Content area */}
-            <div className="flex-1 overflow-y-auto" style={{ maxHeight: '70vh' }}>
-              {loadingDoc ? (
-                <div className="flex items-center justify-center py-16">
-                  <div className="flex flex-col items-center gap-4">
-                    <div
-                      className="w-8 h-8"
-                      style={{
-                        background: 'rgba(245,158,11,0.1)',
-                        border: '1px solid rgba(245,158,11,0.3)',
-                        borderRadius: '0.375rem',
-                        transform: 'rotate(45deg)',
-                        animation: 'pulse 1.5s ease-in-out infinite',
-                      }}
-                    />
-                    <span className="text-xs text-metallic-500 tracking-widest uppercase">
-                      Loading document...
-                    </span>
-                  </div>
-                </div>
-              ) : docError ? (
-                <div className="p-8 text-center">
-                  <p className="text-sm text-red-400">{docError}</p>
-                </div>
-              ) : docContent ? (
-                <div className="p-8 prose prose-invert prose-amber max-w-none">
-                  <ReactMarkdown
-                    components={{
-                      h1: ({ node, ...props }) => <h1 className="text-2xl font-bold text-metallic-100 mb-4 border-b border-metallic-800 pb-3" {...props} />,
-                      h2: ({ node, ...props }) => <h2 className="text-xl font-bold text-metallic-200 mb-3 mt-8" {...props} />,
-                      h3: ({ node, ...props }) => <h3 className="text-lg font-semibold text-metallic-300 mb-2 mt-6" {...props} />,
-                      p: ({ node, ...props }) => <p className="text-sm text-metallic-400 mb-4 leading-relaxed" {...props} />,
-                      ul: ({ node, ...props }) => <ul className="text-sm text-metallic-400 mb-4 ml-6 list-disc space-y-1" {...props} />,
-                      ol: ({ node, ...props }) => <ol className="text-sm text-metallic-400 mb-4 ml-6 list-decimal space-y-1" {...props} />,
-                      li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
-                      code: ({ node, inline, ...props }) =>
-                        inline ? (
-                          <code className="px-1.5 py-0.5 rounded text-amber-forge font-mono text-xs" style={{ background: 'rgba(245,158,11,0.1)' }} {...props} />
-                        ) : (
-                          <code className="block p-4 rounded font-mono text-xs text-metallic-300 overflow-x-auto" style={{ background: 'rgba(10,10,11,0.6)', border: '1px solid rgba(168,168,180,0.08)' }} {...props} />
-                        ),
-                      pre: ({ node, ...props }) => <pre className="mb-4" {...props} />,
-                      strong: ({ node, ...props }) => <strong className="font-bold text-amber-forge" {...props} />,
-                      em: ({ node, ...props }) => <em className="italic text-metallic-300" {...props} />,
-                      a: ({ node, ...props }) => <a className="text-amber-forge hover:underline" {...props} />,
-                      hr: ({ node, ...props }) => <hr className="my-8 border-metallic-800" {...props} />,
-                    }}
-                  >
-                    {docContent}
-                  </ReactMarkdown>
-                </div>
-              ) : (
-                <div className="p-8 text-center">
-                  <p className="text-sm text-metallic-500">Select a document to view</p>
-                </div>
-              )}
+              </div>
             </div>
           </div>
         )}
 
         {/* Back to site */}
-        <div className="mt-8 text-center">
+        <div className="mt-6 md:mt-8 text-center">
           <Link
             to="/"
             className="text-xs text-metallic-600 hover:text-metallic-300 transition-colors duration-200 tracking-wider"
