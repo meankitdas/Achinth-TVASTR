@@ -14,9 +14,11 @@ export function ContactSection() {
     <section
       id="contact"
       ref={ref}
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-28 md:py-36 overflow-hidden"
       style={{ background: '#0a0a0b' }}
     >
+      {/* Grid background overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
       {/* Glowing divider line */}
       <div className="relative mb-20">
         <div

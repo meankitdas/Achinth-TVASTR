@@ -155,6 +155,8 @@ export function ProductSlider() {
       ref={sectionRef}
       className="relative py-20 md:py-28 bg-charcoal-950 overflow-hidden"
     >
+      {/* Grid background overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
       {/* Background accent */}
       <div
         className="absolute inset-0 pointer-events-none"

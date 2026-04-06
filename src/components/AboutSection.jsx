@@ -87,6 +87,8 @@ export function AboutSection() {
       ref={ref}
       className="relative py-28 md:py-36 bg-charcoal-950 overflow-hidden"
     >
+      {/* Grid background overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
       {/* Subtle radial glow behind text */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none"

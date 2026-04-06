@@ -198,7 +198,7 @@ function CapabilityTile({ tile, isActive, tileRef, onClick }) {
     <div
       ref={tileRef}
       onClick={onClick}
-      className={`relative flex flex-col items-center justify-center text-center p-4 flex-1 min-h-[110px] transition-all duration-300 cursor-pointer hover:scale-105 transform-gpu ${
+      className={`relative flex flex-col items-center justify-center text-center p-3 md:p-4 flex-1 min-h-[110px] max-w-[280px] md:max-w-none mx-auto md:mx-0 transition-all duration-300 cursor-pointer hover:scale-105 transform-gpu ${
         isActive ? 'tile-active-glow' : ''
       }`}
       style={{
@@ -465,39 +465,73 @@ export function EcosystemSection() {
     const waypoints = buildWaypoints()
     if (waypoints.length === 0) return
 
+    // Calculate distances for each segment
+    const segmentDistances = []
+    let totalDistance = 0
+    for (let i = 0; i < waypoints.length - 1; i++) {
+      const start = waypoints[i]
+      const end = waypoints[i + 1]
+      const distance = Math.hypot(end.x - start.x, end.y - start.y)
+      segmentDistances.push(distance)
+      totalDistance += distance
+    }
+
+    // Build cumulative distance array for lookup
+    const cumulativeDistances = [0]
+    for (let i = 0; i < segmentDistances.length; i++) {
+      cumulativeDistances.push(cumulativeDistances[i] + segmentDistances[i])
+    }
+
     // Animation loop
     const animate = () => {
       const elapsed = Date.now() - startTime
       const progress = (elapsed % cycleDuration) / cycleDuration // 0 to 1
 
-      // Calculate total path length
-      const totalSegments = waypoints.length - 1
-      const currentSegment = Math.floor(progress * totalSegments)
-      const segmentProgress = (progress * totalSegments) % 1
+      // Calculate current position based on distance traveled
+      const targetDistance = progress * totalDistance
 
-      if (currentSegment < totalSegments) {
-        const start = waypoints[currentSegment]
-        const end = waypoints[currentSegment + 1]
-
-        // Interpolate position
-        const x = start.x + (end.x - start.x) * segmentProgress
-        const y = start.y + (end.y - start.y) * segmentProgress
-
-        setOrbPosition({ x, y })
-
-        // Update active tile based on progress through segment
-        // Use end tile when more than 50% through the segment for smoother transition
-        if (!start.isUTurn && !end.isUTurn) {
-          // Both waypoints are tiles - use the one we're closer to
-          const activeTile = segmentProgress > 0.5 ? end.tileIndex : start.tileIndex
-          setActiveTileIndex(activeTile)
-        } else if (!start.isUTurn) {
-          // Moving from tile to U-turn - keep the start tile active
-          setActiveTileIndex(start.tileIndex)
-        } else if (!end.isUTurn) {
-          // Moving from U-turn to tile - activate the end tile
-          setActiveTileIndex(end.tileIndex)
+      // Find which segment we're in based on cumulative distance
+      let currentSegment = 0
+      for (let i = 0; i < cumulativeDistances.length - 1; i++) {
+        if (targetDistance >= cumulativeDistances[i] && targetDistance < cumulativeDistances[i + 1]) {
+          currentSegment = i
+          break
         }
+      }
+
+      // Clamp to valid segment range
+      if (currentSegment >= waypoints.length - 1) {
+        currentSegment = waypoints.length - 2
+      }
+
+      const start = waypoints[currentSegment]
+      const end = waypoints[currentSegment + 1]
+
+      // Calculate progress within this segment based on distance
+      const segmentStartDist = cumulativeDistances[currentSegment]
+      const segmentLength = segmentDistances[currentSegment]
+      const segmentProgress = segmentLength > 0 
+        ? (targetDistance - segmentStartDist) / segmentLength 
+        : 0
+
+      // Interpolate position
+      const x = start.x + (end.x - start.x) * segmentProgress
+      const y = start.y + (end.y - start.y) * segmentProgress
+
+      setOrbPosition({ x, y })
+
+      // Update active tile based on progress through segment
+      // Use end tile when more than 50% through the segment for smoother transition
+      if (!start.isUTurn && !end.isUTurn) {
+        // Both waypoints are tiles - use the one we're closer to
+        const activeTile = segmentProgress > 0.5 ? end.tileIndex : start.tileIndex
+        setActiveTileIndex(activeTile)
+      } else if (!start.isUTurn) {
+        // Moving from tile to U-turn - keep the start tile active
+        setActiveTileIndex(start.tileIndex)
+      } else if (!end.isUTurn) {
+        // Moving from U-turn to tile - activate the end tile
+        setActiveTileIndex(end.tileIndex)
       }
 
       animationFrameId = requestAnimationFrame(animate)
@@ -528,6 +562,9 @@ export function EcosystemSection() {
       ref={ref}
       className="relative py-28 md:py-36 bg-charcoal-950 overflow-hidden"
     >
+      {/* Grid background overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
+
       {/* Subtle background glow */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] pointer-events-none"

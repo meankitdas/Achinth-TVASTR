@@ -53,6 +53,9 @@ export function DeploymentSection() {
       className="relative py-28 md:py-36 overflow-hidden"
       style={{ background: 'rgba(10,10,11,0.98)' }}
     >
+      {/* Grid background overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
+
       {/* Subtle top border separator */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
