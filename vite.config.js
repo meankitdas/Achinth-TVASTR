@@ -10,14 +10,14 @@ export default defineConfig({
       output: {
         /**
          * Manual chunk splitting — keeps main bundle lean.
-         * Three.js + R3F are split into their own chunk so the
-         * main app code loads faster and is cached separately.
+         * Three.js is split into its own chunk so the main app
+         * code loads faster and is cached separately.
          */
         manualChunks: {
           // React core
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           // Three.js rendering stack (large but cacheable)
-          'vendor-three': ['three', '@react-three/fiber'],
+          'vendor-three': ['three'],
           // Supabase auth client
           'vendor-supabase': ['@supabase/supabase-js'],
           // PDF generation (lazy loaded via DownloadPresentationButton)
