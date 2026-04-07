@@ -14,13 +14,13 @@ export function ContactSection() {
     <section
       id="contact"
       ref={ref}
-      className="relative py-28 md:py-36 overflow-hidden"
+      className="relative py-20 md:py-36 overflow-hidden"
       style={{ background: '#0a0a0b' }}
     >
       {/* Grid background overlay */}
       <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
       {/* Glowing divider line */}
-      <div className="relative mb-20">
+      <div className="relative mb-12 md:mb-20">
         <div
           className="absolute left-1/2 -translate-x-1/2 w-[1px] h-16"
           style={{
@@ -47,7 +47,7 @@ export function ContactSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         {/* Section label */}
-        <div className="reveal flex items-center justify-center gap-3 mb-12">
+        <div className="reveal flex items-center justify-center gap-3 mb-8 md:mb-12">
           <div className="w-8 h-px bg-amber-forge opacity-40" />
           <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-40">
             Get In Touch
@@ -75,7 +75,7 @@ export function ContactSection() {
           </p>
 
           {/* Contact links */}
-          <div className="reveal reveal-delay-1 flex flex-row items-center gap-6 sm:gap-8 mb-12">
+          <div className="reveal reveal-delay-1 flex flex-row flex-wrap items-center justify-center gap-6 sm:gap-8 mb-12">
             {/* Email */}
             <button
               onClick={() => openContact(CONFIG.emails.contact, 'Inquiry', 'Hello, I would like to learn more about Tvastr.')}

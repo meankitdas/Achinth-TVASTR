@@ -18,7 +18,7 @@ export function Footer() {
       }}
     >
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <Logo size="md" />

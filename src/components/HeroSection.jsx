@@ -59,7 +59,7 @@ export function HeroSection() {
         {shouldRenderEffect ? (
           <LaserFlow
             color="#ff9100"
-            centerYFraction={isMobile ? 0.35 : 0.2}
+            centerYFraction={isMobile ? 0.15 : 0.1}
             verticalBeamOffset={0.0}
             horizontalBeamOffset={0.0}
             verticalSizing={isMobile ? 4.0 : 5.0}
@@ -91,10 +91,10 @@ export function HeroSection() {
       </div>
 
       {/* Content layer */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-40 pb-24 md:py-32">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-24 pb-16 md:py-32">
         <div className="max-w-2xl">
           {/* Eyebrow label */}
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-5 md:mb-8">
             <div className="w-8 h-px bg-amber-forge" />
             <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-80">
               Industrial AI
@@ -116,14 +116,14 @@ export function HeroSection() {
             >
               TVASTR
             </span>
-            <span className="block text-xl md:text-2xl lg:text-3xl font-light text-amber-glow mt-4 tracking-wide">
+            <span className="block text-xl md:text-2xl lg:text-3xl font-light text-amber-glow mt-2 md:mt-4 tracking-wide">
               Industrial Intelligence,{' '}
               <span className="font-semibold text-amber-forge">Forged.</span>
             </span>
           </h1>
 
           {/* Description */}
-          <p className="text-base md:text-lg text-metallic-300 leading-relaxed mb-16 md:mb-12 max-w-lg">
+          <p className="text-base md:text-lg text-metallic-300 leading-relaxed mb-10 md:mb-12 max-w-lg">
             Tvastr builds intelligent systems that bring perception, reasoning,
             and operational insight to heavy manufacturing environments.
           </p>

@@ -28,6 +28,14 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Mobile-specific background optimization */
+  @media (max-width: 768px) {
+    body {
+      background-size: 40px 40px;
+      background-attachment: scroll;
+    }
+  }
+
   /* Custom scrollbar */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: #111113; }

@@ -424,7 +424,7 @@ export function EcosystemSection() {
     if (!isVisible || tileRefs.current.length < 15) return
 
     let animationFrameId
-    const cycleDuration = window.innerWidth < 768 ? 5000 : 10000 // Mobile: 5s, Desktop: 10s
+    const cycleDuration = window.innerWidth < 768 ? 8000 : 10000 // Mobile: 8s, Desktop: 10s
     let startTime = Date.now()
 
     // Build waypoints from actual tile positions
@@ -600,7 +600,7 @@ export function EcosystemSection() {
     <section
       id="technology"
       ref={ref}
-      className="relative py-28 md:py-36 bg-charcoal-950 overflow-hidden"
+      className="relative py-20 md:py-36 bg-charcoal-950 overflow-hidden"
     >
       {/* Grid background overlay */}
       <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
@@ -722,7 +722,7 @@ export function EcosystemSection() {
             </svg>
 
             {/* Tiles */}
-            <div className="relative space-y-3" style={{ zIndex: 1 }}>
+            <div className="relative space-y-2" style={{ zIndex: 1 }}>
               {capabilityTiles.map((tile, index) => {
                 const isLeft = index % 2 === 0
                 

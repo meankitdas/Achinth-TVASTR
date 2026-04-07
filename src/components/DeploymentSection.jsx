@@ -51,7 +51,7 @@ export function DeploymentSection() {
     <section
       id="deployment"
       ref={ref}
-      className="relative py-28 md:py-36 overflow-hidden"
+      className="relative py-20 md:py-36 overflow-hidden"
       style={{ background: 'rgba(10,10,11,0.98)' }}
     >
       {/* Grid background overlay */}

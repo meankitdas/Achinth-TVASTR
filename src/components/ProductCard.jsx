@@ -238,7 +238,7 @@ export function ProductCard({ product, visual, index }) {
             </div>
 
             <h2
-              className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-4"
+              className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-4"
               style={{
                 background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)',
                 WebkitBackgroundClip: 'text',
@@ -289,7 +289,7 @@ export function ProductCard({ product, visual, index }) {
 
         {/* Visual side */}
         <div
-          className="lg:w-[320px] xl:w-[360px] flex-shrink-0 min-h-[240px] lg:min-h-0 relative"
+          className="lg:w-[320px] xl:w-[360px] flex-shrink-0 min-h-[200px] lg:min-h-0 relative"
           style={{
             background: 'rgba(10,10,11,0.6)',
             borderLeft: '1px solid rgba(168,168,180,0.06)',
