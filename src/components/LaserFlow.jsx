@@ -42,7 +42,6 @@ uniform float uFade;
 uniform float uMouseBreakRadius;
 uniform float uMouseBreakStrength;
 uniform float uCenterYFrac;
-uniform vec2 uMouseSlow;
 
 // Core beam/flare shaping and dynamics
 #define PI 3.14159265359
@@ -168,21 +167,14 @@ void mainImage(out vec4 fc,in vec2 frag){
     // Mouse proximity disruption (molten metal break effect)
     float mouseActive=step(1.0,length(iMouse.xy));
     vec2 mousePosScaled=vec2((iMouse.x-C.x)*sc.x,(C.y-iMouse.y)*sc.y);
-    vec2 mousePosSlow=uMouseSlow;
     float distToMouse=distance(uvc,mousePosScaled);
-    float distToMouseSlow=distance(uvc,mousePosSlow);
-    float breakEffect=smoothstep(uMouseBreakRadius,uMouseBreakRadius*0.3,distToMouseSlow);
+    float breakEffect=smoothstep(uMouseBreakRadius,uMouseBreakRadius*0.3,distToMouse);
     breakEffect=max(0.0,1.0-breakEffect)*mouseActive;
     float viscousBreak=pow(breakEffect,1.8)*uMouseBreakStrength;
     
-    // Ripple distortion: concentric waves emanating from cursor (fast response)
-    float rippleWave=sin(distToMouse*10.0-iTime*5.0)*exp(-distToMouse*0.06);
-    vec2 rippleDir=normalize(uvc-mousePosScaled+vec2(0.001));
-    vec2 rippleDisplace=rippleDir*rippleWave*1.2*mouseActive;
-    
-    // Displacement: heavy push away from cursor (slow viscous response)
-    vec2 pushDir=normalize(uvc-mousePosSlow+vec2(0.001));
-    vec2 displacement=pushDir*viscousBreak*35.0+rippleDisplace;
+    // Displacement: push beam away from cursor like touching molten metal
+    vec2 pushDir=normalize(uvc-mousePosScaled+vec2(0.001));
+    vec2 displacement=pushDir*viscousBreak*35.0;
     vec2 uvc_displaced=uvc+displacement;
     
     float a=0.0,b=0.0;
@@ -214,14 +206,7 @@ void mainImage(out vec4 fc,in vec2 frag){
     // Apply break: reduce intensity near cursor (creates gap like breaking metal flow)
     L*=(1.0-viscousBreak*0.85);
     
-    // Heat glow ring: molten metal brightens at edge of disturbance
-    float heatRing=smoothstep(uMouseBreakRadius*1.5,uMouseBreakRadius*0.8,distToMouseSlow)
-                  *(1.0-smoothstep(uMouseBreakRadius*0.3,0.0,distToMouseSlow));
-    L+=heatRing*0.35*mouseActive;
-    
-    // Wisp acceleration near cursor (stirring effect)
-    float wispAccel=1.0+smoothstep(uMouseBreakRadius*1.8,0.0,distToMouse)*2.5*mouseActive;
-    float w=vWisps(vec2(uvc_displaced.x,yPix*wispAccel),topA);
+    float w=vWisps(vec2(uvc_displaced.x,yPix),topA);
     
     // Wisps also get disrupted
     w*=(1.0-viscousBreak*0.7);
@@ -237,11 +222,6 @@ void mainImage(out vec4 fc,in vec2 frag){
     fuv+=uFogTime*uFogFallSpeed*dir;
     vec2 prp=vec2(-dir.y,dir.x);
     fuv+=prp*(0.08*sin(dot(uvc,prp)*0.08+uFogTime*0.9));
-    
-    // Fog turbulence near cursor: agitate fog like disturbed molten surface
-    float turbBoost=smoothstep(uMouseBreakRadius*2.5,0.0,distToMouse)*mouseActive;
-    fuv+=turbBoost*0.4*vec2(sin(iTime*3.5+distToMouse),cos(iTime*2.8-distToMouse));
-    
     float n=fbm2(fuv+vec2(fbm2(fuv+vec2(7.3,2.1)),fbm2(fuv+vec2(-3.7,5.9)))*0.6);
     n=pow(clamp(n,0.0,1.0),FOG_CONTRAST);
     float pixW = 1.0 / max(iResolution.y, 1.0);
@@ -396,8 +376,7 @@ export const LaserFlow = ({
       uFade: { value: 1 },
       uMouseBreakRadius: { value: 80.0 },
       uMouseBreakStrength: { value: 1.0 },
-      uCenterYFrac: { value: centerYFraction },
-      uMouseSlow: { value: new THREE.Vector2(0, 0) }
+      uCenterYFrac: { value: centerYFraction }
     };
     uniformsRef.current = uniforms;
 
@@ -422,7 +401,6 @@ export const LaserFlow = ({
 
     const mouseTarget = new THREE.Vector2(0, 0);
     const mouseSmooth = new THREE.Vector2(0, 0);
-    const mouseSlow = new THREE.Vector2(0, 0);
 
     const setSizeNow = (force = false) => {
       const w = mount.clientWidth || 1;
@@ -500,10 +478,10 @@ export const LaserFlow = ({
     };
     const onMove = ev => updateMouse(ev.clientX, ev.clientY);
     const onLeave = () => mouseTarget.set(0, 0);
-    
-    // Listen on window to capture mouse even when over content layers
-    window.addEventListener('pointermove', onMove, { passive: true });
-    document.addEventListener('mouseleave', onLeave, { passive: true });
+    canvas.addEventListener('pointermove', onMove, { passive: true });
+    canvas.addEventListener('pointerdown', onMove, { passive: true });
+    canvas.addEventListener('pointerenter', onMove, { passive: true });
+    canvas.addEventListener('pointerleave', onLeave, { passive: true });
 
     const onCtxLost = e => {
       e.preventDefault();
@@ -584,18 +562,10 @@ export const LaserFlow = ({
         renderer.render(scene, camera);
       }
 
-      // Dual-speed lerp for viscous molten metal inertia
-      // Fast lerp (ripple epicenter, wisp acceleration): responds quickly
       const tau = Math.max(1e-3, mouseSmoothTime);
       const alpha = 1 - Math.exp(-cdt / tau);
       mouseSmooth.lerp(mouseTarget, alpha);
       uniforms.iMouse.value.set(mouseSmooth.x, mouseSmooth.y, 0, 0);
-      
-      // Slow lerp (heavy displacement): creates viscous drag like molten metal
-      const tauSlow = 0.6; // Heavy inertia time constant
-      const alphaSlow = 1 - Math.exp(-cdt / tauSlow);
-      mouseSlow.lerp(mouseTarget, alphaSlow);
-      uniforms.uMouseSlow.value.set(mouseSlow.x, mouseSlow.y);
 
       renderer.render(scene, camera);
 
@@ -609,8 +579,10 @@ export const LaserFlow = ({
       ro.disconnect();
       io.disconnect();
       document.removeEventListener('visibilitychange', onVis);
-      window.removeEventListener('pointermove', onMove);
-      document.removeEventListener('mouseleave', onLeave);
+      canvas.removeEventListener('pointermove', onMove);
+      canvas.removeEventListener('pointerdown', onMove);
+      canvas.removeEventListener('pointerenter', onMove);
+      canvas.removeEventListener('pointerleave', onLeave);
       canvas.removeEventListener('webglcontextlost', onCtxLost);
       canvas.removeEventListener('webglcontextrestored', onCtxRestored);
       geometry.dispose();
