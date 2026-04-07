@@ -246,34 +246,27 @@ function ReverseBeltConnector() {
  * RowTurn — Serpentine U-turn connector.
  * Turn 1 (after row 1): drops straight down on the right side
  * Turn 2 (after row 2): drops straight down on the left side
+ * @param {number} xPercent - The X position as a percentage (0-100) where the vertical line should be drawn
  */
-function RowTurn({ turnRef, isRightSide = true }) {
+function RowTurn({ turnRef, isRightSide = true, xPercent = 50 }) {
+  // Convert percentage to SVG viewBox coordinate (0-1000 scale)
+  const svgX = (xPercent / 100) * 1000
+  
   return (
     <div ref={turnRef} className="hidden md:block relative w-full" style={{ height: '50px' }}>
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 50" preserveAspectRatio="none">
-        {isRightSide ? (
-          // Right side drop (after row 1)
-          <>
-            <path
-              d="M 980 0 L 980 50"
-              fill="none"
-              stroke="rgba(245,158,11,0.3)"
-              strokeWidth="1"
-            />
-            <path d="M 978 42 L 980 46 L 982 42" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
-          </>
-        ) : (
-          // Left side drop (after row 2)
-          <>
-            <path
-              d="M 20 0 L 20 50"
-              fill="none"
-              stroke="rgba(245,158,11,0.3)"
-              strokeWidth="1"
-            />
-            <path d="M 18 42 L 20 46 L 22 42" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
-          </>
-        )}
+        <path
+          d={`M ${svgX} 0 L ${svgX} 50`}
+          fill="none"
+          stroke="rgba(245,158,11,0.3)"
+          strokeWidth="1"
+        />
+        <path 
+          d={`M ${svgX - 2} 42 L ${svgX} 46 L ${svgX + 2} 42`} 
+          fill="none" 
+          stroke="rgba(245,158,11,0.4)" 
+          strokeWidth="1" 
+        />
       </svg>
     </div>
   )
@@ -365,6 +358,8 @@ export function EcosystemSection() {
   const [isVisible, setIsVisible] = useState(false)
   const [expandedTile, setExpandedTile] = useState(null)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [turn1XPercent, setTurn1XPercent] = useState(98) // Default fallback for turn 1
+  const [turn2XPercent, setTurn2XPercent] = useState(2)  // Default fallback for turn 2
 
   useEffect(() => {
     // Check if the section is visible on screen
@@ -392,11 +387,44 @@ export function EcosystemSection() {
   }, [])
 
   useEffect(() => {
+    // Compute dynamic X positions for vertical drop lines based on actual tile centers
+    const computeTurnPositions = () => {
+      if (!containerRef.current || window.innerWidth < 768) return // Desktop only
+
+      const containerRect = containerRef.current.getBoundingClientRect()
+      const containerWidth = containerRect.width
+
+      // Turn 1: Use tile 4 (last tile in row 1) center X position
+      const tile4 = tileRefs.current[4]
+      if (tile4) {
+        const tile4Rect = tile4.getBoundingClientRect()
+        const tile4CenterX = tile4Rect.left + tile4Rect.width / 2 - containerRect.left
+        const tile4Percent = (tile4CenterX / containerWidth) * 100
+        setTurn1XPercent(tile4Percent)
+      }
+
+      // Turn 2: Use tile 9 (last tile in row 2) center X position
+      const tile9 = tileRefs.current[9]
+      if (tile9) {
+        const tile9Rect = tile9.getBoundingClientRect()
+        const tile9CenterX = tile9Rect.left + tile9Rect.width / 2 - containerRect.left
+        const tile9Percent = (tile9CenterX / containerWidth) * 100
+        setTurn2XPercent(tile9Percent)
+      }
+    }
+
+    // Compute on mount and resize
+    computeTurnPositions()
+    window.addEventListener('resize', computeTurnPositions)
+    return () => window.removeEventListener('resize', computeTurnPositions)
+  }, [])
+
+  useEffect(() => {
     // Don't run animation if not visible or no tiles
     if (!isVisible || tileRefs.current.length < 15) return
 
     let animationFrameId
-    const cycleDuration = window.innerWidth < 768 ? 8000 : 15000 // Mobile: 8s, Desktop: 15s
+    const cycleDuration = window.innerWidth < 768 ? 5000 : 10000 // Mobile: 5s, Desktop: 10s
     let startTime = Date.now()
 
     // Build waypoints from actual tile positions
@@ -785,7 +813,7 @@ export function EcosystemSection() {
           </div>
 
           {/* Turn connector Row 1 → Row 2 (right side drop) */}
-          <RowTurn turnRef={turn1Ref} isRightSide={true} />
+          <RowTurn turnRef={turn1Ref} isRightSide={true} xPercent={turn1XPercent} />
 
           {/* ROW 2: Process Intelligence (REVERSED - Right to Left) */}
           <div>
@@ -837,7 +865,7 @@ export function EcosystemSection() {
           </div>
 
           {/* Turn connector Row 2 → Row 3 (left side drop) */}
-          <RowTurn turnRef={turn2Ref} isRightSide={false} />
+          <RowTurn turnRef={turn2Ref} isRightSide={false} xPercent={turn2XPercent} />
 
           {/* ROW 3: Plant-Level Intelligence */}
           <div>
