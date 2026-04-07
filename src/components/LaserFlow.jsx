@@ -475,10 +475,10 @@ export const LaserFlow = ({
     };
     const onMove = ev => updateMouse(ev.clientX, ev.clientY);
     const onLeave = () => mouseTarget.set(0, 0);
-    canvas.addEventListener('pointermove', onMove, { passive: true });
-    canvas.addEventListener('pointerdown', onMove, { passive: true });
-    canvas.addEventListener('pointerenter', onMove, { passive: true });
-    canvas.addEventListener('pointerleave', onLeave, { passive: true });
+    
+    // Listen on window to capture mouse even when over content layers
+    window.addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('mouseleave', onLeave, { passive: true });
 
     const onCtxLost = e => {
       e.preventDefault();
@@ -575,10 +575,8 @@ export const LaserFlow = ({
       ro.disconnect();
       io.disconnect();
       document.removeEventListener('visibilitychange', onVis);
-      canvas.removeEventListener('pointermove', onMove);
-      canvas.removeEventListener('pointerdown', onMove);
-      canvas.removeEventListener('pointerenter', onMove);
-      canvas.removeEventListener('pointerleave', onLeave);
+      window.removeEventListener('pointermove', onMove);
+      document.removeEventListener('mouseleave', onLeave);
       canvas.removeEventListener('webglcontextlost', onCtxLost);
       canvas.removeEventListener('webglcontextrestored', onCtxRestored);
       geometry.dispose();
