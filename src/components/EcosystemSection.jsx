@@ -219,7 +219,7 @@ function CapabilityTile({ tile, isActive, tileRef, onClick, compact = false }) {
 }
 
 /**
- * BeltConnector — Horizontal belt segment.
+ * BeltConnector — Horizontal belt segment (left to right).
  */
 function BeltConnector() {
   return (
@@ -231,20 +231,49 @@ function BeltConnector() {
 }
 
 /**
- * RowTurn — Full-width U-turn connector from end of one row to start of next.
+ * ReverseBeltConnector — Horizontal belt segment (right to left).
  */
-function RowTurn({ turnRef }) {
+function ReverseBeltConnector() {
+  return (
+    <div className="hidden md:flex items-center justify-center relative flex-shrink-0" style={{ width: '50px' }}>
+      <div className="w-full h-px bg-amber-forge opacity-30" />
+      <div className="absolute left-0 w-2 h-2 border-l border-b border-amber-forge opacity-40 transform rotate-45 -ml-1" />
+    </div>
+  )
+}
+
+/**
+ * RowTurn — Serpentine U-turn connector.
+ * Turn 1 (after row 1): drops straight down on the right side
+ * Turn 2 (after row 2): drops straight down on the left side
+ */
+function RowTurn({ turnRef, isRightSide = true }) {
   return (
     <div ref={turnRef} className="hidden md:block relative w-full" style={{ height: '50px' }}>
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 50" preserveAspectRatio="none">
-        <path
-          d="M 980 0 L 980 30 L 20 30 L 20 50"
-          fill="none"
-          stroke="rgba(245,158,11,0.3)"
-          strokeWidth="1"
-        />
-        <path d="M 978 8 L 980 12 L 982 8" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
-        <path d="M 18 42 L 20 46 L 22 42" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
+        {isRightSide ? (
+          // Right side drop (after row 1)
+          <>
+            <path
+              d="M 980 0 L 980 50"
+              fill="none"
+              stroke="rgba(245,158,11,0.3)"
+              strokeWidth="1"
+            />
+            <path d="M 978 42 L 980 46 L 982 42" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
+          </>
+        ) : (
+          // Left side drop (after row 2)
+          <>
+            <path
+              d="M 20 0 L 20 50"
+              fill="none"
+              stroke="rgba(245,158,11,0.3)"
+              strokeWidth="1"
+            />
+            <path d="M 18 42 L 20 46 L 22 42" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1" />
+          </>
+        )}
       </svg>
     </div>
   )
@@ -401,46 +430,30 @@ export function EcosystemSection() {
           
           if (nextTile && turnRef) {
             const nextRect = nextTile.getBoundingClientRect()
-            const nextCenterX = nextRect.left + nextRect.width / 2 - containerRect.left
             const nextCenterY = nextRect.top + nextRect.height / 2 - containerRect.top
 
             // Get the U-turn connector's actual position
             const turnRect = turnRef.getBoundingClientRect()
             const turnTop = turnRect.top - containerRect.top
-            const turnHeight = turnRect.height
+            const turnBottom = turnTop + turnRect.height
 
-            // Get the actual container width for the U-turn path
-            // SVG path uses viewBox="0 0 1000 50" with path "M 980 0 L 980 30 L 20 30 L 20 50"
-            const containerWidth = containerRect.width
-            const rightEdge = containerWidth * 0.98 // 980/1000 = 98%
-            const leftEdge = containerWidth * 0.02 // 20/1000 = 2%
+            // Serpentine turns are now straight vertical drops:
+            // - Turn 1 (after tile 4): drops straight down on RIGHT side
+            // - Turn 2 (after tile 9): drops straight down on LEFT side
+            // We just need 2 waypoints: top of turn and bottom of turn
 
-            // Calculate the horizontal line position (30/50 = 60% of turn height)
-            const midY = turnTop + (turnHeight * 0.6)
-
-            // U-turn intermediate points following the SVG path exactly
-            // Path: tile center → right edge → down to horizontal line → across to left edge → down → next tile center
+            // Waypoint at bottom of current tile (start of turn)
             waypoints.push({
-              x: rightEdge,
-              y: centerY,
+              x: centerX,
+              y: turnTop,
               tileIndex: index,
               isUTurn: true,
             })
+
+            // Waypoint at top of next tile (end of turn)
             waypoints.push({
-              x: rightEdge,
-              y: midY,
-              tileIndex: index,
-              isUTurn: true,
-            })
-            waypoints.push({
-              x: leftEdge,
-              y: midY,
-              tileIndex: index,
-              isUTurn: true,
-            })
-            waypoints.push({
-              x: leftEdge,
-              y: nextCenterY,
+              x: centerX, // Same X coordinate (vertical drop)
+              y: turnBottom,
               tileIndex: index + 1,
               isUTurn: true,
             })
@@ -607,11 +620,11 @@ export function EcosystemSection() {
             }}
           />
 
-          {/* 3 Reverse orbs (feedback/auto-tuning) - smaller, lighter, traveling backward */}
+          {/* 3 Reverse orbs (feedback/auto-tuning) - smaller, lighter, traveling backward - hidden on mobile */}
           {reverseOrbPositions.map((pos, i) => (
             <div
               key={`reverse-orb-${i}`}
-              className="absolute w-2 h-2 rounded-full pointer-events-none z-0 transition-opacity duration-1000"
+              className="hidden md:block absolute w-2 h-2 rounded-full pointer-events-none z-0 transition-opacity duration-1000"
               style={{
                 left: `${pos.x}px`,
                 top: `${pos.y}px`,
@@ -770,10 +783,10 @@ export function EcosystemSection() {
             </div>
           </div>
 
-          {/* Turn connector Row 1 → Row 2 */}
-          <RowTurn turnRef={turn1Ref} />
+          {/* Turn connector Row 1 → Row 2 (right side drop) */}
+          <RowTurn turnRef={turn1Ref} isRightSide={true} />
 
-          {/* ROW 2: Process Intelligence */}
+          {/* ROW 2: Process Intelligence (REVERSED - Right to Left) */}
           <div>
             {/* Row label above */}
             <div className="flex items-center gap-3 mb-4">
@@ -783,47 +796,47 @@ export function EcosystemSection() {
               </h3>
             </div>
             
-            {/* Tiles */}
+            {/* Tiles - rendered right to left: 9 ← 8 ← 7 ← 6 ← 5 */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
-              <CapabilityTile
-                tile={capabilityTiles[5]}
-                isActive={activeTileIndex === 5}
-                tileRef={!isMobile ? setTileRef(5) : undefined}
-                onClick={() => setExpandedTile(capabilityTiles[5])}
-              />
-              <BeltConnector />
-              <CapabilityTile
-                tile={capabilityTiles[6]}
-                isActive={activeTileIndex === 6}
-                tileRef={!isMobile ? setTileRef(6) : undefined}
-                onClick={() => setExpandedTile(capabilityTiles[6])}
-              />
-              <BeltConnector />
-              <CapabilityTile
-                tile={capabilityTiles[7]}
-                isActive={activeTileIndex === 7}
-                tileRef={!isMobile ? setTileRef(7) : undefined}
-                onClick={() => setExpandedTile(capabilityTiles[7])}
-              />
-              <BeltConnector />
-              <CapabilityTile
-                tile={capabilityTiles[8]}
-                isActive={activeTileIndex === 8}
-                tileRef={!isMobile ? setTileRef(8) : undefined}
-                onClick={() => setExpandedTile(capabilityTiles[8])}
-              />
-              <BeltConnector />
               <CapabilityTile
                 tile={capabilityTiles[9]}
                 isActive={activeTileIndex === 9}
                 tileRef={!isMobile ? setTileRef(9) : undefined}
                 onClick={() => setExpandedTile(capabilityTiles[9])}
               />
+              <ReverseBeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[8]}
+                isActive={activeTileIndex === 8}
+                tileRef={!isMobile ? setTileRef(8) : undefined}
+                onClick={() => setExpandedTile(capabilityTiles[8])}
+              />
+              <ReverseBeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[7]}
+                isActive={activeTileIndex === 7}
+                tileRef={!isMobile ? setTileRef(7) : undefined}
+                onClick={() => setExpandedTile(capabilityTiles[7])}
+              />
+              <ReverseBeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[6]}
+                isActive={activeTileIndex === 6}
+                tileRef={!isMobile ? setTileRef(6) : undefined}
+                onClick={() => setExpandedTile(capabilityTiles[6])}
+              />
+              <ReverseBeltConnector />
+              <CapabilityTile
+                tile={capabilityTiles[5]}
+                isActive={activeTileIndex === 5}
+                tileRef={!isMobile ? setTileRef(5) : undefined}
+                onClick={() => setExpandedTile(capabilityTiles[5])}
+              />
             </div>
           </div>
 
-          {/* Turn connector Row 2 → Row 3 */}
-          <RowTurn turnRef={turn2Ref} />
+          {/* Turn connector Row 2 → Row 3 (left side drop) */}
+          <RowTurn turnRef={turn2Ref} isRightSide={false} />
 
           {/* ROW 3: Plant-Level Intelligence */}
           <div>

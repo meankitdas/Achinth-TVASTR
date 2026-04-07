@@ -59,11 +59,11 @@ export function HeroSection() {
         {shouldRenderEffect ? (
           <LaserFlow
             color="#ff9100"
-            centerYFraction={isMobile ? 0.3 : 0.2}
+            centerYFraction={isMobile ? 0.35 : 0.2}
             verticalBeamOffset={0.0}
             horizontalBeamOffset={0.0}
-            verticalSizing={isMobile ? 3.0 : 5.0}
-            horizontalSizing={isMobile ? 3.0 : 1.5}
+            verticalSizing={isMobile ? 4.0 : 5.0}
+            horizontalSizing={isMobile ? 4.0 : 1.5}
             fogIntensity={isMobile ? 0.35 : 0.6}
             fogScale={isMobile ? 0.22 : 0.3}
             flowSpeed={0.5}

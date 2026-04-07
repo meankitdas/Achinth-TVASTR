@@ -510,6 +510,28 @@ export function PortalDashboard() {
                                     : `Download v${productVersions.stable.version_number}`}
                                 </span>
                               </button>
+                            ) : productVersions?.latest ? (
+                              // Only latest version exists (no stable rollback) - single button
+                              <button
+                                onClick={() => handleDownload(productVersions.latest.products.name, productVersions.latest.version_number, 'installers')}
+                                disabled={downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}-installers`}
+                                className="w-full flex items-center justify-center gap-2 py-4 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50 relative overflow-hidden group"
+                                style={STYLES.downloadButton}
+                              >
+                                <span
+                                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                  style={{ background: 'rgba(245,158,11,0.08)' }}
+                                />
+                                <span className="relative flex items-center gap-2">
+                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                    <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                    <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                  </svg>
+                                  {downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}-installers` 
+                                    ? 'Generating link...' 
+                                    : `Download v${productVersions.latest.version_number}`}
+                                </span>
+                              </button>
                             ) : null}
                           </div>
                         ) : (
