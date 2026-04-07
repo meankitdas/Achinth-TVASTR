@@ -160,22 +160,10 @@ export function SystemDocs() {
 
           <div className="flex items-center gap-3 md:gap-6">
             <Link
-              to="/#about"
-              className="text-xs font-medium tracking-wider md:tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
-            >
-              About
-            </Link>
-            <Link
-              to="/#products"
-              className="text-xs font-medium tracking-wider md:tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
-            >
-              Systems
-            </Link>
-            <Link
-              to="/portal"
+              to="/"
               className="text-xs font-semibold tracking-wider md:tracking-widest uppercase text-amber-forge hover:text-amber-glow transition-colors duration-200"
             >
-              Portal
+              Home
             </Link>
           </div>
         </div>
