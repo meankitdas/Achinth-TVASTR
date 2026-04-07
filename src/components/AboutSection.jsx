@@ -80,7 +80,7 @@ export function AboutSection() {
     <section
       id="about"
       ref={ref}
-      className="relative py-28 md:py-36 bg-charcoal-950 overflow-hidden"
+      className="relative z-10 py-28 md:py-36 bg-charcoal-950 overflow-hidden"
     >
       {/* Grid background overlay */}
       <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />

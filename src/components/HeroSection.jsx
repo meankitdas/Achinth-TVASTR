@@ -1,22 +1,16 @@
-import { Suspense, useState, useEffect } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { ForgeCore } from '../three/ForgeCore'
-import { FloatingGeometry } from '../three/FloatingGeometry'
+import { useState, useEffect } from 'react'
+import { LaserFlow } from './LaserFlow'
 
 /**
  * HeroSection — Cinematic full-viewport landing section.
  *
- * Layout: Two-column on desktop (text left, 3D canvas right),
- * stacked on mobile (canvas behind text).
- *
- * The Three.js canvas renders ForgeCore + FloatingGeometry.
- * Canvas is pointer-events-none so scroll/interactions pass through.
+ * Features an interactive LaserFlow WebGL shader that simulates
+ * molten metal pouring down like a furnace, with mouse-reactive fog.
  * 
- * On low-power devices, shows a static fallback instead of 3D canvas.
+ * On low-power devices, shows a static fallback gradient.
  */
 export function HeroSection() {
-  const [shouldRenderThree, setShouldRenderThree] = useState(true)
-  const [scaleFactor, setScaleFactor] = useState(1)
+  const [shouldRenderEffect, setShouldRenderEffect] = useState(true)
 
   useEffect(() => {
     // Detect low-power devices
@@ -25,24 +19,8 @@ export function HeroSection() {
       (navigator.deviceMemory && navigator.deviceMemory < 4)
 
     if (isLowPower) {
-      setShouldRenderThree(false)
+      setShouldRenderEffect(false)
     }
-
-    // Compute initial scale based on viewport width
-    const updateScale = () => {
-      const width = window.innerWidth
-      if (width < 768) {
-        setScaleFactor(0.35) // Mobile: much smaller scene
-      } else if (width < 1024) {
-        setScaleFactor(0.8) // Tablet: medium scene
-      } else {
-        setScaleFactor(1.0) // Desktop: full scene
-      }
-    }
-
-    updateScale()
-    window.addEventListener('resize', updateScale)
-    return () => window.removeEventListener('resize', updateScale)
   }, [])
 
   const scrollToProducts = () => {
@@ -66,20 +44,30 @@ export function HeroSection() {
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
 
-      {/* Three.js Canvas — full section, pointer-events-none */}
-      {/* On low-power devices, show static fallback */}
-      <div className="absolute inset-0 pointer-events-none opacity-50 md:opacity-100">
-        {shouldRenderThree ? (
-          <Canvas
-            camera={{ position: [0, 0, 5], fov: 50 }}
-            gl={{ antialias: true, alpha: true }}
-            dpr={[1, 1.5]} // cap pixel ratio for performance
-          >
-            <Suspense fallback={null}>
-              <ForgeCore scale={scaleFactor} />
-              <FloatingGeometry scale={scaleFactor} />
-            </Suspense>
-          </Canvas>
+      {/* LaserFlow WebGL background — molten metal beam pouring down */}
+      <div className="absolute inset-0 pointer-events-none">
+        {shouldRenderEffect ? (
+          <LaserFlow
+            color="#ff9100"
+            centerYFraction={0.2}
+            verticalBeamOffset={0.0}
+            horizontalBeamOffset={0.0}
+            verticalSizing={5.0}
+            horizontalSizing={1.5}
+            fogIntensity={0.6}
+            fogScale={0.3}
+            flowSpeed={0.5}
+            wispDensity={1.4}
+            wispSpeed={13}
+            wispIntensity={5.2}
+            flowStrength={0.28}
+            decay={1.1}
+            falloffStart={1.2}
+            mouseTiltStrength={0.12}
+            fogFallSpeed={0.55}
+            mouseSmoothTime={0.25}
+            style={{ position: 'absolute', inset: 0 }}
+          />
         ) : (
           // Static fallback for low-power devices
           <div 
