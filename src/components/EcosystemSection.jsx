@@ -396,7 +396,7 @@ export function EcosystemSection() {
     if (!isVisible || tileRefs.current.length < 15) return
 
     let animationFrameId
-    const cycleDuration = window.innerWidth < 768 ? 12000 : 25000 // Mobile: 12s, Desktop: 25s
+    const cycleDuration = window.innerWidth < 768 ? 8000 : 15000 // Mobile: 8s, Desktop: 15s
     let startTime = Date.now()
 
     // Build waypoints from actual tile positions
@@ -430,6 +430,7 @@ export function EcosystemSection() {
           
           if (nextTile && turnRef) {
             const nextRect = nextTile.getBoundingClientRect()
+            const nextCenterX = nextRect.left + nextRect.width / 2 - containerRect.left
             const nextCenterY = nextRect.top + nextRect.height / 2 - containerRect.top
 
             // Get the U-turn connector's actual position
@@ -438,13 +439,13 @@ export function EcosystemSection() {
             const turnBottom = turnTop + turnRect.height
 
             // Serpentine turns are now straight vertical drops:
-            // - Turn 1 (after tile 4): drops straight down on RIGHT side
-            // - Turn 2 (after tile 9): drops straight down on LEFT side
-            // We just need 2 waypoints: top of turn and bottom of turn
+            // - Turn 1 (after tile 4): drops straight down on RIGHT side (to tile 5)
+            // - Turn 2 (after tile 9): drops straight down on LEFT side (to tile 10)
+            // Use the next tile's X coordinate for the vertical drop
 
             // Waypoint at bottom of current tile (start of turn)
             waypoints.push({
-              x: centerX,
+              x: nextCenterX,
               y: turnTop,
               tileIndex: index,
               isUTurn: true,
@@ -452,7 +453,7 @@ export function EcosystemSection() {
 
             // Waypoint at top of next tile (end of turn)
             waypoints.push({
-              x: centerX, // Same X coordinate (vertical drop)
+              x: nextCenterX, // Same X coordinate (vertical drop)
               y: turnBottom,
               tileIndex: index + 1,
               isUTurn: true,
