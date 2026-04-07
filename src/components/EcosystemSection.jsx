@@ -637,14 +637,20 @@ export function EcosystemSection() {
           
           {/* Forward orb - fades in at tile 0, fades out at tile 14 */}
           <div
-            className="absolute w-3 h-3 rounded-full bg-amber-forge pointer-events-none z-10 transition-opacity duration-1000"
+            className="absolute w-3 h-3 rounded-full bg-amber-forge pointer-events-none z-10 transition-opacity duration-500"
             style={{
               left: `${orbPosition.x}px`,
               top: `${orbPosition.y}px`,
               transform: 'translate(-50%, -50%)',
               boxShadow: '0 0 20px rgba(245,158,11,0.9), 0 0 40px rgba(245,158,11,0.6)',
               opacity: isVisible && activeTileIndex !== -1 
-                ? (activeTileIndex === 0 ? 0.3 : activeTileIndex === 14 ? 0.3 : 1) 
+                ? (
+                  activeTileIndex === 0 ? 0.2 :
+                  activeTileIndex === 1 ? 0.6 :
+                  activeTileIndex === 13 ? 0.6 :
+                  activeTileIndex === 14 ? 0.2 :
+                  1
+                )
                 : 0,
             }}
           />
@@ -653,7 +659,7 @@ export function EcosystemSection() {
           {reverseOrbPositions.map((pos, i) => (
             <div
               key={`reverse-orb-${i}`}
-              className="hidden md:block absolute w-2 h-2 rounded-full pointer-events-none z-0 transition-opacity duration-1000"
+              className="hidden md:block absolute w-2 h-2 rounded-full pointer-events-none z-0 transition-opacity duration-500"
               style={{
                 left: `${pos.x}px`,
                 top: `${pos.y}px`,
@@ -662,7 +668,13 @@ export function EcosystemSection() {
                 background: 'rgba(147,197,253,0.9)', // Light blue tint for feedback
                 boxShadow: '0 0 20px rgba(147,197,253,0.9), 0 0 40px rgba(147,197,253,0.6), 0 0 60px rgba(147,197,253,0.3)',
                 opacity: isVisible && pos.tileIndex !== -1 
-                  ? (pos.tileIndex === 14 ? 0.3 : pos.tileIndex === 0 ? 0.3 : 0.8) 
+                  ? (
+                    pos.tileIndex === 14 ? 0.2 :
+                    pos.tileIndex === 13 ? 0.5 :
+                    pos.tileIndex === 1 ? 0.5 :
+                    pos.tileIndex === 0 ? 0.2 :
+                    0.8
+                  )
                   : 0,
               }}
             />
