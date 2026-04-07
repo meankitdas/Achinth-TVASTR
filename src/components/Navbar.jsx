@@ -54,6 +54,7 @@ export function Navbar() {
     { label: 'About', action: () => scrollTo('about') },
     { label: 'Technology', action: () => scrollTo('technology') },
     { label: 'Systems', action: () => scrollTo('products') },
+    { label: 'System Docs', href: '/system' },
   ]
 
   return (
@@ -95,15 +96,25 @@ export function Navbar() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={link.action}
-                className="text-xs font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
-              >
-                {link.label}
-              </button>
-            ))}
+            {navLinks.map((link) => 
+              link.href ? (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className="text-xs font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <button
+                  key={link.label}
+                  onClick={link.action}
+                  className="text-xs font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
+                >
+                  {link.label}
+                </button>
+              )
+            )}
 
             {/* Portal entry point — changes based on auth state */}
             {user ? (
@@ -180,15 +191,25 @@ export function Navbar() {
         }}
       >
         <div className="px-6 py-6 flex flex-col gap-5">
-          {navLinks.map((link) => (
-            <button
-              key={link.label}
-              onClick={link.action}
-              className="text-left text-sm font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
-            >
-              {link.label}
-            </button>
-          ))}
+          {navLinks.map((link) => 
+            link.href ? (
+              <Link
+                key={link.label}
+                to={link.href}
+                className="text-sm font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <button
+                key={link.label}
+                onClick={link.action}
+                className="text-left text-sm font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
+              >
+                {link.label}
+              </button>
+            )
+          )}
           {user ? (
             <>
               <Link

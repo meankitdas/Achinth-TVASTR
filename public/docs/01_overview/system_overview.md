@@ -10,6 +10,7 @@
 TvastrRAS is an AI-powered casting defect detection and root cause analysis system for foundry quality control. It inspects radiographic images of castings, detects defects, classifies defect types, diagnoses root causes, and generates actionable reports.
 
 **Core Capabilities:**
+
 - Multi-modal defect detection (YOLO + signal-based + LLM reasoning)
 - 6 defect classes: porosity, shrinkage, crack, sand inclusion, surface roughness, blow hole
 - Root cause diagnosis with responsible manufacturing section
@@ -18,6 +19,7 @@ TvastrRAS is an AI-powered casting defect detection and root cause analysis syst
 - Batch processing (SQL queue, folder watch, upload)
 
 **Decision Outputs:**
+
 - **REJECT** — Defect severity exceeds threshold
 - **MANUAL_REVIEW** — Borderline case, needs human inspector
 - **ACCEPT** — No significant defects
@@ -74,6 +76,7 @@ TvastrRAS uses a **signal-driven architecture** where multiple independent signa
 4. **Agreement Signal (20%)** — Inter-signal consensus bonus/penalty
 
 **Why Signal-First?**
+
 - YOLO alone has ~15% error rate on subtle defects
 - Signal features (texture, edge, geometry) are physics-grounded and explainable
 - Multi-signal fusion with agreement logic achieves 92%+ accuracy
@@ -88,6 +91,7 @@ TvastrRAS uses a **signal-driven architecture** where multiple independent signa
 Traditional patch classification: YOLO model scores every 256×256 patch, uses raw probability.
 
 **New anomaly-driven system:**
+
 - Extracts 15-dimensional feature vector per patch (texture, edge, blob, intensity, geometry)
 - Computes **feature anomaly** (70% weight): global z-score + local spatial deviation
 - Demotes YOLO to **weak hint** (30% weight): entropy-based uncertainty signal
@@ -208,6 +212,7 @@ Background analytics that learn from inspection history:
 ## Quick Navigation
 
 **I want to...**
+
 - Understand the system → Read this file
 - Deploy the system → [Setup](../05_deployment/setup.md)
 - Tune parameters → [Parameters](../04_configuration/parameters.md)

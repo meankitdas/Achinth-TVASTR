@@ -34,6 +34,9 @@ const PortalManual = lazy(() =>
 const AdminDashboard = lazy(() =>
   import('./pages/AdminDashboard').then((m) => ({ default: m.AdminDashboard }))
 )
+const SystemDocs = lazy(() =>
+  import('./pages/SystemDocs').then((m) => ({ default: m.SystemDocs }))
+)
 
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePage() {
@@ -123,6 +126,9 @@ export default function App() {
 
               <Route path="/systems/rejection-analysis-system" element={<RejectionAnalysisSystem />} />
               <Route path="/systems/plant-intelligence" element={<PlantIntelligence />} />
+
+              {/* Public system documentation */}
+              <Route path="/system" element={<SystemDocs />} />
 
               <Route path="/portal" element={<PortalLogin />} />
 

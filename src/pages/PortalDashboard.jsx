@@ -230,26 +230,35 @@ export function PortalDashboard() {
 
       {/* Top nav */}
       <header className="sticky top-0 z-40" style={STYLES.header}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
             <span className="text-metallic-600 text-xs hidden md:inline">/ Customer Portal</span>
           </Link>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
             {isAdmin && (
               <Link
                 to="/portal/admin"
-                className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+                className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
               >
-                Admin Portal
+                <span className="hidden sm:inline">Admin Portal</span>
+                <span className="sm:hidden">Admin</span>
               </Link>
             )}
             <Link
-              to="/portal/manual"
-              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              to="/system"
+              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
             >
-              User Manual
+              <span className="hidden sm:inline">System</span>
+              <span className="sm:hidden">Sys</span>
+            </Link>
+            <Link
+              to="/portal/manual"
+              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+            >
+              <span className="hidden sm:inline">User Manual</span>
+              <span className="sm:hidden">Manual</span>
             </Link>
             <div className="hidden sm:flex items-center gap-2">
               <div className="w-2 h-2 rounded-full" style={STYLES.statusIndicator} />

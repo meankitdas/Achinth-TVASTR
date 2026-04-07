@@ -541,6 +541,9 @@ export function AdminDashboard() {
                           h1: ({ node, ...props }) => <h1 className="text-xl md:text-2xl font-bold text-metallic-100 mb-4 border-b border-metallic-800 pb-3" {...props} />,
                           h2: ({ node, ...props }) => <h2 className="text-lg md:text-xl font-bold text-metallic-200 mb-3 mt-6 md:mt-8" {...props} />,
                           h3: ({ node, ...props }) => <h3 className="text-base md:text-lg font-semibold text-metallic-300 mb-2 mt-4 md:mt-6" {...props} />,
+                          h4: ({ node, ...props }) => <h4 className="text-sm md:text-base font-semibold text-metallic-300 mb-2 mt-3 md:mt-4" {...props} />,
+                          h5: ({ node, ...props }) => <h5 className="text-xs md:text-sm font-semibold text-metallic-400 mb-1 mt-2 md:mt-3" {...props} />,
+                          h6: ({ node, ...props }) => <h6 className="text-xs font-semibold text-metallic-500 mb-1 mt-2" {...props} />,
                           p: ({ node, ...props }) => <p className="text-xs md:text-sm text-metallic-400 mb-4 leading-relaxed" {...props} />,
                           ul: ({ node, ...props }) => <ul className="text-xs md:text-sm text-metallic-400 mb-4 ml-4 md:ml-6 list-disc space-y-1" {...props} />,
                           ol: ({ node, ...props }) => <ol className="text-xs md:text-sm text-metallic-400 mb-4 ml-4 md:ml-6 list-decimal space-y-1" {...props} />,
@@ -554,8 +557,66 @@ export function AdminDashboard() {
                           pre: ({ node, ...props }) => <pre className="mb-4" {...props} />,
                           strong: ({ node, ...props }) => <strong className="font-bold text-amber-forge" {...props} />,
                           em: ({ node, ...props }) => <em className="italic text-metallic-300" {...props} />,
-                          a: ({ node, ...props }) => <a className="text-amber-forge hover:underline break-words" {...props} />,
+                          a: ({ node, href, ...props }) => {
+                            // Inter-doc link handler
+                            if (href && href.endsWith('.md')) {
+                              return (
+                                <button
+                                  onClick={() => setSelectedDoc(href)}
+                                  className="text-amber-forge hover:underline break-words cursor-pointer"
+                                  {...props}
+                                />
+                              )
+                            }
+                            return <a href={href} className="text-amber-forge hover:underline break-words" target="_blank" rel="noopener noreferrer" {...props} />
+                          },
                           hr: ({ node, ...props }) => <hr className="my-6 md:my-8 border-metallic-800" {...props} />,
+                          blockquote: ({ node, ...props }) => (
+                            <blockquote
+                              className="pl-4 md:pl-6 py-3 my-4 italic text-metallic-300 border-l-4"
+                              style={{
+                                borderColor: '#f59e0b',
+                                background: 'rgba(245,158,11,0.05)',
+                              }}
+                              {...props}
+                            />
+                          ),
+                          table: ({ node, ...props }) => (
+                            <div className="overflow-x-auto mb-4">
+                              <table
+                                className="w-full text-xs md:text-sm border-collapse"
+                                style={{ border: '1px solid rgba(168,168,180,0.15)' }}
+                                {...props}
+                              />
+                            </div>
+                          ),
+                          thead: ({ node, ...props }) => (
+                            <thead
+                              style={{ background: 'rgba(245,158,11,0.1)' }}
+                              {...props}
+                            />
+                          ),
+                          tbody: ({ node, ...props }) => <tbody {...props} />,
+                          tr: ({ node, ...props }) => (
+                            <tr
+                              style={{ borderBottom: '1px solid rgba(168,168,180,0.1)' }}
+                              {...props}
+                            />
+                          ),
+                          th: ({ node, ...props }) => (
+                            <th
+                              className="px-3 md:px-4 py-2 text-left font-semibold tracking-wider uppercase text-amber-forge"
+                              style={{ borderBottom: '2px solid rgba(245,158,11,0.3)' }}
+                              {...props}
+                            />
+                          ),
+                          td: ({ node, ...props }) => (
+                            <td
+                              className="px-3 md:px-4 py-2 text-metallic-300"
+                              style={{ borderRight: '1px solid rgba(168,168,180,0.08)' }}
+                              {...props}
+                            />
+                          ),
                         }}
                       >
                         {docContent}
