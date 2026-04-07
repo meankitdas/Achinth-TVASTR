@@ -329,7 +329,10 @@ export const LaserFlow = ({
     });
     rendererRef.current = renderer;
 
-    baseDprRef.current = Math.min(dpr ?? (window.devicePixelRatio || 1), 2);
+    // Cap DPR lower on mobile to reduce pixel count and improve performance
+    const isMobileDevice = window.innerWidth < 768 || 'ontouchstart' in window;
+    const maxDpr = isMobileDevice ? 1 : 2;
+    baseDprRef.current = Math.min(dpr ?? (window.devicePixelRatio || 1), maxDpr);
     currentDprRef.current = baseDprRef.current;
 
     renderer.setPixelRatio(currentDprRef.current);
@@ -494,7 +497,8 @@ export const LaserFlow = ({
     let raf = 0;
 
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-    const dprFloor = 0.6;
+    // More aggressive DPR floor on mobile for better performance
+    const dprFloor = isMobileDevice ? 0.5 : 0.6;
     const lowerThresh = 50;
     const upperThresh = 58;
     let lastDprChangeRef = 0;

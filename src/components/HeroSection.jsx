@@ -11,6 +11,7 @@ import { LaserFlow } from './LaserFlow'
  */
 export function HeroSection() {
   const [shouldRenderEffect, setShouldRenderEffect] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     // Detect low-power devices
@@ -21,6 +22,15 @@ export function HeroSection() {
     if (isLowPower) {
       setShouldRenderEffect(false)
     }
+
+    // Detect mobile viewport
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   const scrollToProducts = () => {
@@ -49,23 +59,24 @@ export function HeroSection() {
         {shouldRenderEffect ? (
           <LaserFlow
             color="#ff9100"
-            centerYFraction={0.2}
+            centerYFraction={isMobile ? 0.3 : 0.2}
             verticalBeamOffset={0.0}
             horizontalBeamOffset={0.0}
-            verticalSizing={5.0}
-            horizontalSizing={1.5}
-            fogIntensity={0.6}
-            fogScale={0.3}
+            verticalSizing={isMobile ? 3.0 : 5.0}
+            horizontalSizing={isMobile ? 3.0 : 1.5}
+            fogIntensity={isMobile ? 0.35 : 0.6}
+            fogScale={isMobile ? 0.22 : 0.3}
             flowSpeed={0.5}
-            wispDensity={1.4}
+            wispDensity={isMobile ? 0.7 : 1.4}
             wispSpeed={13}
-            wispIntensity={5.2}
+            wispIntensity={isMobile ? 2.5 : 5.2}
             flowStrength={0.28}
             decay={1.1}
             falloffStart={1.2}
-            mouseTiltStrength={0.12}
+            mouseTiltStrength={isMobile ? 0.0 : 0.12}
             fogFallSpeed={0.55}
             mouseSmoothTime={0.25}
+            dpr={isMobile ? 1 : undefined}
             style={{ position: 'absolute', inset: 0 }}
           />
         ) : (
