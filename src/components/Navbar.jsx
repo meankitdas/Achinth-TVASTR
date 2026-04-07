@@ -21,7 +21,7 @@ export function Navbar() {
   const { capabilities } = useLicense()
   const location = useLocation()
   const isPortalPage = location.pathname.startsWith('/portal')
-  const isSystemPage = location.pathname.startsWith('/systems')
+  const isSystemPage = location.pathname.startsWith('/systems') || location.pathname === '/system'
 
   // Detect scroll position to toggle background
   useEffect(() => {

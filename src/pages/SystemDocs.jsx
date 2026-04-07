@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Logo } from '../components/Logo'
 
 // Mobile-friendly doc selector
@@ -266,6 +267,7 @@ export function SystemDocs() {
                 ) : docContent ? (
                   <div className="p-4 md:p-8 prose prose-invert prose-amber max-w-none">
                     <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
                       components={{
                         h1: ({ node, ...props }) => <h1 className="text-xl md:text-2xl font-bold text-metallic-100 mb-4 border-b border-metallic-800 pb-3" {...props} />,
                         h2: ({ node, ...props }) => <h2 className="text-lg md:text-xl font-bold text-metallic-200 mb-3 mt-6 md:mt-8" {...props} />,
