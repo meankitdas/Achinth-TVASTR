@@ -611,7 +611,7 @@ export function EcosystemSection() {
           {reverseOrbPositions.map((pos, i) => (
             <div
               key={`reverse-orb-${i}`}
-              className="absolute w-2 h-2 rounded-full pointer-events-none z-10 transition-opacity duration-1000"
+              className="absolute w-2 h-2 rounded-full pointer-events-none z-0 transition-opacity duration-1000"
               style={{
                 left: `${pos.x}px`,
                 top: `${pos.y}px`,
