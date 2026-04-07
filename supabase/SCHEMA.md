@@ -51,6 +51,8 @@ Stores software version releases for each product with tier requirements
 | `checksum` | `text` | | SHA-256 checksum for file integrity |
 | `required_tier` | `text` | NOT NULL, default: `'ras_core'` | Minimum tier required (legacy: ras_core, ras_enterprise, full_stack) |
 | `includes_pi` | `boolean` | NOT NULL, default: `false` | Whether version includes Plant Intelligence |
+| `is_stable_rollback` | `boolean` | NOT NULL, default: `false` | Marks exactly one version per product as the permanent stable rollback version |
+| `installer_file_path` | `text` | | S3 key in the installers bucket for stable rollback downloads (separate from file_path which uses updates bucket) |
 | `created_at` | `timestamptz` | NOT NULL, default: `now()` | Record creation timestamp |
 
 **Unique Constraint:**
@@ -416,7 +418,8 @@ VITE_UPDATE_SERVER_URL=https://your-update-server.com (optional)
 ## Migration History
 
 - **Initial Schema:** Products, versions, licenses, download_logs tables
-- **2026-04-07:** Added `get_all_licenses_with_email()` function for admin dashboard
+- **2026-04-07 (v1.1):** Added `get_all_licenses_with_email()` function for admin dashboard
+- **2026-04-07 (v1.2):** Added `is_stable_rollback` and `installer_file_path` columns for permanent stable rollback support with dual S3 bucket architecture
 
 ---
 
@@ -462,4 +465,4 @@ WHERE user_id = '<user-uuid>';
 ---
 
 **Last Updated:** 2026-04-07  
-**Schema Version:** 1.1 (with admin function)
+**Schema Version:** 1.2 (with stable rollback support)

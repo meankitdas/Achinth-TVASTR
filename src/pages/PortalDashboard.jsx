@@ -152,6 +152,8 @@ export function PortalDashboard() {
             required_tier,
             includes_pi,
             product_id,
+            is_stable_rollback,
+            installer_file_path,
             products (
               id,
               name,
@@ -169,11 +171,17 @@ export function PortalDashboard() {
         allowedVersions.forEach((version) => {
           const productId = version.products.id
           if (!versionsByProduct[productId]) {
-            versionsByProduct[productId] = { latest: null, older: [] }
+            versionsByProduct[productId] = { latest: null, stable: null, older: [] }
           }
-          if (!versionsByProduct[productId].latest) {
+          
+          // Identify stable rollback version
+          if (version.is_stable_rollback) {
+            versionsByProduct[productId].stable = version
+          } else if (!versionsByProduct[productId].latest) {
+            // Latest non-stable version
             versionsByProduct[productId].latest = version
           } else {
+            // Older versions (neither stable nor latest)
             versionsByProduct[productId].older.push(version)
           }
         })
@@ -189,8 +197,8 @@ export function PortalDashboard() {
     fetchVersions()
   }, [tier])
 
-  // Handle download
-  const handleDownload = async (productName, versionNumber) => {
+  // Handle download with bucket support
+  const handleDownload = async (productName, versionNumber, bucket = 'installers') => {
     if (!licenseKey) {
       setDownloadError('License key not found.')
       return
@@ -200,12 +208,12 @@ export function PortalDashboard() {
       return
     }
 
-    setDownloadingVersion(`${productName}-${versionNumber}`)
+    setDownloadingVersion(`${productName}-${versionNumber}-${bucket}`)
     setDownloadError(null)
 
     try {
       const response = await fetch(
-        `${UPDATE_SERVER_URL}/api/download/${encodeURIComponent(productName)}/${encodeURIComponent(versionNumber)}?license_key=${encodeURIComponent(licenseKey)}`
+        `${UPDATE_SERVER_URL}/api/download/${encodeURIComponent(productName)}/${encodeURIComponent(versionNumber)}?license_key=${encodeURIComponent(licenseKey)}&bucket=${bucket}`
       )
 
       if (!response.ok) {
@@ -375,9 +383,9 @@ export function PortalDashboard() {
                           <div className="flex items-center justify-center py-8 text-xs text-metallic-500">
                             Loading versions...
                           </div>
-                        ) : productVersions?.latest ? (
+                        ) : productVersions?.latest || productVersions?.stable ? (
                           <div className="space-y-4">
-                            {/* Version info box */}
+                            {/* Version info box - show latest or stable */}
                             <div
                               className="p-6 space-y-4"
                               style={{
@@ -390,10 +398,10 @@ export function PortalDashboard() {
                               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                                 <div>
                                   <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
-                                    Latest Version
+                                    {productVersions?.latest ? 'Latest Version' : 'Current Version'}
                                   </p>
                                   <p className="text-2xl font-black text-amber-forge font-mono">
-                                    v{productVersions.latest.version_number}
+                                    v{(productVersions?.latest || productVersions?.stable)?.version_number}
                                   </p>
                                 </div>
                                 <div className="md:text-right">
@@ -401,7 +409,7 @@ export function PortalDashboard() {
                                     Released
                                   </p>
                                   <p className="text-sm text-metallic-300">
-                                    {new Date(productVersions.latest.release_date).toLocaleDateString('en-IN', { 
+                                    {new Date((productVersions?.latest || productVersions?.stable)?.release_date).toLocaleDateString('en-IN', { 
                                       year: 'numeric', 
                                       month: 'long', 
                                       day: 'numeric' 
@@ -410,13 +418,13 @@ export function PortalDashboard() {
                                 </div>
                               </div>
 
-                              {productVersions.latest.changelog && (
+                              {(productVersions?.latest || productVersions?.stable)?.changelog && (
                                 <div>
                                   <p className="text-xs text-metallic-500 tracking-widest uppercase mb-2">
                                     Release Notes
                                   </p>
                                   <p className="text-sm text-metallic-300 leading-relaxed">
-                                    {productVersions.latest.changelog}
+                                    {(productVersions?.latest || productVersions?.stable)?.changelog}
                                   </p>
                                 </div>
                               )}
@@ -427,27 +435,82 @@ export function PortalDashboard() {
                               <p className="text-xs text-red-400">{downloadError}</p>
                             )}
 
-                            {/* Download button */}
-                            <button
-                              onClick={() => handleDownload(productVersions.latest.products.name, productVersions.latest.version_number)}
-                              disabled={downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}`}
-                              className="w-full flex items-center justify-center gap-2 py-4 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50 relative overflow-hidden group"
-                              style={STYLES.downloadButton}
-                            >
-                              <span
-                                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                style={{ background: 'rgba(245,158,11,0.08)' }}
-                              />
-                              <span className="relative flex items-center gap-2">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                  <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                                  <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                                </svg>
-                                {downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}` 
-                                  ? 'Generating link...' 
-                                  : `Download v${productVersions.latest.version_number}`}
-                              </span>
-                            </button>
+                            {/* Dual download buttons or single button */}
+                            {productVersions?.latest && productVersions?.stable ? (
+                              // Both latest update and stable rollback exist - show dual buttons
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {/* Latest update button (updates bucket) */}
+                                <button
+                                  onClick={() => handleDownload(productVersions.latest.products.name, productVersions.latest.version_number, 'updates')}
+                                  disabled={downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}-updates`}
+                                  className="flex items-center justify-center gap-2 py-4 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50 relative overflow-hidden group"
+                                  style={STYLES.downloadButton}
+                                >
+                                  <span
+                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    style={{ background: 'rgba(245,158,11,0.08)' }}
+                                  />
+                                  <span className="relative flex items-center gap-2">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                      <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                      <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                    </svg>
+                                    {downloadingVersion === `${productVersions.latest.products.name}-${productVersions.latest.version_number}-updates` 
+                                      ? 'Generating...' 
+                                      : `Download v${productVersions.latest.version_number}`}
+                                  </span>
+                                </button>
+
+                                {/* Stable rollback button (installers bucket) */}
+                                <button
+                                  onClick={() => handleDownload(productVersions.stable.products.name, productVersions.stable.version_number, 'installers')}
+                                  disabled={downloadingVersion === `${productVersions.stable.products.name}-${productVersions.stable.version_number}-installers`}
+                                  className="flex items-center justify-center gap-2 py-4 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50 relative overflow-hidden group"
+                                  style={{
+                                    background: 'rgba(168,168,180,0.06)',
+                                    border: '1px solid rgba(168,168,180,0.15)',
+                                    color: '#a8a8b4',
+                                    borderRadius: '0.5rem',
+                                  }}
+                                >
+                                  <span
+                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    style={{ background: 'rgba(168,168,180,0.08)' }}
+                                  />
+                                  <span className="relative flex items-center gap-2">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                      <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                      <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                    </svg>
+                                    {downloadingVersion === `${productVersions.stable.products.name}-${productVersions.stable.version_number}-installers` 
+                                      ? 'Generating...' 
+                                      : `Stable v${productVersions.stable.version_number}`}
+                                  </span>
+                                </button>
+                              </div>
+                            ) : productVersions?.stable ? (
+                              // Only stable rollback exists (no newer version) - single button
+                              <button
+                                onClick={() => handleDownload(productVersions.stable.products.name, productVersions.stable.version_number, 'installers')}
+                                disabled={downloadingVersion === `${productVersions.stable.products.name}-${productVersions.stable.version_number}-installers`}
+                                className="w-full flex items-center justify-center gap-2 py-4 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200 disabled:opacity-50 relative overflow-hidden group"
+                                style={STYLES.downloadButton}
+                              >
+                                <span
+                                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                  style={{ background: 'rgba(245,158,11,0.08)' }}
+                                />
+                                <span className="relative flex items-center gap-2">
+                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                    <path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                    <path d="M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                                  </svg>
+                                  {downloadingVersion === `${productVersions.stable.products.name}-${productVersions.stable.version_number}-installers` 
+                                    ? 'Generating link...' 
+                                    : `Download v${productVersions.stable.version_number}`}
+                                </span>
+                              </button>
+                            ) : null}
                           </div>
                         ) : (
                           <div className="flex items-center justify-center py-8 text-sm text-metallic-500">
@@ -475,35 +538,6 @@ export function PortalDashboard() {
                 }
               })}
             </div>
-
-            {/* Older versions rollback section */}
-            {!loadingVersions && Object.entries(versions).some(([_, { older }]) => older.length > 0) && (
-              <div className="mb-10">
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-6 h-px bg-metallic-600 opacity-40" />
-                    <span className="text-xs font-semibold tracking-[0.3em] uppercase text-metallic-500 opacity-60">
-                      Version Rollback
-                    </span>
-                  </div>
-                  <p className="text-sm text-metallic-400">
-                    Previous stable releases available for rollback or compatibility testing.
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  {Object.entries(versions).map(([productId, { older }]) =>
-                    older.map((version) => (
-                      <RollbackVersionCard
-                        key={`${productId}-${version.version_number}`}
-                        product={version.products}
-                        version={version}
-                      />
-                    ))
-                  )}
-                </div>
-              </div>
-            )}
 
             {/* Support note */}
             <div className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={STYLES.supportCard}>
