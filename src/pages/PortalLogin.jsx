@@ -5,7 +5,6 @@ import { useLicense } from '../context/LicenseContext'
 import { Logo } from '../components/Logo'
 import { CONFIG, generateMailtoLink } from '../lib/config'
 import { useDocumentHead } from '../hooks/useDocumentHead'
-import { AmberFog } from '../components/AmberFog'
 
 /**
  * PortalLogin — Customer portal login page.
@@ -70,11 +69,6 @@ export function PortalLogin() {
     >
       {/* Background grid */}
       <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" />
-
-      {/* AmberFog animated background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <AmberFog opacity={0.75} />
-      </div>
 
       {/* Back to main site */}
       <Link
