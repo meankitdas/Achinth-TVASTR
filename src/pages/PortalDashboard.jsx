@@ -153,7 +153,6 @@ export function PortalDashboard() {
             includes_pi,
             product_id,
             is_stable_rollback,
-            installer_file_path,
             products (
               id,
               name,
