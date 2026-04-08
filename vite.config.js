@@ -14,14 +14,11 @@ export default defineConfig({
          * code loads faster and is cached separately.
          */
         manualChunks: {
-          // React core
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          // Three.js rendering stack (large but cacheable)
-          'vendor-three': ['three'],
-          // Supabase auth client
-          'vendor-supabase': ['@supabase/supabase-js'],
-          // PDF generation (lazy loaded via DownloadPresentationButton)
-          'vendor-pdf': ['html2canvas', 'jspdf'],
+          // Obfuscated chunk names to reduce technology fingerprinting
+          'v-r': ['react', 'react-dom', 'react-router-dom'],
+          'v-t': ['three'],
+          'v-s': ['@supabase/supabase-js'],
+          'v-p': ['html2canvas', 'jspdf'],
         },
       },
     },
