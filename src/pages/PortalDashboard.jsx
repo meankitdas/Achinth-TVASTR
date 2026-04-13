@@ -8,6 +8,7 @@ import { LockedProductCard } from '../components/LockedProductCard'
 import { UpgradeBanner } from '../components/UpgradeBanner'
 import { RollbackVersionCard } from '../components/RollbackVersionCard'
 import { ProductDownloadCard } from '../components/ProductDownloadCard'
+import { ForgeLoader } from '../components/ForgeLoader'
 import { TIER_ORDER, TIER_LABELS, isAllowed } from '../lib/capabilities'
 import { CONFIG, openContact } from '../lib/config'
 
@@ -307,12 +308,7 @@ export function PortalDashboard() {
         {/* Content */}
         {licenseLoading ? (
           <div className="flex items-center justify-center py-32">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-8 h-8" style={STYLES.loadingBox} />
-              <span className="text-xs text-metallic-500 tracking-widest uppercase">
-                Loading systems…
-              </span>
-            </div>
+            <ForgeLoader message="Loading systems…" />
           </div>
         ) : (
           <>

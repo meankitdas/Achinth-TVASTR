@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext'
 import { LicenseProvider } from './context/LicenseContext'
 import { Navbar } from './components/Navbar'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { ForgeLoader } from './components/ForgeLoader'
 import { useDocumentHead } from './hooks/useDocumentHead'
 
 // Landing page sections — loaded eagerly (above the fold)
@@ -64,15 +65,7 @@ function PageLoader() {
       className="min-h-screen flex items-center justify-center"
       style={{ background: '#0a0a0b' }}
     >
-      <div
-        className="w-8 h-8"
-        style={{
-          background: 'rgba(245,158,11,0.1)',
-          border: '1px solid rgba(245,158,11,0.3)',
-          transform: 'rotate(45deg)',
-          animation: 'pulse 1.5s ease-in-out infinite',
-        }}
-      />
+      <ForgeLoader message="Loading..." />
     </div>
   )
 }

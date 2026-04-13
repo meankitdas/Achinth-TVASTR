@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLicense } from '../context/LicenseContext'
 import { LockedScreen } from './LockedScreen'
+import { ForgeLoader } from './ForgeLoader'
 
 /**
  * ProtectedRoute — Wraps routes that require authentication and optionally tier-based capabilities.
@@ -15,6 +17,7 @@ import { LockedScreen } from './LockedScreen'
  *   - While loading session: shows a minimal loading indicator
  *   - If no session: redirects to /portal (login page)
  *   - If session exists but license loading: shows loader
+ *   - Errors only show after 15 seconds (prevents premature error display on slow networks)
  *   - If adminOnly and not admin: redirects to /portal/dashboard
  *   - If requiredCapability specified and not met: shows LockedScreen
  *   - Otherwise: renders children
@@ -22,8 +25,22 @@ import { LockedScreen } from './LockedScreen'
 export function ProtectedRoute({ children, requiredCapability, adminOnly }) {
   const { session, loading: authLoading } = useAuth()
   const { capabilities, isAdmin, loading: licenseLoading, error: licenseError } = useLicense()
+  const [showError, setShowError] = useState(false)
 
   const loading = authLoading || licenseLoading
+
+  // 15-second timeout before showing error card
+  useEffect(() => {
+    if (licenseError && !loading) {
+      const timer = setTimeout(() => {
+        setShowError(true)
+      }, 15000)
+
+      return () => clearTimeout(timer)
+    } else {
+      setShowError(false)
+    }
+  }, [licenseError, loading])
 
   if (loading) {
     return (
@@ -31,21 +48,7 @@ export function ProtectedRoute({ children, requiredCapability, adminOnly }) {
         className="min-h-screen flex items-center justify-center"
         style={{ background: '#0a0a0b' }}
       >
-        <div className="flex flex-col items-center gap-4">
-          {/* Pulsing forge diamond loader */}
-          <div
-            className="w-8 h-8"
-            style={{
-              background: 'rgba(245,158,11,0.1)',
-              border: '1px solid rgba(245,158,11,0.3)',
-              transform: 'rotate(45deg)',
-              animation: 'pulse 1.5s ease-in-out infinite',
-            }}
-          />
-          <span className="text-xs text-metallic-500 tracking-widest uppercase">
-            Verifying access...
-          </span>
-        </div>
+        <ForgeLoader message="Verifying access..." />
       </div>
     )
   }
@@ -59,8 +62,8 @@ export function ProtectedRoute({ children, requiredCapability, adminOnly }) {
     return <Navigate to="/portal/dashboard" replace />
   }
 
-  // Show license error if present
-  if (licenseError) {
+  // Show license error only after 15-second timeout
+  if (licenseError && showError) {
     return (
       <LockedScreen
         title="License Error"

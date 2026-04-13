@@ -73,7 +73,167 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Initial ForgeLoader for slow connections (before React hydrates) -->
+      <div id="initial-loader" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #0a0a0b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      ">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+          <!-- Forge Loader -->
+          <div style="position: relative; width: 120px; height: 100px; display: flex; flex-direction: column; align-items: center;">
+            <!-- Ladle -->
+            <div style="
+              position: relative;
+              width: 40px;
+              height: 30px;
+              z-index: 3;
+              animation: initial-ladle-tilt 6s ease-in-out infinite;
+            ">
+              <div style="
+                width: 32px;
+                height: 24px;
+                background: linear-gradient(135deg, #2a2a2e 0%, #1a1a1e 100%);
+                border: 1.5px solid rgba(168,168,180,0.3);
+                border-radius: 0 0 8px 8px;
+                position: relative;
+                box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3);
+              "></div>
+              <div style="
+                position: absolute;
+                top: 8px;
+                right: -12px;
+                width: 16px;
+                height: 2px;
+                background: linear-gradient(90deg, #2a2a2e 0%, transparent 100%);
+                border-radius: 2px;
+              "></div>
+            </div>
+            
+            <!-- Molten Stream -->
+            <div style="
+              position: absolute;
+              top: 22px;
+              left: calc(50% + 8px);
+              transform: translateX(-50%) skewX(-5deg);
+              transform-origin: top center;
+              width: 4px;
+              height: 0;
+              background: linear-gradient(180deg, #ff9100 0%, #f59e0b 50%, #d97706 100%);
+              border-radius: 2px;
+              box-shadow: 0 0 8px rgba(245,158,11,0.6), 0 0 16px rgba(245,158,11,0.3);
+              animation: initial-stream-pour 6s ease-in-out infinite;
+              z-index: 2;
+            "></div>
+            
+            <!-- Conveyor Belt -->
+            <div style="
+              position: absolute;
+              bottom: 0;
+              width: 100px;
+              height: 36px;
+              overflow: hidden;
+              z-index: 1;
+            ">
+              <div style="
+                display: flex;
+                gap: 8px;
+                animation: initial-conveyor-scroll 6s linear infinite;
+              ">
+                <!-- 6 Molds for infinite seamless loop -->
+                <div style="width: 28px; height: 32px; background: rgba(26,26,30,0.8); border: 1.5px solid rgba(168,168,180,0.25); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); flex-shrink: 0;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(180deg, #ff9100 0%, #f59e0b 50%, #d97706 100%); box-shadow: 0 0 12px rgba(245,158,11,0.5), inset 0 2px 8px rgba(255,145,0,0.4); animation: initial-mold-fill 6s ease-in-out infinite; animation-delay: 0s;"></div>
+                </div>
+                <div style="width: 28px; height: 32px; background: rgba(26,26,30,0.8); border: 1.5px solid rgba(168,168,180,0.25); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); flex-shrink: 0;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(180deg, #ff9100 0%, #f59e0b 50%, #d97706 100%); box-shadow: 0 0 12px rgba(245,158,11,0.5), inset 0 2px 8px rgba(255,145,0,0.4); animation: initial-mold-fill 6s ease-in-out infinite; animation-delay: 2s;"></div>
+                </div>
+                <div style="width: 28px; height: 32px; background: rgba(26,26,30,0.8); border: 1.5px solid rgba(168,168,180,0.25); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); flex-shrink: 0;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(180deg, #ff9100 0%, #f59e0b 50%, #d97706 100%); box-shadow: 0 0 12px rgba(245,158,11,0.5), inset 0 2px 8px rgba(255,145,0,0.4); animation: initial-mold-fill 6s ease-in-out infinite; animation-delay: 4s;"></div>
+                </div>
+                <div style="width: 28px; height: 32px; background: rgba(26,26,30,0.8); border: 1.5px solid rgba(168,168,180,0.25); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); flex-shrink: 0;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(180deg, #ff9100 0%, #f59e0b 50%, #d97706 100%); box-shadow: 0 0 12px rgba(245,158,11,0.5), inset 0 2px 8px rgba(255,145,0,0.4);"></div>
+                </div>
+                <div style="width: 28px; height: 32px; background: rgba(26,26,30,0.8); border: 1.5px solid rgba(168,168,180,0.25); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); flex-shrink: 0;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(180deg, #ff9100 0%, #f59e0b 50%, #d97706 100%); box-shadow: 0 0 12px rgba(245,158,11,0.5), inset 0 2px 8px rgba(255,145,0,0.4);"></div>
+                </div>
+                <div style="width: 28px; height: 32px; background: rgba(26,26,30,0.8); border: 1.5px solid rgba(168,168,180,0.25); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); flex-shrink: 0;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(180deg, #ff9100 0%, #f59e0b 50%, #d97706 100%); box-shadow: 0 0 12px rgba(245,158,11,0.5), inset 0 2px 8px rgba(255,145,0,0.4);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Keyframe animations for initial loader (6s infinite belt cycle) -->
+      <style>
+        /* Ladle tilts during each pour (every 2s = 3 pours per 6s cycle) */
+        @keyframes initial-ladle-tilt {
+          0%, 100% { transform: rotate(0deg) translateX(0); }
+          1%, 12% { transform: rotate(120deg) translateX(2px); }
+          20% { transform: rotate(0deg) translateX(0); }
+          34%, 45% { transform: rotate(120deg) translateX(2px); }
+          53% { transform: rotate(0deg) translateX(0); }
+          67%, 78% { transform: rotate(120deg) translateX(2px); }
+          86% { transform: rotate(0deg) translateX(0); }
+        }
+        
+        /* Pour stream syncs with ladle tilt (3 pours per cycle) */
+        @keyframes initial-stream-pour {
+          0%, 100% { height: 0; opacity: 0; }
+          0%, 13% { height: 35px; opacity: 1; }
+          21% { height: 0; opacity: 0; }
+          33%, 46% { height: 35px; opacity: 1; }
+          54% { height: 0; opacity: 0; }
+          66%, 79% { height: 35px; opacity: 1; }
+          87% { height: 0; opacity: 0; }
+        }
+        
+        /* Individual mold fill - fills once when under ladle, stays filled as it moves left */
+        @keyframes initial-mold-fill {
+          0%, 8% { height: 0; }
+          16% { height: 100%; }
+          60% { height: 100%; }
+          62% { height: 0; }
+          100% { height: 0; }
+        }
+        
+        /* Infinite conveyor scroll - seamless loop */
+        @keyframes initial-conveyor-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-45px); }
+        }
+      </style>
+      
+      <!-- Remove initial loader when React hydrates -->
+      <script>
+        window.addEventListener('DOMContentLoaded', () => {
+          const loader = document.getElementById('initial-loader');
+          if (loader) {
+            // Keep loader visible until React is ready
+            setTimeout(() => {
+              const checkReactReady = setInterval(() => {
+                const root = document.getElementById('root');
+                if (root && root.children.length > 1) {
+                  loader.style.opacity = '0';
+                  loader.style.transition = 'opacity 0.3s ease';
+                  setTimeout(() => loader.remove(), 300);
+                  clearInterval(checkReactReady);
+                }
+              }, 100);
+            }, 500);
+          }
+        });
+      </script>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
