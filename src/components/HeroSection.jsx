@@ -64,12 +64,12 @@ export function HeroSection() {
             horizontalBeamOffset={0.0}
             verticalSizing={isMobile ? 4.0 : 5.0}
             horizontalSizing={isMobile ? 4.0 : 1.5}
-            fogIntensity={isMobile ? 0.35 : 0.6}
-            fogScale={isMobile ? 0.22 : 0.3}
+            fogIntensity={isMobile ? 0.1 : 0.6}
+            fogScale={isMobile ? 0.05 : 0.3}
             flowSpeed={0.5}
-            wispDensity={isMobile ? 0.7 : 1.4}
+            wispDensity={isMobile ? 0.2 : 1.4}
             wispSpeed={13}
-            wispIntensity={isMobile ? 2.5 : 5.2}
+            wispIntensity={isMobile ? 1.5 : 5.2}
             flowStrength={0.28}
             decay={1.1}
             falloffStart={1.2}
