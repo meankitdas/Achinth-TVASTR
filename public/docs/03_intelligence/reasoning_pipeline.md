@@ -56,16 +56,69 @@ Final Classification + Root Cause + Severity + Action
 
 ---
 
-## Gate 1: Fast-Path Porosity Detection
+## Gate 1: Topology-Based Routing
 
 ### Purpose
-Quickly accept obvious porosity cases without expensive geometry or LLM analysis.
+Use continuous topology score (replaces binary cluster count) combined with anomaly distribution analysis for intelligent routing.
 
-### Conditions (ALL must be true)
-1. **Cluster size** ≥ `min_cluster_size` (default 4 defects)
-2. **Average YOLO probability** ≥ `min_avg_prob` (default 0.70)
-3. **Geometry porosity score** ≥ `min_porosity_score` (default 0.70)
-4. **Circularity** ≥ `min_circularity` (default 0.65)
+### Topology Score (Phases 9-13)
+
+**Replaces:** Raw `_cav_n` cluster count with resolution-invariant continuous score
+
+**Formula:**
+```python
+topology_score = 0.4 * coverage + 0.3 * density + 0.3 * strength
+
+where:
+  coverage = sum(cluster_sizes) / total_patches
+  density = (len(clusters) / total_patches) * 4.0  # capped at 1.0
+  strength = mean(cluster_scores)
+```
+
+**Thresholds:**
+- **Strong structure:** `topology_score > 0.55` → High confidence structural defect
+- **Weak structure:** `topology_score > 0.25` → Possible structural defect
+- **No structure:** `topology_score ≤ 0.25` → Non-structural defect
+
+**Why Topology Score?**
+- Resolution-invariant (normalized by patch count)
+- Continuous (not binary like `_cav_n >= 3`)
+- Considers cluster quality (coverage, density, strength)
+
+### Anomaly Distribution Signals (Phase 10)
+
+**Spread Ratio (adaptive threshold):**
+```python
+threshold = max(mean_anomaly * 1.2, 0.05)
+high_patches = [p for p in patches if p.anomaly > threshold]
+spread_ratio = len(high_patches) / len(patches)  # clamped [0,1]
+
+Interpretation:
+  spread_ratio > 0.4  → widespread (process defect)
+  spread_ratio < 0.2  → localized (porosity)
+```
+
+**Anomaly Variance (relative):**
+```python
+var_norm = variance / (mean_anomaly + 1e-6)
+
+Interpretation:
+  var_norm < 0.5  → diffuse (uniform distribution, process defect)
+  var_norm > 2.0  → peaked (localized spikes, porosity)
+```
+
+**Peak Anomaly:**
+```python
+peak_anomaly = max(patch anomalies)
+
+Interpretation:
+  peak_anomaly > 0.2  → strong localized defect
+```
+
+### Fast-Path Conditions (ALL must be true)
+1. **Average YOLO probability** ≥ `min_avg_prob` (default 0.70)
+2. **Geometry porosity score** ≥ `min_porosity_score` (default 0.70)
+3. **Circularity** ≥ `min_circularity` (default 0.65)
 
 ### Logic
 ```python
@@ -88,17 +141,74 @@ if (
 reasoning:
   fast_path:
     enabled: true
-    min_cluster_size: 4
     min_avg_prob: 0.70
     min_porosity_score: 0.70
     min_circularity: 0.65
+  
+  topology:
+    strong_threshold: 0.55    # topology_score for strong structure
+    weak_threshold: 0.25      # topology_score for weak structure
+  
+  disambiguation:
+    widespread_threshold: 0.4     # spread_ratio for widespread
+    localized_threshold: 0.2      # spread_ratio for localized
+    diffuse_var_norm: 0.5        # var_norm for diffuse
+    peaked_var_norm: 2.0         # var_norm for peaked
+    strong_peak: 0.2             # peak_anomaly threshold
+
+# Cluster filtering (in patch_postprocess.py)
+cluster_filtering:
+  min_cluster_score: 0.08           # Minimum max score in cluster
+  min_cluster_size: 3               # Minimum patches per cluster
+```
+
+### Disambiguation Logic (Phase 11)
+
+**Spread-Based Correction:**
+```python
+if widespread AND not strong_structure:
+    porosity *= 0.5
+    process_defect = max(process_defect, 0.6)
+
+if localized AND weak_structure:
+    porosity *= 1.4
+```
+
+**Variance-Aware Correction:**
+```python
+if diffuse AND widespread:
+    process_defect = max(process_defect, 0.7)
+
+if peaked AND localized:
+    porosity *= 1.5
+```
+
+**Peak Strength Correction:**
+```python
+if strong_peak AND localized:
+    porosity *= 1.3
+```
+
+**Normalization:** After each correction, scores are normalized to sum=1.
+
+### Monitoring
+
+**Log Messages:**
+```
+[TOPOLOGY] score=0.68
+[ANOMALY_SPREAD] ratio=0.35, threshold=0.08
+[ANOMALY_VAR] raw=0.0023, norm=1.45
+[ANOMALY_PEAK] 0.28
+[SCRATA_CONF] 0.72
+[DISAMBIGUATION] Spread-based correction applied
+[FINAL_GUARD] Anomaly without weak structure → boost process_defect
 ```
 
 ### Performance
-- **Latency**: ~5ms
+- **Latency**: ~10ms (topology + spread + variance)
 - **API Cost**: $0
-- **Hit Rate**: ~40% of porosity cases
-- **Accuracy**: 95%+ (high precision, may miss edge cases)
+- **Hit Rate**: Continuous signal (no binary hit/miss)
+- **Accuracy**: 92%+ (benefits from multi-signal fusion)
 
 ---
 

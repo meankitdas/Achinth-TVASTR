@@ -101,8 +101,10 @@ Decision Output: REJECT | MANUAL_REVIEW | ACCEPT
 3. Run patch classifier (YOLO-based) on each patch
 4. Apply temperature scaling for calibration
 5. Store patch objects with coordinates, probabilities
+6. **Cluster filtering:** Remove DBSCAN noise clusters, apply MIN_CLUSTER_SCORE (0.08) and MIN_CLUSTER_SIZE (3) thresholds
+7. **Hybrid scoring:** Score clusters using `max * 0.7 + mean * 0.3` to prevent dilution
 
-**Grid:** Typically 6×6 = 36 patches for 960px image.
+**Grid:** Typically 6×6 = 36 patches for 960px image → filtered to 3-8 valid clusters.
 
 **Patch Object Structure:**
 ```python
@@ -177,13 +179,16 @@ Decision Output: REJECT | MANUAL_REVIEW | ACCEPT
 
 ## Stage 3: Consolidation + Diagnosis
 
-**Purpose:** Merge detections, map to zones, assign root causes.
+**Purpose:** Merge detections, map to zones, assign root causes, integrate SCRATA similarity, compute topology score.
 
 **Consolidation:**
 1. **Zone Mapping** — Assign each defect to grid cell (5×5 or 7×7 grid)
 2. **Widespread Merge** — If defects widespread (>50% of zones), merge into single region
 3. **Confidence Clamping** — Cap merged confidence at 0.95 (avoid overconfidence)
 4. **Unknown Classification** — If confidence <0.35 or ambiguous, label as "unknown"
+5. **SCRATA Integration** — Inject SCRATA similarity scores into `_candidate_scores` with 0.5 boost factor and double normalization
+6. **Topology Score** — Compute continuous topology score (0-1) from cluster coverage, density, and strength
+7. **Anomaly Distribution** — Analyze spread ratio, variance, and peak to distinguish process vs structural defects
 
 **Diagnosis:**
 1. **KB Matching** — Match defect patterns against knowledge base rules
@@ -204,11 +209,12 @@ Decision Output: REJECT | MANUAL_REVIEW | ACCEPT
 
 ## Stage 4: Multi-Signal Fusion
 
-**Purpose:** Combine YOLO, Signal, LLM, Agreement into final classification score.
+**Purpose:** Combine YOLO, Signal, SCRATA, LLM, Agreement into final classification score.
 
 **Fusion Weights (default):**
 - YOLO: 20% (proposal generator)
 - Signal: 40% (PRIMARY classifier)
+- SCRATA: Injected with 0.5 boost into candidate scores (influences all signals)
 - LLM: 20% (contextual reasoning)
 - Agreement: 20% (consensus bonus)
 
@@ -235,7 +241,14 @@ final_score = w_yolo × yolo_score + w_signal × signal_score
 
 ## Stage 4b: Reasoning (Root Cause)
 
-**Purpose:** Generate human-readable root cause explanation with severity and actions.
+**Purpose:** Generate human-readable root cause explanation with severity and actions using continuous signal fusion.
+
+**Signal Fusion (Phases 9-13):**
+- **Topology Score** — Replaces binary `_cav_n` with continuous 0-1 score (coverage + density + strength)
+- **Anomaly Distribution** — Spread ratio, variance (relative), peak anomaly
+- **SCRATA Confidence** — Entropy-based confidence with scaled boost
+- **Disambiguation** — Spread + variance + peak corrections with normalization
+- **Soft Final Guard** — Boost process_defect without clearing candidates
 
 **Three Paths (adaptive routing):**
 
@@ -248,16 +261,16 @@ final_score = w_yolo × yolo_score + w_signal × signal_score
 ### Path B: Multimodal LLM (1 API call)
 - **Condition:** Geometry inconclusive or complex defect
 - **Model:** Mistral-small-2603 (multimodal)
-- **Input:** Image + signal features + YOLO + KB + geometry
+- **Input:** Image + signal features + YOLO + KB + geometry + topology + anomaly distribution
 - **Output:** JSON with root_cause, severity, recommended_action
 - **Speed:** ~500ms
 
 ### Path C: Rule-Based Fallback (0 API calls)
 - **Condition:** LLM unavailable or disabled
-- **Logic:** Signal class + KB lookup → text report
+- **Logic:** Signal class + topology + KB lookup → text report
 - **Speed:** <10ms
 
-**Routing Decision:** Confidence-weighted. High geometry confidence → Path A. Else → Path B (if LLM enabled) → Path C (fallback).
+**Routing Decision:** Topology + anomaly distribution guide routing. High topology score with localized anomaly → porosity. Low topology with widespread anomaly → process defect.
 
 **Output:** `reasoning_result` with cause, severity, action, path used
 

@@ -156,6 +156,75 @@ calibrated_prob = apply_calibration(
 
 ---
 
+## Cluster Filtering
+
+**Purpose:** Filter valid defect clusters from DBSCAN clustering results to prevent false positives from singleton noise clusters.
+
+**Implementation:** `core/pipeline/patch_postprocess.py::_select_top_clusters()`
+
+### Problem: DBSCAN Noise Inflation
+
+**Issue:** DBSCAN assigns noise points `label=-1`, which gets treated as a valid cluster, creating singleton clusters that inflate the cluster count from 0 to 36.
+
+**Impact:** Makes `_cav_n` (cavity count) meaningless and structure gating ineffective.
+
+### Filtering Logic
+
+**Step 1: Remove Noise Clusters**
+```python
+# Filter out DBSCAN noise (label=-1)
+valid_clusters = [c for c in raw_clusters if c.get("cluster_id", -1) >= 0]
+```
+
+**Step 2: Apply Size and Score Thresholds**
+```python
+MIN_CLUSTER_SCORE = 0.08    # Minimum max score in cluster
+MIN_CLUSTER_SIZE = 3        # Minimum 3 patches per cluster
+
+filtered_clusters = [
+    c for c in valid_clusters
+    if len(c.get("members", [])) >= MIN_CLUSTER_SIZE
+    and max_score(c["members"]) >= MIN_CLUSTER_SCORE
+]
+```
+
+**Step 3: Hybrid Scoring**
+
+Prevents dilution from low-confidence patches:
+```python
+max_score = max(patch["prob"] for patch in cluster["members"])
+mean_score = mean(patch["prob"] for patch in cluster["members"])
+
+hybrid_score = max_score * 0.7 + mean_score * 0.3
+cluster["score"] = hybrid_score
+```
+
+**Rationale:**
+- **Max score (70%)**: Captures strongest evidence in cluster
+- **Mean score (30%)**: Penalizes clusters with many weak patches
+- **Result**: Balanced score that filters out noisy clusters
+
+### Logging
+
+```python
+[CLUSTER] raw=36 valid=8  # 8 clusters after filtering from 36 raw
+```
+
+**Monitoring:**
+- `raw`: Total clusters before filtering (includes noise)
+- `valid`: Clusters after filtering (actual defect clusters)
+- Typical reduction: 36 → 3-8 clusters
+
+### Configuration
+
+```python
+# In core/pipeline/patch_postprocess.py
+MIN_CLUSTER_SCORE = 0.08
+MIN_CLUSTER_SIZE = 3
+```
+
+---
+
 ## Patch Filtering
 
 ### Feature Extraction Gate

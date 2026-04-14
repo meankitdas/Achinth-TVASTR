@@ -14,6 +14,22 @@
 
 ## System Architecture
 
+SCRATA operates in **two modes**:
+
+### Mode 1: Classification Signal (Primary)
+```
+All Patches with Features
+    ↓
+Compute SCRATA Similarity → Normalized scores (sum=1)
+    ↓
+Inject into _candidate_scores with 0.5 boost factor
+    ↓
+Double Normalization (before + after injection)
+    ↓
+Influences patch classification during scoring
+```
+
+### Mode 2: Recovery Mechanism (Safety Net)
 ```
 Anomaly Filter → Zero patches detected
     ↓
@@ -28,6 +44,105 @@ Compute SCRATA + Prototype similarity
 Keep patches: similarity > threshold (0.7) AND signal_strength > gate (0.3)
     ↓
 Recovered patches → Continue pipeline
+```
+
+---
+
+## SCRATA as Classification Signal (Primary Mode)
+
+**Purpose:** SCRATA similarity acts as a real classification signal, influencing patch scoring alongside YOLO and signal features.
+
+**Integration Point:** `core/reasoning/pipeline.py` (Phase 6-7)
+
+### Scoring Process
+
+**Step 1: Compute SCRATA Similarity**
+
+For each patch with extracted features:
+```python
+scrata_scores = compute_scrata_similarity_explicit(feature_vector, scrata_bank)
+# Returns: {"porosity": 0.35, "sand_inclusion": 0.25, ...}
+# Normalized: sum(scores) = 1.0
+```
+
+**Step 2: First Normalization**
+
+Normalize existing `_candidate_scores`:
+```python
+_candidate_scores = {k: v/total for k, v in _candidate_scores.items()}
+```
+
+**Step 3: Inject SCRATA with Boost Factor**
+
+Add SCRATA scores with 0.5 boost:
+```python
+for defect_type, scrata_score in scrata_scores.items():
+    _candidate_scores[defect_type] += scrata_score * 0.5
+```
+
+**Step 4: Second Normalization**
+
+Re-normalize after injection:
+```python
+_candidate_scores = {k: v/total for k, v in _candidate_scores.items()}
+```
+
+### Why Double Normalization?
+
+**Problem:** Without double normalization, SCRATA injection biases scores toward defect types with higher initial scores.
+
+**Solution:** Normalize before and after injection to:
+1. Ensure all signals start on equal footing
+2. Prevent amplification of existing biases
+3. Keep final scores in [0, 1] range with sum=1
+
+### Configuration
+
+```yaml
+prototype_similarity:
+  scrata_boost_factor: 0.5      # Weight for SCRATA signal injection
+  scrata_bank_path: "customers/castco/models/scrata_prototypes.json"
+```
+
+### SCRATA Confidence Gating (Phase 12)
+
+**Entropy-Based Confidence:**
+
+Instead of using raw max similarity, SCRATA confidence is computed using entropy to measure score distribution:
+
+```python
+entropy = -sum(v * log(v + 1e-8) for v in scrata_scores.values())
+max_entropy = log(len(scrata_scores))
+scrata_confidence = 1 - (entropy / max_entropy)
+```
+
+**Why Entropy?**
+- Sharp distribution (e.g., [0.8, 0.1, 0.1]) → high confidence (low entropy)
+- Flat distribution (e.g., [0.4, 0.3, 0.3]) → low confidence (high entropy)
+- Prevents false confidence from max scores in ambiguous cases
+
+**Confidence Boost:**
+
+When `scrata_confidence > 0.6`, apply scaled boost:
+```python
+boost = 1 + 0.2 * scrata_confidence
+for defect_type in scrata_scores:
+    if defect_type in candidate_scores:
+        candidate_scores[defect_type] *= boost
+```
+
+**Example:**
+- `scrata_confidence = 0.75` → `boost = 1.15` (15% increase)
+- `scrata_confidence = 0.90` → `boost = 1.18` (18% increase)
+
+### Monitoring
+
+**Log Messages:**
+```
+[SCRATA] Injected similarity scores → porosity=0.42, sand_inclusion=0.18
+[SCRATA] Post-injection scores → porosity=0.68, sand_inclusion=0.22
+[SCRATA_CONF] 0.75
+[SCRATA] Confidence boost applied: porosity 0.68 → 0.78
 ```
 
 ---

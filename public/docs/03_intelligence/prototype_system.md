@@ -62,15 +62,30 @@ Learning Hook → Collect candidates → Batch update bank
 **Process:**
 1. Compute cosine similarity between input vector and all prototypes for each defect type
 2. Take maximum similarity as score for that defect type
-3. Return dict: `{defect_type: max_similarity}`
+3. **Normalize output:** Ensure sum of all scores = 1.0 (prevents bias in downstream fusion)
+4. Return dict: `{defect_type: max_similarity}`
+
+**Normalization:**
+```python
+# After computing raw similarities
+raw_scores = {"porosity": 0.87, "sand_inclusion": 0.45, "crack": 0.32}
+total = sum(raw_scores.values())  # = 1.64
+
+# Normalize to sum=1
+normalized_scores = {k: v/total for k, v in raw_scores.items()}
+# → {"porosity": 0.53, "sand_inclusion": 0.27, "crack": 0.20}
+```
+
+**Why Normalize?** Prevents amplification of high-similarity scores during score fusion. Ensures all similarity signals contribute proportionally.
 
 **Example:**
 ```python
-from core.vision.prototypes.similarity_engine import compute_similarity
+from core.vision.prototypes.similarity_engine import compute_scrata_similarity_explicit
 
 feature_vector = np.array([0.42, 0.18, ...])  # 15-dim
-proto_scores = compute_similarity(feature_vector, bank_type="prototype")
-# → {"porosity": 0.87, "sand_inclusion": 0.45, "crack": 0.32}
+scrata_scores = compute_scrata_similarity_explicit(feature_vector, scrata_bank)
+# → {"porosity": 0.53, "sand_inclusion": 0.27, "crack": 0.20}
+# sum(scores.values()) == 1.0
 ```
 
 ---
