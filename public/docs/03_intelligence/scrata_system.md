@@ -104,11 +104,11 @@ prototype_similarity:
   scrata_bank_path: "customers/castco/models/scrata_prototypes.json"
 ```
 
-### SCRATA Confidence Gating (Phase 12)
+### SCRATA Confidence Gating (Phase E - Energy-Based)
 
 **Entropy-Based Confidence:**
 
-Instead of using raw max similarity, SCRATA confidence is computed using entropy to measure score distribution:
+SCRATA confidence is computed using entropy to measure score distribution:
 
 ```python
 entropy = -sum(v * log(v + 1e-8) for v in scrata_scores.values())
@@ -121,19 +121,40 @@ scrata_confidence = 1 - (entropy / max_entropy)
 - Flat distribution (e.g., [0.4, 0.3, 0.3]) → low confidence (high entropy)
 - Prevents false confidence from max scores in ambiguous cases
 
-**Confidence Boost:**
+**Energy Force Application (NEW - Phase K):**
 
-When `scrata_confidence > 0.6`, apply scaled boost:
+SCRATA now operates via **energy reduction** instead of multiplicative score boosts:
+
 ```python
-boost = 1 + 0.2 * scrata_confidence
-for defect_type in scrata_scores:
-    if defect_type in candidate_scores:
-        candidate_scores[defect_type] *= boost
+# When scrata_confidence exceeds adaptive threshold
+scrata_thresh = get_adaptive_thresholds("scrata_confidence")
+if scrata_confidence > scrata_thresh.get("strong", 0.6):
+    # Identify top SCRATA defect type
+    top_scrata_type = max(scrata_scores, key=scrata_scores.get)
+    
+    # Apply energy force (lowers energy = increases probability)
+    energy_reduction = -w_scrata × scrata_confidence
+    energy[top_scrata_type] += energy_reduction
 ```
 
+**Key Differences from Legacy Multiplicative Approach:**
+- **Additive Force:** Energy reduction rather than score multiplication
+- **Adaptive Thresholds:** Uses `get_adaptive_thresholds()` instead of hardcoded 0.6
+- **Type-Specific:** Only affects the top SCRATA-matched defect type
+- **Lyapunov Stable:** Energy changes checked for stability before conversion back to probabilities
+
+**Parameters:**
+- w_scrata: 0.2 (default weight for SCRATA energy force)
+- Threshold: Adaptive (strong tier from baseline statistics)
+
 **Example:**
-- `scrata_confidence = 0.75` → `boost = 1.15` (15% increase)
-- `scrata_confidence = 0.90` → `boost = 1.18` (18% increase)
+```
+SCRATA scores: {"porosity": 0.82, "sand_inclusion": 0.12, "crack": 0.06}
+scrata_confidence: 0.85 (high confidence)
+→ top_scrata_type = "porosity"
+→ energy_reduction = -0.2 × 0.85 = -0.17
+→ energy["porosity"] reduced by 0.17 (increases probability after conversion)
+```
 
 ### Monitoring
 
@@ -141,8 +162,9 @@ for defect_type in scrata_scores:
 ```
 [SCRATA] Injected similarity scores → porosity=0.42, sand_inclusion=0.18
 [SCRATA] Post-injection scores → porosity=0.68, sand_inclusion=0.22
-[SCRATA_CONF] 0.75
-[SCRATA] Confidence boost applied: porosity 0.68 → 0.78
+[SCRATA_CONF] 0.85
+[ENERGY] SCRATA force applied: porosity energy reduced by 0.17
+[STABILITY] stable=True, delta=-0.12
 ```
 
 ---

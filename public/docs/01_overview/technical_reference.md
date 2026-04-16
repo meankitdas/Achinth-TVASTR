@@ -608,5 +608,99 @@ dark_mask = (image < threshold)
 
 ---
 
-**Version:** 1.0  
-**Last Updated:** 2026-04-07
+## 12. Energy-Based Reasoning (Phase K)
+
+### 12.1 Adaptive Threshold System
+**Description:** Dynamic thresholds based on online Welford statistics with strong/weak tiers.  
+**Formula:**
+```
+threshold_strong = mean + 1.0 × std
+threshold_weak = mean - 0.5 × std
+```
+**Source:** `core/reasoning/baselines.py::get_adaptive_thresholds()`
+
+### 12.2 Welford Algorithm (Online Statistics)
+**Description:** Incremental mean and variance computation without storing data.  
+**Formula:**
+```
+n = n + 1
+delta = x - mean
+mean = mean + delta / n
+M2 = M2 + delta × (x - mean)
+variance = M2 / (n - 1) if n > 1 else 0
+```
+**Source:** `core/reasoning/baselines.py::update_baseline()`
+
+### 12.3 Energy Conversion (Scores to Energy)
+**Description:** Converts probability scores to energy landscape (higher probability = lower energy).  
+**Formula:**
+```
+E_k = -log(p_k + ε)
+where ε = 1e-8 (log safety)
+```
+**Purpose:** Enables additive force operations instead of multiplicative score adjustments.  
+**Source:** `core/reasoning/pipeline.py::_scores_to_energy()`
+
+### 12.4 Signal Forces (Energy Reduction)
+**Description:** Additive energy reduction based on signal confidence (strong signals lower energy).  
+**Formula:**
+```
+ΔE_topology = -w_topology × topology_score
+ΔE_scrata = -w_scrata × scrata_confidence
+ΔE_anomaly = -w_anomaly × avg_anomaly
+
+E'_k = E_k + ΔE_topology + ΔE_scrata + ΔE_anomaly
+```
+**Default Weights:**
+- w_topology: 0.3
+- w_scrata: 0.2
+- w_anomaly: 0.1
+**Purpose:** Strong signals pull down energy for corresponding defect types.  
+**Source:** `core/reasoning/pipeline.py::_apply_signal_forces()`
+
+### 12.5 Lyapunov Stability Check
+**Description:** Ensures energy monotonically decreases across iterations (guarantees convergence).  
+**Formula:**
+```
+E_total = Σ E_k
+ΔE = E_total(current) - E_total(previous)
+is_stable = (ΔE ≤ ε)
+```
+**Parameters:** ε = 0.01 (stability tolerance)  
+**Action:** If unstable (energy increased), revert to previous energy state.  
+**Source:** `core/reasoning/pipeline.py::_check_lyapunov_stability()`
+
+### 12.6 Energy to Probability Conversion
+**Description:** Converts energy back to normalized probability scores.  
+**Formula:**
+```
+p_k = exp(-E_k)
+p'_k = p_k / Σ p_j  (normalize to sum=1)
+```
+**Source:** `core/reasoning/pipeline.py::_energy_to_scores()`
+
+### 12.7 SCRATA Energy Force (Phase E)
+**Description:** SCRATA confidence acts as energy reduction force (not multiplicative boost).  
+**Formula:**
+```
+When scrata_confidence > threshold_strong:
+  ΔE_scrata = -w_scrata × scrata_confidence × I(defect_type matches top_scrata)
+  E_defect_type = E_defect_type + ΔE_scrata
+```
+**Purpose:** High SCRATA confidence lowers energy for matching defect type, increasing its probability after conversion.  
+**Source:** `core/reasoning/pipeline.py::_apply_signal_forces()`
+
+### 12.8 Safety Normalization
+**Description:** Ensures scores remain valid after energy conversions.  
+**Checks:**
+```
+1. NaN/Inf Guard: Replace with uniform distribution
+2. Negative Guard: Clamp to 0, renormalize
+3. Normalization Check: |sum - 1.0| < 0.01
+```
+**Source:** `core/reasoning/pipeline.py` (energy pipeline safety checks)
+
+---
+
+**Version:** 2.0  
+**Last Updated:** 2026-04-16 (Phase K: Energy-Based Reasoning)

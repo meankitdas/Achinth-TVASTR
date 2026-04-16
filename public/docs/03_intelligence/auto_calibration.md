@@ -263,8 +263,253 @@ result = run_auto_calibration(config, force=True)
 
 ---
 
+---
+
+## Baseline Auto-Update System (Welford's Algorithm)
+
+### Overview
+
+The reasoning pipeline uses **Welford's online algorithm** to maintain running statistics (mean, std) for adaptive threshold computation. This system eliminates the need for storing historical data while providing numerically stable incremental updates.
+
+**See full documentation:** `energy_stability.md` §Phase G
+
+### How It Works
+
+#### Welford's Algorithm
+
+Computes mean and standard deviation incrementally without storing historical values:
+
+```python
+# For each new observation:
+count = count + 1
+delta = value - mean
+mean = mean + delta / count
+delta2 = value - mean
+M2 = M2 + delta * delta2
+std = sqrt(M2 / count)
+```
+
+**Benefits:**
+- **O(1) memory**: No historical data storage required
+- **O(1) computation**: Constant time per update
+- **Numerically stable**: Avoids catastrophic cancellation
+- **Online**: Updates immediately on each observation
+
+#### Tracked Metrics
+
+| Metric | Purpose | Usage |
+|--------|---------|-------|
+| `topology_score` | Structural coherence | Strong/weak structure thresholds |
+| `spread_ratio` | Anomaly distribution | Widespread/localized thresholds |
+| `variance` | Score uncertainty | Diffuse/peaked thresholds |
+| `scrata_confidence` | SCRATA match quality | SCRATA force threshold |
+| `entropy` | Classification ambiguity | Ambiguity smoothing threshold |
+| `avg_anomaly` | Anomaly strength | Process defect threshold |
+
+#### Storage Format
+
+**File:** `runtime/telemetry/baselines.json`
+
+```json
+{
+  "topology_score": {
+    "mean": 0.4523,
+    "std": 0.1834,
+    "count": 1547,
+    "M2": 52.08
+  },
+  "spread_ratio": {
+    "mean": 0.3891,
+    "std": 0.2145,
+    "count": 1547,
+    "M2": 71.23
+  }
+}
+```
+
+### Adaptive Threshold Computation
+
+Once sufficient samples collected (default: ≥10), thresholds computed as:
+
+```python
+baseline = get_baseline("topology_score")
+
+strong_threshold = baseline["mean"] + baseline["std"]
+weak_threshold = baseline["mean"] - baseline["std"]
+```
+
+**Example:**
+- Mean = 0.45, Std = 0.18
+- Strong threshold = 0.63 (mean + std)
+- Weak threshold = 0.27 (mean - std)
+
+**Fallback:** If insufficient data, uses conservative defaults:
+```python
+{
+    "strong": 0.7,
+    "weak": 0.3,
+    "mean": 0.5,
+    "std": 0.2
+}
+```
+
+### Drift Detection
+
+Uses **z-score test** to detect process regime changes:
+
+```python
+drift_result = detect_drift(
+    metric="topology_score",
+    value=current_value,
+    z_threshold=3.0
+)
+
+if drift_result["is_drift"]:
+    logger.warning(
+        f"Drift detected in {metric}: "
+        f"z_score={drift_result['z_score']:.2f}, "
+        f"deviation={drift_result['deviation']:.3f}"
+    )
+    # Optional: Reset baseline after confirming regime change
+    # reset_baseline(metric)
+```
+
+**Z-Score Formula:**
+```
+z_score = |value - mean| / std
+```
+
+**Interpretation:**
+- z < 2.0: Normal variation
+- 2.0 ≤ z < 3.0: Moderate outlier
+- z ≥ 3.0: Significant drift (alert)
+
+### Integration with Pipeline
+
+Baselines updated after every successful reasoning run:
+
+```python
+# In core/reasoning/pipeline.py (after LLM classification)
+try:
+    # Update baselines
+    if '_topology_score' in locals():
+        _update_baselines("topology_score", _topology_score)
+    if 'spread_ratio' in locals():
+        _update_baselines("spread_ratio", spread_ratio)
+    if 'variance' in locals():
+        _update_baselines("variance", variance)
+    if 'scrata_confidence' in locals():
+        _update_baselines("scrata_confidence", scrata_confidence)
+    if '_normalized_entropy' in locals():
+        _update_baselines("entropy", _normalized_entropy)
+    
+    logger.info(f"[{casting_id}] Baselines updated")
+except Exception as err:
+    logger.warning(f"[{casting_id}] Baseline update failed (non-fatal): {err}")
+```
+
+### API Usage
+
+```python
+from core.reasoning.baselines import (
+    _update_baselines,
+    get_adaptive_thresholds,
+    detect_drift,
+    reset_baseline
+)
+
+# Update baseline with new observation
+_update_baselines("topology_score", 0.68)
+
+# Get adaptive thresholds
+thresholds = get_adaptive_thresholds("topology_score")
+print(f"Strong: {thresholds['strong']:.3f}")  # mean + std
+print(f"Weak: {thresholds['weak']:.3f}")      # mean - std
+
+# Detect drift
+drift = detect_drift("topology_score", 0.92, z_threshold=3.0)
+if drift["is_drift"]:
+    print(f"Drift detected! Z-score: {drift['z_score']:.2f}")
+    
+# Reset baseline after confirmed regime change
+reset_baseline("topology_score")
+```
+
+### Configuration
+
+```yaml
+reasoning:
+  energy_optimization:
+    # Adaptive thresholds
+    min_baseline_samples: 10      # Min samples before using adaptive
+    z_score_threshold: 3.0        # Drift detection threshold
+    
+    # Drift handling
+    auto_reset_on_drift: false    # Automatically reset on drift (use cautiously)
+    drift_confirmation_runs: 5    # Consecutive drifts before auto-reset
+```
+
+### Monitoring
+
+**Key Metrics:**
+- Baseline update frequency (should be every run)
+- Sample counts (should grow continuously)
+- Z-scores (should stay < 3.0)
+- Threshold values (should stabilize after ~100 samples)
+
+**Log Messages:**
+```
+[BASELINE] Updated topology_score: mean=0.452 std=0.183 count=1547
+[BASELINE] Adaptive thresholds: strong=0.635 weak=0.269
+[DRIFT] Detected in topology_score: z=3.42 (threshold=3.0)
+[DRIFT] Deviation: 0.627 from baseline mean=0.452
+```
+
+### Troubleshooting
+
+**Baselines not updating:**
+- **Cause**: Pipeline errors preventing update block
+- **Fix**: Check pipeline logs for exceptions, verify telemetry integration
+
+**Thresholds always at default (0.7/0.3):**
+- **Cause**: Insufficient samples (< 10)
+- **Fix**: Wait for more runs, check baseline file exists
+
+**Frequent drift alerts:**
+- **Cause**: Process regime change (new casting type, season change, equipment adjustment)
+- **Fix**: 
+  1. Confirm change is real (check production logs)
+  2. Reset affected baselines: `reset_baseline("topology_score")`
+  3. Allow ~50 runs to re-establish baseline
+
+**Baseline file corrupted:**
+- **Cause**: Disk I/O error, improper shutdown
+- **Fix**: Delete `runtime/telemetry/baselines.json`, system will rebuild from scratch
+
+### Difference from Multi-Modal Fusion Calibration
+
+**Welford Baseline System (this section):**
+- **What**: Incremental mean/std for adaptive thresholds
+- **Metrics**: topology_score, spread_ratio, entropy, etc.
+- **Update**: Every reasoning run (online)
+- **Storage**: `runtime/telemetry/baselines.json`
+- **Purpose**: Replace hardcoded thresholds with data-driven values
+
+**Multi-Modal Fusion Calibration (main document):**
+- **What**: Grid search optimization for fusion weights
+- **Metrics**: yolo_weight, signal_weight, llm_weight, agreement_weight
+- **Update**: Every N traces (batch)
+- **Storage**: `parameters.yaml`
+- **Purpose**: Optimize final classification fusion
+
+Both systems are complementary and operate independently.
+
+---
+
 ## Related Docs
 
 - **Algorithms:** `docs/01_overview/technical_reference.md` §8
+- **Energy-Based Reasoning:** `energy_stability.md` (complete documentation)
+- **Reasoning Pipeline:** `reasoning_pipeline.md` §Energy-Based Stable Reasoning
 - **Fusion Logic:** `docs/02_pipeline/fusion_logic.md`
 - **Configuration:** `docs/04_configuration/tuning_guide.md`

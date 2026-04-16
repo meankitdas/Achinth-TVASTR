@@ -338,9 +338,46 @@ Then enable learning with high thresholds (`confidence: 0.90`) and gradually low
 
 ---
 
+## Integration with Energy-Based Reasoning (Phase K)
+
+**Context:** The prototype similarity system is integrated into the energy-based reasoning pipeline introduced in Phase K.
+
+**How It Works:**
+
+Instead of direct score multiplication, prototype similarity now contributes via **energy forces**:
+
+```python
+# Prototype scores computed as usual (cosine similarity)
+prototype_scores = compute_similarity(feature_vector, prototype_bank)
+# → {"porosity": 0.72, "sand_inclusion": 0.45, ...}
+
+# Convert candidate scores to energy landscape
+energy = _scores_to_energy(candidate_scores)
+
+# Prototype similarity can influence energy (future enhancement)
+# Currently: Prototype scores fused at score level before energy conversion
+# Future: Direct energy force based on prototype confidence
+```
+
+**Current Status:**
+- Prototype similarity computed and fused at **score level** (before energy conversion)
+- SCRATA similarity operates at **energy level** (Phase E integration)
+- Future enhancement: Move prototype similarity to energy-force model for consistency
+
+**Key Benefits of Energy Integration:**
+- **Adaptive Thresholds:** All thresholds use `get_adaptive_thresholds()` instead of hardcoded values
+- **Stability Guarantees:** Lyapunov stability ensures convergence
+- **Additive Forces:** Cleaner mathematical framework than multiplicative boosts
+
+**See Also:**
+- `docs/01_overview/technical_reference.md` §12 (Energy-Based Reasoning)
+- `docs/03_intelligence/scrata_system.md` (Phase E: SCRATA Energy Force)
+
+---
+
 ## Related Docs
 
-- **Algorithms:** `docs/01_overview/technical_reference.md` §10
+- **Algorithms:** `docs/01_overview/technical_reference.md` §10 (Cosine Similarity), §12 (Energy Reasoning)
 - **SCRATA System:** `docs/03_intelligence/scrata_system.md`
 - **Signal Scoring:** `docs/02_pipeline/signal_system.md`
 - **Configuration:** `docs/04_configuration/tuning_guide.md`
