@@ -130,12 +130,12 @@ export function AboutSection() {
             <p className="reveal reveal-delay-1 text-lg text-metallic-300 leading-relaxed mb-6">
             Tvastr is named after{' '}
               <span className="text-amber-glow font-medium">Tvaṣṭṛ</span>, the
-              Vedic artisan deity — the divine architect who forged celestial
+              Vedic divine architect who forged celestial
               tools and shaped the instruments of the gods.
             </p>
             <p className="reveal reveal-delay-2 text-base text-metallic-400 leading-relaxed mb-6">
               In the same spirit, Tvastr builds intelligent systems that shape
-              the future of industrial production — combining the precision of
+              the future of industrial production, combining the precision of
               ancient master craftsmanship with the power of modern AI.
             </p>
             <p className="reveal reveal-delay-3 text-base text-metallic-400 leading-relaxed">
