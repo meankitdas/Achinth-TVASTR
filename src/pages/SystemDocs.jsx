@@ -152,7 +152,7 @@ export function SystemDocs() {
 
       {/* Top nav */}
       <header className="sticky top-0 z-40" style={STYLES.header}>
-        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 h-16 flex items-center justify-between">
+        <div className="w-full px-4 md:px-6 lg:px-8 xl:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
             <span className="text-metallic-600 text-xs hidden md:inline">/ System Documentation</span>
@@ -170,7 +170,7 @@ export function SystemDocs() {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 lg:px-12 py-8 md:py-12 lg:py-16">
+      <main className="relative z-10 w-full px-4 md:px-6 lg:px-8 xl:px-12 py-8 md:py-12 lg:py-16">
         {/* Page header */}
         <div className="mb-8 md:mb-12">
           <div className="flex items-center gap-3 mb-4">
@@ -192,7 +192,7 @@ export function SystemDocs() {
           <div className="md:flex">
             {/* Desktop sidebar */}
             <div
-              className="hidden md:block w-64 border-r overflow-y-auto"
+              className="hidden md:block w-1/5 min-w-[180px] max-w-[240px] shrink-0 border-r overflow-y-auto"
               style={{
                 borderColor: 'rgba(168,168,180,0.08)',
                 maxHeight: '70vh',
