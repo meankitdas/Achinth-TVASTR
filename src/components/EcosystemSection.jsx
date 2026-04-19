@@ -301,7 +301,7 @@ function CapabilityTile({ tile, isActive, tileRef, onClick, compact = false }) {
       }}
     >
       <div className="relative z-10">
-        {!compact && <div className="text-2xl mb-2">{tile.icon}</div>}
+        {!compact && <div className="text-amber-forge mb-2 flex justify-center">{tile.icon}</div>}
         <h4 className={`text-xs md:text-sm font-bold ${compact ? '' : 'mb-1'} ${tile.accent ? 'text-amber-forge' : 'text-metallic-100'}`}>
           {tile.title}
         </h4>
