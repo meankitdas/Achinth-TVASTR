@@ -404,7 +404,7 @@
     position: relative;
     overflow: hidden;
     background: rgba(26, 26, 30, 0.6);
-    border: 1px solid rgba(168, 168, 180, 0.12);
+    border: 1px solid rgba(168, 168, 180, 0.25);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     box-shadow: 
@@ -412,6 +412,41 @@
       0 4px 20px rgba(0, 0, 0, 0.3),
       0 0 15px rgba(245, 158, 11, 0.08),
       0 0 30px rgba(245, 158, 11, 0.04);
+  }
+
+  /*
+   * Expanded modal variant for metallic tiles - reduced opacity and blur
+   */
+  .liquid-glass-expanded {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.4);
+    border: 1px solid rgba(168, 168, 180, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 4px 20px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(245, 158, 11, 0.08),
+      0 0 30px rgba(245, 158, 11, 0.04);
+  }
+
+  .liquid-glass-expanded::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 30%,
+      transparent 60%
+    );
+    mix-blend-mode: overlay;
+    animation: liquidShift 10s ease-in-out infinite;
+    pointer-events: none;
   }
 
   /*
@@ -456,6 +491,42 @@
   }
 
   .liquid-glass-amber::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(245, 158, 11, 0.12) 0%,
+      rgba(245, 158, 11, 0.05) 30%,
+      transparent 60%
+    );
+    mix-blend-mode: overlay;
+    animation: liquidShift 10s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /*
+   * Expanded modal variant for amber accent tiles - reduced opacity and blur
+   */
+  .liquid-glass-amber-expanded {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.4);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 40px rgba(245, 158, 11, 0.05),
+      0 4px 20px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(245, 158, 11, 0.12),
+      0 0 35px rgba(245, 158, 11, 0.06);
+  }
+
+  .liquid-glass-amber-expanded::before {
     content: '';
     position: absolute;
     top: -50%;

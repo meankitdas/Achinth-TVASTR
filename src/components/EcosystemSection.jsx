@@ -384,12 +384,12 @@ function TileModal({ tile, onClose }) {
       style={{ background: 'rgba(0,0,0,0.7)' }}
     >
       <div
-        className={`${tile.accent ? 'liquid-glass-amber' : 'liquid-glass'} relative max-w-2xl w-full p-8 rounded-xl`}
+        className={`${tile.accent ? 'liquid-glass-amber-expanded' : 'liquid-glass-expanded'} relative max-w-2xl w-full p-8 rounded-xl`}
         onClick={(e) => e.stopPropagation()}
         style={{
           boxShadow: tile.accent
             ? '0 20px 60px rgba(245,158,11,0.15), 0 0 80px rgba(0,0,0,0.5)'
-            : '0 20px 60px rgba(0,0,0,0.5)',
+            : '0 20px 60px rgba(168,168,180,0.2), 0 0 40px rgba(168,168,180,0.15), 0 0 80px rgba(0,0,0,0.5)',
         }}
       >
         {/* Close button */}
