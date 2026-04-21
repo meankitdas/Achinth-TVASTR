@@ -1,339 +1,418 @@
 # Dashboard & Reporting
 
-> **Visualizing Intelligence for Decision-Making**
+> **Technical Reference: RAS Dashboard Tabs and Data Visualization**
 
 ---
 
 ## Overview
 
-TvastrRAS dashboards transform raw inspection data into **actionable insights** for operators, supervisors, quality engineers, and plant management. From real-time inspection queues to monthly trend analysis, every role gets the visibility they need.
+TvastrRAS provides a web-based dashboard for visualizing inspection results, defect analytics, and plant-level intelligence. Dashboard features scale with license tier:
+
+- **TIER_1:** No dashboard (inspection API only)
+- **TIER_2:** 4 dashboard tabs (Process Intelligence)
+- **TIER_3:** 8 dashboard tabs (Plant Intelligence)
+
+The dashboard is built with React, Recharts (visualization library), and Supabase (real-time data).
 
 ---
 
-## Key Dashboards
+## Dashboard Architecture (TIER_3)
 
-### 1. Inspection View (Real-Time Operations)
+### 8 Dashboard Tabs
 
-**Who uses it:** Shop floor operators, quality inspectors
+Plant Intelligence (TIER_3) provides 8 tabs:
 
-**What it shows:**
-- **Live inspection queue** — castings awaiting decision
-- **Current line status** — inspections in progress
-- **Part images** — original and annotated with defect bounding boxes
-- **Decision banner** — ACCEPT (green) / REJECT (red) / MANUAL_REVIEW (orange)
-- **Confidence score** — how certain the AI is (0-100%)
-- **Quick actions** — validate, override, add notes
+**1. Overview Tab**
+- Key performance indicators (KPIs)
+- Rejection rate, acceptance rate, manual review rate
+- Total inspections count (today, this week, this month)
+- Real-time statistics
 
-### Example Screen
+**2. Inspection History Tab**
+- Table of all inspection records
+- Columns: Casting ID, Timestamp, Decision, Confidence, Primary Defect
+- Filters: Date range, decision type (ACCEPT/REJECT/MANUAL_REVIEW), defect class
+- Sorting: By timestamp, confidence, decision
+- Pagination: 50 records per page
 
-```
-┌────────────────────────────────────────────────────────┐
-│  INSPECTION RESULT                                     │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │  ❌ REJECT CASTING                                │ │
-│  │  Confidence: 92%                                  │ │
-│  └──────────────────────────────────────────────────┘ │
-│                                                        │
-│  Casting ID: XYZ-1234          Heat: H-5601           │
-│  Primary Defect: Porosity      Count: 3 defects       │
-│                                                        │
-│  [View Annotated Image] [View Full Report] [Override] │
-└────────────────────────────────────────────────────────┘
-```
+**3. Heat Analytics Tab**
+- Heat-level quality aggregation
+- Per-heat metrics: rejection rate, defect distribution, casting count
+- Heat comparison: side-by-side quality metrics
+- Heat fingerprint visualization (12-dim vector representation)
+- Time-series view: heat quality over time
 
-**Key features:**
-- Touch-friendly for tablet use on shop floor
-- Color-coded for quick visual scanning
-- One-click access to detailed reports
-- Audit trail for all operator actions
+**4. Mold Analytics Tab**
+- Mold-level quality tracking
+- Per-mold metrics: rejection rate, cycle count, degradation trend
+- Mold health indicators: green (healthy), yellow (monitor), red (maintenance needed)
+- Degradation curves: quality vs. cycle count
+- Mold fingerprint visualization
 
----
+**5. Defect Distribution Tab**
+- Defect class frequency (6 classes: porosity, shrinkage, crack, sand inclusion, surface roughness, blow hole)
+- Bar chart: defect count by class
+- Pie chart: defect percentage breakdown
+- Time-series: defect trends over time
+- Filterable by: date range, heat, mold, shift
 
-### 2. Defect View (Quality Analysis)
+**6. Calibration Status Tab**
+- Current fusion weights: [Signal, YOLO, LLM, Agreement]
+- Current thresholds: Accept (≤0.30), Reject (≥0.70)
+- Calibration history: timestamp, weights, disagreement rate
+- Trigger button: "Run Auto-Calibration" (requires ≥50 validations)
+- Validation queue: Pending MANUAL_REVIEW cases
 
-**Who uses it:** Quality engineers, supervisors
+**7. Fingerprint Analysis Tab**
+- Fingerprint similarity matrix: castings with similar patterns
+- DBSCAN cluster visualization: spatial defect clustering
+- Pattern matching: Search for castings similar to selected fingerprint
+- Drift detection: Fingerprint distance from baseline over time
+- Heatmap: 12-field fingerprint vector visualization
 
-**What it shows:**
-- **Top defects** by frequency and severity
-- **Defect trends** over time (daily, weekly, monthly)
-- **Filters** — by heat, mold, shift, tool, date range, defect type
-- **Drill-down capability** — click a defect to see all affected parts
-
-### Example Use Case: Weekly Quality Review
-
-A quality engineer opens the Defect View and sees:
-
-```
-Top Defects (Last 7 Days)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Porosity (Gate)         ████████████ 45 cases
-2. Shrinkage (Riser)       ███████░░░░░ 28 cases
-3. Sand Inclusion (Body)   █████░░░░░░░ 19 cases
-4. Surface Roughness       ███░░░░░░░░░ 12 cases
-```
-
-**Action:** Click "Porosity (Gate)" → drill down to see:
-- Which heats were affected?
-- Which molds contributed most?
-- What was the time distribution?
-- Were there common process flags?
+**8. Reasoning Trace Tab**
+- Per-inspection reasoning breakdown
+- Gate exit statistics: % exiting at Gate 0/1/2/3
+- Signal breakdown: Individual scores for Signal, YOLO, LLM, Agreement
+- Agreement visualization: Range chart showing signal consensus
+- LLM explanation: Natural language reasoning (if Gate 3 used)
+- Processing timeline: Latency per pipeline stage
 
 ---
 
-### 3. Drift & Alerts View (Early Warning System)
+## Dashboard Data Sources
 
-**Who uses it:** Shift supervisors, production managers
+### Real-Time Updates (Supabase Realtime)
 
-**What it shows:**
-- **Active alerts** — quality thresholds exceeded
-- **Drift warnings** — gradual quality degradation detected
-- **Threshold monitoring** — rejection rate vs. target
-- **Alert history** — when alerts fired and how they were resolved
+The dashboard subscribes to Supabase real-time channels:
+- `inspections` table: New inspection records trigger UI updates
+- `validations` table: Operator validations update statistics
+- `calibrations` table: Auto-calibration runs update weights display
 
-### Alert Types
-
-| Alert Level | Trigger | Response Time |
-|-------------|---------|---------------|
-| 🔴 **HIGH** | Critical threshold exceeded (e.g., rejection rate > 20%) | Act within 1 hour |
-| 🟠 **MEDIUM** | Quality trending wrong direction | Act within 4 hours |
-| 🟡 **LOW** | Minor variation detected | Monitor and act within 24 hours |
-
-### Example Alert
-
-```
-┌─────────────────────────────────────────────────────┐
-│ 🔴 HIGH PRIORITY ALERT                              │
-│                                                     │
-│ Shift 2 Rejection Rate: 18.5% (Threshold: 15%)     │
-│ Primary Defect: Porosity                            │
-│ Affected Heat: H-5601                               │
-│                                                     │
-│ Recommended Action:                                 │
-│ • Check furnace temperature (Zone 2)                │
-│ • Verify sand moisture and compaction               │
-│ • Review last heat quality report                   │
-│                                                     │
-│ [View Details] [Acknowledge] [Log Corrective Action]│
-└─────────────────────────────────────────────────────┘
+**Subscription Example:**
+```javascript
+supabase
+  .channel('inspections')
+  .on('postgres_changes', 
+      { event: 'INSERT', schema: 'public', table: 'inspections' },
+      (payload) => updateDashboard(payload.new))
+  .subscribe()
 ```
 
-**Integration:** Alerts can trigger:
-- Dashboard notifications
-- Email to supervisors
-- SMS for critical alerts (optional)
-- ERP/MES system flags
+### REST API Data Endpoints
+
+Dashboard tabs fetch data via REST API (see [Manufacturing Intelligence](manufacturing_intelligence.md)):
+
+**Overview Tab:**
+- `GET /api/statistics?period=today|week|month` - KPI aggregation
+- `GET /api/statistics/realtime` - Live counts
+
+**Inspection History Tab:**
+- `GET /api/history?limit=50&offset=0&filter=...` - Paginated history
+- `GET /api/inspect/{id}` - Individual inspection details
+
+**Heat Analytics Tab:**
+- `GET /api/heat/{heat_id}/quality` - Heat quality summary
+- `GET /api/heat/{heat_id}/castings` - All castings from heat
+- `GET /api/heat/{heat_id}/fingerprint` - Heat-level fingerprint
+- `GET /api/heat/compare?heat_ids=...` - Multi-heat comparison
+
+**Mold Analytics Tab:**
+- `GET /api/mold/{mold_id}/history` - Mold quality history
+- `GET /api/mold/{mold_id}/degradation` - Degradation curve data
+- `GET /api/mold/{mold_id}/fingerprint` - Mold-level fingerprint
+- `GET /api/mold/comparison?mold_ids=...` - Multi-mold comparison
+
+**Defect Distribution Tab:**
+- `GET /api/statistics/defects?date_range=...` - Defect counts by class
+- `GET /api/statistics/defects/trends?period=...` - Time-series data
+
+**Calibration Status Tab:**
+- `GET /api/calibration/status` - Current weights and thresholds
+- `GET /api/calibration/history` - Past calibration runs
+- `POST /api/calibration/run` - Trigger new calibration
+
+**Fingerprint Analysis Tab:**
+- `GET /api/fingerprint/{casting_id}` - Get fingerprint
+- `POST /api/fingerprint/match` - Similarity search
+- `GET /api/fingerprint/cluster?date_range=...` - Cluster analysis
+- `GET /api/fingerprint/drift?baseline_date=...` - Drift detection
+
+**Reasoning Trace Tab:**
+- `GET /api/reasoning/{inspection_id}` - Detailed reasoning data
+- `GET /api/reasoning/gates?date_range=...` - Gate statistics
+- `GET /api/reasoning/validation?date_range=...` - Agreement analysis
 
 ---
 
-### 4. Plant Overview (Strategic KPIs)
+## Visualization Components
 
-**Who uses it:** Plant managers, quality directors, continuous improvement teams
+### Chart Types (Recharts)
 
-**What it shows:**
-- **Aggregated KPIs** — rejection %, rework cost, FP/FN rates
-- **Multi-shift comparison** — performance by shift
-- **Heat performance** — best/worst heats this month
-- **Mold health summary** — which molds need attention
-- **Trend analysis** — is quality improving or degrading?
+**Bar Chart:**
+- Defect distribution by class
+- Heat/mold comparison metrics
+- Gate exit statistics
 
-### Key Metrics
+**Line Chart:**
+- Rejection rate over time
+- Mold degradation curves
+- Fingerprint drift trends
 
-| KPI | Description | Target |
-|-----|-------------|--------|
-| **Rejection Rate** | % of inspected parts rejected | < 12% |
-| **False Positive Rate** | AI rejected, human accepted | < 5% |
-| **False Negative Rate** | AI accepted, human found defect | < 2% |
-| **Manual Review Rate** | % requiring human validation | 10-15% |
-| **Cost of Quality** | Estimated scrap + rework cost | Tracked monthly |
+**Pie Chart:**
+- Defect percentage breakdown
+- Decision distribution (ACCEPT/REJECT/MANUAL_REVIEW)
 
-### Plant Overview Dashboard (Example)
+**Scatter Plot:**
+- Fingerprint similarity matrix
+- Signal correlation analysis
 
-```
-Month: March 2026                        Plant: Foundry A
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Heatmap:**
+- Patch score grid (6×6)
+- Fingerprint vector visualization
+- Time-of-day quality patterns
 
-Overall Metrics:
-├─ Total Inspections: 12,450
-├─ Rejection Rate: 11.2% ↓ (vs. 13.1% last month)  ✓
-├─ False Positive Rate: 4.1% ↓ (vs. 5.3%)          ✓
-├─ False Negative Rate: 1.8% ↔ (vs. 1.7%)          ✓
-└─ Manual Review Rate: 12.5% ↓ (vs. 14.2%)         ✓
+**Area Chart:**
+- Cumulative defect trends
+- Rolling rejection rate (7-day moving average)
 
-Top Contributors to Rejects:
-1. Heat H-5589 → 87 rejects (porosity)
-2. Mold M-450 → 64 rejects (gate erosion)
-3. Shift 2 (Night) → 38% rejection rate (high)
+### Interactive Features
 
-Recommendations:
-• Schedule mold M-450 for refurbishment
-• Investigate Shift 2 process variations
-• Heat H-5589 root cause: furnace zone 2 low temp
-```
+**Filters:**
+- Date range picker (calendar UI)
+- Dropdown: Decision type, defect class, heat ID, mold ID
+- Multi-select: Filter by multiple heats or molds simultaneously
 
----
+**Drill-Down:**
+- Click bar chart segment → filtered inspection list
+- Click heat in comparison table → heat detail view
+- Click fingerprint cluster → castings in that cluster
 
-## Common User Journeys
-
-### Journey 1: Operator Inspects a Part
-
-1. **Take photo** of casting surface
-2. **Upload to system** via desktop or tablet
-3. **Wait 3-5 seconds** — AI processes image
-4. **See decision banner** — REJECT / ACCEPT / MANUAL_REVIEW
-5. **If REJECT:** Mark part, move to scrap bin, note in shift log
-6. **If MANUAL_REVIEW:** Set part aside, notify supervisor
-7. **If ACCEPT:** Send part to next operation
+**Export:**
+- CSV: Table data (inspection history, heat metrics)
+- JSON: Raw API response data
+- PNG: Chart images (right-click save)
 
 ---
 
-### Journey 2: Supervisor Investigates a Rejection Spike
+## License Tier Comparison
 
-**Problem:** Dashboard shows 18% rejection rate (normal: 8%)
-
-1. **Open Defect View** → see "Porosity" is primary defect
-2. **Filter by heat** → all rejects from Heat H-5601
-3. **Check heat details** → furnace Zone 2 temp was low
-4. **Review part images** → consistent gate region defects
-5. **Take corrective action** → adjust furnace, alert maintenance
-6. **Monitor next batch** → rejection rate returns to 9%
-7. **Log action in system** → document fix for future reference
-
-**Time to resolution:** 30 minutes (vs. hours or days without intelligence)
-
----
-
-### Journey 3: Quality Engineer Prepares Monthly Review
-
-**Goal:** Present quality performance to management
-
-1. **Open Plant Overview** → export last 30 days
-2. **Generate trend charts** → rejection rate, top defects, cost of quality
-3. **Identify improvement areas** → e.g., Mold M-450 degradation
-4. **Pull traceability data** — specific examples for PPAP/audit
-5. **Export to Excel** → create summary report
-6. **Schedule corrective actions** — mold refurbishment, training
+| Feature | TIER_1 | TIER_2 (Process Intelligence) | TIER_3 (Plant Intelligence) |
+|---------|--------|-------------------------------|----------------------------|
+| **Dashboard Access** | ✗ | ✓ (4 tabs) | ✓ (8 tabs) |
+| **Overview Tab** | ✗ | ✓ | ✓ |
+| **Inspection History** | ✗ | ✓ | ✓ |
+| **Heat Analytics** | ✗ | ✓ | ✓ |
+| **Mold Analytics** | ✗ | ✓ | ✓ |
+| **Defect Distribution** | ✗ | ✗ | ✓ |
+| **Calibration Status** | ✗ | ✗ | ✓ |
+| **Fingerprint Analysis** | ✗ | ✗ | ✓ |
+| **Reasoning Trace** | ✗ | ✗ | ✓ |
+| **REST API Endpoints** | ✗ | 10 | 25 |
+| **Real-Time Updates** | ✗ | ✓ | ✓ |
 
 ---
 
-## Reporting & Export
+## Dashboard Performance
 
-### Available Report Types
+### Response Time Targets
 
-#### 1. Inspection Report (PDF)
+**Tab Load Times (TIER_3):**
+- Overview Tab: <500ms (simple aggregation)
+- Inspection History: <1000ms (paginated query)
+- Heat Analytics: <1500ms (complex aggregation)
+- Mold Analytics: <1500ms (degradation curve computation)
+- Defect Distribution: <800ms (group by + count)
+- Calibration Status: <300ms (read config)
+- Fingerprint Analysis: <2000ms (similarity search, computationally intensive)
+- Reasoning Trace: <1000ms (join multiple tables)
 
-**For:** Individual casting documentation, customer audit, PPAP
+**Real-Time Update Latency:**
+- New inspection → dashboard update: <500ms (Supabase realtime)
+- WebSocket connection overhead: ~10-20ms per message
 
-**Contains:**
-- Casting ID, heat ID, mold ID, timestamp
-- Original and annotated images
-- Defect list with locations and severity
-- Decision (ACCEPT/REJECT) with confidence
-- Root cause analysis (if rejected)
-- Corrective action recommendations
-- Inspector name and signature line
-- Model version and traceability data
+### Optimization Strategies
 
-**Export:** One-click PDF generation, email-ready
+**Caching:**
+- KPI statistics cached for 5 minutes (Redis or in-memory)
+- Chart data cached per query signature
+- Invalidate cache on new inspection or validation
 
----
+**Pagination:**
+- Inspection history: 50 records per page (configurable)
+- Lazy loading: Fetch next page on scroll
 
-#### 2. Batch Summary (Excel)
+**Database Indexing:**
+- Index on `timestamp` (for date range queries)
+- Index on `heat_id`, `mold_id` (for analytics queries)
+- Index on `decision` (for filtering)
+- Composite index on `(timestamp, decision)` (for filtered time-series)
 
-**For:** Production tracking, shift handover, weekly reports
-
-**Contains:**
-- Table of all inspections in date range
-- Columns: Casting ID, Heat, Mold, Decision, Primary Defect, Confidence
-- Summary statistics at bottom
-- Filterable and sortable
-
-**Export:** Excel (.xlsx), CSV
-
----
-
-#### 3. Quality Dashboard Report (PDF)
-
-**For:** Management reviews, continuous improvement meetings
-
-**Contains:**
-- KPI summary (rejection rate, FP/FN, cost of quality)
-- Trend charts (line graphs, bar charts)
-- Top contributors (heat, mold, shift, defect type)
-- Recommendations and action items
-- Month-over-month comparison
-
-**Export:** PDF with embedded charts
+**Background Jobs:**
+- Pre-compute heat/mold aggregations nightly
+- Update materialized views for complex analytics
+- Archive old data (>90 days) to separate table
 
 ---
 
-#### 4. Image Bundle (ZIP)
+## Data Export Formats
 
-**For:** Engineering analysis, customer complaints, 8D reports
+### CSV Export
 
-**Contains:**
-- Original images for selected castings
-- Annotated images with defect bounding boxes
-- JSON metadata files with full inspection details
-- Organized by heat or batch
-
-**Export:** ZIP archive
-
----
-
-### Integration with ERP/MES/BI Tools
-
-TvastrRAS can export data to external systems via:
-- **Scheduled exports** — nightly CSV/Excel to shared folder
-- **REST API** — real-time data access for BI dashboards
-- **Database views** — direct SQL access (read-only) for Power BI, Tableau, etc.
-- **Webhook notifications** — trigger external workflows on REJECT decisions
-
-**Common integrations:**
-- Push rejection data to ERP for cost tracking
-- Send inspection results to MES for production scheduling
-- Feed BI tools for executive dashboards
-- Alert CMMS for mold maintenance triggers
-
----
-
-## Explainability & Trust
-
-Every dashboard and report shows **why the AI made its decision**:
-
-### Decision Breakdown
-
-```
-Casting: XYZ-1234
-Decision: REJECT
-Confidence: 89%
-
-Signal Contributions:
-├─ Vision Detection:   0.85  (High porosity detected)
-├─ Anomaly Score:      0.72  (Unusual pattern vs. norm)
-├─ Metadata Check:     0.68  (Heat H-5601 flagged)
-└─ Historical Pattern: 0.81  (Prior rejects from this mold)
-
-Weighted Fusion Score: 0.78 → REJECT
-Threshold for Auto-Reject: 0.70 ✓
+**Inspection History CSV:**
+```csv
+Casting_ID,Heat_ID,Mold_ID,Timestamp,Decision,Confidence,Primary_Defect,Defect_Count
+C-12345,H-9912,M-450,2026-04-21T14:30:00Z,REJECT,0.92,porosity,3
+C-12346,H-9912,M-450,2026-04-21T14:35:00Z,ACCEPT,0.85,none,0
+...
 ```
 
-This transparency:
-- Builds operator trust in AI decisions
-- Helps engineers understand system behavior
-- Supports audit and compliance requirements
-- Enables targeted system tuning
+**Heat Quality CSV:**
+```csv
+Heat_ID,Total_Castings,Accepted,Rejected,Manual_Review,Rejection_Rate,Primary_Defect
+H-9912,47,31,13,3,27.7%,porosity
+H-9913,52,45,5,2,9.6%,surface_roughness
+...
+```
+
+### JSON Export
+
+**Inspection Detail JSON:**
+```json
+{
+  "casting_id": "C-12345",
+  "heat_id": "H-9912",
+  "mold_id": "M-450",
+  "timestamp": "2026-04-21T14:30:00Z",
+  "decision": "REJECT",
+  "confidence": 0.92,
+  "scores": {
+    "signal": 0.88,
+    "yolo": 0.75,
+    "llm": 0.85,
+    "agreement": 0.90
+  },
+  "defects": [
+    {"class": "porosity", "confidence": 0.91, "bbox": [120, 80, 180, 140], "patch": [2, 3]},
+    {"class": "porosity", "confidence": 0.87, "bbox": [200, 100, 250, 150], "patch": [2, 4]}
+  ],
+  "fingerprint": [0.42, 0.65, 0.15, 0.15, 0.05, 0.58, 0.62, 0.22, 3.0, 0.48, 0.71, 0.83],
+  "model_versions": {
+    "yolo": "v8.2",
+    "signal": "v3.1",
+    "llm": "v1.5"
+  }
+}
+```
+
+### Image Export
+
+**Annotated Image:**
+- Format: PNG with transparency
+- Overlays: Bounding boxes, defect labels, confidence scores
+- Color coding: Red (REJECT), Green (ACCEPT), Orange (MANUAL_REVIEW)
+- Resolution: Original image resolution preserved
+
+**Batch ZIP Export:**
+```
+inspection_batch_20260421.zip
+├── images/
+│   ├── C-12345_original.jpg
+│   ├── C-12345_annotated.png
+│   ├── C-12346_original.jpg
+│   ├── C-12346_annotated.png
+│   └── ...
+├── metadata/
+│   ├── C-12345.json
+│   ├── C-12346.json
+│   └── ...
+└── summary.csv
+```
 
 ---
 
-## Mobile & Accessibility
+## Technical Implementation
 
-All dashboards are:
-- **Responsive** — work on desktop, tablet, smartphone
-- **Touch-optimized** — large buttons for shop floor tablets
-- **Offline-capable** — core inspection continues if network drops
-- **Multi-language** — UI available in local languages (configurable)
-- **Role-based** — operators see simple view, engineers see advanced analytics
+### Frontend Stack
+
+- **Framework:** React 18+ with Vite
+- **UI Library:** Tailwind CSS for styling
+- **Charts:** Recharts (React charting library)
+- **State Management:** React Context API + custom hooks
+- **Data Fetching:** TanStack Query (React Query) for caching and synchronization
+- **Real-Time:** Supabase Realtime client
+
+### Backend Stack
+
+- **Database:** PostgreSQL (via Supabase)
+- **API:** REST endpoints (Express.js or FastAPI)
+- **Authentication:** Supabase Auth (JWT-based)
+- **File Storage:** Supabase Storage (images, exports)
+
+### Deployment
+
+- **Frontend:** Static hosting (Vercel, Netlify, or AWS S3 + CloudFront)
+- **Backend:** Containerized (Docker) on AWS ECS, GCP Cloud Run, or Kubernetes
+- **Database:** Supabase cloud (managed PostgreSQL)
 
 ---
 
-**Next:** [Quality & Compliance](quality_compliance.md) — Standards alignment and audit readiness
+## Authentication & Authorization
+
+### Role-Based Access
+
+**Operator Role:**
+- Submit inspections: `POST /api/inspect`
+- View own inspection history
+- Cannot access calibration or admin features
+
+**Supervisor Role:**
+- All operator permissions
+- Access dashboard tabs: Overview, Inspection History, Heat Analytics, Mold Analytics
+- Validate MANUAL_REVIEW cases: `POST /api/validate/{id}`
+
+**Quality Engineer Role:**
+- All supervisor permissions
+- Access all 8 dashboard tabs (TIER_3)
+- Trigger auto-calibration: `POST /api/calibration/run`
+- Export data (CSV, JSON, images)
+
+**Admin Role:**
+- All quality engineer permissions
+- Manage users and roles
+- Configure thresholds and weights manually
+- Access system logs and diagnostics
+
+### Authentication Flow
+
+1. User logs in → Supabase Auth issues JWT
+2. Frontend stores JWT in localStorage
+3. API requests include `Authorization: Bearer <JWT>` header
+4. Backend validates JWT and checks role permissions
+5. Return data or 403 Forbidden based on authorization
+
+---
+
+## Dashboard URL Structure
+
+**Base URL:** `https://app.tvastrras.com/dashboard`
+
+**Route Structure:**
+- `/dashboard/overview` - Overview Tab
+- `/dashboard/history` - Inspection History Tab
+- `/dashboard/heat` - Heat Analytics Tab
+- `/dashboard/mold` - Mold Analytics Tab
+- `/dashboard/defects` - Defect Distribution Tab
+- `/dashboard/calibration` - Calibration Status Tab
+- `/dashboard/fingerprint` - Fingerprint Analysis Tab
+- `/dashboard/reasoning` - Reasoning Trace Tab
+
+**Detail Views:**
+- `/dashboard/inspect/{casting_id}` - Individual inspection detail
+- `/dashboard/heat/{heat_id}` - Heat detail view
+- `/dashboard/mold/{mold_id}` - Mold detail view
+
+---
+
+**Next:** [Quality & Compliance](quality_compliance.md) — ISO alignment and audit readiness
+
