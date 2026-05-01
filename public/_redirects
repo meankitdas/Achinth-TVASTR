@@ -1,1 +1,5 @@
+# Redirect www to non-www
+https://www.tvastr.co/*  https://tvastr.co/:splat  301!
+
+# SPA fallback - serve index.html for all routes (200 rewrite, not redirect)
 /*  /index.html  200

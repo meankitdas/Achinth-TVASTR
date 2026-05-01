@@ -153,7 +153,7 @@ export function AboutSection() {
           <FocusCard
             icon="⬡"
             title="Industrial AI"
-            description="Machine learning systems designed specifically for manufacturing environments — built for noise, variance, and real-world complexity."
+            description="Machine learning systems designed specifically for manufacturing environments - built for noise, variance, and real-world complexity."
             delay={1}
           />
           <FocusCard
@@ -165,7 +165,7 @@ export function AboutSection() {
           <FocusCard
             icon="◎"
             title="Operational Insight"
-            description="Systems that make the invisible visible — surfacing root causes, patterns, and opportunities buried in operational data."
+            description="Systems that make the invisible visible - surfacing root causes, patterns, and opportunities buried in operational data."
             delay={3}
           />
         </div>

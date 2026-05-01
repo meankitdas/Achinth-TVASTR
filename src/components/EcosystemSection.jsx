@@ -721,7 +721,7 @@ export function EcosystemSection() {
             </h2>
           </div>
           <p className="reveal reveal-delay-1 text-base text-metallic-400 max-w-[640px] leading-relaxed">
-            Watch data flow through the complete manufacturing intelligence pipeline — from raw inspection to plant-level insights. Click any tile to learn more.
+            Watch data flow through the complete manufacturing intelligence pipeline - from raw inspection to plant-level insights. Click any tile to learn more.
           </p>
         </div>
 

@@ -12,6 +12,7 @@ import { HeroSection } from './components/HeroSection'
 import { AboutSection } from './components/AboutSection'
 import { EcosystemSection } from './components/EcosystemSection'
 import { ProductSlider } from './components/ProductSlider'
+import { SEOContentSection } from './components/SEOContentSection'
 import { ContactSection } from './components/ContactSection'
 
 // System detail pages — lazy loaded
@@ -42,8 +43,8 @@ const SystemDocs = lazy(() =>
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePage() {
   useDocumentHead(
-    'Tvastr Industrial Intelligence — AI Systems for Heavy Manufacturing',
-    'Tvastr Industrial Intelligence builds AI systems for heavy manufacturing. Vision AI inspection, defect detection, root cause analysis, and process intelligence for industrial environments.',
+    'Tvastr | AI for Foundry Defect Detection and Process Intelligence',
+    'AI-powered defect detection and rejection analysis system for foundries. Identify root causes, reduce scrap, and improve production with PIRAS - Plant Intelligence and Rejection Analysis System.',
     'https://tvastr.co/'
   )
 
@@ -53,6 +54,7 @@ function HomePage() {
       <AboutSection />
       <EcosystemSection />
       <ProductSlider />
+      <SEOContentSection />
       <ContactSection />
     </>
   )
