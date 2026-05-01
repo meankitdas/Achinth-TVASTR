@@ -2,13 +2,10 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import { Link } from 'react-router-dom'
 
 /**
- * SEOContentSection — SEO-optimized content section for foundry keywords.
+ * SEOContentSection - SEO-optimized content section for foundry keywords.
  * 
- * Adds ~500 words of structured, keyword-rich content to improve search visibility
- * for: AI for foundry, casting defect detection, rejection analysis, PIRAS, process intelligence
- * 
- * Styled to match existing design system without disrupting visual flow.
- * Includes internal links with keyword-rich anchor text for Google crawling.
+ * Provides unique educational content not found elsewhere on the site.
+ * Focus: business case, data journey, measurable impact.
  */
 export function SEOContentSection() {
   const ref = useScrollReveal()
@@ -32,38 +29,38 @@ export function SEOContentSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-12 lg:px-16">
         
-        {/* Section 1: AI for Foundry Quality */}
+        {/* Section 1: Why Automated Inspection */}
         <div className="reveal mb-16 md:mb-20">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-px bg-amber-forge opacity-60" />
             <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
-              AI for Foundry
+              The Problem
             </span>
           </div>
           
           <h2 className="text-3xl md:text-4xl font-black text-metallic-100 leading-tight mb-6">
-            AI for Foundry Quality Control
+            Why Automated Inspection?
           </h2>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
               <p className="text-base text-metallic-300 leading-relaxed mb-4">
-                <Link to="/systems/rejection-analysis-system" className="text-amber-forge font-semibold hover:text-amber-glow transition-colors">Casting defect detection</Link> in foundries has traditionally relied on manual inspection—a process that is subjective, time-consuming, and inconsistent across shifts. Tvastr's <Link to="/systems/rejection-analysis-system" className="text-amber-forge hover:text-amber-glow transition-colors">AI for foundry</Link> operations transforms this critical quality gate into an automated, data-driven system that detects surface defects with precision and consistency.
+                Manual inspection creates variability. Different inspectors make different calls on the same casting. Shift changes introduce inconsistency. Fatigue affects judgment. Defects get missed or over-reported depending on who inspects when.
               </p>
               <p className="text-base text-metallic-300 leading-relaxed">
-                Our <Link to="/systems/rejection-analysis-system" className="text-amber-forge font-semibold hover:text-amber-glow transition-colors">rejection analysis system</Link> uses computer vision and machine learning to identify pinholes, blowholes, shrinkage, cracks, and misruns in real-time. Every inspection generates structured data that feeds into <Link to="/systems/plant-intelligence" className="text-amber-forge font-semibold hover:text-amber-glow transition-colors">process intelligence</Link> analytics, enabling foundries to move from reactive quality control to proactive process optimization.
+                Quality data from manual inspection is unstructured. Inspector notes vary. Rejection causes are described differently across shifts. Linking defects to process parameters requires manual correlation. Root cause analysis depends on tribal knowledge.
               </p>
             </div>
             
             <div className="liquid-glass p-6 rounded-lg">
-              <h3 className="text-lg font-bold text-metallic-100 mb-4">Key Capabilities</h3>
+              <h3 className="text-lg font-bold text-metallic-100 mb-4">What Changes</h3>
               <ul className="space-y-3">
                 {[
-                  'Automated casting defect detection with 95%+ accuracy',
-                  'Real-time rejection analysis and root cause identification',
-                  'Integration with ERP and MES systems for full traceability',
-                  'Process intelligence dashboards for quality trend monitoring',
-                  'Continuous learning from production data'
+                  'Consistent defect detection independent of inspector or shift',
+                  'Structured data for every inspection with defect type, location, confidence',
+                  'Automatic linking to heat number, mold ID, shift, and operator',
+                  'Process-level view of rejection trends across production runs',
+                  'Faster identification of recurring defect patterns'
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-metallic-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-forge flex-shrink-0 mt-2" />
@@ -75,85 +72,85 @@ export function SEOContentSection() {
           </div>
         </div>
 
-        {/* Section 2: What is PIRAS */}
+        {/* Section 2: From Inspection to Intelligence */}
         <div className="reveal reveal-delay-1 mb-16 md:mb-20">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-px bg-amber-forge opacity-60" />
             <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
-              Our System
+              The Journey
             </span>
           </div>
           
           <h2 className="text-3xl md:text-4xl font-black text-metallic-100 leading-tight mb-6">
-            What is PIRAS?
+            From Inspection to Intelligence
           </h2>
           
           <div className="max-w-4xl">
             <p className="text-lg text-metallic-200 leading-relaxed mb-6">
-              <strong className="text-amber-forge">PIRAS (<Link to="/systems/plant-intelligence" className="text-amber-forge hover:text-amber-glow transition-colors">Plant Intelligence and Rejection Analysis System</Link>)</strong> is Tvastr's comprehensive <Link to="/systems/rejection-analysis-system" className="text-amber-forge hover:text-amber-glow transition-colors">AI platform for foundry</Link> quality control and manufacturing intelligence. It combines automated inspection, defect analysis, and process-level understanding into a single integrated system.
+              The system transforms unstructured casting images into actionable manufacturing intelligence through three stages.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="space-y-4 mb-6">
               <div className="liquid-glass-amber p-5 rounded-lg">
-                <h4 className="text-base font-bold text-amber-forge mb-2">Inspection Layer</h4>
+                <h4 className="text-base font-bold text-amber-forge mb-2">Stage 1: Detection</h4>
                 <p className="text-sm text-metallic-400 leading-relaxed">
-                  AI-powered vision system detects and classifies casting defects automatically at the inspection station.
+                  Computer vision analyzes casting images and identifies defect locations. Multi-signal fusion combines YOLO object detection, signal-based feature analysis, and LLM reasoning to classify defect types with confidence scores.
                 </p>
               </div>
               
               <div className="liquid-glass-amber p-5 rounded-lg">
-                <h4 className="text-base font-bold text-amber-forge mb-2">Analysis Layer</h4>
+                <h4 className="text-base font-bold text-amber-forge mb-2">Stage 2: Analysis</h4>
                 <p className="text-sm text-metallic-400 leading-relaxed">
-                  <strong className="text-metallic-200">Root cause analysis</strong> links defect patterns to process parameters like heat number, mold condition, and pouring temperature.
+                  The system maps detected defects to probable root causes. Diagnosis identifies whether the issue originates from moulding, pouring, or core processes. Every inspection is linked to production context through heat numbers, mold IDs, and shift data.
                 </p>
               </div>
               
               <div className="liquid-glass-amber p-5 rounded-lg">
-                <h4 className="text-base font-bold text-amber-forge mb-2">Intelligence Layer</h4>
+                <h4 className="text-base font-bold text-amber-forge mb-2">Stage 3: Intelligence</h4>
                 <p className="text-sm text-metallic-400 leading-relaxed">
-                  Plant-level analytics provide <strong className="text-metallic-200">process-level understanding</strong> through trend analysis, drift detection, and predictive insights.
+                  Structured inspection data feeds plant-level analytics. The system identifies rejection trends by heat, mold, shift, and operator. Process drift detection triggers alerts before rejection rates climb. Pattern matching finds recurring defects across production runs.
                 </p>
               </div>
             </div>
             
             <p className="text-base text-metallic-300 leading-relaxed">
-              By connecting casting-level inspection with manufacturing context, PIRAS enables foundries to identify recurring quality issues, understand their root causes, and implement targeted process improvements—all while maintaining complete traceability for compliance and audit requirements.
+              Each inspection adds data to the system. Over time, this builds a complete picture of quality across the plant. Trends become visible. Root causes surface. Process improvements become targeted instead of reactive.
             </p>
           </div>
         </div>
 
-        {/* Section 3: Use Cases */}
+        {/* Section 3: Measurable Impact */}
         <div className="reveal reveal-delay-2">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-px bg-amber-forge opacity-60" />
             <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
-              Applications
+              The Outcome
             </span>
           </div>
           
           <h2 className="text-3xl md:text-4xl font-black text-metallic-100 leading-tight mb-8">
-            Use Cases in Production
+            Measurable Impact
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="liquid-glass p-6 rounded-lg hover:scale-105 transition-transform duration-300">
-              <h3 className="text-lg font-bold text-metallic-100 mb-3">Defect Detection</h3>
+            <div className="liquid-glass p-6 rounded-lg">
+              <h3 className="text-lg font-bold text-metallic-100 mb-3">Reduced Rejection</h3>
               <p className="text-sm text-metallic-400 leading-relaxed">
-                Automated surface inspection for all casting types. Detects pinholes, porosity, cracks, sand inclusions, and misruns with consistent accuracy across shifts and operators.
+                Consistent detection catches defects that manual inspection misses. Process-level understanding enables targeted improvements. Rejection rates decline as root causes are identified and addressed systematically.
               </p>
             </div>
             
-            <div className="liquid-glass p-6 rounded-lg hover:scale-105 transition-transform duration-300">
-              <h3 className="text-lg font-bold text-metallic-100 mb-3">Rejection Reduction</h3>
+            <div className="liquid-glass p-6 rounded-lg">
+              <h3 className="text-lg font-bold text-metallic-100 mb-3">Faster Root Cause ID</h3>
               <p className="text-sm text-metallic-400 leading-relaxed">
-                Identify high-risk process conditions before they cause batch rejections. Track rejection trends by heat, mold, shift, and operator to target improvement efforts effectively.
+                Structured data links defects to process parameters automatically. Heat-level analysis identifies problematic batches immediately. Pattern recognition spots recurring issues without manual investigation.
               </p>
             </div>
             
-            <div className="liquid-glass p-6 rounded-lg hover:scale-105 transition-transform duration-300">
-              <h3 className="text-lg font-bold text-metallic-100 mb-3">Process Optimization</h3>
+            <div className="liquid-glass p-6 rounded-lg">
+              <h3 className="text-lg font-bold text-metallic-100 mb-3">Process Visibility</h3>
               <p className="text-sm text-metallic-400 leading-relaxed">
-                Use structured quality data to drive continuous improvement. Detect process drift, analyze defect patterns, and validate the impact of process changes with measurable quality metrics.
+                Quality trends by shift, heat, mold, and operator become visible. Process drift gets detected before major issues occur. Improvement efforts target actual problem areas instead of assumptions.
               </p>
             </div>
           </div>
@@ -163,10 +160,10 @@ export function SEOContentSection() {
         <div className="reveal reveal-delay-3 mt-20">
           <div className="liquid-glass p-8 rounded-lg text-center">
             <h3 className="text-2xl md:text-3xl font-bold text-metallic-100 mb-4">
-              Explore Our Systems
+              Learn More
             </h3>
             <p className="text-base text-metallic-300 mb-8 max-w-2xl mx-auto">
-              Learn more about our AI-powered solutions for foundry quality control and manufacturing intelligence
+              Explore detailed technical information about our <Link to="/systems/rejection-analysis-system" className="text-amber-forge hover:text-amber-glow transition-colors">defect detection system</Link> and <Link to="/systems/plant-intelligence" className="text-amber-forge hover:text-amber-glow transition-colors">plant intelligence platform</Link>.
             </p>
             
             <div className="flex flex-wrap items-center justify-center gap-4">

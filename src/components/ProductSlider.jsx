@@ -13,12 +13,12 @@ const PRODUCTS = [
     badge: 'Core / Enterprise',
     title: 'Rejection Analysis System',
     description:
-      'Automated visual inspection platform that transforms casting images into structured, traceable quality records.',
+      'Detects casting defects from inspection images. Classifies defect types, maps root causes to manufacturing sections, and generates structured inspection records.',
     capabilities: [
-      'Defect detection and classification',
-      'Root cause mapping with manufacturing context',
-      'Multi-stage inspection pipeline (image → structured decision)',
-      'Recurring pattern recognition across production runs',
+      'Detects 6 defect classes: porosity, shrinkage, crack, sand inclusion, surface roughness, blow hole',
+      'Root cause diagnosis with responsible section (moulding, pouring, core)',
+      'Decision output: accept, reject, or manual review',
+      'Full traceability: heat number, mold ID, shift, operator',
     ],
   },
   {
@@ -28,12 +28,12 @@ const PRODUCTS = [
     badge: 'Full Stack Only',
     title: 'Plant Intelligence',
     description:
-      'Plant-level analytics that transforms inspection and production data into actionable quality insights.',
+      'Analyzes inspection and production data to identify rejection trends, process risk, and improvement opportunities across the plant.',
     capabilities: [
-      'Rejection trend analysis and defect pattern detection',
-      'Quality engineering frameworks (FMEA, Fishbone, SPC)',
-      'Natural language queries against plant data',
-      'Decision intelligence and action tracking',
+      'Rejection rate analysis by shift, heat, mold, and operator',
+      'Quality engineering frameworks: FMEA, Fishbone, SPC, Pareto',
+      'Process risk scoring and drift detection',
+      'Recommended corrective actions with impact tracking',
     ],
   },
 ]
@@ -177,7 +177,7 @@ export function ProductSlider() {
                 backgroundClip: 'text',
               }}
             >
-              Forged Systems
+              Products
             </h2>
 
             {/* Desktop arrow navigation */}

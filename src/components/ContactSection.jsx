@@ -135,7 +135,7 @@ export function ContactSection() {
           <Logo size="sm" />
 
           <p className="text-xs text-metallic-600 tracking-wide text-center">
-            Industrial Intelligence, Forged. © {new Date().getFullYear()} Tvastr. All rights reserved.
+            © {new Date().getFullYear()} Tvastr. All rights reserved.
           </p>
 
           {/* Nav links */}

@@ -106,41 +106,24 @@ export function AboutSection() {
           {/* Left: main title */}
           <div>
             <h2 className="reveal text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight mb-6">
-              <span className="text-metallic-100">Ancient</span>
+              <span className="text-metallic-100">Industrial AI</span>
               <br />
-              <span className="text-amber-gradient">Craftsmanship.</span>
+              <span className="text-metallic-100">for</span>
               <br />
-              <span className="text-metallic-100">Modern</span>
-              <br />
-              <span
-                style={{
-                  background: 'linear-gradient(135deg, #e8e8ec 0%, #a8a8b4 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                Intelligence.
-              </span>
+              <span className="text-amber-gradient">Foundry Operations</span>
             </h2>
           </div>
 
           {/* Right: philosophy text */}
           <div className="flex flex-col justify-center">
             <p className="reveal reveal-delay-1 text-lg text-metallic-300 leading-relaxed mb-6">
-            Tvastr is named after{' '}
-              <span className="text-amber-glow font-medium">Tvaṣṭṛ</span>, the
-              Vedic divine architect who forged celestial
-              tools and shaped the instruments of the gods.
+              Foundries lose production to defects that manual inspection catches inconsistently. Quality data remains disconnected from process decisions. Root causes stay buried in production records.
             </p>
             <p className="reveal reveal-delay-2 text-base text-metallic-400 leading-relaxed mb-6">
-              In the same spirit, Tvastr builds intelligent systems that shape
-              the future of industrial production, combining the precision of
-              ancient master craftsmanship with the power of modern AI.
+              Tvastr builds AI systems that detect casting defects automatically, structure inspection data for traceability, and connect quality records to manufacturing parameters.
             </p>
             <p className="reveal reveal-delay-3 text-base text-metallic-400 leading-relaxed">
-              Every system we forge is built for the factory floor: reliable,
-              explainable, and operationally grounded.
+              The result: consistent defect detection, faster root cause identification, and process-level understanding of rejection trends.
             </p>
           </div>
         </div>
@@ -153,19 +136,19 @@ export function AboutSection() {
           <FocusCard
             icon="⬡"
             title="Industrial AI"
-            description="Machine learning systems designed specifically for manufacturing environments - built for noise, variance, and real-world complexity."
+            description="Computer vision and machine learning designed for manufacturing environments. Built to handle process variance, environmental noise, and real-world production conditions."
             delay={1}
           />
           <FocusCard
             icon="◈"
             title="Manufacturing Intelligence"
-            description="End-to-end insight layers that connect raw production data to actionable decisions, from casting floor to executive dashboard."
+            description="Connects inspection data to production context. Links defects to heat numbers, mold conditions, shifts, and operators for full traceability."
             delay={2}
           />
           <FocusCard
             icon="◎"
             title="Operational Insight"
-            description="Systems that make the invisible visible - surfacing root causes, patterns, and opportunities buried in operational data."
+            description="Identifies rejection trends, process drift, and recurring defect patterns. Enables targeted process improvements based on structured quality data."
             delay={3}
           />
         </div>

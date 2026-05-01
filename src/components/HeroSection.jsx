@@ -117,15 +117,13 @@ export function HeroSection() {
               TVASTR
             </span>
             <span className="block text-xl md:text-2xl lg:text-3xl font-light text-amber-glow mt-2 md:mt-4 tracking-wide">
-              Industrial Intelligence,{' '}
-              <span className="font-semibold text-amber-forge">Forged.</span>
+              Casting Defect Detection and Process Intelligence
             </span>
           </h1>
 
           {/* Description */}
           <p className="text-base md:text-lg text-metallic-300 leading-relaxed mb-10 md:mb-12 max-w-lg">
-            Tvastr builds intelligent systems that bring perception, reasoning,
-            and operational insight to heavy manufacturing environments.
+            Automated inspection. Structured data. Root cause identification.
           </p>
 
           {/* CTA */}

@@ -23,7 +23,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Logo size="md" />
             <p className="mt-4 text-sm text-metallic-400 leading-relaxed max-w-md">
-              Industrial Intelligence, Forged. AI systems for heavy manufacturing environments.
+              AI systems for foundry quality control and manufacturing intelligence.
             </p>
           </div>
 
@@ -97,10 +97,10 @@ export function Footer() {
             © {currentYear} Tvastr. All rights reserved.
           </p>
 
-          {/* Social links - update with actual URLs */}
+          {/* Social links */}
           <div className="flex items-center gap-4">
             <a
-              href="https://www.linkedin.com/company/tvastr"
+              href="https://www.linkedin.com/company/tvastrindustrialai"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-metallic-500 hover:text-metallic-200 transition-colors duration-200"

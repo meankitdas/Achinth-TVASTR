@@ -717,11 +717,11 @@ export function EcosystemSection() {
         <div className="max-w-7xl mx-auto mb-16">
           <div className="reveal mb-4">
             <h2 className="text-4xl md:text-5xl font-black text-metallic-100 leading-tight tracking-tight">
-              Manufacturing Intelligence Ecosystem
+              System Architecture
             </h2>
           </div>
           <p className="reveal reveal-delay-1 text-base text-metallic-400 max-w-[640px] leading-relaxed">
-            Watch data flow through the complete manufacturing intelligence pipeline - from raw inspection to plant-level insights. Click any tile to learn more.
+            Data flows through inspection, analysis, and intelligence layers. Each stage adds structure, context, and actionable insight. Click any tile to learn more.
           </p>
         </div>
 
