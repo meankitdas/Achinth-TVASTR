@@ -53,7 +53,7 @@ export function Navbar() {
     { label: 'Home', action: () => scrollTo('hero') },
     { label: 'About', action: () => scrollTo('about') },
     { label: 'Technology', action: () => scrollTo('technology') },
-    { label: 'Systems', action: () => scrollTo('products') },
+    { label: 'Products', action: () => scrollTo('products') },
     { label: 'System Docs', href: '/system' },
   ]
 

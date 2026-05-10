@@ -1057,6 +1057,165 @@ export function TechnologySection() {
         </div>
         {/* End container */}
 
+        {/* Technology Content Sections */}
+        <div className="reveal reveal-delay-3 mt-20 mx-auto max-w-[800px] space-y-12">
+          {/* The Problem */}
+          <div>
+            <h3 className="text-2xl font-bold text-metallic-100 mb-4">The Problem</h3>
+            <h4 className="text-lg font-semibold text-amber-forge mb-4">Why Automated Inspection?</h4>
+            <p className="text-metallic-400 leading-relaxed mb-4">
+              Manual inspection creates variability. Different inspectors make different calls on the same casting. Shift changes introduce inconsistency. Fatigue affects judgment. Defects get missed or over-reported depending on who inspects when.
+            </p>
+            <p className="text-metallic-400 leading-relaxed">
+              Quality data from manual inspection is unstructured. Inspector notes vary. Rejection causes are described differently across shifts. Linking defects to process parameters requires manual correlation. Root cause analysis depends on tribal knowledge.
+            </p>
+          </div>
+
+          {/* What Changes */}
+          <div>
+            <h3 className="text-2xl font-bold text-metallic-100 mb-4">What Changes</h3>
+            <ul className="space-y-2 text-metallic-400 leading-relaxed list-disc list-inside">
+              <li>Consistent defect detection independent of inspector or shift</li>
+              <li>Structured data for every inspection with defect type, location, confidence</li>
+              <li>Automatic linking to heat number, mold ID, shift, and operator</li>
+              <li>Process-level view of rejection trends across production runs</li>
+              <li>Faster identification of recurring defect patterns</li>
+            </ul>
+          </div>
+
+          {/* The Journey */}
+          <div>
+            <h3 className="text-2xl font-bold text-metallic-100 mb-4">The Journey</h3>
+            <h4 className="text-lg font-semibold text-amber-forge mb-4">From Inspection to Intelligence</h4>
+            <p className="text-metallic-400 leading-relaxed mb-6">
+              The system transforms unstructured casting images into actionable manufacturing intelligence through three stages.
+            </p>
+
+            <div className="space-y-6">
+              <div>
+                <h5 className="text-base font-bold text-amber-forge mb-2">Stage 1: Detection</h5>
+                <p className="text-metallic-400 leading-relaxed">
+                  Computer vision analyzes casting images and identifies defect locations. Multi-signal fusion combines YOLO object detection, signal-based feature analysis, and LLM reasoning to classify defect types with confidence scores.
+                </p>
+              </div>
+
+              <div>
+                <h5 className="text-base font-bold text-amber-forge mb-2">Stage 2: Analysis</h5>
+                <p className="text-metallic-400 leading-relaxed">
+                  The system maps detected defects to probable root causes. Diagnosis identifies whether the issue originates from moulding, pouring, or core processes. Every inspection is linked to production context through heat numbers, mold IDs, and shift data.
+                </p>
+              </div>
+
+              <div>
+                <h5 className="text-base font-bold text-amber-forge mb-2">Stage 3: Intelligence</h5>
+                <p className="text-metallic-400 leading-relaxed">
+                  Structured inspection data feeds plant-level analytics. The system identifies rejection trends by heat, mold, shift, and operator. Process drift detection triggers alerts before rejection rates climb. Pattern matching finds recurring defects across production runs.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-metallic-400 leading-relaxed mt-6">
+              Each inspection adds data to the system. Over time, this builds a complete picture of quality across the plant. Trends become visible. Root causes surface. Process improvements become targeted instead of reactive.
+            </p>
+          </div>
+
+          {/* The Outcome */}
+          <div>
+            <h3 className="text-2xl font-bold text-metallic-100 mb-4">The Outcome</h3>
+            <h4 className="text-lg font-semibold text-amber-forge mb-4">Measurable Impact</h4>
+
+            <div className="space-y-4">
+              <div>
+                <h5 className="text-base font-bold text-amber-forge mb-1">Reduced Rejection</h5>
+                <p className="text-metallic-400 leading-relaxed">
+                  Consistent detection catches defects that manual inspection misses. Process-level understanding enables targeted improvements. Rejection rates decline as root causes are identified and addressed systematically.
+                </p>
+              </div>
+
+              <div>
+                <h5 className="text-base font-bold text-amber-forge mb-1">Faster Root Cause ID</h5>
+                <p className="text-metallic-400 leading-relaxed">
+                  Structured data links defects to process parameters automatically. Heat-level analysis identifies problematic batches immediately. Pattern recognition spots recurring issues without manual investigation.
+                </p>
+              </div>
+
+              <div>
+                <h5 className="text-base font-bold text-amber-forge mb-1">Process Visibility</h5>
+                <p className="text-metallic-400 leading-relaxed">
+                  Quality trends by shift, heat, mold, and operator become visible. Process drift gets detected before major issues occur. Improvement efforts target actual problem areas instead of assumptions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Learn More */}
+          <div>
+            <h3 className="text-2xl font-bold text-metallic-100 mb-4">Learn More</h3>
+            <p className="text-metallic-400 leading-relaxed mb-4">
+              Explore detailed technical information about our defect detection system and plant intelligence platform.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="/systems/rejection-analysis-system"
+                className="px-6 py-3 text-sm font-semibold tracking-widest uppercase transition-all duration-200"
+                style={{
+                  background: 'rgba(245,158,11,0.1)',
+                  border: '1px solid rgba(245,158,11,0.3)',
+                  color: '#f59e0b',
+                  borderRadius: '6px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(245,158,11,0.15)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(245,158,11,0.1)'
+                }}
+              >
+                Rejection Analysis System
+              </a>
+
+              <a
+                href="/systems/plant-intelligence"
+                className="px-6 py-3 text-sm font-semibold tracking-widest uppercase transition-all duration-200"
+                style={{
+                  background: 'rgba(245,158,11,0.1)',
+                  border: '1px solid rgba(245,158,11,0.3)',
+                  color: '#f59e0b',
+                  borderRadius: '6px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(245,158,11,0.15)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(245,158,11,0.1)'
+                }}
+              >
+                Plant Intelligence
+              </a>
+
+              <a
+                href="/system"
+                className="px-6 py-3 text-sm font-semibold tracking-widest uppercase transition-all duration-200"
+                style={{
+                  background: 'rgba(245,158,11,0.1)',
+                  border: '1px solid rgba(245,158,11,0.3)',
+                  color: '#f59e0b',
+                  borderRadius: '6px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(245,158,11,0.15)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(245,158,11,0.1)'
+                }}
+              >
+                System Documentation
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Deployment note */}
         <div className="reveal reveal-delay-4 mt-20 mx-auto max-w-[800px]">
           <div className="flex items-center gap-3 mb-6">

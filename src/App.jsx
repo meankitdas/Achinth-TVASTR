@@ -53,8 +53,8 @@ const SystemDocs = lazy(() =>
       <HeroSection />
       <AboutSection />
       <TechnologySection />
-      <ProductSlider />
       <SEOContentSection />
+      <ProductSlider />
       <ContactSection />
     </>
   )
