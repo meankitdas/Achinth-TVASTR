@@ -103,19 +103,19 @@ export function HeroSection() {
 
           {/* Main title */}
           <h1 className="mb-6">
-            <span
-              className="block text-[clamp(4rem,12vw,9rem)] font-black leading-none tracking-tight"
-              style={{
-                background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 40%, #888896 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                textShadow: 'none',
-                filter: 'drop-shadow(0 0 40px rgba(245,158,11,0.2))',
-              }}
-            >
-              TVASTR
-            </span>
+              <span
+                className="block text-[clamp(4rem,3.5vw,9rem)] font-black leading-none tracking-tight"
+                style={{
+                  background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 40%, #888896 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  textShadow: 'none',
+                  filter: 'drop-shadow(0 0 40px rgba(245,158,11,0.2))',
+                }}
+              >
+                TVASTR INDUSTRIAL INTELLIGENCE
+              </span>
             <span className="block text-xl md:text-2xl lg:text-3xl font-light text-amber-glow mt-2 md:mt-4 tracking-wide">
               Casting Defect Detection and Process Intelligence
             </span>

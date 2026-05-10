@@ -10,7 +10,7 @@ import { useDocumentHead } from './hooks/useDocumentHead'
 // Landing page sections — loaded eagerly (above the fold)
 import { HeroSection } from './components/HeroSection'
 import { AboutSection } from './components/AboutSection'
-import { EcosystemSection } from './components/EcosystemSection'
+import { TechnologySection } from './components/TechnologySection'
 import { ProductSlider } from './components/ProductSlider'
 import { SEOContentSection } from './components/SEOContentSection'
 import { ContactSection } from './components/ContactSection'
@@ -40,19 +40,19 @@ const SystemDocs = lazy(() =>
   import('./pages/SystemDocs').then((m) => ({ default: m.SystemDocs }))
 )
 
-/** Main landing page — all sections stacked for infinite scroll */
-function HomePage() {
-  useDocumentHead(
-    'Tvastr | AI for Foundry Defect Detection and Process Intelligence',
-    'AI-powered defect detection and rejection analysis system for foundries. Identify root causes, reduce scrap, and improve production with PIRAS - Plant Intelligence and Rejection Analysis System.',
-    'https://tvastr.co/'
-  )
+  /** Main landing page — all sections stacked for infinite scroll */
+  function HomePage() {
+    useDocumentHead(
+      'Tvastr Industrial Intelligence | AI for Foundry Defect Detection and Process Intelligence',
+      'AI-powered defect detection and rejection analysis system for foundries. Identify root causes, reduce scrap, and improve production with PIRAS - Plant Intelligence and Rejection Analysis System.',
+      'https://tvastr.co/'
+    )
 
   return (
     <>
       <HeroSection />
       <AboutSection />
-      <EcosystemSection />
+      <TechnologySection />
       <ProductSlider />
       <SEOContentSection />
       <ContactSection />

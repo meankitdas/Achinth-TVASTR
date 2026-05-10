@@ -344,7 +344,7 @@ function ReverseBeltConnector() {
 function RowTurn({ turnRef, isRightSide = true, xPercent = 50 }) {
   // Convert percentage to SVG viewBox coordinate (0-1000 scale)
   const svgX = (xPercent / 100) * 1000
-  
+
   return (
     <div ref={turnRef} className="hidden md:block relative w-full" style={{ height: '50px' }}>
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 50" preserveAspectRatio="none">
@@ -354,11 +354,11 @@ function RowTurn({ turnRef, isRightSide = true, xPercent = 50 }) {
           stroke="rgba(245,158,11,0.3)"
           strokeWidth="1"
         />
-        <path 
-          d={`M ${svgX - 2} 42 L ${svgX} 46 L ${svgX + 2} 42`} 
-          fill="none" 
-          stroke="rgba(245,158,11,0.4)" 
-          strokeWidth="1" 
+        <path
+          d={`M ${svgX - 2} 42 L ${svgX} 46 L ${svgX + 2} 42`}
+          fill="none"
+          stroke="rgba(245,158,11,0.4)"
+          strokeWidth="1"
         />
       </svg>
     </div>
@@ -429,17 +429,17 @@ function TileModal({ tile, onClose }) {
 }
 
 /**
- * EcosystemSection — Manufacturing Intelligence Ecosystem with serpentine conveyor belt.
+ * TechnologySection — Manufacturing Intelligence Ecosystem with serpentine conveyor belt.
  */
-export function EcosystemSection() {
+export function TechnologySection() {
   const ref = useScrollReveal()
   const containerRef = useRef(null)
-  
+
   // Refs for all 15 tiles and 2 U-turn connectors
   const tileRefs = useRef([])
   const turn1Ref = useRef(null) // U-turn between row 1 and 2
   const turn2Ref = useRef(null) // U-turn between row 2 and 3
-  
+
   // State for orb position and active tile
   const [orbPosition, setOrbPosition] = useState({ x: 0, y: 0 })
   const [activeTileIndex, setActiveTileIndex] = useState(-1)
@@ -548,7 +548,7 @@ export function EcosystemSection() {
         if (!isMobile && (index === 4 || index === 9)) {
           const nextTile = tileRefs.current[index + 1]
           const turnRef = index === 4 ? turn1Ref.current : turn2Ref.current
-          
+
           if (nextTile && turnRef) {
             const nextRect = nextTile.getBoundingClientRect()
             const nextCenterX = nextRect.left + nextRect.width / 2 - containerRect.left
@@ -627,8 +627,8 @@ export function EcosystemSection() {
 
       const segmentStartDist = cumulativeDistances[currentSegment]
       const segmentLength = segmentDistances[currentSegment]
-      const segmentProgress = segmentLength > 0 
-        ? (targetDistance - segmentStartDist) / segmentLength 
+      const segmentProgress = segmentLength > 0
+        ? (targetDistance - segmentStartDist) / segmentLength
         : 0
 
       const x = start.x + (end.x - start.x) * segmentProgress
@@ -727,7 +727,7 @@ export function EcosystemSection() {
 
         {/* Serpentine Conveyor Belt Diagram */}
         <div ref={containerRef} className="reveal reveal-delay-2 space-y-6 max-w-[1400px] mx-auto relative">
-          
+
           {/* Forward orb - fades in at tile 0, fades out at tile 14 */}
           <div
             className="absolute w-3 h-3 rounded-full bg-amber-forge pointer-events-none z-10 transition-opacity duration-500"
@@ -736,7 +736,7 @@ export function EcosystemSection() {
               top: `${orbPosition.y}px`,
               transform: 'translate(-50%, -50%)',
               boxShadow: '0 0 20px rgba(245,158,11,0.9), 0 0 40px rgba(245,158,11,0.6)',
-              opacity: isVisible && activeTileIndex !== -1 
+              opacity: isVisible && activeTileIndex !== -1
                 ? (
                   activeTileIndex === 0 ? 0.2 :
                   activeTileIndex === 1 ? 0.6 :
@@ -760,7 +760,7 @@ export function EcosystemSection() {
                 marginTop: 0, // Override space-y-6 margin
                 background: 'rgba(147,197,253,0.9)', // Light blue tint for feedback
                 boxShadow: '0 0 20px rgba(147,197,253,0.9), 0 0 40px rgba(147,197,253,0.6), 0 0 60px rgba(147,197,253,0.3)',
-                opacity: isVisible && pos.tileIndex !== -1 
+                opacity: isVisible && pos.tileIndex !== -1
                   ? (
                     pos.tileIndex === 14 ? 0.2 :
                     pos.tileIndex === 13 ? 0.5 :
@@ -780,18 +780,18 @@ export function EcosystemSection() {
               {capabilityTiles.slice(0, -1).map((tile, index) => {
                 const currentTile = tileRefs.current[index]
                 const nextTile = tileRefs.current[index + 1]
-                
+
                 if (!currentTile || !nextTile || !containerRef.current) return null
-                
+
                 const containerRect = containerRef.current.getBoundingClientRect()
                 const currentRect = currentTile.getBoundingClientRect()
                 const nextRect = nextTile.getBoundingClientRect()
-                
+
                 const x1 = currentRect.left + currentRect.width / 2 - containerRect.left
                 const y1 = currentRect.top + currentRect.height / 2 - containerRect.top
                 const x2 = nextRect.left + nextRect.width / 2 - containerRect.left
                 const y2 = nextRect.top + nextRect.height / 2 - containerRect.top
-                
+
                 return (
                   <g key={index}>
                     <line
@@ -818,7 +818,7 @@ export function EcosystemSection() {
             <div className="relative space-y-2" style={{ zIndex: 1 }}>
               {capabilityTiles.map((tile, index) => {
                 const isLeft = index % 2 === 0
-                
+
                 // Section headers before tiles 0, 5, 10
                 const sectionHeader = index === 0 ? (
                   <div className="flex items-center gap-3 mb-3">
@@ -852,7 +852,7 @@ export function EcosystemSection() {
                 return (
                   <div key={index}>
                     {sectionHeader}
-                    
+
                     {/* Tile */}
                     <div
                       className={`relative ${isLeft ? 'mr-auto' : 'ml-auto'}`}
@@ -885,7 +885,7 @@ export function EcosystemSection() {
                 Inspection Pipeline
               </h3>
             </div>
-            
+
             {/* Tiles */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
               <CapabilityTile
@@ -939,7 +939,7 @@ export function EcosystemSection() {
                 Process Intelligence
               </h3>
             </div>
-            
+
             {/* Tiles - rendered right to left: 9 ← 8 ← 7 ← 6 ← 5 */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
               <CapabilityTile
@@ -993,7 +993,7 @@ export function EcosystemSection() {
                 Plant-Level Intelligence
               </h3>
             </div>
-            
+
             {/* Tiles */}
             <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0">
               <CapabilityTile
@@ -1077,7 +1077,7 @@ export function EcosystemSection() {
               }}
             >
               <p className="text-sm text-metallic-300 leading-relaxed mb-3">
-                Tvastr is built in tiers.
+                Tvastr Industrial Intelligence is built in tiers.
               </p>
               <p className="text-sm text-metallic-400 leading-relaxed">
                 Start with the Rejection Analysis System for AI-powered inspection, then upgrade to Plant Intelligence for plant-wide analytics. Individual features and technologies within each tier are modular and upgradable.
