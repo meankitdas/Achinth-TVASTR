@@ -12,7 +12,7 @@ TvastrRAS is an AI-powered casting defect detection and root cause analysis syst
 **Core Capabilities:**
 
 - Multi-modal defect detection (YOLO + signal-based + LLM reasoning)
-- 6 defect classes: porosity, shrinkage, crack, sand inclusion, surface roughness, blow hole
+- 6 defect classes: porosity, shrinkage, slag_inclusion, sand inclusion, moulding_error, pouring_temperature_delay
 - Root cause diagnosis with responsible manufacturing section
 - ERP integration for heat traceability and context
 - PDF/JSON reports with annotated images
