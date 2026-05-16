@@ -427,6 +427,13 @@ Checksum verification failed
 | **Bug Fix Deployment** | Rebuild + redeploy (hours) | Patch `.py` file (minutes) |
 | **Update Size** | Full package required | Single file updates possible |
 | **Testing** | Requires full rebuild | Edit + test directly |
+| **Versioning** | Versioned executable | Versioned source files + manifest |
+| **Integration with Phase-K** | Not applicable | Core to Phase-K energy-based reasoning system |
+| **Legacy Support** | Supports v1.0-only features | Replaces all v1.0 logic, including Nuitka build and 4-gate reasoning |
+| **Compliance** | Obsolete | Compliant with current product architecture and documentation |
+| **Deployment Model** | Monolithic executable | Modular, patchable, continuous update enabled |
+| **Reasoning System** | Uses 4-gate logic | Uses Phase-K energy-based reasoning |
+| **Support Status** | Deprecated | Active (v2.0+ only) |
 
 ---
 

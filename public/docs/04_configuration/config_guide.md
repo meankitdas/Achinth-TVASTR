@@ -1,356 +1,219 @@
-# System Configuration
+# Configuration Guide
 
-## Purpose
-
-Core system configuration for database connections, file paths, logging, and runtime behavior.
-
-## Where Configured
-
-- **System Config:** `configs/system.yaml`
-- **Customer Config:** `customers/castco/configs/parameters.yaml`
-- **License:** `license/license.key`
+> **Purpose:** Guide for understanding system configuration files  
+> **Where Used:** All teams  
+> **Related:** [System Structure](../01_overview/architecture.md), [Parameters](parameters.md)  
+> **Version:** 2.0  
+> **Last Updated:** 2026-05-16
 
 ---
 
-## Database Configuration
+## Configuration Architecture
 
-**File:** `configs/system.yaml`
+TvastrRAS uses a **hierarchical configuration system** with two layers:
 
-### SQL Server (Production)
+| Layer | Type | Location | Purpose |
+|-------|------|----------|---------|
+| **System Defaults** | `system.yaml` | `configs/` | Factory settings, hardware-specific, read only |
+| **Customer Overrides** | `parameters.yaml` | `customers/castco/configs/` | Site-specific tuning, user-modifiable |
 
-```yaml
-database:
-  type: "mssql"
-  server: "192.168.1.100"
-  port: 1433
-  database: "CastCo_Production"
-  username: "ras_user"
-  password: "secure_password"
-  driver: "ODBC Driver 17 for SQL Server"
-  
-  # Connection pool settings
-  pool_size: 5
-  max_overflow: 10
-  pool_timeout: 30
-  pool_recycle: 3600
-```
+> **Core Rule**: `parameters.yaml` **always overrides** `system.yaml` for tunable parameters.
 
-### SQLite (Development/Fallback)
+### Load Order
+1. Load `configs/system.yaml`
+2. Load `customers/castco/configs/parameters.yaml`
+3. Merge → Override matching keys
+4. Final config passed to pipeline
 
-```yaml
-database:
-  type: "sqlite"
-  path: "runtime/inspection_history.db"
-```
-
-**Connection String:**
-- MSSQL: `mssql+pyodbc://user:pass@server:port/database?driver=ODBC+Driver+17+for+SQL+Server`
-- SQLite: `sqlite:///runtime/inspection_history.db`
+### Hot Reload
+- **`parameters.yaml`**: Auto-reload on modification — no restart needed
+- **`system.yaml`**: Changes require full system restart
 
 ---
 
-## File Paths
+## Parameters File Structure
 
-**File:** `configs/system.yaml`
+**`customers/castco/configs/parameters.yaml`** — Customer tuning only
 
 ```yaml
+# Global
+system:
+  enabled: true
+  mode: production
+
+# Quality gate
+quality_gate:
+  blur_threshold: 100
+  brightness_min: 30
+  brightness_max: 225
+  contrast_min: 20
+
+# Patch analysis
+patch_analysis:
+  resize_target: 960
+  patch_size: 256
+  stride: 128
+  min_confidence: 0.40
+
+# Signal features
+signal_features:
+  feature_gate_threshold: 0.20  # Extract features if YOLO prob ≥ this
+
+# Multi-signal fusion
+multi_signal_fusion:
+  signal_weight: 0.45
+  llm_weight: 0.35
+  agreement_weight: 0.20
+
+# Reasoning
+reasoning:
+  energy_optimization:
+    w_topology: 0.30
+    w_scrata: 0.25
+    w_anomaly: 0.20
+    w_llm: 0.25
+    lyapunov_epsilon: 0.01
+    min_baseline_samples: 10
+    z_score_threshold: 3.0
+    manual_review_min_confidence: 0.30
+    uncertainty_threshold: 0.6
+
+# Decision
+decision:
+  t_low: 0.30
+  t_high: 0.70
+
+# File paths
 paths:
-  # Input directories
-  batch_input: "runtime/batch_input"
-  batch_output: "runtime/outputs"
-  
-  # Model directories
-  models: "customers/castco/models"
-  reference_parts: "customers/castco/reference_parts"
-  reference_visuals: "customers/castco/reference_visuals"
-  
-  # Runtime directories
-  runtime: "runtime"
-  logs: "runtime/logs"
-  process_logs: "runtime/process_logs"
-  signal_traces: "runtime/logs/signal_traces"
-  fingerprint_index: "runtime/fingerprint_index"
-  calibration: "runtime/calibration"
-  
-  # Report output
-  reports: "runtime/outputs/reports"
-  exports: "runtime/outputs/exports"
+  output_dir: "runtime/outputs/"
+  telemetry_dir: "runtime/logs/"
 ```
 
-**Auto-Creation:** All directories created on startup if missing.
+> **Caution**: Do not modify keys under `system` or `paths`. These are system-wide and require restart or are fixed.
 
 ---
 
-## Logging Configuration
+## System File Structure
 
-**File:** `configs/system.yaml`
+**`configs/system.yaml`** — Factory defaults, protected
 
 ```yaml
-logging:
-  level: "INFO"              # DEBUG | INFO | WARNING | ERROR | CRITICAL
-  format: "detailed"         # simple | detailed | json
-  
-  # File logging
-  file_enabled: true
-  file_path: "runtime/logs/ras.log"
-  file_max_bytes: 10485760   # 10 MB
-  file_backup_count: 5       # Keep 5 rotated logs
-  
-  # Console logging
-  console_enabled: true
-  console_level: "INFO"
-  
-  # Module-specific levels
-  modules:
-    core.vision: "DEBUG"
-    core.reasoning: "INFO"
-    core.persistence: "WARNING"
+# Global
+system:
+  enabled: true
+  mode: production
+  license_id: "default"
+
+# LLM
+llm:
+  provider: "mistral"
+  mistral:
+    api_key_env: "MISTRAL_API_KEY"
+    vlm_model: "mistral-small-2603"
+    temperature: 0.22
+    max_tokens: 800
+    top_p: 0.95
+
+# File paths
+paths:
+  output_dir: "runtime/outputs/"
+  telemetry_dir: "runtime/logs/"
+  baseline_dir: "runtime/telemetry/"
+
+# Debug
+debug:
+  enable: false
+  log_level: "WARNING"
 ```
 
-**Log Rotation:** Automatic when file exceeds `file_max_bytes`.
-
-**Log Files:**
-- `runtime/logs/ras.log` — Main application log
-- `runtime/logs/signal_traces/YYYY-MM-DD.jsonl` — Signal traces (JSONL)
-- `runtime/logs/reconciliation.log` — Heat reconciliation audit
-- `runtime/process_logs/*.log` — Batch processing logs
+> **Warning**: The `system.yaml` file is **not meant for user editing**.  
+> **All user changes must be made in `customers/castco/configs/parameters.yaml`**.
 
 ---
 
-## License Configuration
+## Configuration File Management
 
-**File:** `license/license.key`
+### Best Practices
+- **Never commit** `parameters.yaml` to version control — it contains site-specific tuning
+- Use `git ignore` for `customers/castco/configs/parameters.yaml`
+- Use a **configuration template** (`parameters.template.yaml`) for new deployments
+- Always diff `system.yaml` with `parameters.yaml` before release
+- All parameters in `system.yaml` must have a documented default in `parameters.yaml` — ensure consistency
 
-```yaml
-customer: "CastCo Industries"
-tier: "TIER_3"
-expires: "2027-12-31"
-capabilities:
-  - defect_detection
-  - multimodal_reasoning
-  - plant_intelligence
-  - process_intelligence
-max_inspections_per_day: -1  # -1 = unlimited
-```
+### Deployment Workflow
+1. Install TvastrRAS from package → `system.yaml` installed automatically
+2. Copy `parameters.template.yaml` → `customers/castco/configs/parameters.yaml`
+3. Edit parameters for site: adjust thresholds, enable/disable components
+4. Verify with `validate_config.py`
+5. Restart system if `system.yaml` changed
 
-**Tier Capabilities:**
-- **TIER_1:** Basic defect detection (YOLO only)
-- **TIER_2:** + Signal scoring + LLM reasoning
-- **TIER_3:** + Plant Intelligence + Process Intelligence
-
-**License Validation:** On startup, validates expiry and capabilities.
-
-**License Check:**
-```python
-from license.validator import validate_license
-license_info = validate_license()
-if not license_info["valid"]:
-    print(f"License error: {license_info['error']}")
-```
+> **Validation Tool**: `scripts/validate_config.py` — checks key presence, type, bounds
 
 ---
 
-## Runtime Behavior
+## Parameter Documentation
 
-**File:** `configs/system.yaml`
+| Parameter | Type | Default | Description | Override |
+|---------|------|---------|-------------|----------|
+| `system.mode` | string | "production" | System mode: production, testing, dev | ❌ |
+| `quality_gate.blur_threshold` | int | 100 | Laplacian variance threshold to flag blur | ✅ |
+| `patch_analysis.resize_target` | int | 960 | Pixel length of longer image dimension | ✅ |
+| `signal_features.feature_gate_threshold` | float | 0.20 | Minimum YOLO prob to extract features | ✅ |
+| `multi_signal_fusion.signal_weight` | float | 0.45 | Weight of signal-based classification (PRIMARY) | ✅ |
+| `multi_signal_fusion.llm_weight` | float | 0.35 | Weight of LLM reasoning | ✅ |
+| `multi_signal_fusion.agreement_weight` | float | 0.20 | Bonus for signal agreement | ✅ |
+| `reasoning.energy_optimization.w_topology` | float | 0.30 | Topology force weight (Phase-K) | ✅ |
+| `reasoning.energy_optimization.w_scrata` | float | 0.25 | SCRATA force weight (Phase-K) | ✅ |
+| `reasoning.energy_optimization.w_anomaly` | float | 0.20 | Anomaly force weight (Phase-K) | ✅ |
+| `reasoning.energy_optimization.w_llm` | float | 0.25 | LLM force weight (Phase-K) | ✅ |
+| `reasoning.energy_optimization.lyapunov_epsilon` | float | 0.01 | Energy stability tolerance | ✅ |
+| `reasoning.energy_optimization.min_baseline_samples` | int | 10 | Min samples before adaptive threshold | ✅ |
+| `reasoning.energy_optimization.z_score_threshold` | float | 3.0 | Drift detection z-score | ✅ |
+| `reasoning.energy_optimization.manual_review_min_confidence` | float | 0.30 | Trigger manual review if low confidence | ✅ |
+| `reasoning.energy_optimization.uncertainty_threshold` | float | 0.6 | Trigger manual review if entropy high | ✅ |
+| `decision.t_low` | float | 0.30 | Lower decision threshold (ACCEPT) | ✅ |
+| `decision.t_high` | float | 0.70 | Higher decision threshold (REJECT) | ✅ |
+| `paths.output_dir` | string | "runtime/outputs/" | Directory for inspection outputs | ❌ |
+| `paths.telemetry_dir` | string | "runtime/logs/" | Directory for telemetry logs | ❌ |
 
-```yaml
-runtime:
-  # Startup behavior
-  auto_migrate_db: true          # Run DB migrations on startup
-  auto_backfill: true            # Backfill resolved_heat_id on startup
-  auto_reconciliation: true      # Background heat reconciliation
-  integrity_checks: true         # Validate data integrity on startup
-  
-  # Performance
-  max_parallel_inspections: 4    # Batch processing parallelism
-  image_cache_size_mb: 512       # Image cache limit
-  
-  # Safety
-  dry_run: false                 # If true, log only (no DB writes)
-  debug_mode: false              # Enable debug features
-```
-
----
-
-## Customer-Specific Overrides
-
-**File:** `customers/castco/configs/parameters.yaml`
-
-Customer-specific overrides for models, thresholds, and pipeline parameters.
-
-**Key Sections:**
-- `models.*` — Model paths and inference settings
-- `thresholds.*` — Detection confidence thresholds
-- `reasoning.*` — LLM reasoning configuration
-- `erp_schema.*` — ERP column mappings
-
-See `docs/04_configuration/tuning_guide.md` for comprehensive parameter reference.
+> **Legend**: ✅ = customer-override allowed, ❌ = system-only
 
 ---
 
-## Environment Variables
+## Troubleshooting Configuration
 
-**Priority:** Environment variables override config files.
+### Issue: Config not reloading
+**Fix**:
+- Confirm `parameters.yaml` is in `customers/castco/configs/`
+- Check write permissions on file
+- Check file encoding: UTF-8, no BOM
+- Log: `Configuration file modified - reloading`
 
-**Key Variables:**
-```bash
-# Database
-export DB_TYPE="mssql"
-export DB_SERVER="192.168.1.100"
-export DB_NAME="CastCo_Production"
-export DB_USER="ras_user"
-export DB_PASSWORD="secure_password"
+### Issue: Parameter ignored
+**Fix**:
+- Confirm key hierarchy matches: `multi_signal_fusion.signal_weight` not `signal_weight`
+- Confirm not in `system.yaml` (overrides only apply to `parameters.yaml`)
+- Restart if `system.yaml` was edited
 
-# LLM API Keys
-export MISTRAL_API_KEY="your_api_key_here"
-export OPENAI_API_KEY="your_api_key_here"
+### Issue: `parameters.yaml` missing
+**Fix**:
+- Copy from `customers/castco/configs/parameters.template.yaml`
+- Default values assume optimal for castco — no need to change
 
-# Runtime
-export RAS_DEBUG="false"
-export RAS_DRY_RUN="false"
-export RAS_LOG_LEVEL="INFO"
-
-# Paths
-export RAS_RUNTIME_DIR="runtime"
-export RAS_MODELS_DIR="customers/castco/models"
-```
+> **Important**: All parameters listed in `parameters.yaml` must be documented in `system.yaml` — no undocumented keys.
 
 ---
 
-## Configuration Loading Order
+## Cross-References
 
-1. **System defaults** (hardcoded in `core/config/defaults.py`)
-2. **configs/system.yaml** (global system config)
-3. **customers/{customer}/configs/parameters.yaml** (customer overrides)
-4. **Environment variables** (highest priority)
-
-**Example:**
-```python
-from customers.castco.configs.loader import load_config
-
-config = load_config()
-# Returns merged config with all overrides applied
-```
+- **Configuration Architecture**: [Architecture](../01_overview/architecture.md)
+- **Full Parameter List**: [Parameters](parameters.md)
+- **Validation Tool**: `scripts/validate_config.py`
+- **Hot-Reloading**: [Architecture](../01_overview/architecture.md#3-configuration-hot-reload)
+- **Baseline Storage**: `runtime/telemetry/baselines.json`
+- **Energy-Based Reasoning**: [Reasoning Pipeline](../03_intelligence/reasoning_pipeline.md)
 
 ---
 
-## Hot Reload
-
-**Parameters:** `customers/castco/configs/parameters.yaml` changes take effect **immediately** on next inspection (no restart).
-
-**System Config:** `configs/system.yaml` changes require **application restart**.
-
-**License:** `license/license.key` changes require **application restart**.
-
----
-
-## Configuration Validation
-
-**Startup Validation:**
-- Database connection test
-- License validation
-- Model file existence check
-- Required directories created
-- Config schema validation
-
-**Runtime Validation:**
-- Parameter range checks (e.g., thresholds 0.0-1.0)
-- Missing keys filled with defaults
-- Invalid values logged as warnings
-
----
-
-## Troubleshooting
-
-### Database Connection Failed
-
-**Check:**
-1. `configs/system.yaml` database settings correct?
-2. Network connectivity to SQL Server?
-3. ODBC driver installed? (`ODBC Driver 17 for SQL Server`)
-4. Credentials valid?
-
-**Test Connection:**
-```python
-from core.persistence.db import get_engine
-engine = get_engine()
-with engine.connect() as conn:
-    result = conn.execute("SELECT 1")
-    print("Connection OK")
-```
-
-### License Validation Failed
-
-**Check:**
-1. `license/license.key` exists?
-2. License not expired?
-3. Tier and capabilities correct?
-
-**Validate:**
-```python
-from license.validator import validate_license
-info = validate_license()
-print(info)
-```
-
-### Config File Not Found
-
-**Check:**
-1. File path relative to project root
-2. YAML syntax valid (no tabs, proper indentation)
-3. File permissions (readable)
-
-**Validate YAML:**
-```bash
-python -c "import yaml; yaml.safe_load(open('configs/system.yaml'))"
-```
-
----
-
-## Security Best Practices
-
-### 1. Never Commit Secrets
-
-Add to `.gitignore`:
-```
-configs/system.yaml
-license/license.key
-.env
-*.key
-*.pem
-```
-
-### 2. Use Environment Variables for Credentials
-
-```yaml
-# configs/system.yaml (template)
-database:
-  username: "${DB_USER}"
-  password: "${DB_PASSWORD}"
-```
-
-### 3. Restrict File Permissions
-
-```bash
-chmod 600 configs/system.yaml
-chmod 600 license/license.key
-```
-
-### 4. Use Encrypted Connections
-
-```yaml
-database:
-  encrypt: true
-  trust_server_certificate: false
-```
-
----
-
-## Related Docs
-
-- **Tuning Guide:** `docs/04_configuration/tuning_guide.md`
-- **ERP Integration:** `docs/04_configuration/erp_integration.md`
-- **Model Configuration:** `docs/04_configuration/model_configuration.md`
-- **Licensing:** `docs/licensing.md`
-- **Architecture:** `docs/01_overview/architecture.md`
+**Version:** 2.0  
+**Last Updated:** 2026-05-16

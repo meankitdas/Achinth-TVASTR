@@ -188,7 +188,19 @@ Patch classifier output.
     "feature_anomaly": float,             # Feature-based anomaly (0-1)
     "yolo_hint": float,                   # YOLO entropy hint (0-1)
     "spatial_density": float,             # Local density score (0-1)
-    "cluster_id": int | None              # DBSCAN cluster assignment
+    "cluster_id": int | None,             # DBSCAN cluster assignment
+    "signal_features": {                  # Signal-based features (optional)
+        "texture": dict,                  # LBP, GLCM features
+        "edges": dict,                    # Edge density, mean
+        "blobs": dict,                    # Blob count, mean size
+        "intensity": dict,                # Mean, std, range
+        "geometry": dict,                 # Area, circularity, solidity, etc.
+        "flow": {                         # Flow pattern features (NEW)
+            "direction_consistency": float,  # 0.0-1.0, circular variance
+            "line_count": int,                # Hough lines detected (minLength=40)
+            "flow_score": float               # 0.0-1.0, composite flow strength
+        }
+    }
 }
 ```
 

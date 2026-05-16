@@ -1,7 +1,9 @@
 # Fusion Logic
 
 ## Purpose
-Multi-signal weighted fusion that combines YOLO, Signal, LLM, and Agreement scores into a single final confidence score for defect classification.
+Multi-signal weighted fusion that combines Signal, LLM, and Agreement scores into a single final confidence score for defect classification.
+
+**Phase 10 Update**: YOLO has been completely removed from the fusion layer (0% weight). YOLO is now purely a spatial detector for casting body cropping, with zero influence on defect classification.
 
 ## Where Used
 - **Pipeline Stage**: Stage 4 (Multi-Signal Fusion)
@@ -17,66 +19,70 @@ Multi-signal weighted fusion that combines YOLO, Signal, LLM, and Agreement scor
 
 ## Architecture Overview
 
-### Fusion Flow
+### Fusion Flow (Phase 10)
 ```
 Individual Signals:
-  ├─> YOLO Score (0.87)
-  ├─> Signal Score (0.75)
-  ├─> LLM Score (0.92)
-  └─> Agreement Score (0.85)
+  ├─> YOLO Score (REMOVED — 0% weight, spatial detector only)
+  ├─> Signal Score (0.75) — PRIMARY CLASSIFIER
+  ├─> LLM Score (0.92) — VALIDATION LAYER
+  └─> Agreement Score (0.85) — CONSENSUS LAYER
       ↓
 Weighted Fusion:
-  final_confidence = 0.4*signal + 0.2*yolo + 0.2*llm + 0.2*agreement
+  final_confidence = 0.45*signal + 0.35*llm + 0.20*agreement
       ↓
-Agreement Adjustment (3-Tier):
-  ├─> Strong Agreement (all agree) → ×1.1 boost
+Agreement Adjustment (2-Tier):
+  ├─> Strong Agreement (signal+LLM agree) → ×1.1 boost
   ├─> Strong Disagreement (high-conf conflict) → ×0.85 penalty
   └─> Mild/Partial → ×1.0 (no adjustment)
       ↓
 Final Confidence (clamped to [0, 1])
 ```
 
-### Weight Distribution
+### Weight Distribution (Phase 10)
 | Signal | Weight | Role |
 |--------|--------|------|
-| **Signal** | **40%** | PRIMARY CLASSIFIER (demoted YOLO) |
-| YOLO | 20% | Proposal generator (demoted from 40%) |
-| LLM | 20% | Validator/reasoning |
-| Agreement | 20% | Consensus bonus |
+| **Signal** | **45%** | PRIMARY CLASSIFIER (signal intelligence - texture, edge, blob, intensity, geometry) |
+| **LLM** | **35%** | VALIDATION LAYER (multimodal reasoning validates signal findings) |
+| **Agreement** | **20%** | CONSENSUS LAYER (signal+LLM agreement bonus) |
+| ~~YOLO~~ | ~~0%~~ | **REMOVED FROM FUSION** — purely spatial detector for casting body cropping |
 
-**Architecture Change**: Signal scoring was **PROMOTED** from 20% → **40%** (primary classifier). YOLO was **DEMOTED** from 40% → **20%** (proposal generator).
+**Phase 10 Architecture Change**: 
+- YOLO **COMPLETELY REMOVED** from defect classification (0% weight)
+- YOLO role: **spatial detector only** (casting body localization/cropping)
+- Signal promoted from 40% → **45%** (dominant voice)
+- LLM promoted from 20% → **35%** (validation layer)
+- Agreement remains at **20%** (but now 2-tier: signal+LLM only, no YOLO)
 
 ---
 
-## Fusion Formula
+## Fusion Formula (Phase 10)
 
 ### Basic Weighted Fusion
 **File**: `core/reasoning/multi_signal_fusion.py::fuse_scores()`
 
-**Formula** (see `technical_reference.md` §6.1):
+**Formula** (Phase 10 - YOLO removed):
 ```
-final_confidence = w_signal * signal + w_yolo * yolo 
-                 + w_llm * llm + w_agreement * agreement
+final_confidence = w_signal * signal + w_llm * llm + w_agreement * agreement
 
 where:
-  w_signal = 0.40 (configurable)
-  w_yolo = 0.20 (configurable)
-  w_llm = 0.20 (configurable)
-  w_agreement = 0.20 (configurable)
+  w_signal = 0.45 (PRIMARY - signal intelligence)
+  w_llm = 0.35 (VALIDATION - multimodal reasoning)
+  w_agreement = 0.20 (CONSENSUS - agreement bonus)
   
-  Constraint: w_signal + w_yolo + w_llm + w_agreement = 1.0
+  Constraint: w_signal + w_llm + w_agreement = 1.0
+  
+  Note: YOLO score is HARD-CODED to 0.0 in code (spatial detector only)
 ```
 
 ### Graceful Degradation
 If a signal is missing, its weight is redistributed proportionally:
 
-**Example**: If LLM unavailable (20% weight missing):
+**Example**: If LLM unavailable (35% weight missing):
 ```
-w_signal' = 0.40 / 0.80 = 0.50
-w_yolo' = 0.20 / 0.80 = 0.25
-w_agreement' = 0.20 / 0.80 = 0.25
+w_signal' = 0.45 / 0.65 = 0.692
+w_agreement' = 0.20 / 0.65 = 0.308
 
-final_confidence = 0.50*signal + 0.25*yolo + 0.25*agreement
+final_confidence = 0.692*signal + 0.308*agreement
 ```
 
 ---
@@ -223,27 +229,34 @@ At runtime, the system uses:
 
 ---
 
-## Configuration
+## Configuration (Phase 10)
 
 ```yaml
 # customers/castco/configs/parameters.yaml
 
 multi_signal_fusion:
-  # Fusion weights (must sum to 1.0)
-  yolo_weight: 0.20         # YOLO object detection (DEMOTED)
-  signal_weight: 0.40       # Signal-grounded scoring (PRIMARY)
-  llm_weight: 0.20          # LLM multimodal reasoning
-  agreement_weight: 0.20    # Inter-signal agreement bonus
+  # Phase 10 Fusion weights (must sum to 1.0)
+  yolo_weight: 0.0          # REMOVED — YOLO is spatial detector only (hard-coded to 0.0 in code)
+  signal_weight: 0.45       # PRIMARY CLASSIFIER (signal intelligence)
+  llm_weight: 0.35          # VALIDATION LAYER (multimodal reasoning)
+  agreement_weight: 0.20    # CONSENSUS LAYER (signal+LLM agreement)
   
   # Constraints
-  min_yolo_weight: 0.10     # Minimum YOLO weight (floor)
+  min_yolo_weight: 0.0      # Phase 10: YOLO removed (was 0.10)
   min_agreement_weight: 0.05  # Minimum agreement weight
   
-  # Agreement logic
+  # Agreement logic (2-tier: signal+LLM only, YOLO excluded)
   agreement_boost_multiplier: 1.1      # Strong agreement boost
   disagreement_penalty_multiplier: 0.85  # Strong disagreement penalty
   disagreement_confidence_threshold: 0.7  # Min confidence for disagreement
 ```
+
+**Phase 10 Changes**:
+- `yolo_weight: 0.0` (YOLO completely removed from fusion)
+- `signal_weight: 0.45` (increased from 0.40 — PRIMARY classifier)
+- `llm_weight: 0.35` (increased from 0.20 — VALIDATION layer)
+- Agreement now 2-tier (signal+LLM), YOLO excluded
+- YOLO role: **Spatial detector only** (casting body cropping)
 
 ---
 

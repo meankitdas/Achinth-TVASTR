@@ -166,6 +166,60 @@ geometry_score = 0.3 * irregularity + 0.3 * (1 - solidity)
 
 ---
 
+### 6. Flow Features
+**File**: `core/vision/features/flow.py`
+
+**Algorithm**: Directional gradient analysis for flow-pattern defects
+
+**Purpose**: Detect directional defects (pouring_temperature_delay, cold shut) that exhibit elongated flow patterns but lack strong cavity/blob/edge signals.
+
+**Image-Level Computation** (computed ONCE per image):
+- Sobel gradients (gx, gy) → magnitude + angle arrays
+- Direction consistency via circular variance
+- Hough line detection for elongated patterns
+
+**Outputs**:
+- `direction_consistency`: Circular variance [0, 1] — higher = more aligned gradients
+- `line_count`: Number of detected Hough lines (minLineLength=40, maxLineGap=10)
+- `flow_score`: Composite score [0, 1] — flow pattern strength
+
+**Flow Score Calculation**:
+```python
+flow_score = 0.0
+if direction_consistency > 0.6:
+    flow_score += 0.5
+if line_count >= 2:
+    flow_score += 0.5
+# Result: 0.0, 0.5, or 1.0
+```
+
+**Patch-Level Extraction**:
+- Extract per-patch flow from pre-computed image-level arrays (no duplicate Sobel computation)
+- Use 70th percentile threshold to filter weak gradients
+- Aggregate direction consistency and line count within patch bbox
+
+**Interpretation**:
+- High direction consistency (>0.6) → aligned flow pattern
+- Line count ≥ 2 → elongated directional defect
+- Flow score = 1.0 → strong directional defect (pouring_temperature_delay, cold shut)
+- Flow score = 0.0 → no directional pattern
+
+**Usage in Classification**:
+Flow features are used by `hypothesis_builder.py` with strict multi-signal gating:
+```python
+if (flow_score > 0.6 and cavity_count < 3 and 
+    blob_count < 3 and edge_density < 0.15):
+    # Trigger pouring_temperature_delay
+```
+
+This ensures flow detection only activates when:
+- Strong directional pattern exists
+- Weak cavity signal (incomplete fills don't create many cavities)
+- Not porosity (blob_count < 3)
+- Not crack/edge defect (edge_density < 0.15)
+
+---
+
 ## Signal Classification (PRIMARY Classifier)
 
 ### Classification Rules
