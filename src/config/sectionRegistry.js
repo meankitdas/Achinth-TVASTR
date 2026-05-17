@@ -25,29 +25,45 @@ import { DeploymentArchitectureSection } from '../components/sections/technology
 import { TechnologyCTASection } from '../components/sections/technology/TechnologyCTASection'
 
 export const sectionRegistry = {
-  // Homepage
+  // Homepage — new architecture
   hero: HeroSection,
   'industry-problem': IndustryProblemSection,
+  'core-thesis': WhatTvastrDoesSection,
+  'intelligence-layers': QualityGatesSection,
+  'multi-gate-intelligence': WorkflowIntegrationSection,
+  'signal-first-ai': WhyNotTraditionalSection,
+  'platform-overview': PlatformOverviewSection,
+  'inspection-visibility': InspectionVisibilitySection,
+  'industrial-memory': OperationalBenefitsSection,
+  'deployment': DeploymentSection,
+  'final-positioning': PlatformOverviewSection,
+  contact: ContactSection,
+
+  // Legacy homepage mappings (backward compatibility)
   'what-tvastr-does': WhatTvastrDoesSection,
   'quality-gates': QualityGatesSection,
   'workflow-integration': WorkflowIntegrationSection,
   'operational-benefits': OperationalBenefitsSection,
   'why-not-traditional': WhyNotTraditionalSection,
-  'inspection-visibility': InspectionVisibilitySection,
-  'deployment': DeploymentSection,
-  'platform-overview': PlatformOverviewSection,
-  contact: ContactSection,
   
-  // Technology page
+  // Technology page — new architecture
   'technology-hero': TechnologyHeroSection,
+  'core-architecture': InspectionPipelineSection,
+  'perception-engine': SignalAnalysisSection,
+  'signal-reasoning': SignalAnalysisSection,
+  'energy-reasoning': FingerprintingSection,
+  'industrial-memory': OperationalBenefitsSection,
+  'cognition-runtime': ProcessIntelligenceSection,
+  'process-intelligence': ProcessIntelligenceSection,
+  'deployment-architecture': DeploymentArchitectureSection,
+  'technology-cta': TechnologyCTASection,
+
+  // Legacy technology mappings (backward compatibility)
   'inspection-pipeline': InspectionPipelineSection,
   'signal-analysis': SignalAnalysisSection,
   'fingerprinting': FingerprintingSection,
-  'process-intelligence': ProcessIntelligenceSection,
   'spc': SPCSection,
   'fishbone': FishboneSection,
   'pareto': ParetoSection,
-  'traceability': TraceabilitySection,
-  'deployment-architecture': DeploymentArchitectureSection,
-  'technology-cta': TechnologyCTASection
+  'traceability': TraceabilitySection
 }

@@ -1,46 +1,46 @@
 export const inspectionVisibilityContent = {
   id: "inspection-visibility",
   type: "inspection-visibility",
-  title: "Inspection and Workflow Visibility",
-  subtitle: "Real product interfaces, inspection views, and quality analytics dashboards.",
-  body: "Tvastr provides operators and quality managers with clear inspection interfaces, defect analysis views, and process monitoring dashboards. The platform visualizes defect patterns, tracks quality metrics, and provides actionable insights for continuous improvement.",
+  title: "Operational Visibility",
+  subtitle: "Inspection interfaces, process dashboards, and manufacturing intelligence views.",
+  body: "Tvastr provides operators with clear inspection workflows and quality managers with plant-wide process visibility. From individual defect analysis to batch-level trend intelligence — every level of the operation has appropriate visibility.",
   screenshots: [
     {
       id: "inspection-interface",
       title: "Inspection Interface",
-      description: "Operator-friendly inspection workflow with image capture, AI-assisted defect detection, and pass/fail decision support.",
+      description: "Operator workflow with image capture, signal-based defect analysis, and three-tier decision support.",
       imagePath: "/inspection_app_ss.png"
     },
     {
       id: "process-intelligence",
-      title: "Process Intelligence Dashboard",
-      description: "Quality metrics tracking, defect rate monitoring, and process trend analysis across production batches.",
+      title: "Process Intelligence",
+      description: "Manufacturing analytics with SPC charts, defect trends, and process monitoring dashboards.",
       imagePath: "/procInt_app_ss.png"
     },
     {
       id: "pi-overview",
-      title: "Plant Intelligence Overview",
-      description: "High-level quality visibility across heats, shifts, and production periods with defect distribution and trend analysis.",
+      title: "Plant Overview",
+      description: "Plant-wide quality visibility across heats, shifts, and production periods with defect distribution analysis.",
       imagePath: "/pi_overview_ss.png"
     },
     {
       id: "pi-decisions",
       title: "Decision Intelligence",
-      description: "Root-cause analysis, defect pattern identification, and corrective action tracking for quality improvement initiatives.",
+      description: "Root cause analysis, defect pattern identification, and corrective action tracking.",
       imagePath: "/pi_decisions_ss.png"
     },
     {
       id: "analytics",
       title: "Quality Analytics",
-      description: "Defect trend charts, rejection rate tracking, and quality metrics visualization for data-driven decision making.",
+      description: "Defect trend analysis, rejection rate tracking, and manufacturing KPI visualization.",
       imagePath: "/analytics_app_ss.png"
     },
     {
       id: "batch-processing",
-      title: "Batch Inspection Processing",
-      description: "High-volume inspection workflows for processing multiple castings with consolidated results and batch-level reporting.",
+      title: "Batch Processing",
+      description: "High-volume inspection workflows with consolidated results and batch-level reporting.",
       imagePath: "/batchProc_app_ss.png"
     }
   ],
-  keyMessage: "Tvastr provides clear visibility into inspection outcomes, defect patterns, and quality trends through operator-friendly interfaces and analytics dashboards."
+  keyMessage: "Visibility at every level — from individual casting inspection to plant-wide manufacturing intelligence."
 }

@@ -1,13 +1,14 @@
 export const homepageSections = [
   { type: "hero", id: "hero" },
   { type: "industry-problem", id: "industry-problem" },
-  { type: "what-tvastr-does", id: "what-tvastr-does" },
-  { type: "quality-gates", id: "quality-gates" },
-  { type: "workflow-integration", id: "workflow-integration" },
-  { type: "operational-benefits", id: "operational-benefits" },
-  { type: "why-not-traditional", id: "why-not-traditional" },
-  { type: "inspection-visibility", id: "inspection-visibility" },
-  { type: "deployment", id: "deployment" },
+  { type: "core-thesis", id: "core-thesis" },
+  { type: "intelligence-layers", id: "intelligence-layers" },
+  { type: "multi-gate-intelligence", id: "multi-gate-intelligence" },
+  { type: "signal-first-ai", id: "signal-first-ai" },
   { type: "platform-overview", id: "platform-overview" },
+  { type: "inspection-visibility", id: "inspection-visibility" },
+  { type: "industrial-memory", id: "industrial-memory" },
+  { type: "deployment", id: "deployment" },
+  { type: "final-positioning", id: "final-positioning" },
   { type: "contact", id: "contact" }
 ]

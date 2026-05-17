@@ -1,8 +1,9 @@
 export const technologyCTAContent = {
   id: "technology-cta",
   type: "technology-cta",
-  title: "Learn More About Tvastr Technology",
-  subtitle: "Get in touch with our technical team for detailed system documentation and deployment consultation.",
+  title: "From Inspection Systems to Manufacturing Intelligence Infrastructure",
+  subtitle: "Tvastr represents the transition from isolated inspection software to persistent, connected industrial intelligence architecture.",
+  body: "This is not another inspection tool with AI features added. It is a manufacturing intelligence architecture built from first principles — where perception, reasoning, memory, and process intelligence operate as a unified system that improves with every casting inspected.",
   buttons: [
     {
       label: "Request Technical Consultation",
@@ -10,7 +11,7 @@ export const technologyCTAContent = {
       variant: "primary"
     },
     {
-      label: "View Documentation",
+      label: "View System Documentation",
       href: "/system",
       variant: "secondary"
     },

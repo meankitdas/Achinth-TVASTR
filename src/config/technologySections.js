@@ -1,13 +1,12 @@
 export const technologySections = [
   { type: "technology-hero", id: "technology-hero" },
-  { type: "inspection-pipeline", id: "inspection-pipeline" },
-  { type: "signal-analysis", id: "signal-analysis" },
-  { type: "fingerprinting", id: "fingerprinting" },
+  { type: "core-architecture", id: "core-architecture" },
+  { type: "perception-engine", id: "perception-engine" },
+  { type: "signal-reasoning", id: "signal-reasoning" },
+  { type: "energy-reasoning", id: "energy-reasoning" },
+  { type: "industrial-memory", id: "industrial-memory" },
+  { type: "cognition-runtime", id: "cognition-runtime" },
   { type: "process-intelligence", id: "process-intelligence" },
-  { type: "spc", id: "spc" },
-  { type: "fishbone", id: "fishbone" },
-  { type: "pareto", id: "pareto" },
-  { type: "traceability", id: "traceability" },
   { type: "deployment-architecture", id: "deployment-architecture" },
   { type: "technology-cta", id: "technology-cta" }
 ]

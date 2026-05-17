@@ -1,7 +1,7 @@
 export const technologyHeroContent = {
   id: "technology-hero",
   type: "technology-hero",
-  title: "How Tvastr Works",
-  subtitle: "Signal-based inspection system with explainable reasoning and process intelligence.",
-  body: "Tvastr combines traditional computer vision with signal-based analysis to provide consistent, explainable defect detection. The system operates on-premise with offline capability, processing inspections through a 10-stage pipeline that delivers decisions in under 200ms."
+  title: "Manufacturing Intelligence Architecture",
+  subtitle: "A modular industrial intelligence system built for manufacturing environments. Signal-first reasoning, persistent memory, and edge-native execution.",
+  body: "Tvastr is not a single AI model applied to inspection images. It is a layered architecture where perception, reasoning, memory, and process intelligence operate as independent but connected systems — each contributing to manufacturing decisions that are explainable, traceable, and industrially grounded."
 }

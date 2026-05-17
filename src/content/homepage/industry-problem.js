@@ -1,17 +1,33 @@
 export const industryProblemContent = {
   id: "industry-problem",
   type: "industry-problem",
-  title: "Inconsistent Inspection, Fragmented Quality Records, Reactive Defect Control",
-  subtitle: "Manufacturing quality suffers from manual inspection variability, disconnected data, and delayed root-cause analysis.",
-  body: "Foundries generate substantial inspection data across multiple quality gates, yet this data remains fragmented. Inspection outcomes vary by shift and operator. Quality records exist in isolated reports. Defect patterns recur without visibility. Root causes remain buried in tribal knowledge. Traceability across heats and batches is manual and incomplete. Without centralized inspection intelligence, foundries remain reactive, addressing defects after they occur rather than preventing them through early detection and process visibility.",
-  bullets: [
-    "Inconsistent inspection outcomes across shifts and operators",
-    "Missed defects escaping to downstream gates or customers",
-    "Fragmented quality records across inspection stations",
-    "Manual inspection dependency with limited standardization",
-    "Reactive quality control: corrections after scrap is produced",
-    "Delayed root-cause identification and analysis",
-    "Lack of heat-level and batch-level traceability",
-    "Disconnected process and quality data"
+  title: "Manufacturing Generates Data. Very Little Becomes Intelligence.",
+  subtitle: "Quality systems capture outcomes. They rarely capture understanding.",
+  body: "Foundries operate dozens of inspection points, produce thousands of castings per shift, and generate massive volumes of quality data. Yet most of this data remains fragmented across stations, buried in paper logs, or reduced to binary pass/fail outcomes. Defect patterns recur without visibility. Root causes stay hidden in tribal knowledge. Process drift goes undetected until scrap rates spike.",
+  problems: [
+    {
+      title: "Disconnected Quality Gates",
+      description: "Inspection stations operate in isolation. No intelligence flows between gates."
+    },
+    {
+      title: "Operator-Dependent Outcomes",
+      description: "Inspection consistency varies by shift, experience, and fatigue. No standardization layer."
+    },
+    {
+      title: "No Manufacturing Memory",
+      description: "Recurring defects are not tracked across heats, molds, or production cycles. The plant forgets."
+    },
+    {
+      title: "Reactive Quality Workflows",
+      description: "Corrections happen after scrap is produced. No early-stage process reasoning."
+    },
+    {
+      title: "Fragmented Traceability",
+      description: "Heat numbers, mold IDs, and shift data exist in isolated systems. No unified linkage."
+    },
+    {
+      title: "Static Inspection Systems",
+      description: "Traditional inspection captures defects. It does not reason about process, pattern, or causality."
+    }
   ]
 }

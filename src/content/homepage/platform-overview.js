@@ -2,44 +2,42 @@ export const platformOverviewContent = {
   id: "platform-overview",
   type: "platform-overview",
   title: "The Tvastr Platform",
-  subtitle: "Two integrated systems for inspection and process intelligence.",
-  body: "Tvastr consists of two complementary systems: RAS for inspection and defect analysis, and PI for process intelligence and quality analytics. Together, they provide end-to-end visibility from individual casting inspection to plant-wide quality trends.",
+  subtitle: "Inspection intelligence and process analytics in a unified manufacturing system.",
+  body: "Tvastr operates as two integrated systems: RAS handles perception and defect analysis at inspection stations, while PI provides plant-wide process intelligence and manufacturing analytics. Together, they connect individual inspection decisions to production-level trends and traceability.",
   systems: [
     {
       id: "ras",
       name: "Tvastr RAS",
-      tagline: "Inspection and Defect Analysis System",
-      description: "AI-assisted defect detection system that analyzes casting images for porosity, shrinkage, cracks, sand inclusion, surface roughness, and blow holes. Provides consistent inspection logic, automated reporting, and complete traceability.",
+      tagline: "Rejection Analysis System",
+      description: "Signal-first inspection intelligence with multi-stage reasoning, automated reporting, and complete traceability.",
       capabilities: [
-        "AI-assisted defect detection and classification",
-        "Multi-stage inspection pipeline with signal-based reasoning",
-        "Automated PDF reports with annotated images and heatmaps",
-        "SQL-based traceability linking to heats, molds, shifts, and operators",
-        "Three-tier decision support (Accept, Manual Review, Reject)",
-        "Root-cause identification and defect pattern tracking",
-        "Batch inspection support for high-volume scenarios",
-        "Offline-capable on-premise operation"
+        "Multi-signal defect detection and classification",
+        "10-stage inspection pipeline with explainable reasoning",
+        "Automated PDF reports with annotated images",
+        "Three-tier decisions: Accept, Review, Reject",
+        "Defect fingerprinting and pattern tracking",
+        "Batch inspection for high-volume workflows",
+        "Edge-native, offline-capable operation"
       ],
       route: "/systems/rejection-analysis-system"
     },
     {
       id: "pi",
       name: "Tvastr PI",
-      tagline: "Process Intelligence and Analytics",
-      description: "Process monitoring and quality analytics system that tracks defect patterns, analyzes trends across heats and batches, and provides insights for continuous quality improvement.",
+      tagline: "Plant Intelligence",
+      description: "Manufacturing analytics and process intelligence that transforms inspection data into operational insights and early warnings.",
       capabilities: [
-        "Defect pattern tracking and correlation analysis",
-        "Temporal trend analysis across production batches",
-        "Heat-level quality intelligence and analysis",
-        "Process drift detection and early warning",
-        "SPC (Statistical Process Control) analytics",
-        "Defect frequency and distribution analysis",
-        "Quality metrics dashboards and visualization",
-        "Decision intelligence for corrective actions"
+        "SPC monitoring with Western Electric rules",
+        "Pareto analysis and defect prioritization",
+        "Root cause analysis with Fishbone diagrams",
+        "Heat and mold risk scoring",
+        "Process drift detection and alerting",
+        "Defect trend intelligence across production",
+        "Real-time manufacturing KPI dashboards"
       ],
       route: "/systems/plant-intelligence"
     }
   ],
-  integration: "RAS and PI work together: RAS performs inspection and captures defect data, while PI analyzes patterns and trends across inspections for plant-wide quality visibility.",
-  keyMessage: "Tvastr RAS standardizes inspection. Tvastr PI provides process intelligence. Together, they deliver complete quality visibility."
+  integration: "RAS captures and classifies. PI reasons and analyzes. Industrial memory persists and connects. The architecture scales from single-station deployment to plant-wide intelligence.",
+  keyMessage: "One system for inspection. One system for process intelligence. Unified traceability and manufacturing memory underneath."
 }
