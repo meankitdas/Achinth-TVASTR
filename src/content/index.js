@@ -1,5 +1,3 @@
 export * from './homepage'
 export * from './products'
-export * from './industries'
 export * from './capabilities'
-export * from './terminology'

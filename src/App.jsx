@@ -50,8 +50,8 @@ const SystemDocs = lazy(() =>
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePageWrapper() {
   useDocumentHead(
-    'Tvastr Industrial Intelligence | AI for Foundry Defect Detection and Process Intelligence',
-    'AI-powered defect detection and rejection analysis system for foundries. Identify root causes, reduce scrap, and improve production with PIRAS - Plant Intelligence and Rejection Analysis System.',
+    'Tvastr | Manufacturing Intelligence Infrastructure',
+    'Industrial intelligence platform for foundries. Signal-first defect detection, process reasoning, and manufacturing memory across every quality gate.',
     'https://tvastr.co/'
   )
 

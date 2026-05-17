@@ -1,36 +1,29 @@
-import { industryProblemContent } from '@/content/homepage/industry-problem'
 import { SectionShell } from '@/components/primitives/SectionShell'
 import { SectionHeader } from '@/components/primitives/SectionHeader'
+import { industryProblemContent } from '@/content/homepage/industry-problem'
 
 export function IndustryProblemSection() {
-  return (
-    <SectionShell id="industry-problem" type="industry-problem" content={industryProblemContent}>
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Left column: visual */}
-          <div className="flex flex-col justify-center">
-            <div className="space-y-4">
-              {industryProblemContent.bullets.map((bullet, i) => (
-                <div key={i} className="flex items-start gap-4">
-                  <div
-                    className="w-1.5 h-1.5 rounded-full bg-amber-forge flex-shrink-0 mt-2"
-                    style={{ background: '#f59e0b' }}
-                  />
-                  <p className="text-sm md:text-base text-metallic-400 leading-relaxed">
-                    {bullet}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+  const { id, title, subtitle, body, problems } = industryProblemContent
 
-          {/* Right column: text */}
-          <div className="flex flex-col justify-center">
-            <p className="text-base md:text-lg text-metallic-300 leading-relaxed">
-              {industryProblemContent.body}
-            </p>
+  return (
+    <SectionShell id={id}>
+      <SectionHeader title={title} subtitle={subtitle} eyebrow="The Problem" />
+
+      <p className="text-sm text-metallic-400 leading-relaxed max-w-4xl mt-4 mb-12">
+        {body}
+      </p>
+
+      {/* Problem cards — 2x3 grid */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {problems.map((problem, i) => (
+          <div
+            key={i}
+            className="p-5 rounded-lg border border-metallic-800/20 bg-charcoal-950/50"
+          >
+            <h4 className="text-sm font-bold text-metallic-100 mb-2">{problem.title}</h4>
+            <p className="text-xs text-metallic-400 leading-relaxed">{problem.description}</p>
           </div>
-        </div>
+        ))}
       </div>
     </SectionShell>
   )
