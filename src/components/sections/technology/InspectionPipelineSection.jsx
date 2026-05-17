@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { inspectionPipelineContent } from '@/content/technology'
+import { inspectionPipelineContent } from '@/content/technology/index'
 
 export function InspectionPipelineSection() {
   const { title, subtitle, body, stages, postDecisionStages, keyFeatures } = inspectionPipelineContent

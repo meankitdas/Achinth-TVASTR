@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { deploymentArchitectureContent } from '@/content/technology'
+import { deploymentArchitectureContent } from '@/content/technology/index'
 
 export function DeploymentArchitectureSection() {
   const { title, subtitle, body, coreProperties, deploymentModels, databaseIntegration, apiArchitecture, hardwareRequirements, networkRequirements, dataRetention } = deploymentArchitectureContent

@@ -1,5 +1,5 @@
 import { SectionShell } from '../../primitives/SectionShell'
-import { technologyCTAContent } from '@/content/technology'
+import { technologyCTAContent } from '@/content/technology/index'
 
 export function TechnologyCTASection() {
   const { title, subtitle, buttons } = technologyCTAContent

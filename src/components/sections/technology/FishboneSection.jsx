@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { fishboneContent } from '@/content/technology'
+import { fishboneContent } from '@/content/technology/index'
 
 export function FishboneSection() {
   const { title, subtitle, body, fishboneDiagrams, fmea, rootCauseWorkflow, applications } = fishboneContent

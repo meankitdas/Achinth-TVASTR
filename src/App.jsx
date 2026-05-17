@@ -23,6 +23,15 @@ const PlantIntelligence = lazy(() =>
 const TechnologyPage = lazy(() =>
   import('./pages/TechnologyPage').then((m) => ({ default: m.TechnologyPage }))
 )
+const AboutPage = lazy(() =>
+  import('./pages/AboutPage').then((m) => ({ default: m.AboutPage }))
+)
+const IndustriesPage = lazy(() =>
+  import('./pages/IndustriesPage').then((m) => ({ default: m.IndustriesPage }))
+)
+const ResearchPage = lazy(() =>
+  import('./pages/ResearchPage').then((m) => ({ default: m.ResearchPage }))
+)
 
 // Portal pages — lazy loaded to keep initial bundle small
 const PortalLogin = lazy(() =>
@@ -110,6 +119,9 @@ export default function App() {
 
               {/* Marketing pages */}
               <Route path="/technology" element={<TechnologyPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/industries" element={<IndustriesPage />} />
+              <Route path="/research" element={<ResearchPage />} />
 
               <Route path="/systems/rejection-analysis-system" element={<RejectionAnalysisSystem />} />
               <Route path="/systems/plant-intelligence" element={<PlantIntelligence />} />

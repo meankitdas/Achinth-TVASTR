@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { fingerprintingContent } from '@/content/technology'
+import { fingerprintingContent } from '@/content/technology/index'
 
 export function FingerprintingSection() {
   const { title, subtitle, body, alignmentPipeline, vectorFormat, clustering, similarityMatching, storage } = fingerprintingContent

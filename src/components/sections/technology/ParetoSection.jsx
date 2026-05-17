@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { paretoContent } from '@/content/technology'
+import { paretoContent } from '@/content/technology/index'
 
 export function ParetoSection() {
   const { title, subtitle, body, paretoAnalysis, spatialConcentration, prioritizationWorkflow, integrations, benefits } = paretoContent

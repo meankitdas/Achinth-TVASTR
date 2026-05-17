@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { spcContent } from '@/content/technology'
+import { spcContent } from '@/content/technology/index'
 
 export function SPCSection() {
   const { title, subtitle, body, controlCharts, processCapability, applications } = spcContent

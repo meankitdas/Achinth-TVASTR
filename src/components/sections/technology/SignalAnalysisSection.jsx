@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { signalAnalysisContent } from '@/content/technology'
+import { signalAnalysisContent } from '@/content/technology/index'
 
 export function SignalAnalysisSection() {
   const { title, subtitle, body, featureCategories, scoringFormula, classificationRules, whySignalFirst } = signalAnalysisContent

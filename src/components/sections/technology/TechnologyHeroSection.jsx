@@ -1,5 +1,5 @@
 import { SectionShell } from '../../primitives/SectionShell'
-import { technologyHeroContent } from '@/content/technology'
+import { technologyHeroContent } from '@/content/technology/index'
 
 export function TechnologyHeroSection() {
   const { title, subtitle, body } = technologyHeroContent

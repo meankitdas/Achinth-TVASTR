@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { processIntelligenceContent } from '@/content/technology'
+import { processIntelligenceContent } from '@/content/technology/index'
 
 export function ProcessIntelligenceSection() {
   const { title, subtitle, body, analyticsCapabilities, qualityFrameworks, processIntelligence, architecture, realTimeUpdates } = processIntelligenceContent

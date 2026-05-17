@@ -1,6 +1,6 @@
 import { SectionShell } from '../../primitives/SectionShell'
 import { SectionHeader } from '../../primitives/SectionHeader'
-import { traceabilityContent } from '@/content/technology'
+import { traceabilityContent } from '@/content/technology/index'
 
 export function TraceabilitySection() {
   const { title, subtitle, body, sqlStorage, pdfReports, erpExport, telemetry, auditSupport } = traceabilityContent

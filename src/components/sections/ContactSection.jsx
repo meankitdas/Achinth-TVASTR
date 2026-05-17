@@ -13,10 +13,10 @@ export function ContactSection() {
             </p>
             <div className="space-y-4">
               <p className="text-sm text-metallic-400">
-                <span className="font-semibold text-metallic-100">Email:</span> contact@tvastr.co
+                <span className="font-semibold text-metallic-100">Email:</span> achintharya@tvastr.co
               </p>
               <p className="text-sm text-metallic-400">
-                <span className="font-semibold text-metallic-100">Location:</span> San Francisco, CA — with global deployment capability
+                <span className="font-semibold text-metallic-100">Location:</span> Bengaluru, India — with global deployment capability
               </p>
             </div>
           </div>
