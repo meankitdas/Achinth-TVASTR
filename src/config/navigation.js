@@ -9,7 +9,6 @@ export const mainNavItems = [
   },
   { label: "Technology", href: "/technology" },
   { label: "Research", href: "/research" },
-  { label: "Industries", href: "/industries" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "#contact" }
 ]

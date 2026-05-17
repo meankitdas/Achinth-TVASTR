@@ -157,7 +157,7 @@ export function AboutPage() {
               </h3>
               <div className="space-y-4">
                 <div className="text-center">
-                  <h4 className="text-xl font-semibold text-metallic-100">Achinth Arya</h4>
+                  <h4 className="text-xl font-semibold text-metallic-100">Achintharya</h4>
                   <p className="text-amber-forge mb-2">Founder & CEO</p>
                   <p className="text-metallic-400">
                     Building AI systems for industrial quality control with focus on explainability and reliability.
