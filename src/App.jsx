@@ -2,18 +2,14 @@ import { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { LicenseProvider } from './context/LicenseContext'
-import { Navbar } from './components/Navbar'
+import { Navbar } from './components/navigation/Navbar'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { ForgeLoader } from './components/ForgeLoader'
 import { useDocumentHead } from './hooks/useDocumentHead'
 
 // Landing page sections — loaded eagerly (above the fold)
-import { HeroSection } from './components/HeroSection'
-import { AboutSection } from './components/AboutSection'
-import { TechnologySection } from './components/TechnologySection'
-import { ProductSlider } from './components/ProductSlider'
-import { SEOContentSection } from './components/SEOContentSection'
-import { ContactSection } from './components/ContactSection'
+import { HomePage } from './components/layout/HomePage'
+import { ContactSection } from './components/sections/ContactSection'
 
 // System detail pages — lazy loaded
 const RejectionAnalysisSystem = lazy(() =>
@@ -21,6 +17,11 @@ const RejectionAnalysisSystem = lazy(() =>
 )
 const PlantIntelligence = lazy(() =>
   import('./pages/systems/PlantIntelligence').then((m) => ({ default: m.PlantIntelligence }))
+)
+
+// Marketing pages — lazy loaded
+const TechnologyPage = lazy(() =>
+  import('./pages/TechnologyPage').then((m) => ({ default: m.TechnologyPage }))
 )
 
 // Portal pages — lazy loaded to keep initial bundle small
@@ -40,24 +41,15 @@ const SystemDocs = lazy(() =>
   import('./pages/SystemDocs').then((m) => ({ default: m.SystemDocs }))
 )
 
-  /** Main landing page — all sections stacked for infinite scroll */
-  function HomePage() {
-    useDocumentHead(
-      'Tvastr Industrial Intelligence | AI for Foundry Defect Detection and Process Intelligence',
-      'AI-powered defect detection and rejection analysis system for foundries. Identify root causes, reduce scrap, and improve production with PIRAS - Plant Intelligence and Rejection Analysis System.',
-      'https://tvastr.co/'
-    )
-
-  return (
-    <>
-      <HeroSection />
-      <AboutSection />
-      <TechnologySection />
-      <SEOContentSection />
-      <ProductSlider />
-      <ContactSection />
-    </>
+/** Main landing page — all sections stacked for infinite scroll */
+function HomePageWrapper() {
+  useDocumentHead(
+    'Tvastr Industrial Intelligence | AI for Foundry Defect Detection and Process Intelligence',
+    'AI-powered defect detection and rejection analysis system for foundries. Identify root causes, reduce scrap, and improve production with PIRAS - Plant Intelligence and Rejection Analysis System.',
+    'https://tvastr.co/'
   )
+
+  return <HomePage />
 }
 
 /** Minimal loader shown while lazy portal pages are fetching */
@@ -104,8 +96,6 @@ function NotFoundPage() {
  * Routes:
  *   /                      → HomePage (marketing site)
  *   /portal                → PortalLogin
- *   /portal/dashboard      → PortalDashboard (protected)
- *   /portal/downloads      → PortalDownloads (protected)
  *   *                      → 404 fallback
  */
 export default function App() {
@@ -114,10 +104,12 @@ export default function App() {
       <AuthProvider>
         <LicenseProvider>
           <Navbar />
-
           <Suspense fallback={<PageLoader />}>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<HomePageWrapper />} />
+
+              {/* Marketing pages */}
+              <Route path="/technology" element={<TechnologyPage />} />
 
               <Route path="/systems/rejection-analysis-system" element={<RejectionAnalysisSystem />} />
               <Route path="/systems/plant-intelligence" element={<PlantIntelligence />} />
