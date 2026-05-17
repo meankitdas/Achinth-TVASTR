@@ -53,63 +53,19 @@ export function ResearchPage() {
   const publications = [
     {
       title: 'Signal-First Defect Detection in Foundry Casting',
-      authors: 'Achinth Arya, et al.',
+      authors: 'Achintharya, et al.',
       venue: 'Internal Technical Report',
       year: '2026',
       abstract: 'We present a signal-based approach to casting defect detection that combines vision, thermal, and electromagnetic sensors with physics-driven classification rules. Unlike pure ML approaches, our system achieves 95%+ accuracy while maintaining full explainability.',
       topics: ['Casting', 'Multi-Sensor Fusion', 'Explainable AI']
     },
     {
-      title: 'Real-Time Process Intelligence for Manufacturing Quality Control',
-      authors: 'Achinth Arya',
+      title: 'Energy-Topology Optimization with Lyapunov Stability for Defect Classification',
+      authors: 'Achintharya',
       venue: 'Internal Technical Report',
       year: '2026',
-      abstract: 'We describe a process intelligence system that transforms rejection data into actionable insights using SPC, Pareto, and correlation analysis. The system enables continuous improvement by linking defects to process parameters in real-time.',
-      topics: ['Process Intelligence', 'SPC', 'Root Cause Analysis']
-    },
-    {
-      title: 'Hybrid Edge-Cloud Architecture for Industrial AI',
-      authors: 'Achinth Arya',
-      venue: 'Internal Technical Report',
-      year: '2026',
-      abstract: 'We present a deployment architecture that enables real-time inspection at the edge (<200ms latency) while maintaining centralized analytics in the cloud. The system supports offline operation and scales to 1000s of inspection stations.',
-      topics: ['Edge AI', 'Deployment', 'Scalability']
-    }
-  ]
-
-  const caseStudies = [
-    {
-      industry: 'Foundry',
-      challenge: 'High scrap rate (12%) due to porosity and cracks in aluminum castings',
-      solution: 'Deployed Tvastr RAS with multi-sensor inspection and signal-based classification',
-      results: [
-        'Reduced scrap rate from 12% to 4.8% (60% reduction)',
-        'Identified key root causes: riser sizing and cooling rate',
-        'Achieved ROI in 8 months through scrap savings',
-        'Enabled 100% inspection vs 10% statistical sampling'
-      ]
-    },
-    {
-      industry: 'Aerospace',
-      challenge: 'Manual inspection bottleneck causing production delays',
-      solution: 'Automated NDT inspection with full traceability and AS9100 compliance',
-      results: [
-        'Reduced inspection time from 15min to 2min per part',
-        '70% reduction in inspection labor',
-        'Zero defect escapes in 6 months of operation',
-        'Automated PPAP documentation generation'
-      ]
-    },
-    {
-      industry: 'Automotive',
-      challenge: 'Supplier quality variability causing warranty claims',
-      solution: 'Inline inspection with real-time SPC monitoring and supplier scorecards',
-      results: [
-        'Achieved Cpk > 1.67 on critical dimensions',
-        'Reduced warranty claims by 40%',
-        'Real-time alerts on process shifts',
-        'Data-driven supplier quality discussions'
-      ]
+      abstract: 'We present a physics-inspired classification system that models defect detection as an energy minimization problem using Lyapunov stability functions. The system combines topology reasoning (spatial defect coherence) with energy-based force application to achieve guaranteed convergence and 35% higher accuracy than threshold-based approaches.',
+      topics: ['Energy Optimization', 'Lyapunov Stability', 'Topology Reasoning', 'Physics-Informed AI']
     }
   ]
 
@@ -222,63 +178,8 @@ export function ResearchPage() {
         </div>
       </section>
 
-      {/* Case Studies */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-metallic-50 mb-6">
-              Case Studies
-            </h2>
-            <p className="text-lg text-metallic-300">
-              Real-world deployments demonstrating measurable business impact.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {caseStudies.map((study, idx) => (
-              <div 
-                key={idx}
-                className="border border-metallic-800 bg-metallic-950/30 p-6 rounded-lg"
-              >
-                <div className="inline-block px-3 py-1 bg-amber-forge/10 text-amber-forge text-xs font-semibold rounded-full mb-4">
-                  {study.industry}
-                </div>
-                
-                <h3 className="text-lg font-semibold text-metallic-100 mb-3">
-                  Challenge
-                </h3>
-                <p className="text-sm text-metallic-400 mb-4">
-                  {study.challenge}
-                </p>
-                
-                <h3 className="text-lg font-semibold text-metallic-100 mb-3">
-                  Solution
-                </h3>
-                <p className="text-sm text-metallic-400 mb-4">
-                  {study.solution}
-                </p>
-                
-                <h3 className="text-lg font-semibold text-metallic-100 mb-3">
-                  Results
-                </h3>
-                <ul className="space-y-2">
-                  {study.results.map((result, ridx) => (
-                    <li key={ridx} className="text-sm text-metallic-400 flex items-start gap-2">
-                      <span className="text-amber-forge mt-0.5">✓</span>
-                      <span>{result}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Collaboration CTA */}
-      <section className="relative py-20 overflow-hidden" style={{ background: '#12121a' }}>
+      <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">

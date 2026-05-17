@@ -69,7 +69,7 @@ export function SPCSection() {
         <ul className="grid md:grid-cols-2 gap-3">
           {applications.map((app, idx) => (
             <li key={idx} className="text-metallic-300 flex items-start gap-2">
-              <span className="text-amber-forge mt-1">✓</span>
+              <span className="text-amber-forge mt-1">•</span>
               <span>{app}</span>
             </li>
           ))}

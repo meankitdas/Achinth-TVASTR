@@ -35,7 +35,7 @@ export function DeploymentSection() {
               <ul className="space-y-2">
                 {feature.benefits.map((benefit, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-metallic-500">
-                    <span className="text-amber-forge mt-1">✓</span>
+                    <span className="text-amber-forge mt-1">•</span>
                     <span>{benefit}</span>
                   </li>
                 ))}

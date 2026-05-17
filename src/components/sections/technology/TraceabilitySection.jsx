@@ -81,7 +81,7 @@ export function TraceabilitySection() {
         <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl mx-auto">
           {auditSupport.features.map((feature, idx) => (
             <li key={idx} className="text-metallic-300 flex items-start gap-2">
-              <span className="text-amber-forge mt-1">✓</span>
+              <span className="text-amber-forge mt-1">•</span>
               <span>{feature}</span>
             </li>
           ))}

@@ -98,7 +98,7 @@ export function SignalAnalysisSection() {
         <ul className="max-w-3xl mx-auto space-y-3">
           {whySignalFirst.map((reason, idx) => (
             <li key={idx} className="text-metallic-300 flex items-start gap-3">
-              <span className="text-amber-forge mt-1">✓</span>
+              <span className="text-amber-forge mt-1">•</span>
               <span>{reason}</span>
             </li>
           ))}

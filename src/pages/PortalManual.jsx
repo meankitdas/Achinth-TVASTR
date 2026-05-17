@@ -225,19 +225,19 @@ export function PortalManual() {
                     <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">How It Helps</h3>
                     <ul className="space-y-2 text-sm text-metallic-400 leading-relaxed">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Reduces scrap and rework by catching defects early</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Finds root causes so you can fix problems at the source</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Improves consistency across shifts and operators</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Provides data for management and quality reviews</span>
                       </li>
                     </ul>
@@ -903,23 +903,23 @@ export function PortalManual() {
                     <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">Photo Quality Tips</h3>
                     <ul className="space-y-2 text-sm text-metallic-400">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Take photos in good lighting (natural light or bright shop light)</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Keep camera at consistent distance from casting</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Focus on the surface area being inspected</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Avoid shadows, glare, or obstructions</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Accepted formats: <strong>JPG, JPEG, PNG</strong></span>
                       </li>
                     </ul>
@@ -929,15 +929,15 @@ export function PortalManual() {
                     <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">Data Entry</h3>
                     <ul className="space-y-2 text-sm text-metallic-400">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Always enter correct Casting ID</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Use Auto-Generate if your plant has that feature enabled</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Complete validation forms thoroughly — this data helps everyone</span>
                       </li>
                     </ul>
@@ -947,15 +947,15 @@ export function PortalManual() {
                     <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">System Hygiene</h3>
                     <ul className="space-y-2 text-sm text-metallic-400">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Don't close the system during inspections</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>If system freezes, wait 30 seconds before restarting</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">✓</span>
+                        <span className="text-amber-forge">•</span>
                         <span>Report any repeated errors to your supervisor</span>
                       </li>
                     </ul>

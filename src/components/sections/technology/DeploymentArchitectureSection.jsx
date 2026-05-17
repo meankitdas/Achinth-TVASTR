@@ -15,7 +15,7 @@ export function DeploymentArchitectureSection() {
         <ul className="grid md:grid-cols-2 gap-3">
           {coreProperties.map((prop, idx) => (
             <li key={idx} className="text-metallic-300 flex items-start gap-2">
-              <span className="text-amber-forge mt-1">✓</span>
+              <span className="text-amber-forge mt-1">•</span>
               <span>{prop}</span>
             </li>
           ))}

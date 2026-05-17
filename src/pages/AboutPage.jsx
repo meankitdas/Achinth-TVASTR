@@ -103,7 +103,6 @@ export function AboutPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="border border-metallic-800 bg-metallic-950/30 p-6 rounded-lg">
-              <div className="text-4xl mb-4">🔬</div>
               <h3 className="text-xl font-semibold text-metallic-100 mb-3">
                 Signal-First Classification
               </h3>
@@ -114,7 +113,6 @@ export function AboutPage() {
             </div>
 
             <div className="border border-metallic-800 bg-metallic-950/30 p-6 rounded-lg">
-              <div className="text-4xl mb-4">📊</div>
               <h3 className="text-xl font-semibold text-metallic-100 mb-3">
                 Process Intelligence
               </h3>
@@ -125,7 +123,6 @@ export function AboutPage() {
             </div>
 
             <div className="border border-metallic-800 bg-metallic-950/30 p-6 rounded-lg">
-              <div className="text-4xl mb-4">🏭</div>
               <h3 className="text-xl font-semibold text-metallic-100 mb-3">
                 Edge Deployment
               </h3>

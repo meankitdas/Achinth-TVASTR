@@ -61,7 +61,7 @@ export function ParetoSection() {
         <ul className="grid md:grid-cols-2 gap-3 max-w-4xl mx-auto">
           {benefits.map((benefit, idx) => (
             <li key={idx} className="text-metallic-300 flex items-start gap-2">
-              <span className="text-amber-forge mt-1">✓</span>
+              <span className="text-amber-forge mt-1">•</span>
               <span>{benefit}</span>
             </li>
           ))}
