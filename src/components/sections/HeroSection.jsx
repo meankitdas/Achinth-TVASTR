@@ -5,7 +5,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden bg-charcoal-950"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-charcoal-950"
     >
       {/* Radial forge glow backdrop */}
       <div
@@ -19,40 +19,12 @@ export function HeroSection() {
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
 
-      {/* Subtle accent lines */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute top-0 left-1/4 w-px h-full opacity-20"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 0%, rgba(245,158,11,0.3) 50%, transparent 100%)',
-          }}
+      {/* Content layer — centered */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+        <SectionHeader 
+          title={heroContent.title} 
+          subtitle={heroContent.subtitle}
         />
-        <div
-          className="absolute top-0 right-1/3 w-px h-full opacity-20"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 0%, rgba(245,158,11,0.3) 50%, transparent 100%)',
-          }}
-        />
-      </div>
-
-      {/* Content layer */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-24 pb-16 md:py-32">
-        <div className="max-w-2xl">
-          {/* Eyebrow label */}
-          <div className="flex items-center gap-3 mb-5 md:mb-8">
-            <div className="w-8 h-px bg-amber-forge" />
-            <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-80">
-              Industrial Intelligence
-            </span>
-          </div>
-
-          {/* Main title */}
-          <SectionHeader 
-            title={heroContent.title} 
-            subtitle={heroContent.subtitle}
-          />
-
-        </div>
       </div>
 
       {/* Bottom gradient fade into next section */}

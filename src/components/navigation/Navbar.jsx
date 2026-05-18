@@ -85,6 +85,12 @@ export function Navbar() {
           {/* Logo mark */}
           <Link
             to="/"
+            onClick={(e) => {
+              if (location.pathname === '/') {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            }}
             className="group transition-opacity duration-200 hover:opacity-80"
             aria-label="Tvastr Home"
           >
