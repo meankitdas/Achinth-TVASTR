@@ -59,9 +59,9 @@ export function RejectionAnalysisSystem() {
         title="Available in Two Configurations"
         body="Rejection Analysis System is available in two configurations to match different deployment requirements."
       >
-        <div className="mt-6 flex flex-col md:flex-row items-stretch gap-0" style={{ maxWidth: '720px' }}>
+        <div className="mt-6 flex flex-col md:flex-row items-stretch gap-4 md:gap-0" style={{ maxWidth: '720px' }}>
           {/* LEFT — Core (Standalone) */}
-          <div className="flex-1 p-6" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px 0 0 8px' }}>
+          <div className="flex-1 p-6" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <div className="flex items-center gap-2 mb-4">
               <span className="w-2 h-2 rounded-full bg-slate-400 flex-shrink-0" />
               <p className="text-base font-bold text-gray-800">Core (Standalone)</p>
@@ -79,7 +79,7 @@ export function RejectionAnalysisSystem() {
           </div>
 
           {/* RIGHT — Enterprise (Integrated) */}
-          <div className="flex-1 p-6" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '0 8px 8px 0' }}>
+          <div className="flex-1 p-6" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px' }}>
             <div className="flex items-center gap-2 mb-4">
               <span className="w-2 h-2 rounded-full bg-sky-500 flex-shrink-0" />
               <p className="text-base font-bold text-gray-800">Enterprise (Integrated)</p>
@@ -225,10 +225,10 @@ export function RejectionAnalysisSystem() {
         body="Each inspection event carries structured manufacturing context. Aggregated across multiple inspections, these records reveal recurring process-level patterns and their likely root causes. The system generates plain-language root cause explanations alongside statistical patterns."
       >
         {/* Two-column diagnostic layout */}
-        <div className="mt-6 flex flex-col md:flex-row items-stretch gap-0">
+        <div className="mt-6 flex flex-col md:flex-row items-stretch gap-4 md:gap-0">
 
           {/* LEFT — Inspection Record */}
-          <div className="flex-1 p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px 0 0 8px' }}>
+          <div className="flex-1 p-5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 mb-4">Inspection Record</p>
             <div className="space-y-2 mb-5">
               {[
@@ -281,7 +281,7 @@ export function RejectionAnalysisSystem() {
           </div>
 
           {/* RIGHT — Process Insight */}
-          <div className="flex-1 p-5" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '0 8px 8px 0' }}>
+          <div className="flex-1 p-5" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px' }}>
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400 mb-4">Process Insight</p>
             <div className="space-y-2 mb-4">
               {[

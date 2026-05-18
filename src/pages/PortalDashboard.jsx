@@ -343,7 +343,7 @@ export function PortalDashboard() {
                         style={STYLES.cardHoverAccent}
                       />
 
-                      <div className="p-8 flex flex-col gap-6">
+                      <div className="p-5 md:p-8 flex flex-col gap-6">
                         {/* Header row with product info and status */}
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">

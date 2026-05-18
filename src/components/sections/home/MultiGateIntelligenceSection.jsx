@@ -15,10 +15,10 @@ export function MultiGateIntelligenceSection() {
 
       {/* Stage flow — horizontal timeline on desktop, vertical on mobile */}
       <div className="relative">
-        {/* Connecting line (desktop) */}
-        <div className="hidden md:block absolute top-8 left-0 right-0 h-[1px] bg-gradient-to-r from-metallic-800/40 via-amber-forge/30 to-metallic-800/40" />
+        {/* Connecting line (desktop only — visible when 5-col layout is active) */}
+        <div className="hidden lg:block absolute top-8 left-0 right-0 h-[1px] bg-gradient-to-r from-metallic-800/40 via-amber-forge/30 to-metallic-800/40" />
 
-        <div className="grid md:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
           {stages.map((stage, i) => (
             <div key={i} className="relative flex flex-col items-center text-center">
               {/* Stage number node */}

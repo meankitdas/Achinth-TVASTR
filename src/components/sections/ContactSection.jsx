@@ -2,9 +2,8 @@ import { SectionShell } from '@/components/primitives/SectionShell'
 
 export function ContactSection() {
   return (
-    <SectionShell id="contact" type="contact" content={{ title: "Contact Us" }}>
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <SectionShell id="contact">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left: text */}
           <div className="flex flex-col justify-center">
             <p className="text-base text-metallic-400 leading-relaxed mb-8">
@@ -22,7 +21,7 @@ export function ContactSection() {
           </div>
 
           {/* Right: form placeholder */}
-          <div className="p-8 bg-charcoal-950 rounded-lg border border-metallic-800/30">
+          <div className="p-5 md:p-8 bg-charcoal-950 rounded-lg border border-metallic-800/30">
             <h3 className="text-xl font-bold text-metallic-100 mb-6">Request a Demo</h3>
             <div className="space-y-4">
               <input
@@ -45,7 +44,6 @@ export function ContactSection() {
               </button>
             </div>
           </div>
-        </div>
       </div>
     </SectionShell>
   )
