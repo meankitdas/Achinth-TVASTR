@@ -73,7 +73,7 @@ export function PortalLogin() {
       {/* Back to main site */}
       <Link
         to="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-xs text-metallic-500 hover:text-metallic-200 transition-colors duration-200 tracking-widest uppercase"
+        className="absolute top-6 left-6 flex items-center gap-2 text-xs text-txt-muted hover:text-txt-primary transition-colors duration-200 tracking-widest uppercase"
       >
         ← Back to Site
       </Link>
@@ -116,7 +116,7 @@ export function PortalLogin() {
             >
               Customer Portal
             </h1>
-            <p className="text-sm text-metallic-400">
+            <p className="text-sm text-txt-secondary">
               Secure access for verified Tvastr customers.
             </p>
           </div>
@@ -127,7 +127,7 @@ export function PortalLogin() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-xs font-semibold tracking-widest uppercase text-metallic-500 mb-2"
+                className="block text-xs font-semibold tracking-widest uppercase text-txt-muted mb-2"
               >
                 Email Address
               </label>
@@ -140,7 +140,7 @@ export function PortalLogin() {
                 onBlur={() => setFocusedField(null)}
                 autoComplete="email"
                 placeholder="you@company.com"
-                className="w-full px-4 py-3 text-sm text-metallic-100 placeholder-metallic-600 outline-none transition-all duration-200"
+                className="w-full px-4 py-3 text-sm text-txt-primary placeholder-metallic-600 outline-none transition-all duration-200"
                 style={{
                   background: 'rgba(10,10,11,0.8)',
                   border:
@@ -160,7 +160,7 @@ export function PortalLogin() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-xs font-semibold tracking-widest uppercase text-metallic-500 mb-2"
+                className="block text-xs font-semibold tracking-widest uppercase text-txt-muted mb-2"
               >
                 Password
               </label>
@@ -173,7 +173,7 @@ export function PortalLogin() {
                 onBlur={() => setFocusedField(null)}
                 autoComplete="current-password"
                 placeholder="••••••••"
-                className="w-full px-4 py-3 text-sm text-metallic-100 placeholder-metallic-600 outline-none transition-all duration-200"
+                className="w-full px-4 py-3 text-sm text-txt-primary placeholder-metallic-600 outline-none transition-all duration-200"
                 style={{
                   background: 'rgba(10,10,11,0.8)',
                   border:
@@ -192,7 +192,7 @@ export function PortalLogin() {
             {/* Error message */}
             {error && (
               <div
-                className="px-4 py-3 text-sm text-amber-forge"
+                className="px-4 py-3 text-sm text-signal-warning"
                 style={{
                   background: 'rgba(245,158,11,0.06)',
                   border: '1px solid rgba(245,158,11,0.15)',
@@ -226,7 +226,7 @@ export function PortalLogin() {
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <span
-                    className="w-3 h-3 border border-amber-forge border-t-transparent rounded-full"
+                    className="w-3 h-3 border border-signal-warning border-t-transparent rounded-full"
                     style={{ animation: 'spin 0.6s linear infinite' }}
                   />
                   Authenticating...
@@ -240,16 +240,16 @@ export function PortalLogin() {
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
             <div className="flex-1 h-px" style={{ background: 'rgba(168,168,180,0.08)' }} />
-            <span className="text-xs text-metallic-600">or</span>
+            <span className="text-xs text-txt-muted">or</span>
             <div className="flex-1 h-px" style={{ background: 'rgba(168,168,180,0.08)' }} />
           </div>
 
           {/* Request Access */}
           <div className="text-center">
-            <p className="text-xs text-metallic-500 mb-2">Don't have access yet?</p>
+            <p className="text-xs text-txt-muted mb-2">Don't have access yet?</p>
             <a
               href={generateMailtoLink(CONFIG.emails.support, CONFIG.emailTemplates.portalAccess.subject, CONFIG.emailTemplates.portalAccess.body)}
-              className="text-sm font-medium text-metallic-300 hover:text-amber-glow transition-colors duration-200 underline underline-offset-4"
+              className="text-sm font-medium text-txt-secondary hover:text-signal-glow transition-colors duration-200 underline underline-offset-4"
               style={{ textDecorationColor: 'rgba(245,158,11,0.3)' }}
             >
               Request Access →
@@ -266,7 +266,7 @@ export function PortalLogin() {
             borderBottomRightRadius: '0.75rem',
           }}
         >
-          <span className="text-xs text-metallic-600">
+          <span className="text-xs text-txt-muted">
             🔒 Secured by Supabase Auth · Authorized users only
           </span>
         </div>

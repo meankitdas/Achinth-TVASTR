@@ -5,19 +5,20 @@ export function DiagramFlow({ steps, description }) {
         {steps.map((step, i) => (
           <div key={i} className="flex items-center gap-4">
             <div
-              className="px-6 py-3 bg-charcoal-950 rounded-lg border border-metallic-800/30 text-center"
+              className="px-6 py-3 rounded-lg border text-center"
+              style={{ background: 'var(--bg-primary)', borderColor: 'var(--border-default)' }}
             >
-              <p className="text-sm font-semibold text-metallic-100">{step}</p>
+              <p className="text-sm font-semibold text-txt-primary">{step}</p>
             </div>
             {i < steps.length - 1 && (
-              <div className="text-amber-forge text-2xl">→</div>
+              <div className="text-telemetry-primary text-2xl">→</div>
             )}
           </div>
         ))}
       </div>
       
       {description && (
-        <p className="text-base text-metallic-400 leading-relaxed text-center max-w-4xl mx-auto">
+        <p className="text-base text-txt-secondary leading-relaxed text-center max-w-4xl mx-auto">
           {description}
         </p>
       )}

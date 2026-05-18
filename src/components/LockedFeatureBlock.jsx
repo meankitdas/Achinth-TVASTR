@@ -43,17 +43,17 @@ export function LockedFeatureBlock({ title, description, requiredTier, features 
 
         {/* Content */}
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-metallic-100 mb-2">
+          <h3 className="text-lg font-bold text-txt-primary mb-2">
             {title}
           </h3>
-          <p className="text-sm text-metallic-400 mb-4">
+          <p className="text-sm text-txt-secondary mb-4">
             {description}
           </p>
 
           {features && features.length > 0 && (
             <ul className="space-y-2 mb-6">
               {features.map((feature, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-metallic-300">
+                <li key={i} className="flex items-center gap-3 text-sm text-txt-secondary">
                   <span
                     className="flex-shrink-0 w-1 h-1 rounded-full"
                     style={{ background: '#888896' }}

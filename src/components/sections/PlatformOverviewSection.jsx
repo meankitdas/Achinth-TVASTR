@@ -10,7 +10,7 @@ export function PlatformOverviewSection() {
     <SectionShell id={id}>
       <SectionHeader title={title} subtitle={subtitle} eyebrow="Platform" />
 
-      <p className="text-sm text-metallic-400 leading-relaxed max-w-4xl mt-4 mb-12">
+      <p className="text-sm text-txt-secondary leading-relaxed max-w-4xl mt-4 mb-12">
         {body}
       </p>
 
@@ -18,14 +18,15 @@ export function PlatformOverviewSection() {
         {systems.map((system) => (
           <div
             key={system.id}
-            className="p-6 rounded-lg border border-metallic-800/20 bg-charcoal-950/50"
+            className="p-6 rounded-lg border bg-bg-primary/50"
+            style={{ borderColor: 'var(--border-subtle)' }}
           >
-            <h3 className="text-xl font-bold text-metallic-100 mb-1">{system.name}</h3>
-            <p className="text-xs text-amber-forge font-semibold mb-3">{system.tagline}</p>
-            <p className="text-sm text-metallic-400 leading-relaxed mb-4">{system.description}</p>
+            <h3 className="text-xl font-bold text-txt-primary mb-1">{system.name}</h3>
+            <p className="text-xs text-telemetry-primary font-semibold mb-3">{system.tagline}</p>
+            <p className="text-sm text-txt-secondary leading-relaxed mb-4">{system.description}</p>
             <Link
               to={system.route}
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-forge hover:text-amber-500 transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-telemetry-primary hover:text-telemetry-secondary transition-colors"
             >
               Explore
               <span>→</span>
@@ -34,7 +35,7 @@ export function PlatformOverviewSection() {
         ))}
       </div>
 
-      <p className="text-center text-sm text-metallic-400 max-w-2xl mx-auto italic">
+      <p className="text-center text-sm text-txt-muted max-w-2xl mx-auto italic">
         {keyMessage}
       </p>
     </SectionShell>

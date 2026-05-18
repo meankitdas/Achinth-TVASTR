@@ -24,7 +24,7 @@ export function TechnologyCTASection() {
           {title}
         </h2>
         
-        <p className="text-lg text-metallic-400">
+        <p className="text-lg text-txt-secondary">
           {subtitle}
         </p>
         
@@ -42,7 +42,7 @@ export function TechnologyCTASection() {
               className={
                 button.variant === 'primary'
                   ? 'px-8 py-3 bg-amber-forge text-metallic-950 font-semibold rounded hover:bg-amber-600 transition-colors'
-                  : 'px-8 py-3 border border-metallic-700 text-metallic-200 font-semibold rounded hover:border-amber-forge hover:text-amber-forge transition-colors'
+                  : 'px-8 py-3 border border-metallic-700 text-txt-primary font-semibold rounded hover:border-amber-forge hover:text-telemetry-primary transition-colors'
               }
             >
               {button.label}

@@ -46,7 +46,7 @@ export class ErrorBoundary extends Component {
               Something went wrong
             </h1>
 
-            <p className="text-base text-metallic-400 mb-8 leading-relaxed">
+            <p className="text-base text-txt-secondary mb-8 leading-relaxed">
               An unexpected error occurred. Please try refreshing the page.
               If the problem persists, contact support.
             </p>
@@ -72,7 +72,7 @@ export class ErrorBoundary extends Component {
 
               <a
                 href="/"
-                className="px-6 py-3 text-sm font-semibold tracking-widest uppercase text-metallic-400 hover:text-metallic-200 transition-colors duration-200"
+                className="px-6 py-3 text-sm font-semibold tracking-widest uppercase text-txt-secondary hover:text-txt-primary transition-colors duration-200"
               >
                 Go Home
               </a>
@@ -81,7 +81,7 @@ export class ErrorBoundary extends Component {
             {/* Error details in dev mode */}
             {import.meta.env.DEV && this.state.error && (
               <details className="mt-8 text-left">
-                <summary className="text-xs text-metallic-500 cursor-pointer uppercase tracking-wide">
+                <summary className="text-xs text-txt-muted cursor-pointer uppercase tracking-wide">
                   Error Details (Dev Only)
                 </summary>
                 <pre className="mt-4 p-4 text-xs text-red-400 overflow-auto max-h-64"

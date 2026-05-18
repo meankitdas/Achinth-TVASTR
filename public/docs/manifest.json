@@ -6,7 +6,9 @@
       "docs": [
         { "id": "system_overview", "title": "System Overview", "file": "01_overview/system_overview.md" },
         { "id": "architecture", "title": "Architecture", "file": "01_overview/architecture.md" },
-        { "id": "technical_reference", "title": "Technical Reference", "file": "01_overview/technical_reference.md" }
+        { "id": "technical_reference", "title": "Technical Reference", "file": "01_overview/technical_reference.md" },
+        { "id": "cognition_runtime", "title": "Cognition Runtime", "file": "01_overview/cognition_runtime.md" },
+        { "id": "runtime_topology", "title": "Runtime Topology", "file": "01_overview/runtime_topology.md" }
       ]
     },
     {
@@ -17,7 +19,11 @@
         { "id": "patch_system", "title": "Patch System", "file": "02_pipeline/patch_system.md" },
         { "id": "anomaly_system", "title": "Anomaly System", "file": "02_pipeline/anomaly_system.md" },
         { "id": "signal_system", "title": "Signal System", "file": "02_pipeline/signal_system.md" },
-        { "id": "fusion_logic", "title": "Fusion Logic", "file": "02_pipeline/fusion_logic.md" }
+        { "id": "signal_pipeline", "title": "Signal Pipeline", "file": "02_pipeline/signal_pipeline.md" },
+        { "id": "fusion_logic", "title": "Fusion Logic", "file": "02_pipeline/fusion_logic.md" },
+        { "id": "postprocess_pipeline", "title": "Postprocess Pipeline", "file": "02_pipeline/postprocess_pipeline.md" },
+        { "id": "runtime_execution", "title": "Runtime Execution", "file": "02_pipeline/runtime_execution.md" },
+        { "id": "fallback_and_recovery", "title": "Fallback & Recovery", "file": "02_pipeline/fallback_and_recovery.md" }
       ]
     },
     {
@@ -30,7 +36,11 @@
         { "id": "auto_calibration", "title": "Auto Calibration", "file": "03_intelligence/auto_calibration.md" },
         { "id": "fingerprinting", "title": "Fingerprinting", "file": "03_intelligence/fingerprinting.md" },
         { "id": "traceability", "title": "Traceability", "file": "03_intelligence/traceability.md" },
-        { "id": "plant_intelligence", "title": "Plant Intelligence", "file": "03_intelligence/plant_intelligence.md" }
+        { "id": "plant_intelligence", "title": "Plant Intelligence", "file": "03_intelligence/plant_intelligence.md" },
+        { "id": "energy_reasoning", "title": "Energy Reasoning", "file": "03_intelligence/energy_reasoning.md" },
+        { "id": "energy_stability", "title": "Energy Stability", "file": "03_intelligence/energy_stability.md" },
+        { "id": "semantic_survivability", "title": "Semantic Survivability", "file": "03_intelligence/semantic_survivability.md" },
+        { "id": "topology_reasoning", "title": "Topology Reasoning", "file": "03_intelligence/topology_reasoning.md" }
       ]
     },
     {
@@ -48,7 +58,12 @@
         { "id": "setup", "title": "Setup", "file": "05_deployment/setup.md" },
         { "id": "runtime", "title": "Runtime", "file": "05_deployment/runtime.md" },
         { "id": "licensing", "title": "Licensing", "file": "05_deployment/licensing.md" },
-        { "id": "software_updates", "title": "Software Updates", "file": "05_deployment/software_updates.md" }
+        { "id": "software_updates", "title": "Software Updates", "file": "05_deployment/software_updates.md" },
+        { "id": "api_runtime", "title": "API Runtime", "file": "05_deployment/api_runtime.md" },
+        { "id": "deployment_topology", "title": "Deployment Topology", "file": "05_deployment/deployment_topology.md" },
+        { "id": "operational_runtime", "title": "Operational Runtime", "file": "05_deployment/operational_runtime.md" },
+        { "id": "production_validation", "title": "Production Validation", "file": "05_deployment/production_validation.md" },
+        { "id": "telemetry_runtime", "title": "Telemetry Runtime", "file": "05_deployment/telemetry_runtime.md" }
       ]
     },
     {
@@ -58,7 +73,8 @@
         { "id": "api_contracts", "title": "API Contracts", "file": "06_reference/api_contracts.md" },
         { "id": "data_structures", "title": "Data Structures", "file": "06_reference/data_structures.md" },
         { "id": "iso_compliance", "title": "ISO Compliance", "file": "06_reference/iso_compliance.md" },
-        { "id": "dashboard_guide", "title": "Dashboard Guide", "file": "06_reference/dashboard_guide.md" }
+        { "id": "dashboard_guide", "title": "Dashboard Guide", "file": "06_reference/dashboard_guide.md" },
+        { "id": "artifact_contracts", "title": "Artifact Contracts", "file": "06_reference/artifact_contracts.md" }
       ]
     }
   ]

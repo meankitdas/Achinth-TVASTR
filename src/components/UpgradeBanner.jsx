@@ -56,15 +56,15 @@ export function UpgradeBanner() {
       <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         {/* Left: Title + Features */}
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-metallic-100 mb-4">
+          <h3 className="text-lg font-bold text-txt-primary mb-4">
             {config.title}
           </h3>
-          <p className="text-sm text-metallic-400 mb-3">
-            Upgrade to <span className="font-semibold text-amber-forge">{config.targetTier}</span> to enable:
+          <p className="text-sm text-txt-secondary mb-3">
+            Upgrade to <span className="font-semibold text-signal-warning">{config.targetTier}</span> to enable:
           </p>
           <ul className="space-y-2">
             {config.features.map((feature, i) => (
-              <li key={i} className="flex items-center gap-3 text-sm text-metallic-300">
+              <li key={i} className="flex items-center gap-3 text-sm text-txt-secondary">
                 <span
                   className="flex-shrink-0 w-1 h-1 rounded-full"
                   style={{ background: '#f59e0b' }}

@@ -241,14 +241,14 @@ export function PortalDashboard() {
         <div className="max-w-7xl mx-auto px-4 md:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
-            <span className="text-metallic-600 text-xs hidden md:inline">/ Customer Portal</span>
+            <span className="text-txt-muted text-xs hidden md:inline">/ Customer Portal</span>
           </Link>
 
           <div className="flex items-center gap-3 md:gap-6">
             {isAdmin && (
               <Link
                 to="/portal/admin"
-                className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+                className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-txt-muted hover:text-txt-primary"
               >
                 <span className="hidden sm:inline">Admin Portal</span>
                 <span className="sm:hidden">Admin</span>
@@ -256,25 +256,25 @@ export function PortalDashboard() {
             )}
             <Link
               to="/system"
-              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-txt-muted hover:text-txt-primary"
             >
               <span className="hidden sm:inline">System</span>
               <span className="sm:hidden">Sys</span>
             </Link>
             <Link
               to="/portal/manual"
-              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-txt-muted hover:text-txt-primary"
             >
               <span className="hidden sm:inline">User Manual</span>
               <span className="sm:hidden">Manual</span>
             </Link>
             <div className="hidden sm:flex items-center gap-2">
               <div className="w-2 h-2 rounded-full" style={STYLES.statusIndicator} />
-              <span className="text-xs text-metallic-400 font-mono">{user?.email}</span>
+              <span className="text-xs text-txt-secondary font-mono">{user?.email}</span>
             </div>
             <button
               onClick={signOut}
-              className="text-xs font-medium tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
+              className="text-xs font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors duration-200"
             >
               Logout
             </button>
@@ -287,20 +287,20 @@ export function PortalDashboard() {
         {/* Page header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 h-px bg-amber-forge opacity-60" />
-            <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
+            <div className="w-6 h-px bg-signal-warning opacity-60" />
+            <span className="text-xs font-semibold tracking-[0.3em] uppercase text-signal-warning opacity-60">
               Customer Portal
             </span>
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-3" style={STYLES.titleGradient}>
             {customerName || 'Dashboard'}
           </h1>
-          <p className="text-sm text-metallic-400">
+          <p className="text-sm text-txt-secondary">
             Welcome back. Your licensed Tvastr systems are listed below.
           </p>
           {tier && (
-            <p className="text-xs text-metallic-500 mt-2">
-              License Tier: <span className="text-metallic-300 font-semibold">{TIER_LABELS[tier] || tier}</span>
+            <p className="text-xs text-txt-muted mt-2">
+              License Tier: <span className="text-txt-secondary font-semibold">{TIER_LABELS[tier] || tier}</span>
             </p>
           )}
         </div>
@@ -350,10 +350,10 @@ export function PortalDashboard() {
                             <span className="text-xs font-semibold tracking-[0.15em] uppercase px-2.5 py-1 inline-block mb-3" style={STYLES.tagVision}>
                               {product.tag}
                             </span>
-                            <h3 className="text-2xl font-bold text-metallic-100 tracking-tight leading-tight mb-3">
+                            <h3 className="text-2xl font-bold text-txt-primary tracking-tight leading-tight mb-3">
                               {product.name}
                             </h3>
-                            <p className="text-sm text-metallic-400 leading-relaxed">
+                            <p className="text-sm text-txt-secondary leading-relaxed">
                               {product.description}
                             </p>
                           </div>
@@ -375,7 +375,7 @@ export function PortalDashboard() {
 
                         {/* Version and download section */}
                         {loadingVersions ? (
-                          <div className="flex items-center justify-center py-8 text-xs text-metallic-500">
+                          <div className="flex items-center justify-center py-8 text-xs text-txt-muted">
                             Loading versions...
                           </div>
                         ) : productVersions?.latest || productVersions?.stable ? (
@@ -392,18 +392,18 @@ export function PortalDashboard() {
                             >
                               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                                 <div>
-                                  <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                                  <p className="text-xs text-txt-muted tracking-widest uppercase mb-1">
                                     {productVersions?.latest ? 'Latest Version' : 'Current Version'}
                                   </p>
-                                  <p className="text-2xl font-black text-amber-forge font-mono">
+                                  <p className="text-2xl font-black text-signal-warning font-mono">
                                     v{(productVersions?.latest || productVersions?.stable)?.version_number}
                                   </p>
                                 </div>
                                 <div className="md:text-right">
-                                  <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                                  <p className="text-xs text-txt-muted tracking-widest uppercase mb-1">
                                     Released
                                   </p>
-                                  <p className="text-sm text-metallic-300">
+                                  <p className="text-sm text-txt-secondary">
                                     {new Date((productVersions?.latest || productVersions?.stable)?.release_date).toLocaleDateString('en-IN', { 
                                       year: 'numeric', 
                                       month: 'long', 
@@ -415,10 +415,10 @@ export function PortalDashboard() {
 
                               {(productVersions?.latest || productVersions?.stable)?.changelog && (
                                 <div>
-                                  <p className="text-xs text-metallic-500 tracking-widest uppercase mb-2">
+                                  <p className="text-xs text-txt-muted tracking-widest uppercase mb-2">
                                     Release Notes
                                   </p>
-                                  <p className="text-sm text-metallic-300 leading-relaxed">
+                                  <p className="text-sm text-txt-secondary leading-relaxed">
                                     {(productVersions?.latest || productVersions?.stable)?.changelog}
                                   </p>
                                 </div>
@@ -530,7 +530,7 @@ export function PortalDashboard() {
                             ) : null}
                           </div>
                         ) : (
-                          <div className="flex items-center justify-center py-8 text-sm text-metallic-500">
+                          <div className="flex items-center justify-center py-8 text-sm text-txt-muted">
                             No releases available yet.
                           </div>
                         )}
@@ -559,10 +559,10 @@ export function PortalDashboard() {
             {/* Support note */}
             <div className="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={STYLES.supportCard}>
               <div>
-                <p className="text-sm font-medium text-metallic-300 mb-1">
+                <p className="text-sm font-medium text-txt-secondary mb-1">
                   Need installation support?
                 </p>
-                <p className="text-xs text-metallic-500">
+                <p className="text-xs text-txt-muted">
                   Contact your Tvastr account manager or reach out directly.
                 </p>
               </div>
@@ -584,7 +584,7 @@ export function PortalDashboard() {
         <div className="mt-8 text-center">
           <Link
             to="/"
-            className="text-xs text-metallic-600 hover:text-metallic-300 transition-colors duration-200 tracking-wider"
+            className="text-xs text-txt-muted hover:text-txt-secondary transition-colors duration-200 tracking-wider"
           >
             ← Return to tvastr.ai
           </Link>

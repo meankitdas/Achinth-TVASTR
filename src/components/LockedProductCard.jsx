@@ -42,7 +42,7 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
             >
               {tag}
             </span>
-            <h3 className="text-lg font-bold text-metallic-400 tracking-tight leading-tight">
+            <h3 className="text-lg font-bold text-txt-secondary tracking-tight leading-tight">
               {title}
             </h3>
           </div>
@@ -67,7 +67,7 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
         </div>
 
         {/* Description */}
-        <p className="text-sm text-metallic-500 leading-relaxed">
+        <p className="text-sm text-txt-muted leading-relaxed">
           {description}
         </p>
 
@@ -79,14 +79,14 @@ export function LockedProductCard({ title, description, tag, index, requiredTier
             border: '1px solid rgba(168,168,180,0.06)',
           }}
         >
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-metallic-600 mb-3">
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted mb-3">
             Available in {requiredTier}
           </p>
           
           {features && features.length > 0 && (
             <ul className="space-y-2 mb-4">
               {features.map((feature, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-metallic-500">
+                <li key={i} className="flex items-start gap-2 text-xs text-txt-muted">
                   <span className="flex-shrink-0 mt-1.5 w-1 h-1 rounded-full bg-metallic-600" />
                   <span>{feature}</span>
                 </li>

@@ -3,6 +3,28 @@
 @tailwind utilities;
 
 @layer base {
+  /* ── CSS Design Tokens (manually synced from src/design/colors.js) ── */
+  :root {
+    --bg-primary: #0a0a0b;
+    --bg-secondary: #111113;
+    --bg-elevated: #1a1a1e;
+    --bg-panel: #222228;
+    --text-primary: #e2e4ea;
+    --text-secondary: #c0c4ce;
+    --text-muted: #6b7080;
+    --telemetry-primary: #4f8cff;
+    --telemetry-secondary: #3b7aed;
+    --telemetry-muted: #2563c4;
+    --process-primary: #5bc4cc;
+    --process-secondary: #4aafb8;
+    --signal-warning: #f59e0b;
+    --signal-glow: #fbbf24;
+    --signal-danger: #ef4444;
+    --border-subtle: rgba(142,147,161,0.12);
+    --border-default: rgba(142,147,161,0.20);
+    --border-strong: rgba(142,147,161,0.35);
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -15,13 +37,13 @@
   }
 
   body {
-    background-color: #0a0a0b;
+    background-color: var(--bg-primary);
     background-image:
-      linear-gradient(rgba(168, 168, 180, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(168, 168, 180, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(142,147,161,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(142,147,161,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
     background-attachment: fixed;
-    color: #e8e8ec;
+    color: var(--text-primary);
     font-family: 'Inter', system-ui, sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -36,19 +58,19 @@
     }
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar — telemetry blue */
   ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #111113; }
-  ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 2px; }
+  ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+  ::-webkit-scrollbar-thumb { background: var(--telemetry-primary); border-radius: 2px; }
 
   ::selection {
-    background: rgba(245, 158, 11, 0.3);
-    color: #fbbf24;
+    background: rgba(79,140,255,0.2);
+    color: var(--text-primary);
   }
 }
 
 @layer utilities {
-  /* Scroll reveal — triggered by useScrollReveal hook */
+  /* ── Scroll reveal — triggered by useScrollReveal hook ── */
   .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -60,13 +82,13 @@
   .reveal-delay-3 { transition-delay: 0.3s; }
   .reveal-delay-4 { transition-delay: 0.4s; }
 
-  /* Defect pulse — ProductCard DefectGrid cells */
+  /* ── Defect pulse — ProductCard DefectGrid cells (amber correct here) ── */
   @keyframes defectPulse {
     0%, 100% { opacity: 0.4; background: rgba(245,158,11,0.15); }
     50%       { opacity: 1;   background: rgba(245,158,11,0.35); }
   }
 
-  /* Scan line sweep — ProductCard DefectGrid */
+  /* ── Scan line sweep — ProductCard DefectGrid ── */
   @keyframes scanLine {
     0%   { top: 0%;   opacity: 0; }
     10%  { opacity: 1; }
@@ -74,250 +96,144 @@
     100% { top: 100%; opacity: 0; }
   }
 
-  /* Spinner — portal loading buttons */
+  /* ── Spinner — portal loading buttons ── */
   @keyframes spin {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
   }
 
-  /* ── Forge Loader — Molten Metal Casting Animation ──────────────── */
-  /* Sequential mold filling system with 6s master cycle */
-  
-  .forge-loader-container {
+  /* ── RuntimeLoader — Minimal industrial pulse animation ── */
+  .runtime-loader {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
   }
 
-  .forge-loader {
-    position: relative;
-    width: 120px;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Ladle (pouring bucket) - tilts during each pour cycle */
-  .ladle {
-    position: relative;
-    width: 40px;
-    height: 30px;
-    z-index: 3;
-    animation: ladleTilt 6s ease-in-out infinite;
-  }
-
-  .ladle-body {
-    width: 32px;
-    height: 24px;
-    background: linear-gradient(135deg, #2a2a2e 0%, #1a1a1e 100%);
-    border: 1.5px solid rgba(168,168,180,0.3);
-    border-radius: 0 0 8px 8px;
-    position: relative;
-    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3);
-  }
-
-  .ladle-handle {
-    position: absolute;
-    top: 8px;
-    right: -12px;
-    width: 16px;
-    height: 2px;
-    background: linear-gradient(90deg, #2a2a2e 0%, transparent 100%);
-    border-radius: 2px;
-    transform-origin: left center;
-  }
-
-  /* Molten metal stream - pours in 3 distinct phases */
-  .molten-stream {
-    position: absolute;
-    top: 22px;
-    left: calc(50% + 8px);
-    transform: translateX(-50%) skewX(-5deg);
-    transform-origin: top center;
-    width: 4px;
-    height: 0;
-    background: linear-gradient(180deg, 
-      #ff9100 0%, 
-      #f59e0b 50%, 
-      #d97706 100%
-    );
-    border-radius: 2px;
-    box-shadow: 
-      0 0 8px rgba(245,158,11,0.6),
-      0 0 16px rgba(245,158,11,0.3);
-    animation: pourStream 6s ease-in-out infinite;
-    z-index: 2;
-  }
-
-  /* Conveyor belt viewport - clips the moving belt */
-  .conveyor-viewport {
-    position: absolute;
-    bottom: 0;
-    width: 100px;
-    height: 36px;
-    overflow: hidden;
-    z-index: 1;
-  }
-
-  /* Infinite conveyor belt with seamless loop */
-  .molds-belt {
+  .runtime-loader-dots {
     display: flex;
     gap: 8px;
-    animation: conveyorScroll 6s linear infinite;
-    position: relative;
+    align-items: center;
   }
 
-  .mold {
-    width: 28px;
-    height: 32px;
-    background: rgba(26,26,30,0.8);
-    border: 1.5px solid rgba(168,168,180,0.25);
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-    flex-shrink: 0;
+  .runtime-loader-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--telemetry-primary);
+    opacity: 0.3;
+    animation: runtimePulse 1.4s ease-in-out infinite;
   }
 
-  .mold-fill {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    background: linear-gradient(180deg, 
-      #ff9100 0%, 
-      #f59e0b 50%, 
-      #d97706 100%
-    );
-    box-shadow: 
-      0 0 12px rgba(245,158,11,0.5),
-      inset 0 2px 8px rgba(255,145,0,0.4);
+  .runtime-loader-dot:nth-child(2) {
+    animation-delay: 0.2s;
   }
 
-  /* Only molds positioned under the ladle get filled (sequential timing) */
-  .mold:nth-child(1) .mold-fill {
-    animation: fillMold 6s ease-in-out infinite;
-    animation-delay: 0s;
+  .runtime-loader-dot:nth-child(3) {
+    animation-delay: 0.4s;
   }
 
-  .mold:nth-child(2) .mold-fill {
-    animation: fillMold 6s ease-in-out infinite;
-    animation-delay: 2s;
+  @keyframes runtimePulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.2); }
   }
 
-  .mold:nth-child(3) .mold-fill {
-    animation: fillMold 6s ease-in-out infinite;
-    animation-delay: 4s;
-  }
-
-  /* Loading text */
-  .forge-loader-text {
+  .runtime-loader-text {
     font-size: 11px;
-    color: rgba(168,168,180,0.8);
+    color: var(--text-muted);
     letter-spacing: 0.2em;
     text-transform: uppercase;
     font-weight: 600;
   }
 
-  /* Animations - 6s infinite belt cycle */
-  
-  /* Ladle tilts during each pour (every 2s = 3 pours per 6s cycle) */
-  @keyframes ladleTilt {
-    0%, 100% {
-      transform: rotate(0deg) translateX(0);
-    }
-    /* Pour 1: starts at 0s (0%) */
-    1%, 12% {
-      transform: rotate(120deg) translateX(2px);
-    }
-    20% {
-      transform: rotate(0deg) translateX(0);
-    }
-    /* Pour 2: starts at 2s (33.3%) */
-    34%, 45% {
-      transform: rotate(120deg) translateX(2px);
-    }
-    53% {
-      transform: rotate(0deg) translateX(0);
-    }
-    /* Pour 3: starts at 4s (66.6%) */
-    67%, 78% {
-      transform: rotate(120deg) translateX(2px);
-    }
-    86% {
-      transform: rotate(0deg) translateX(0);
-    }
+  /* ── Surface Panel — replaces heavy glassmorphism ── */
+  .surface-panel {
+    position: relative;
+    background: rgba(26, 26, 30, 0.85);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
   }
 
-  /* Pour stream syncs with ladle tilt (3 pours per cycle) */
-  @keyframes pourStream {
-    0%, 100% {
-      height: 0;
-      opacity: 0;
-    }
-    /* Pour 1: 0-0.6s (0-10%) */
-    0%, 13% {
-      height: 35px;
-      opacity: 1;
-    }
-    21% {
-      height: 0;
-      opacity: 0;
-    }
-    /* Pour 2: 2s-2.6s (33.3-43.3%) */
-    33%, 46% {
-      height: 35px;
-      opacity: 1;
-    }
-    54% {
-      height: 0;
-      opacity: 0;
-    }
-    /* Pour 3: 4s-4.6s (66.6-76.6%) */
-    66%, 79% {
-      height: 35px;
-      opacity: 1;
-    }
-    87% {
-      height: 0;
-      opacity: 0;
-    }
+  /* Elevated surface for modals/overlays */
+  .surface-elevated {
+    position: relative;
+    background: rgba(26, 26, 30, 0.95);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
   }
 
-  /* Individual mold fill animation - fills once when under ladle, stays filled as it moves left */
-  @keyframes fillMold {
-    /* Start empty */
-    0%, 8% {
-      height: 0;
-    }
-    /* Fill while ladle pours (quick fill over 0.6s) */
-    16% {
-      height: 100%;
-    }
-    /* Stay filled (solidified metal moving on conveyor) */
-    60% {
-      height: 100%;
-    }
-    /* Empty just before loop restart (offscreen) */
-    62% {
-      height: 0;
-    }
-    100% {
-      height: 0;
-    }
+  /* Signal/alert surface (amber — alerts only) */
+  .surface-signal {
+    position: relative;
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(245,158,11,0.08);
   }
 
-  /* Infinite conveyor scroll - seamless loop */
-  @keyframes conveyorScroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-108px); /* 3 molds × 36px (28px + 8px gap) */
-    }
+  /* Telemetry accent surface */
+  .surface-accent {
+    position: relative;
+    background: rgba(79,140,255,0.04);
+    border: 1px solid rgba(79,140,255,0.25);
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(79,140,255,0.06);
+  }
+
+  /* ── Legacy liquid-glass (reduced — kept for backward compat during migration) ── */
+  .liquid-glass {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.85);
+    border: 1px solid var(--border-default);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .liquid-glass-amber {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.85);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 0 8px rgba(245,158,11,0.08);
+  }
+
+  /* Expanded variants (reduced) */
+  .liquid-glass-expanded {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.80);
+    border: 1px solid var(--border-default);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  }
+
+  .liquid-glass-amber-expanded {
+    position: relative;
+    overflow: hidden;
+    background: rgba(26, 26, 30, 0.80);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35), 0 0 8px rgba(245,158,11,0.08);
+  }
+
+  /* Tile active glow — telemetry blue instead of amber */
+  .tile-active-glow {
+    background: rgba(79,140,255,0.12) !important;
+    box-shadow: 0 0 20px rgba(79,140,255,0.3), inset 0 0 20px rgba(79,140,255,0.15) !important;
+    border: 1px solid rgba(79,140,255,0.4) !important;
+    transition: background 0.8s ease, box-shadow 0.8s ease, border 0.8s ease !important;
   }
 
   /* Fade-in animation for modals */
@@ -349,14 +265,6 @@
     animation: beltMoveVertical 3s linear infinite;
   }
 
-  /* Tile active glow — applied to the tile the orb is currently passing through */
-.tile-active-glow {
-  background: rgba(245,158,11,0.2) !important;
-  box-shadow: 0 0 30px rgba(245,158,11,0.6), inset 0 0 40px rgba(245,158,11,0.3) !important;
-  border: 1px solid rgba(245,158,11,0.6) !important;
-  transition: background 0.8s ease, box-shadow 0.8s ease, border 0.8s ease !important;
-}
-
   /* Disable animations for users with reduced motion preference */
   @media (prefers-reduced-motion: reduce) {
     .belt-chevrons,
@@ -366,7 +274,8 @@
     .return-spheres,
     .return-spheres-mobile,
     .animate-belt-travel,
-    .animate-belt-turn {
+    .animate-belt-turn,
+    .runtime-loader-dot {
       animation: none !important;
     }
     
@@ -381,12 +290,20 @@
   /* Grid background pattern — used via .bg-grid class */
   .bg-grid {
     background-image:
-      linear-gradient(rgba(168, 168, 180, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(168, 168, 180, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(142,147,161,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(142,147,161,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 
-  /* Amber gradient text — used in AboutSection heading */
+  /* Telemetry gradient text — replaces amber gradient text */
+  .text-telemetry-gradient {
+    background: linear-gradient(135deg, #4f8cff 0%, #3b7aed 50%, #2563c4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Legacy amber gradient text — kept for signal/alert contexts */
   .text-amber-gradient {
     background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
     -webkit-background-clip: text;
@@ -394,190 +311,17 @@
     background-clip: text;
   }
 
-  /* ── Liquid Glass / Glassmorphism Effect ─────────────────────── */
-  
-  /*
-   * Base liquid glass card with frosted glass blur, semi-transparent
-   * background, subtle borders, and animated liquid highlight.
-   */
-  .liquid-glass {
-    position: relative;
-    overflow: hidden;
-    background: rgba(26, 26, 30, 0.6);
-    border: 1px solid rgba(168, 168, 180, 0.25);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      0 0 15px rgba(245, 158, 11, 0.08),
-      0 0 30px rgba(245, 158, 11, 0.04);
-  }
-
-  /*
-   * Expanded modal variant for metallic tiles - reduced opacity and blur
-   */
-  .liquid-glass-expanded {
-    position: relative;
-    overflow: hidden;
-    background: rgba(26, 26, 30, 0.4);
-    border: 1px solid rgba(168, 168, 180, 0.25);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      0 0 15px rgba(245, 158, 11, 0.08),
-      0 0 30px rgba(245, 158, 11, 0.04);
-  }
-
-  .liquid-glass-expanded::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.03) 30%,
-      transparent 60%
-    );
-    mix-blend-mode: overlay;
-    animation: liquidShift 10s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  /*
-   * Animated liquid highlight — a subtle light that slowly drifts
-   * inside the glass using mix-blend-mode for realistic blending.
-   */
-  .liquid-glass::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.03) 30%,
-      transparent 60%
-    );
-    mix-blend-mode: overlay;
-    animation: liquidShift 10s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  /*
-   * Amber-tinted glass variant for accent cards.
-   * Uses amber border and subtle amber inner glow.
-   */
-  .liquid-glass-amber {
-    position: relative;
-    overflow: hidden;
-    background: rgba(26, 26, 30, 0.6);
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 0 40px rgba(245, 158, 11, 0.05),
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(245, 158, 11, 0.12),
-      0 0 35px rgba(245, 158, 11, 0.06);
-  }
-
-  .liquid-glass-amber::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at center,
-      rgba(245, 158, 11, 0.12) 0%,
-      rgba(245, 158, 11, 0.05) 30%,
-      transparent 60%
-    );
-    mix-blend-mode: overlay;
-    animation: liquidShift 10s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  /*
-   * Expanded modal variant for amber accent tiles - reduced opacity and blur
-   */
-  .liquid-glass-amber-expanded {
-    position: relative;
-    overflow: hidden;
-    background: rgba(26, 26, 30, 0.4);
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 0 40px rgba(245, 158, 11, 0.05),
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(245, 158, 11, 0.12),
-      0 0 35px rgba(245, 158, 11, 0.06);
-  }
-
-  .liquid-glass-amber-expanded::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at center,
-      rgba(245, 158, 11, 0.12) 0%,
-      rgba(245, 158, 11, 0.05) 30%,
-      transparent 60%
-    );
-    mix-blend-mode: overlay;
-    animation: liquidShift 10s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  /*
-   * Liquid shift animation — slow, gentle movement of the internal
-   * highlight to create a "living glass" effect.
-   */
-  @keyframes liquidShift {
-    0%, 100% {
-      transform: translate(0%, 0%) scale(1) rotate(0deg);
-    }
-    33% {
-      transform: translate(10%, 15%) scale(1.05) rotate(5deg);
-    }
-    66% {
-      transform: translate(-10%, 10%) scale(0.95) rotate(-5deg);
-    }
-  }
-
   /* ── Presentation / PDF slide styles ──────────────────────────── */
 
-  /*
-   * WEBSITE VIEW: .presentation-slide is just a normal section block.
-   * No full-viewport height, no flex centering — renders like a document.
-   * The outer padding comes from SystemDetailSection's own padding class.
-   */
   .presentation-slide {
     position: relative;
     background: #ffffff;
   }
 
-  /* Slide footer hidden on website — only visible during PDF export */
   .slide-footer {
     display: none;
   }
 
-  /* Screenshot image style (website) */
   .slide-image {
     margin-top: 24px;
     border-radius: 6px;
@@ -588,7 +332,6 @@
     margin-right: auto;
   }
 
-  /* Two-column grid for impact slides */
   .slide-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -600,7 +343,6 @@
     .slide-grid { grid-template-columns: 1fr; }
   }
 
-  /* Bullet list */
   .slide-bullets {
     margin-top: 20px;
     list-style: none;
@@ -616,11 +358,7 @@
     gap: 10px;
   }
 
-  /*
-   * PDF EXPORT MODE — activated temporarily during PDF generation.
-   * Added to #presentation-root before capture, removed after.
-   * Fixed A4 dimensions ensure consistent slide output.
-   */
+  /* PDF EXPORT MODE */
   .pdf-export-mode .presentation-slide {
     width: 794px;
     min-height: 1122px;
@@ -636,13 +374,11 @@
     overflow: hidden;
   }
 
-  /* Title slides — center everything */
   .pdf-export-mode .slide-title {
     text-align: center;
     align-items: center;
   }
 
-  /* Typography overrides for PDF */
   .pdf-export-mode h1 {
     font-size: 42px !important;
     margin-bottom: 20px !important;
@@ -660,7 +396,6 @@
     line-height: 1.6 !important;
   }
 
-  /* Images balanced in center */
   .pdf-export-mode .slide-image {
     max-width: 85%;
     margin-top: 32px;
@@ -669,7 +404,6 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   }
 
-  /* Grid layout for business impact */
   .pdf-export-mode .slide-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -677,12 +411,10 @@
     width: 100%;
   }
 
-  /* Hide download UI elements during PDF export */
   .pdf-export-mode .no-pdf-export {
     display: none !important;
   }
 
-  /* Slide footer shown only during PDF export */
   .pdf-export-mode .slide-footer {
     display: flex;
     position: absolute;

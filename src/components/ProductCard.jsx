@@ -10,10 +10,10 @@ function DefectGrid() {
     <div className="relative w-full h-full flex items-center justify-center p-8">
       <div className="relative">
         {/* Detection frame corners */}
-        <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-amber-forge opacity-70" />
-        <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-amber-forge opacity-70" />
-        <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-amber-forge opacity-70" />
-        <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-amber-forge opacity-70" />
+        <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-telemetry-primary opacity-70" />
+        <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-telemetry-primary opacity-70" />
+        <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-telemetry-primary opacity-70" />
+        <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-telemetry-primary opacity-70" />
 
         {/* Inspection grid — 7x5 cells */}
         <div
@@ -57,8 +57,8 @@ function DefectGrid() {
 
       {/* Status readout */}
       <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-        <span className="text-xs text-amber-forge font-mono opacity-60">SCAN ACTIVE</span>
-        <span className="text-xs text-metallic-400 font-mono opacity-40">5 DEFECTS / 35</span>
+        <span className="text-xs text-telemetry-primary font-mono opacity-60">SCAN ACTIVE</span>
+        <span className="text-xs text-txt-secondary font-mono opacity-40">5 DEFECTS / 35</span>
       </div>
     </div>
   )
@@ -151,8 +151,8 @@ function DataFlowNetwork() {
 
       {/* Status readout */}
       <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-        <span className="text-xs text-amber-forge font-mono opacity-60">QUERYING</span>
-        <span className="text-xs text-metallic-400 font-mono opacity-40">4 SOURCES</span>
+        <span className="text-xs text-telemetry-primary font-mono opacity-60">QUERYING</span>
+        <span className="text-xs text-txt-secondary font-mono opacity-40">4 SOURCES</span>
       </div>
     </div>
   )
@@ -249,19 +249,19 @@ export function ProductCard({ product, visual, index }) {
               {product.title}
             </h2>
 
-            <p className="text-base text-metallic-300 leading-relaxed mb-6">
+            <p className="text-base text-txt-secondary leading-relaxed mb-6">
               {product.description}
             </p>
           </div>
 
           {/* Capabilities list + Learn More */}
           <div>
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-metallic-500 mb-3">
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-txt-muted mb-3">
               Capabilities
             </p>
             <ul className="space-y-2 mb-6">
               {product.capabilities.map((cap, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-metallic-300">
+                <li key={i} className="flex items-center gap-3 text-sm text-txt-secondary">
                   <span
                     className="flex-shrink-0 w-1 h-1 rounded-full"
                     style={{ background: '#f59e0b' }}

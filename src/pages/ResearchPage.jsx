@@ -77,7 +77,7 @@ export function ResearchPage() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <p className="text-amber-forge text-xs tracking-[0.2em] uppercase font-semibold">
+            <p className="text-telemetry-primary text-xs tracking-[0.2em] uppercase font-semibold">
               Research & Innovation
             </p>
             
@@ -85,7 +85,7 @@ export function ResearchPage() {
               Advancing Industrial AI Through Research
             </h1>
             
-            <p className="text-xl md:text-2xl text-metallic-300 font-light">
+            <p className="text-xl md:text-2xl text-txt-secondary font-light">
               Exploring signal-based defect detection, explainable AI, and process intelligence 
               to transform manufacturing quality control.
             </p>
@@ -102,7 +102,7 @@ export function ResearchPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-metallic-50 mb-6">
               Research Areas
             </h2>
-            <p className="text-lg text-metallic-300">
+            <p className="text-lg text-txt-secondary">
               Our research focuses on making AI practical, explainable, and deployment-ready for industrial environments.
             </p>
           </div>
@@ -111,18 +111,18 @@ export function ResearchPage() {
             {researchAreas.map((area, idx) => (
               <div 
                 key={idx}
-                className="border border-metallic-800 bg-metallic-950/30 p-8 rounded-lg"
+                className="border border-border-default bg-bg-primary/30 p-8 rounded-lg"
               >
                 <h3 className="text-2xl font-bold text-metallic-50 mb-3">
                   {area.title}
                 </h3>
-                <p className="text-metallic-300 mb-6">
+                <p className="text-txt-secondary mb-6">
                   {area.description}
                 </p>
                 <ul className="space-y-3">
                   {area.topics.map((topic, tidx) => (
-                    <li key={tidx} className="text-metallic-400 flex items-start gap-2">
-                      <span className="text-amber-forge mt-1">•</span>
+                    <li key={tidx} className="text-txt-secondary flex items-start gap-2">
+                      <span className="text-telemetry-primary mt-1">•</span>
                       <span>{topic}</span>
                     </li>
                   ))}
@@ -142,7 +142,7 @@ export function ResearchPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-metallic-50 mb-6">
               Technical Reports & Publications
             </h2>
-            <p className="text-lg text-metallic-300">
+            <p className="text-lg text-txt-secondary">
               Internal technical reports documenting our approach and findings.
             </p>
           </div>
@@ -151,22 +151,22 @@ export function ResearchPage() {
             {publications.map((pub, idx) => (
               <div 
                 key={idx}
-                className="border border-metallic-800 bg-metallic-950/30 p-8 rounded-lg"
+                className="border border-border-default bg-bg-primary/30 p-8 rounded-lg"
               >
                 <h3 className="text-xl font-bold text-metallic-50 mb-2">
                   {pub.title}
                 </h3>
-                <p className="text-sm text-metallic-400 mb-4">
+                <p className="text-sm text-txt-secondary mb-4">
                   {pub.authors} • {pub.venue} • {pub.year}
                 </p>
-                <p className="text-metallic-300 mb-4">
+                <p className="text-txt-secondary mb-4">
                   {pub.abstract}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {pub.topics.map((topic, tidx) => (
                     <span 
                       key={tidx}
-                      className="px-3 py-1 text-xs bg-amber-forge/10 text-amber-forge rounded-full border border-amber-forge/30"
+                      className="px-3 py-1 text-xs bg-telemetry-primary/10 text-telemetry-primary rounded-full border border-telemetry-primary/30"
                     >
                       {topic}
                     </span>
@@ -188,7 +188,7 @@ export function ResearchPage() {
               Collaborate With Us
             </h2>
             
-            <p className="text-lg text-metallic-400">
+            <p className="text-lg text-txt-secondary">
               We're interested in research partnerships with universities, manufacturing companies, 
               and quality professionals. If you're working on related problems, let's talk.
             </p>
@@ -196,13 +196,13 @@ export function ResearchPage() {
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a
                 href="#contact"
-                className="px-8 py-3 bg-amber-forge text-metallic-950 font-semibold rounded hover:bg-amber-600 transition-colors"
+                className="px-8 py-3 bg-telemetry-primary text-bg-primary font-semibold rounded hover:bg-telemetry-secondary transition-colors"
               >
                 Get in Touch
               </a>
               <a
                 href="/technology"
-                className="px-8 py-3 border border-metallic-700 text-metallic-200 font-semibold rounded hover:border-amber-forge hover:text-amber-forge transition-colors"
+                className="px-8 py-3 border border-border-default text-txt-primary font-semibold rounded hover:border-telemetry-primary hover:text-telemetry-primary transition-colors"
               >
                 Explore Our Technology
               </a>

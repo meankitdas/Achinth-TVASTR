@@ -9,7 +9,7 @@ export function IndustrialMemorySection() {
     <SectionShell id="industrial-memory">
       <SectionHeader title={title} subtitle={subtitle} eyebrow="Manufacturing Memory" />
 
-      <p className="text-sm text-metallic-400 leading-relaxed max-w-4xl mt-4 mb-12">
+      <p className="text-sm text-txt-secondary leading-relaxed max-w-4xl mt-4 mb-12">
         {body}
       </p>
 
@@ -18,21 +18,22 @@ export function IndustrialMemorySection() {
         {memoryCapabilities.map((cap, i) => (
           <div
             key={i}
-            className="group relative p-5 rounded-lg border border-metallic-800/20 bg-charcoal-950/50 hover:border-amber-forge/30 transition-colors"
+            className="group relative p-5 rounded-lg border bg-bg-primary/50 hover:border-telemetry-primary/30 transition-colors"
+            style={{ borderColor: 'var(--border-subtle)' }}
           >
             {/* Index indicator */}
-            <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-amber-forge/10 flex items-center justify-center">
-              <span className="text-[10px] font-bold text-amber-forge/60">{i + 1}</span>
+            <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-telemetry-primary/10 flex items-center justify-center">
+              <span className="text-[10px] font-bold text-telemetry-primary/60">{i + 1}</span>
             </div>
 
-            <h4 className="text-sm font-bold text-metallic-100 mb-2 pr-6">{cap.name}</h4>
-            <p className="text-xs text-metallic-400 leading-relaxed">{cap.description}</p>
+            <h4 className="text-sm font-bold text-txt-primary mb-2 pr-6">{cap.name}</h4>
+            <p className="text-xs text-txt-secondary leading-relaxed">{cap.description}</p>
           </div>
         ))}
       </div>
 
       {/* Key message */}
-      <p className="mt-10 text-center text-base text-metallic-400 leading-relaxed max-w-3xl mx-auto italic">
+      <p className="mt-10 text-center text-base text-txt-muted leading-relaxed max-w-3xl mx-auto italic">
         {keyMessage}
       </p>
     </SectionShell>

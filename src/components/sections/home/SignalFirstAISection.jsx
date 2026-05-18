@@ -10,7 +10,7 @@ export function SignalFirstAISection() {
       <SectionHeader title={title} subtitle={subtitle} eyebrow="Signal Architecture" />
 
       {/* Body text */}
-      <p className="text-sm text-metallic-400 leading-relaxed max-w-4xl mt-4 mb-12">
+      <p className="text-sm text-txt-secondary leading-relaxed max-w-4xl mt-4 mb-12">
         {body}
       </p>
 
@@ -19,34 +19,35 @@ export function SignalFirstAISection() {
         {signalSystems.map((signal, i) => (
           <div
             key={i}
-            className="p-5 rounded-lg border border-metallic-800/20 bg-charcoal-950/50 hover:border-amber-forge/30 transition-colors"
+            className="p-5 rounded-lg border bg-bg-primary/50 hover:border-telemetry-primary/30 transition-colors"
+            style={{ borderColor: 'var(--border-subtle)' }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 rounded-full bg-amber-forge/70" />
-              <h4 className="text-sm font-bold text-metallic-100">{signal.name}</h4>
+              <div className="w-2 h-2 rounded-full bg-telemetry-primary/70" />
+              <h4 className="text-sm font-bold text-txt-primary">{signal.name}</h4>
             </div>
-            <p className="text-xs text-metallic-400 leading-relaxed">{signal.description}</p>
+            <p className="text-xs text-txt-secondary leading-relaxed">{signal.description}</p>
           </div>
         ))}
       </div>
 
       {/* Differentiators */}
-      <div className="border-t border-metallic-800/20 pt-8">
-        <h3 className="text-base font-bold text-metallic-200 mb-4">
+      <div className="border-t pt-8" style={{ borderColor: 'var(--border-subtle)' }}>
+        <h3 className="text-base font-bold text-txt-primary mb-4">
           How This Differs From Standard Inspection AI
         </h3>
         <div className="grid sm:grid-cols-2 gap-3">
           {differentiators.map((diff, i) => (
             <div key={i} className="flex items-start gap-3">
-              <span className="text-amber-forge text-xs mt-1 flex-shrink-0">&#10003;</span>
-              <span className="text-sm text-metallic-300">{diff}</span>
+              <span className="text-telemetry-primary text-xs mt-1 flex-shrink-0">&#10003;</span>
+              <span className="text-sm text-txt-secondary">{diff}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Key message */}
-      <p className="mt-10 text-center text-base text-metallic-400 leading-relaxed max-w-3xl mx-auto italic">
+      <p className="mt-10 text-center text-base text-txt-muted leading-relaxed max-w-3xl mx-auto italic">
         {keyMessage}
       </p>
     </SectionShell>

@@ -70,21 +70,21 @@ export function RollbackVersionCard({ product, version }) {
         {/* Version info */}
         <div className="flex-1 space-y-2">
           <div className="flex items-center gap-4">
-            <p className="text-xl font-black text-amber-forge font-mono">
+            <p className="text-xl font-black text-signal-warning font-mono">
               v{version.version_number}
             </p>
-            <span className="text-xs text-metallic-500">•</span>
-            <p className="text-xs text-metallic-500 tracking-wider uppercase">
+            <span className="text-xs text-txt-muted">•</span>
+            <p className="text-xs text-txt-muted tracking-wider uppercase">
               {formattedDate}
             </p>
-            <span className="text-xs text-metallic-500">•</span>
-            <p className="text-xs text-metallic-500 font-semibold tracking-wider uppercase">
+            <span className="text-xs text-txt-muted">•</span>
+            <p className="text-xs text-txt-muted font-semibold tracking-wider uppercase">
               {tierLabel}
             </p>
           </div>
 
           {version.changelog && (
-            <p className="text-sm text-metallic-400 leading-relaxed">
+            <p className="text-sm text-txt-secondary leading-relaxed">
               {version.changelog}
             </p>
           )}

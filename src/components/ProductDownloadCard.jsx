@@ -121,13 +121,13 @@ export function ProductDownloadCard({ product, version, index }) {
             {product.name}
           </h3>
 
-          <p className="text-sm text-metallic-400 leading-relaxed">
+          <p className="text-sm text-txt-secondary leading-relaxed">
             {product.description}
           </p>
 
           {/* Tier label */}
           <div className="mt-3">
-            <span className="text-xs text-metallic-500 font-semibold tracking-wider uppercase">
+            <span className="text-xs text-txt-muted font-semibold tracking-wider uppercase">
               {tierLabel}
             </span>
           </div>
@@ -144,27 +144,27 @@ export function ProductDownloadCard({ product, version, index }) {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                <p className="text-xs text-txt-muted tracking-widest uppercase mb-1">
                   Latest Version
                 </p>
-                <p className="text-2xl font-black text-amber-forge font-mono">
+                <p className="text-2xl font-black text-signal-warning font-mono">
                   v{version.version_number}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                <p className="text-xs text-txt-muted tracking-widest uppercase mb-1">
                   Released
                 </p>
-                <p className="text-sm text-metallic-300">{formattedDate}</p>
+                <p className="text-sm text-txt-secondary">{formattedDate}</p>
               </div>
             </div>
 
             {version.changelog && (
               <div>
-                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-2">
+                <p className="text-xs text-txt-muted tracking-widest uppercase mb-2">
                   Release Notes
                 </p>
-                <p className="text-sm text-metallic-300 leading-relaxed">
+                <p className="text-sm text-txt-secondary leading-relaxed">
                   {version.changelog}
                 </p>
               </div>
@@ -172,10 +172,10 @@ export function ProductDownloadCard({ product, version, index }) {
 
             {version.checksum && (
               <div>
-                <p className="text-xs text-metallic-500 tracking-widest uppercase mb-1">
+                <p className="text-xs text-txt-muted tracking-widest uppercase mb-1">
                   SHA-256
                 </p>
-                <p className="text-xs text-metallic-500 font-mono break-all opacity-60">
+                <p className="text-xs text-txt-muted font-mono break-all opacity-60">
                   {version.checksum}
                 </p>
               </div>
@@ -186,7 +186,7 @@ export function ProductDownloadCard({ product, version, index }) {
             className="flex-1 flex items-center justify-center p-8"
             style={{ border: '1px solid rgba(168,168,180,0.06)' }}
           >
-            <p className="text-sm text-metallic-500 text-center">
+            <p className="text-sm text-txt-muted text-center">
               No releases available yet.
             </p>
           </div>

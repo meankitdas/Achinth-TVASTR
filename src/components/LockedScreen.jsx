@@ -53,7 +53,7 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
         </h1>
 
         {/* Message */}
-        <p className="text-base text-metallic-400 leading-relaxed mb-8">
+        <p className="text-base text-txt-secondary leading-relaxed mb-8">
           {message}
         </p>
 
@@ -86,7 +86,7 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
         <div className="mt-10">
           <a
             href="/portal/dashboard"
-            className="text-xs text-metallic-600 hover:text-metallic-300 transition-colors duration-200 tracking-wider"
+            className="text-xs text-txt-muted hover:text-txt-secondary transition-colors duration-200 tracking-wider"
           >
             ← Return to Dashboard
           </a>

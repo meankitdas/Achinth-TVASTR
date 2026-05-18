@@ -89,13 +89,13 @@ export function PortalManual() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
-            <span className="text-metallic-600 text-xs hidden md:inline">/ Customer Portal</span>
+            <span className="text-txt-muted text-xs hidden md:inline">/ Customer Portal</span>
           </Link>
 
           <div className="flex items-center gap-6">
             <Link
               to="/portal/dashboard"
-              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              className="text-xs font-semibold tracking-widest uppercase transition-colors duration-200 text-txt-muted hover:text-txt-primary"
             >
               Dashboard
             </Link>
@@ -110,11 +110,11 @@ export function PortalManual() {
                 className="w-2 h-2 rounded-full"
                 style={{ background: '#10b981', boxShadow: '0 0 6px rgba(16,185,129,0.5)' }}
               />
-              <span className="text-xs text-metallic-400 font-mono">{user?.email}</span>
+              <span className="text-xs text-txt-secondary font-mono">{user?.email}</span>
             </div>
             <button
               onClick={signOut}
-              className="text-xs font-medium tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
+              className="text-xs font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors duration-200"
             >
               Logout
             </button>
@@ -135,7 +135,7 @@ export function PortalManual() {
                   border: '1px solid rgba(168,168,180,0.08)',
                 }}
               >
-                <h3 className="text-xs font-bold tracking-widest uppercase text-metallic-300 mb-4">
+                <h3 className="text-xs font-bold tracking-widest uppercase text-txt-secondary mb-4">
                   Contents
                 </h3>
                 <nav className="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto">
@@ -162,8 +162,8 @@ export function PortalManual() {
             {/* Title */}
             <div className="mb-12">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-6 h-px bg-amber-forge opacity-60" />
-                <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
+                <div className="w-6 h-px bg-signal-warning opacity-60" />
+                <span className="text-xs font-semibold tracking-[0.3em] uppercase text-signal-warning opacity-60">
                   Operator Guide
                 </span>
               </div>
@@ -178,10 +178,10 @@ export function PortalManual() {
               >
                 Tvastr PIRAS
               </h1>
-              <p className="text-lg text-metallic-300 mb-2">
+              <p className="text-lg text-txt-secondary mb-2">
                 AI-Powered Casting Inspection System — User Manual
               </p>
-              <p className="text-sm text-metallic-500">
+              <p className="text-sm text-txt-muted">
                 Version 1.0 | Written for non-technical foundry workers
               </p>
             </div>
@@ -190,7 +190,7 @@ export function PortalManual() {
             <div className="space-y-12">
               {/* Section 1: What This System Does */}
               <section id="section-1" data-section="section-1" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   1. What This System Does
                 </h2>
                 <div
@@ -201,11 +201,11 @@ export function PortalManual() {
                   }}
                 >
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">Purpose</h3>
-                    <p className="text-sm text-metallic-400 leading-relaxed">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">Purpose</h3>
+                    <p className="text-sm text-txt-secondary leading-relaxed">
                       PIRAS inspects casting surfaces and tells you three things:
                     </p>
-                    <ul className="mt-3 space-y-2 text-sm text-metallic-400 leading-relaxed">
+                    <ul className="mt-3 space-y-2 text-sm text-txt-secondary leading-relaxed">
                       <li className="flex items-start gap-2">
                         <span style={{ color: '#10b981' }}>●</span>
                         <span><strong>Is this casting good or bad?</strong> → ACCEPT CASTING (green) / REJECT CASTING (red) / CHECK REQUIRED (orange)</span>
@@ -222,22 +222,22 @@ export function PortalManual() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">How It Helps</h3>
-                    <ul className="space-y-2 text-sm text-metallic-400 leading-relaxed">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">How It Helps</h3>
+                    <ul className="space-y-2 text-sm text-txt-secondary leading-relaxed">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Reduces scrap and rework by catching defects early</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Finds root causes so you can fix problems at the source</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Improves consistency across shifts and operators</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Provides data for management and quality reviews</span>
                       </li>
                     </ul>
@@ -247,7 +247,7 @@ export function PortalManual() {
 
               {/* Section 2: Starting the System */}
               <section id="section-2" data-section="section-2" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   2. Starting the System
                 </h2>
                 <div
@@ -257,18 +257,18 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <p className="text-sm text-metallic-400 leading-relaxed">
+                  <p className="text-sm text-txt-secondary leading-relaxed">
                     <strong>Step 1:</strong> Double-click the PIRAS icon on your desktop<br />
                     <strong>Step 2:</strong> Wait 10-15 seconds for the system to start<br />
                     <strong>Step 3:</strong> A desktop window opens showing the web dashboard
                   </p>
-                  <p className="text-sm text-metallic-400 leading-relaxed">
+                  <p className="text-sm text-txt-secondary leading-relaxed">
                     The system runs inside a desktop window (PyWebView) with a web interface (Streamlit).
                   </p>
 
                   <div className="mt-4 p-4" style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)' }}>
-                    <h4 className="text-xs font-bold text-amber-forge mb-2 uppercase tracking-wide">Status Indicators</h4>
-                    <ul className="space-y-2 text-sm text-metallic-400">
+                    <h4 className="text-xs font-bold text-signal-warning mb-2 uppercase tracking-wide">Status Indicators</h4>
+                    <ul className="space-y-2 text-sm text-txt-secondary">
                       <li className="flex items-start gap-2">
                         <span className="w-3 h-3 rounded-full mt-0.5" style={{ background: '#10b981' }}></span>
                         <span><strong>Green dot</strong> = "Connected to SQL Database" (factory data available)</span>
@@ -284,7 +284,7 @@ export function PortalManual() {
 
               {/* Section 3: Main Screen Layout */}
               <section id="section-3" data-section="section-3" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   3. Main Screen Layout
                 </h2>
                 <div
@@ -295,53 +295,53 @@ export function PortalManual() {
                   }}
                 >
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">Top Bar</h3>
-                    <p className="text-sm text-metallic-400 leading-relaxed">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">Top Bar</h3>
+                    <p className="text-sm text-txt-secondary leading-relaxed">
                       Tvastr logo • "Rejection Analysis System" title • Customer name • <strong>Batch Mode toggle</strong> • Database connection status
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">Tabs (up to 6, depending on your license level)</h3>
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">Tabs (up to 6, depending on your license level)</h3>
                     <div className="space-y-2">
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(245,158,11,0.03)', border: '1px solid rgba(245,158,11,0.1)' }}>
-                        <span className="text-amber-forge font-bold">1</span>
+                        <span className="text-signal-warning font-bold">1</span>
                         <div>
-                          <p className="text-sm font-semibold text-metallic-200">Run Inspection</p>
-                          <p className="text-xs text-metallic-500">(or "Batch Processing" when Batch Mode is ON)</p>
+                          <p className="text-sm font-semibold text-txt-primary">Run Inspection</p>
+                          <p className="text-xs text-txt-muted">(or "Batch Processing" when Batch Mode is ON)</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(245,158,11,0.03)', border: '1px solid rgba(245,158,11,0.1)' }}>
-                        <span className="text-amber-forge font-bold">2</span>
+                        <span className="text-signal-warning font-bold">2</span>
                         <div>
-                          <p className="text-sm font-semibold text-metallic-200">Results & Report</p>
+                          <p className="text-sm font-semibold text-txt-primary">Results & Report</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(245,158,11,0.03)', border: '1px solid rgba(245,158,11,0.1)' }}>
-                        <span className="text-amber-forge font-bold">3</span>
+                        <span className="text-signal-warning font-bold">3</span>
                         <div>
-                          <p className="text-sm font-semibold text-metallic-200">Human Validation</p>
+                          <p className="text-sm font-semibold text-txt-primary">Human Validation</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(245,158,11,0.03)', border: '1px solid rgba(245,158,11,0.1)' }}>
-                        <span className="text-amber-forge font-bold">4</span>
+                        <span className="text-signal-warning font-bold">4</span>
                         <div>
-                          <p className="text-sm font-semibold text-metallic-200">Analytics</p>
-                          <p className="text-xs text-metallic-500">(all license levels)</p>
+                          <p className="text-sm font-semibold text-txt-primary">Analytics</p>
+                          <p className="text-xs text-txt-muted">(all license levels)</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                        <span className="text-metallic-400 font-bold">5</span>
+                        <span className="text-txt-secondary font-bold">5</span>
                         <div>
-                          <p className="text-sm font-semibold text-metallic-200">Learning</p>
-                          <p className="text-xs text-metallic-500">(Standard and Full licenses only)</p>
+                          <p className="text-sm font-semibold text-txt-primary">Learning</p>
+                          <p className="text-xs text-txt-muted">(Standard and Full licenses only)</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                        <span className="text-metallic-400 font-bold">6</span>
+                        <span className="text-txt-secondary font-bold">6</span>
                         <div>
-                          <p className="text-sm font-semibold text-metallic-200">Plant Intelligence</p>
-                          <p className="text-xs text-metallic-500">(Full license only)</p>
+                          <p className="text-sm font-semibold text-txt-primary">Plant Intelligence</p>
+                          <p className="text-xs text-txt-muted">(Full license only)</p>
                         </div>
                       </div>
                     </div>
@@ -351,7 +351,7 @@ export function PortalManual() {
 
               {/* Section 4: Tab 1 - Run Inspection */}
               <section id="section-4" data-section="section-4" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   4. Tab 1 — Run Inspection (Single Casting)
                 </h2>
                 <div
@@ -361,17 +361,17 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <div className="space-y-3 text-sm text-metallic-400 leading-relaxed">
-                    <p><strong className="text-metallic-200">Step 1:</strong> Enter Casting ID (type it or click "Auto-Generate")</p>
-                    <p><strong className="text-metallic-200">Step 2:</strong> Upload surface photo (drag-and-drop or click Browse — accepts JPG, JPEG, PNG)</p>
-                    <p><strong className="text-metallic-200">Step 3:</strong> If not connected to database, you'll see an option to upload ERP CSV file</p>
-                    <p><strong className="text-metallic-200">Step 4:</strong> Click "Run Inspection"</p>
+                  <div className="space-y-3 text-sm text-txt-secondary leading-relaxed">
+                    <p><strong className="text-txt-primary">Step 1:</strong> Enter Casting ID (type it or click "Auto-Generate")</p>
+                    <p><strong className="text-txt-primary">Step 2:</strong> Upload surface photo (drag-and-drop or click Browse — accepts JPG, JPEG, PNG)</p>
+                    <p><strong className="text-txt-primary">Step 3:</strong> If not connected to database, you'll see an option to upload ERP CSV file</p>
+                    <p><strong className="text-txt-primary">Step 4:</strong> Click "Run Inspection"</p>
                   </div>
 
                   <div className="mt-4 p-4" style={{ background: 'rgba(16,185,129,0.05)', border: '1px solid rgba(16,185,129,0.2)' }}>
                     <h4 className="text-xs font-bold mb-2 uppercase tracking-wide" style={{ color: '#10b981' }}>8-Stage Progress Bar</h4>
-                    <p className="text-xs text-metallic-400 mb-2">You'll see these stages (takes 3-5 seconds total):</p>
-                    <div className="grid grid-cols-2 gap-2 text-xs text-metallic-400">
+                    <p className="text-xs text-txt-secondary mb-2">You'll see these stages (takes 3-5 seconds total):</p>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-txt-secondary">
                       <div>1. Detection</div>
                       <div>2. Classification</div>
                       <div>3. Consolidation</div>
@@ -384,7 +384,7 @@ export function PortalManual() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">Results You'll See</h3>
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">Results You'll See</h3>
                     <div className="space-y-3">
                       <div className="p-3" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}>
                         <p className="text-sm font-bold" style={{ color: '#ef4444' }}>REJECT CASTING (red banner)</p>
@@ -399,23 +399,23 @@ export function PortalManual() {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">4 Summary Cards</h3>
-                    <div className="grid grid-cols-2 gap-3 text-xs text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">4 Summary Cards</h3>
+                    <div className="grid grid-cols-2 gap-3 text-xs text-txt-secondary">
                       <div className="p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                        <p className="text-metallic-300 font-semibold">Total Defects</p>
-                        <p className="text-metallic-500">Count of defects found</p>
+                        <p className="text-txt-secondary font-semibold">Total Defects</p>
+                        <p className="text-txt-muted">Count of defects found</p>
                       </div>
                       <div className="p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                        <p className="text-metallic-300 font-semibold">Primary Defect</p>
-                        <p className="text-metallic-500">Most serious defect type</p>
+                        <p className="text-txt-secondary font-semibold">Primary Defect</p>
+                        <p className="text-txt-muted">Most serious defect type</p>
                       </div>
                       <div className="p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                        <p className="text-metallic-300 font-semibold">Confidence %</p>
-                        <p className="text-metallic-500">How sure the AI is</p>
+                        <p className="text-txt-secondary font-semibold">Confidence %</p>
+                        <p className="text-txt-muted">How sure the AI is</p>
                       </div>
                       <div className="p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                        <p className="text-metallic-300 font-semibold">Severity</p>
-                        <p className="text-metallic-500">How serious the defect is</p>
+                        <p className="text-txt-secondary font-semibold">Severity</p>
+                        <p className="text-txt-muted">How serious the defect is</p>
                       </div>
                     </div>
                   </div>
@@ -424,7 +424,7 @@ export function PortalManual() {
 
               {/* Section 5: Batch Mode */}
               <section id="section-5" data-section="section-5" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   5. Tab 1 (Batch Mode) — Batch Processing
                 </h2>
                 <div
@@ -434,25 +434,25 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <p className="text-sm text-metallic-400 leading-relaxed">
-                    <strong className="text-metallic-200">How to Enable:</strong> Toggle "Batch Mode" switch in the top bar. Tab 1 will change to "Batch Processing".
+                  <p className="text-sm text-txt-secondary leading-relaxed">
+                    <strong className="text-txt-primary">How to Enable:</strong> Toggle "Batch Mode" switch in the top bar. Tab 1 will change to "Batch Processing".
                   </p>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">Two Ways to Load Castings</h3>
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">Two Ways to Load Castings</h3>
                     <div className="space-y-3">
                       <div className="p-4" style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.15)' }}>
-                        <h4 className="text-sm font-semibold text-metallic-200 mb-2">Option 1: Images from ERP</h4>
-                        <p className="text-sm text-metallic-400">System fetches images from the factory database automatically</p>
+                        <h4 className="text-sm font-semibold text-txt-primary mb-2">Option 1: Images from ERP</h4>
+                        <p className="text-sm text-txt-secondary">System fetches images from the factory database automatically</p>
                       </div>
                       <div className="p-4" style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.15)' }}>
-                        <h4 className="text-sm font-semibold text-metallic-200 mb-2">Option 2: Folder Upload</h4>
-                        <p className="text-sm text-metallic-400">Select a folder of casting photos from your computer</p>
+                        <h4 className="text-sm font-semibold text-txt-primary mb-2">Option 2: Folder Upload</h4>
+                        <p className="text-sm text-txt-secondary">Select a folder of casting photos from your computer</p>
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-sm text-metallic-400 leading-relaxed">
+                  <p className="text-sm text-txt-secondary leading-relaxed">
                     System processes all castings in the batch automatically. You can see progress and results for each casting.
                   </p>
                 </div>
@@ -460,7 +460,7 @@ export function PortalManual() {
 
               {/* Section 6: Results & Report */}
               <section id="section-6" data-section="section-6" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   6. Tab 2 — Results & Report
                 </h2>
                 <div
@@ -470,30 +470,30 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <p className="text-sm text-metallic-400 leading-relaxed">
+                  <p className="text-sm text-txt-secondary leading-relaxed">
                     View detailed results for any inspected casting.
                   </p>
 
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <span className="text-amber-forge mt-1">●</span>
+                      <span className="text-signal-warning mt-1">●</span>
                       <div>
-                        <p className="text-sm font-semibold text-metallic-200">Annotated Images</p>
-                        <p className="text-xs text-metallic-400">See exactly where defects were found on the casting</p>
+                        <p className="text-sm font-semibold text-txt-primary">Annotated Images</p>
+                        <p className="text-xs text-txt-secondary">See exactly where defects were found on the casting</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-amber-forge mt-1">●</span>
+                      <span className="text-signal-warning mt-1">●</span>
                       <div>
-                        <p className="text-sm font-semibold text-metallic-200">Download Reports</p>
-                        <p className="text-xs text-metallic-400">Get PDF reports and Excel spreadsheets for records</p>
+                        <p className="text-sm font-semibold text-txt-primary">Download Reports</p>
+                        <p className="text-xs text-txt-secondary">Get PDF reports and Excel spreadsheets for records</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-amber-forge mt-1">●</span>
+                      <span className="text-signal-warning mt-1">●</span>
                       <div>
-                        <p className="text-sm font-semibold text-metallic-200">Full Diagnosis</p>
-                        <p className="text-xs text-metallic-400">Review root cause and recommended corrective actions</p>
+                        <p className="text-sm font-semibold text-txt-primary">Full Diagnosis</p>
+                        <p className="text-xs text-txt-secondary">Review root cause and recommended corrective actions</p>
                       </div>
                     </div>
                   </div>
@@ -502,7 +502,7 @@ export function PortalManual() {
 
               {/* Section 7: Human Validation */}
               <section id="section-7" data-section="section-7" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   7. Tab 3 — Human Validation
                 </h2>
                 <div
@@ -512,19 +512,19 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <p className="text-sm text-metallic-400 leading-relaxed">
-                    When the system says <strong className="text-amber-forge">CHECK REQUIRED</strong>, the casting appears in this tab.
+                  <p className="text-sm text-txt-secondary leading-relaxed">
+                    When the system says <strong className="text-signal-warning">CHECK REQUIRED</strong>, the casting appears in this tab.
                   </p>
 
-                  <div className="space-y-3 text-sm text-metallic-400">
-                    <p><strong className="text-metallic-200">Step 1:</strong> Senior inspector reviews the casting physically</p>
-                    <p><strong className="text-metallic-200">Step 2:</strong> Fill in the validation form in the system</p>
-                    <p><strong className="text-metallic-200">Step 3:</strong> Make final decision: Accept or Reject</p>
+                  <div className="space-y-3 text-sm text-txt-secondary">
+                    <p><strong className="text-txt-primary">Step 1:</strong> Senior inspector reviews the casting physically</p>
+                    <p><strong className="text-txt-primary">Step 2:</strong> Fill in the validation form in the system</p>
+                    <p><strong className="text-txt-primary">Step 3:</strong> Make final decision: Accept or Reject</p>
                   </div>
 
                   <div className="mt-4 p-4" style={{ background: 'rgba(16,185,129,0.05)', border: '1px solid rgba(16,185,129,0.2)' }}>
-                    <p className="text-xs text-metallic-400">
-                      <strong className="text-metallic-200">Why This Matters:</strong> This feedback helps the system learn and improve over time. The AI gets smarter with each validation.
+                    <p className="text-xs text-txt-secondary">
+                      <strong className="text-txt-primary">Why This Matters:</strong> This feedback helps the system learn and improve over time. The AI gets smarter with each validation.
                     </p>
                   </div>
                 </div>
@@ -532,7 +532,7 @@ export function PortalManual() {
 
               {/* Section 8: Analytics */}
               <section id="section-8" data-section="section-8" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   8. Tab 4 — Analytics
                 </h2>
                 <div
@@ -542,48 +542,48 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <p className="text-sm text-metallic-400 leading-relaxed">
+                  <p className="text-sm text-txt-secondary leading-relaxed">
                     Available on all license levels. Shows quality trends and performance metrics.
                   </p>
 
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <span className="text-amber-forge mt-1">●</span>
+                      <span className="text-signal-warning mt-1">●</span>
                       <div>
-                        <p className="text-sm font-semibold text-metallic-200">Monthly KPI Dashboard</p>
-                        <p className="text-xs text-metallic-400">See rejection rates, defect counts, trends over time</p>
+                        <p className="text-sm font-semibold text-txt-primary">Monthly KPI Dashboard</p>
+                        <p className="text-xs text-txt-secondary">See rejection rates, defect counts, trends over time</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-amber-forge mt-1">●</span>
+                      <span className="text-signal-warning mt-1">●</span>
                       <div>
-                        <p className="text-sm font-semibold text-metallic-200">Defectograph</p>
-                        <p className="text-xs text-metallic-400">Visual grid showing which areas of castings have most defects</p>
+                        <p className="text-sm font-semibold text-txt-primary">Defectograph</p>
+                        <p className="text-xs text-txt-secondary">Visual grid showing which areas of castings have most defects</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-amber-forge mt-1">●</span>
+                      <span className="text-signal-warning mt-1">●</span>
                       <div>
-                        <p className="text-sm font-semibold text-metallic-200">Trend Analysis</p>
-                        <p className="text-xs text-metallic-400">Charts showing if quality is improving or getting worse</p>
+                        <p className="text-sm font-semibold text-txt-primary">Trend Analysis</p>
+                        <p className="text-xs text-txt-secondary">Charts showing if quality is improving or getting worse</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-4 p-4" style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.15)' }}>
-                    <h4 className="text-xs font-bold text-amber-forge mb-2 uppercase tracking-wide">Filters Available</h4>
-                    <p className="text-xs text-metallic-400">Filter by: Shift • Heat • Mould • Date Range</p>
+                    <h4 className="text-xs font-bold text-signal-warning mb-2 uppercase tracking-wide">Filters Available</h4>
+                    <p className="text-xs text-txt-secondary">Filter by: Shift • Heat • Mould • Date Range</p>
                   </div>
 
-                  <p className="text-sm text-metallic-400 leading-relaxed">
-                    <strong className="text-metallic-200">Good For:</strong> Shift handovers, management reviews, tracking improvement initiatives
+                  <p className="text-sm text-txt-secondary leading-relaxed">
+                    <strong className="text-txt-primary">Good For:</strong> Shift handovers, management reviews, tracking improvement initiatives
                   </p>
                 </div>
               </section>
 
               {/* Section 9: Understanding Alerts */}
               <section id="section-9" data-section="section-9" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   9. Understanding Alerts
                 </h2>
                 <div
@@ -593,39 +593,39 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <p className="text-sm text-metallic-400 leading-relaxed">
-                    The system watches your rejection rate. <strong className="text-metallic-200">Default threshold: 15%</strong> (your plant may have different targets).
+                  <p className="text-sm text-txt-secondary leading-relaxed">
+                    The system watches your rejection rate. <strong className="text-txt-primary">Default threshold: 15%</strong> (your plant may have different targets).
                   </p>
 
                   <div className="space-y-3">
                     <div className="p-4" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}>
                       <div className="flex items-center gap-3 mb-2">
                         <span className="px-3 py-1 text-xs font-bold" style={{ background: '#ef4444', color: '#fff' }}>HIGH</span>
-                        <span className="text-sm font-semibold text-metallic-200">Red Alert</span>
+                        <span className="text-sm font-semibold text-txt-primary">Red Alert</span>
                       </div>
-                      <p className="text-sm text-metallic-400">Act within 1 hour. Serious quality issue detected.</p>
+                      <p className="text-sm text-txt-secondary">Act within 1 hour. Serious quality issue detected.</p>
                     </div>
 
                     <div className="p-4" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)' }}>
                       <div className="flex items-center gap-3 mb-2">
                         <span className="px-3 py-1 text-xs font-bold" style={{ background: '#f59e0b', color: '#fff' }}>MEDIUM</span>
-                        <span className="text-sm font-semibold text-metallic-200">Orange Alert</span>
+                        <span className="text-sm font-semibold text-txt-primary">Orange Alert</span>
                       </div>
-                      <p className="text-sm text-metallic-400">Act within 4 hours. Quality trending in wrong direction.</p>
+                      <p className="text-sm text-txt-secondary">Act within 4 hours. Quality trending in wrong direction.</p>
                     </div>
 
                     <div className="p-4" style={{ background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.3)' }}>
                       <div className="flex items-center gap-3 mb-2">
                         <span className="px-3 py-1 text-xs font-bold" style={{ background: '#eab308', color: '#000' }}>LOW</span>
-                        <span className="text-sm font-semibold text-metallic-200">Yellow Alert</span>
+                        <span className="text-sm font-semibold text-txt-primary">Yellow Alert</span>
                       </div>
-                      <p className="text-sm text-metallic-400">Monitor and act within 24 hours. Minor quality variation.</p>
+                      <p className="text-sm text-txt-secondary">Monitor and act within 24 hours. Minor quality variation.</p>
                     </div>
                   </div>
 
                   <div className="mt-4 p-4" style={{ background: 'rgba(168,168,180,0.05)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                    <p className="text-xs font-mono text-metallic-400">
-                      <strong className="text-metallic-200">Example Alert:</strong><br />
+                    <p className="text-xs font-mono text-txt-secondary">
+                      <strong className="text-txt-primary">Example Alert:</strong><br />
                       "Shift 1 rejection rate is 18.5% (threshold: 15%). Primary defect: Porosity. Recommended action: Check sand moisture and compaction."
                     </p>
                   </div>
@@ -634,7 +634,7 @@ export function PortalManual() {
 
               {/* Section 10: Learning Module */}
               <section id="section-10" data-section="section-10" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   10. Tab 5 — Learning Module
                 </h2>
                 <div
@@ -645,52 +645,52 @@ export function PortalManual() {
                   }}
                 >
                   <div className="p-3" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
-                    <p className="text-sm text-amber-forge font-semibold">Available with Standard or Full license</p>
+                    <p className="text-sm text-signal-warning font-semibold">Available with Standard or Full license</p>
                   </div>
 
-                  <p className="text-sm text-metallic-400 leading-relaxed">
-                    Contains <strong className="text-metallic-200">6 modules</strong> that help you understand patterns and prevent defects:
+                  <p className="text-sm text-txt-secondary leading-relaxed">
+                    Contains <strong className="text-txt-primary">6 modules</strong> that help you understand patterns and prevent defects:
                   </p>
 
                   <div className="space-y-4">
                     <div className="p-4" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                      <h4 className="text-sm font-bold text-metallic-200 mb-2">1. Heat Intelligence</h4>
-                      <p className="text-sm text-metallic-400">
+                      <h4 className="text-sm font-bold text-txt-primary mb-2">1. Heat Intelligence</h4>
+                      <p className="text-sm text-txt-secondary">
                         Shows quality data for each heat (melt batch). See which heats had problems, compare heat performance, track heat-by-heat trends.
                       </p>
                     </div>
 
                     <div className="p-4" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                      <h4 className="text-sm font-bold text-metallic-200 mb-2">2. Drift Alerts</h4>
-                      <p className="text-sm text-metallic-400">
+                      <h4 className="text-sm font-bold text-txt-primary mb-2">2. Drift Alerts</h4>
+                      <p className="text-sm text-txt-secondary">
                         System watches for changes in your defect patterns. If rejection rate suddenly increases or a new type of defect appears, you get an automatic alert. Shows overnight alerts for shift start review.
                       </p>
                     </div>
 
                     <div className="p-4" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                      <h4 className="text-sm font-bold text-metallic-200 mb-2">3. Root Cause Analysis</h4>
-                      <p className="text-sm text-metallic-400">
+                      <h4 className="text-sm font-bold text-txt-primary mb-2">3. Root Cause Analysis</h4>
+                      <p className="text-sm text-txt-secondary">
                         Links defects back to specific process steps. Shows if problems come from furnace temperature, sand quality, pouring practice, or mould condition. Gives recommended corrective actions.
                       </p>
                     </div>
 
                     <div className="p-4" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                      <h4 className="text-sm font-bold text-metallic-200 mb-2">4. Zone Insights</h4>
-                      <p className="text-sm text-metallic-400">
+                      <h4 className="text-sm font-bold text-txt-primary mb-2">4. Zone Insights</h4>
+                      <p className="text-sm text-txt-secondary">
                         Shows which physical areas/zones of your castings have the most defects. Helps identify if a specific part of the mould is wearing out.
                       </p>
                     </div>
 
                     <div className="p-4" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                      <h4 className="text-sm font-bold text-metallic-200 mb-2">5. Risk Monitoring</h4>
-                      <p className="text-sm text-metallic-400">
+                      <h4 className="text-sm font-bold text-txt-primary mb-2">5. Risk Monitoring</h4>
+                      <p className="text-sm text-txt-secondary">
                         Tracks risk levels across your process. Shows which moulds, heats, or process conditions are at risk of producing defects. Early warning system.
                       </p>
                     </div>
 
                     <div className="p-4" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                      <h4 className="text-sm font-bold text-metallic-200 mb-2">6. Process Failure Analysis</h4>
-                      <p className="text-sm text-metallic-400">
+                      <h4 className="text-sm font-bold text-txt-primary mb-2">6. Process Failure Analysis</h4>
+                      <p className="text-sm text-txt-secondary">
                         Identifies the most common failure modes and their causes. Helps focus improvement efforts on the biggest problems first.
                       </p>
                     </div>
@@ -700,7 +700,7 @@ export function PortalManual() {
 
               {/* Section 11: Plant Intelligence */}
               <section id="section-11" data-section="section-11" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   11. Tab 6 — Plant Intelligence
                 </h2>
                 <div
@@ -711,15 +711,15 @@ export function PortalManual() {
                   }}
                 >
                   <div className="p-3" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
-                    <p className="text-sm text-amber-forge font-semibold">Available with Full license only (PIRAS)</p>
+                    <p className="text-sm text-signal-warning font-semibold">Available with Full license only (PIRAS)</p>
                   </div>
 
-                  <p className="text-sm text-metallic-400 leading-relaxed">
-                    Opens a <strong className="text-metallic-200">separate dashboard</strong> in a new window with advanced analytics.
+                  <p className="text-sm text-txt-secondary leading-relaxed">
+                    Opens a <strong className="text-txt-primary">separate dashboard</strong> in a new window with advanced analytics.
                   </p>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">8 Pages in Plant Intelligence</h3>
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">8 Pages in Plant Intelligence</h3>
                     <div className="space-y-2">
                       {[
                         { num: '1', title: 'Overview', desc: 'Plant-wide quality summary at a glance' },
@@ -732,18 +732,18 @@ export function PortalManual() {
                         { num: '8', title: 'SPC', desc: 'Statistical Process Control — control charts and process capability tracking' },
                       ].map((page) => (
                         <div key={page.num} className="flex items-start gap-3 p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                          <span className="text-amber-forge font-bold">{page.num}</span>
+                          <span className="text-signal-warning font-bold">{page.num}</span>
                           <div>
-                            <p className="text-sm font-semibold text-metallic-200">{page.title}</p>
-                            <p className="text-xs text-metallic-400">{page.desc}</p>
+                            <p className="text-sm font-semibold text-txt-primary">{page.title}</p>
+                            <p className="text-xs text-txt-secondary">{page.desc}</p>
                           </div>
                         </div>
                       ))}
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
-                        <span className="text-amber-forge font-bold">9</span>
+                        <span className="text-signal-warning font-bold">9</span>
                         <div>
-                          <p className="text-sm font-semibold text-metallic-200">Reports</p>
-                          <p className="text-xs text-metallic-400">Generate and download plant-level quality reports</p>
+                          <p className="text-sm font-semibold text-txt-primary">Reports</p>
+                          <p className="text-xs text-txt-secondary">Generate and download plant-level quality reports</p>
                         </div>
                       </div>
                     </div>
@@ -753,7 +753,7 @@ export function PortalManual() {
 
               {/* Section 12: AI Query */}
               <section id="section-12" data-section="section-12" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   12. AI Query — Ask Questions in Plain Language
                 </h2>
                 <div
@@ -763,11 +763,11 @@ export function PortalManual() {
                     border: '1px solid rgba(168,168,180,0.08)',
                   }}
                 >
-                  <p className="text-sm text-metallic-400 leading-relaxed">
-                    Found in <strong className="text-metallic-200">Plant Intelligence → AI Query page</strong> (Full license only)
+                  <p className="text-sm text-txt-secondary leading-relaxed">
+                    Found in <strong className="text-txt-primary">Plant Intelligence → AI Query page</strong> (Full license only)
                   </p>
 
-                  <p className="text-sm text-metallic-400 leading-relaxed">
+                  <p className="text-sm text-txt-secondary leading-relaxed">
                     Type questions in plain English about your factory data. The system finds the best available answer and shows it as a table, chart, or summary.
                   </p>
 
@@ -775,24 +775,24 @@ export function PortalManual() {
                     <h4 className="text-xs font-bold mb-3 uppercase tracking-wide" style={{ color: '#10b981' }}>Example Questions</h4>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-forge">→</span>
-                        <code className="text-xs text-metallic-300 font-mono">"show today heat"</code>
+                        <span className="text-signal-warning">→</span>
+                        <code className="text-xs text-txt-secondary font-mono">"show today heat"</code>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-forge">→</span>
-                        <code className="text-xs text-metallic-300 font-mono">"how many reject today"</code>
+                        <span className="text-signal-warning">→</span>
+                        <code className="text-xs text-txt-secondary font-mono">"how many reject today"</code>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-forge">→</span>
-                        <code className="text-xs text-metallic-300 font-mono">"which shift is bad"</code>
+                        <span className="text-signal-warning">→</span>
+                        <code className="text-xs text-txt-secondary font-mono">"which shift is bad"</code>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-forge">→</span>
-                        <code className="text-xs text-metallic-300 font-mono">"heat CC391 status"</code>
+                        <span className="text-signal-warning">→</span>
+                        <code className="text-xs text-txt-secondary font-mono">"heat CC391 status"</code>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-forge">→</span>
-                        <code className="text-xs text-metallic-300 font-mono">"compare shift 1 and shift 2"</code>
+                        <span className="text-signal-warning">→</span>
+                        <code className="text-xs text-txt-secondary font-mono">"compare shift 1 and shift 2"</code>
                       </div>
                     </div>
                   </div>
@@ -801,7 +801,7 @@ export function PortalManual() {
 
               {/* Section 13: Daily Usage Flow */}
               <section id="section-13" data-section="section-13" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   13. Daily Usage Flow
                 </h2>
                 <div
@@ -812,40 +812,40 @@ export function PortalManual() {
                   }}
                 >
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">Shift Start</h3>
-                    <ul className="space-y-2 text-sm text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">Shift Start</h3>
+                    <ul className="space-y-2 text-sm text-txt-secondary">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Open PIRAS system</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Check <strong>Tab 5 → Drift Alerts</strong> for overnight alerts (Standard/Full license)</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Review flagged heats from previous shift</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Note any moulds with repeated defects</span>
                       </li>
                     </ul>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">During Production</h3>
-                    <ul className="space-y-2 text-sm text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">During Production</h3>
+                    <ul className="space-y-2 text-sm text-txt-secondary">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">1</span>
+                        <span className="text-signal-warning mt-1">1</span>
                         <span>Take surface photo of casting</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">2</span>
+                        <span className="text-signal-warning mt-1">2</span>
                         <span>Go to <strong>Tab 1</strong> → Upload photo → Click "Run Inspection"</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">3</span>
+                        <span className="text-signal-warning mt-1">3</span>
                         <span>See result banner (3-5 seconds)</span>
                       </li>
                       <li className="flex items-start gap-2">
@@ -853,7 +853,7 @@ export function PortalManual() {
                         <span><strong>If REJECT:</strong> Mark casting, move to scrap, note in shift log</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">→</span>
+                        <span className="text-signal-warning mt-1">→</span>
                         <span><strong>If CHECK REQUIRED:</strong> Hold casting, go to Tab 3, complete validation</span>
                       </li>
                       <li className="flex items-start gap-2">
@@ -861,25 +861,25 @@ export function PortalManual() {
                         <span><strong>If ACCEPT:</strong> Send to next operation</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">4</span>
+                        <span className="text-signal-warning mt-1">4</span>
                         <span>Check <strong>Tab 2 (Results & Report)</strong> to review detailed findings and download reports</span>
                       </li>
                     </ul>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">End of Shift</h3>
-                    <ul className="space-y-2 text-sm text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">End of Shift</h3>
+                    <ul className="space-y-2 text-sm text-txt-secondary">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Check <strong>Tab 4 (Analytics)</strong> for shift summary and rejection rate</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Brief next shift on any active alerts</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Close any open validation items in Tab 3</span>
                       </li>
                     </ul>
@@ -889,7 +889,7 @@ export function PortalManual() {
 
               {/* Section 14: Best Practices */}
               <section id="section-14" data-section="section-14" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   14. Best Practices
                 </h2>
                 <div
@@ -900,62 +900,62 @@ export function PortalManual() {
                   }}
                 >
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">Photo Quality Tips</h3>
-                    <ul className="space-y-2 text-sm text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">Photo Quality Tips</h3>
+                    <ul className="space-y-2 text-sm text-txt-secondary">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Take photos in good lighting (natural light or bright shop light)</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Keep camera at consistent distance from casting</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Focus on the surface area being inspected</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Avoid shadows, glare, or obstructions</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Accepted formats: <strong>JPG, JPEG, PNG</strong></span>
                       </li>
                     </ul>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">Data Entry</h3>
-                    <ul className="space-y-2 text-sm text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">Data Entry</h3>
+                    <ul className="space-y-2 text-sm text-txt-secondary">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Always enter correct Casting ID</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Use Auto-Generate if your plant has that feature enabled</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Complete validation forms thoroughly — this data helps everyone</span>
                       </li>
                     </ul>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">System Hygiene</h3>
-                    <ul className="space-y-2 text-sm text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">System Hygiene</h3>
+                    <ul className="space-y-2 text-sm text-txt-secondary">
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Don't close the system during inspections</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>If system freezes, wait 30 seconds before restarting</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-amber-forge">•</span>
+                        <span className="text-signal-warning">•</span>
                         <span>Report any repeated errors to your supervisor</span>
                       </li>
                     </ul>
@@ -965,7 +965,7 @@ export function PortalManual() {
 
               {/* Section 15: Troubleshooting */}
               <section id="section-15" data-section="section-15" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   15. Troubleshooting
                 </h2>
                 <div
@@ -1009,11 +1009,11 @@ export function PortalManual() {
                         border: '1px solid rgba(168,168,180,0.1)',
                       }}
                     >
-                      <p className="text-sm font-semibold text-metallic-200 mb-1">
+                      <p className="text-sm font-semibold text-txt-primary mb-1">
                         Problem: {item.problem}
                       </p>
-                      <p className="text-sm text-metallic-400">
-                        <strong className="text-amber-forge">Solution:</strong> {item.solution}
+                      <p className="text-sm text-txt-secondary">
+                        <strong className="text-signal-warning">Solution:</strong> {item.solution}
                       </p>
                     </div>
                   ))}
@@ -1022,7 +1022,7 @@ export function PortalManual() {
 
               {/* Section 16: Understanding the Numbers */}
               <section id="section-16" data-section="section-16" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   16. Understanding the Numbers
                 </h2>
                 <div
@@ -1034,35 +1034,35 @@ export function PortalManual() {
                 >
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-sm font-bold text-metallic-200 mb-2">Rejection Rate</h3>
-                      <p className="text-sm text-metallic-400">
+                      <h3 className="text-sm font-bold text-txt-primary mb-2">Rejection Rate</h3>
+                      <p className="text-sm text-txt-secondary">
                         Percentage of castings rejected. <strong>Default threshold: 15%</strong>, but your plant may have different targets. Lower is better.
                       </p>
-                      <p className="text-xs text-metallic-500 mt-2">
+                      <p className="text-xs text-txt-muted mt-2">
                         Example: If 100 castings inspected and 12 rejected → 12% rejection rate
                       </p>
                     </div>
 
                     <div>
-                      <h3 className="text-sm font-bold text-metallic-200 mb-2">Confidence Score</h3>
-                      <p className="text-sm text-metallic-400">
+                      <h3 className="text-sm font-bold text-txt-primary mb-2">Confidence Score</h3>
+                      <p className="text-sm text-txt-secondary">
                         How sure the AI is about its decision (0-100%). Higher is better. If below 70%, system may flag for human validation.
                       </p>
-                      <p className="text-xs text-metallic-500 mt-2">
+                      <p className="text-xs text-txt-muted mt-2">
                         Example: 95% confidence = AI is very sure. 65% confidence = AI wants human to check.
                       </p>
                     </div>
 
                     <div>
-                      <h3 className="text-sm font-bold text-metallic-200 mb-2">Severity</h3>
-                      <p className="text-sm text-metallic-400">
+                      <h3 className="text-sm font-bold text-txt-primary mb-2">Severity</h3>
+                      <p className="text-sm text-txt-secondary">
                         How serious the defect is. Shown on result cards. Scale: Low → Medium → High → Critical
                       </p>
                     </div>
 
                     <div>
-                      <h3 className="text-sm font-bold text-metallic-200 mb-2">Defect Count</h3>
-                      <p className="text-sm text-metallic-400">
+                      <h3 className="text-sm font-bold text-txt-primary mb-2">Defect Count</h3>
+                      <p className="text-sm text-txt-secondary">
                         Number of defect areas found on a single casting. A casting can have multiple defects.
                       </p>
                     </div>
@@ -1072,7 +1072,7 @@ export function PortalManual() {
 
               {/* Section 17: License Levels */}
               <section id="section-17" data-section="section-17" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   17. License Levels
                 </h2>
                 <div
@@ -1085,13 +1085,13 @@ export function PortalManual() {
                   <div className="space-y-4">
                     <div className="p-4" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.15)' }}>
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="px-3 py-1 text-xs font-bold text-metallic-200" style={{ background: 'rgba(168,168,180,0.2)' }}>
+                        <span className="px-3 py-1 text-xs font-bold text-txt-primary" style={{ background: 'rgba(168,168,180,0.2)' }}>
                           TIER 1
                         </span>
-                        <h3 className="text-sm font-bold text-metallic-200 uppercase">Basic — RAS Core</h3>
+                        <h3 className="text-sm font-bold text-txt-primary uppercase">Basic — RAS Core</h3>
                       </div>
-                      <p className="text-sm text-metallic-400 mb-2">Tabs 1-4:</p>
-                      <ul className="text-sm text-metallic-400 space-y-1">
+                      <p className="text-sm text-txt-secondary mb-2">Tabs 1-4:</p>
+                      <ul className="text-sm text-txt-secondary space-y-1">
                         <li>• Run Inspection (single castings only)</li>
                         <li>• Results & Report</li>
                         <li>• Human Validation</li>
@@ -1104,10 +1104,10 @@ export function PortalManual() {
                         <span className="px-3 py-1 text-xs font-bold" style={{ background: '#f59e0b', color: '#000' }}>
                           TIER 2
                         </span>
-                        <h3 className="text-sm font-bold text-metallic-200 uppercase">Standard — RAS Enterprise</h3>
+                        <h3 className="text-sm font-bold text-txt-primary uppercase">Standard — RAS Enterprise</h3>
                       </div>
-                      <p className="text-sm text-metallic-400 mb-2">Everything in Basic, plus:</p>
-                      <ul className="text-sm text-metallic-400 space-y-1">
+                      <p className="text-sm text-txt-secondary mb-2">Everything in Basic, plus:</p>
+                      <ul className="text-sm text-txt-secondary space-y-1">
                         <li>• Tab 5 (Learning) — all 6 modules</li>
                         <li>• ERP/SQL integration</li>
                         <li>• Batch Processing</li>
@@ -1119,10 +1119,10 @@ export function PortalManual() {
                         <span className="px-3 py-1 text-xs font-bold" style={{ background: '#10b981', color: '#000' }}>
                           TIER 3
                         </span>
-                        <h3 className="text-sm font-bold text-metallic-200 uppercase">Full — PIRAS</h3>
+                        <h3 className="text-sm font-bold text-txt-primary uppercase">Full — PIRAS</h3>
                       </div>
-                      <p className="text-sm text-metallic-400 mb-2">Everything in Standard, plus:</p>
-                      <ul className="text-sm text-metallic-400 space-y-1">
+                      <p className="text-sm text-txt-secondary mb-2">Everything in Standard, plus:</p>
+                      <ul className="text-sm text-txt-secondary space-y-1">
                         <li>• Tab 6 (Plant Intelligence) — all 9 pages</li>
                         <li>• AI Query in plain language</li>
                         <li>• Cost of Quality tracking</li>
@@ -1132,9 +1132,9 @@ export function PortalManual() {
                   </div>
 
                   <div className="mt-4 p-4" style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.15)' }}>
-                    <p className="text-sm text-metallic-400">
-                      <strong className="text-metallic-200">Want to upgrade?</strong> Contact Tvastr at{' '}
-                      <a href="mailto:support@tvastr.co" className="text-amber-forge underline">
+                    <p className="text-sm text-txt-secondary">
+                      <strong className="text-txt-primary">Want to upgrade?</strong> Contact Tvastr at{' '}
+                      <a href="mailto:support@tvastr.co" className="text-signal-warning underline">
                         support@tvastr.co
                       </a>
                     </p>
@@ -1144,7 +1144,7 @@ export function PortalManual() {
 
               {/* Section 18: Quick Reference */}
               <section id="section-18" data-section="section-18" className="scroll-mt-20">
-                <h2 className="text-2xl font-bold text-metallic-100 mb-4 tracking-tight uppercase">
+                <h2 className="text-2xl font-bold text-txt-primary mb-4 tracking-tight uppercase">
                   18. Quick Reference
                 </h2>
                 <div
@@ -1155,68 +1155,68 @@ export function PortalManual() {
                   }}
                 >
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">Daily Checklist</h3>
-                    <div className="space-y-2 text-sm text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">Daily Checklist</h3>
+                    <div className="space-y-2 text-sm text-txt-secondary">
                       <div className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Open system, check database connection status</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Review overnight alerts (Tab 5, if available)</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Inspect castings using Tab 1</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Review detailed results in Tab 2</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Complete validations in Tab 3 for CHECK REQUIRED castings</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Check shift summary in Tab 4 at end of shift</span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="text-amber-forge mt-1">☐</span>
+                        <span className="text-signal-warning mt-1">☐</span>
                         <span>Brief next shift on any active quality issues</span>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-3 uppercase tracking-wide">Decision Guide</h3>
+                    <h3 className="text-sm font-bold text-txt-primary mb-3 uppercase tracking-wide">Decision Guide</h3>
                     <div className="space-y-3">
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}>
                         <div className="flex-shrink-0 w-20 px-2 py-1 text-center text-xs font-bold" style={{ background: '#10b981', color: '#000' }}>
                           ACCEPT
                         </div>
-                        <p className="text-sm text-metallic-400">Send to next operation. No further action needed.</p>
+                        <p className="text-sm text-txt-secondary">Send to next operation. No further action needed.</p>
                       </div>
 
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)' }}>
                         <div className="flex-shrink-0 w-20 px-2 py-1 text-center text-xs font-bold" style={{ background: '#ef4444', color: '#fff' }}>
                           REJECT
                         </div>
-                        <p className="text-sm text-metallic-400">Mark casting, move to scrap. Note defect type and heat number in shift log.</p>
+                        <p className="text-sm text-txt-secondary">Mark casting, move to scrap. Note defect type and heat number in shift log.</p>
                       </div>
 
                       <div className="flex items-start gap-3 p-3" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
                         <div className="flex-shrink-0 w-20 px-2 py-1 text-center text-xs font-bold" style={{ background: '#f59e0b', color: '#000' }}>
                           CHECK
                         </div>
-                        <p className="text-sm text-metallic-400">Hold casting. Go to Tab 3, complete validation form. Senior inspector makes final call.</p>
+                        <p className="text-sm text-txt-secondary">Hold casting. Go to Tab 3, complete validation form. Senior inspector makes final call.</p>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-metallic-200 mb-2 uppercase tracking-wide">6 Defect Types</h3>
-                    <div className="grid grid-cols-2 gap-2 text-xs text-metallic-400">
+                    <h3 className="text-sm font-bold text-txt-primary mb-2 uppercase tracking-wide">6 Defect Types</h3>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-txt-secondary">
                       <div className="p-2" style={{ background: 'rgba(168,168,180,0.03)', border: '1px solid rgba(168,168,180,0.1)' }}>
                         1. Porosity
                       </div>
@@ -1248,12 +1248,12 @@ export function PortalManual() {
                   border: '1px solid rgba(168,168,180,0.06)',
                 }}
               >
-                <p className="text-sm text-metallic-400 mb-2">
-                  <strong className="text-metallic-200">For Technical Support:</strong>
+                <p className="text-sm text-txt-secondary mb-2">
+                  <strong className="text-txt-primary">For Technical Support:</strong>
                 </p>
                 <a
                   href="mailto:support@tvastr.co"
-                  className="text-amber-forge text-sm hover:underline"
+                  className="text-signal-warning text-sm hover:underline"
                 >
                   support@tvastr.co
                 </a>
@@ -1264,7 +1264,7 @@ export function PortalManual() {
             <div className="mt-12 text-center">
               <Link
                 to="/portal/dashboard"
-                className="text-xs text-metallic-600 hover:text-metallic-300 transition-colors duration-200 tracking-wider"
+                className="text-xs text-txt-muted hover:text-txt-secondary transition-colors duration-200 tracking-wider"
               >
                 ← Back to Dashboard
               </Link>

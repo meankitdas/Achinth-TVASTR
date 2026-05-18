@@ -9,7 +9,7 @@ export function IndustryProblemSection() {
     <SectionShell id={id}>
       <SectionHeader title={title} subtitle={subtitle} eyebrow="The Problem" />
 
-      <p className="text-sm text-metallic-400 leading-relaxed max-w-4xl mt-4 mb-12">
+      <p className="text-sm text-txt-secondary leading-relaxed max-w-4xl mt-4 mb-12">
         {body}
       </p>
 
@@ -18,10 +18,10 @@ export function IndustryProblemSection() {
         {problems.map((problem, i) => (
           <div
             key={i}
-            className="p-5 rounded-lg border border-metallic-800/20 bg-charcoal-950/50"
+            className="p-5 rounded-lg border border-border-subtle bg-bg-primary/50"
           >
-            <h4 className="text-sm font-bold text-metallic-100 mb-2">{problem.title}</h4>
-            <p className="text-xs text-metallic-400 leading-relaxed">{problem.description}</p>
+            <h4 className="text-sm font-bold text-txt-primary mb-2">{problem.title}</h4>
+            <p className="text-xs text-txt-secondary leading-relaxed">{problem.description}</p>
           </div>
         ))}
       </div>

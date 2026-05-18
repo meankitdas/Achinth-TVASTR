@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext'
 import { LicenseProvider } from './context/LicenseContext'
 import { Navbar } from './components/navigation/Navbar'
 import { ProtectedRoute } from './components/ProtectedRoute'
-import { ForgeLoader } from './components/ForgeLoader'
+import { RuntimeLoader } from './components/RuntimeLoader'
 import { useDocumentHead } from './hooks/useDocumentHead'
 
 // Landing page sections — loaded eagerly (above the fold)
@@ -42,9 +42,6 @@ const PortalManual = lazy(() =>
 const AdminDashboard = lazy(() =>
   import('./pages/AdminDashboard').then((m) => ({ default: m.AdminDashboard }))
 )
-const SystemDocs = lazy(() =>
-  import('./pages/SystemDocs').then((m) => ({ default: m.SystemDocs }))
-)
 
 /** Main landing page — all sections stacked for infinite scroll */
 function HomePageWrapper() {
@@ -64,7 +61,7 @@ function PageLoader() {
       className="min-h-screen flex items-center justify-center"
       style={{ background: '#0a0a0b' }}
     >
-      <ForgeLoader message="Loading..." />
+      <RuntimeLoader message="Loading..." />
     </div>
   )
 }
@@ -82,12 +79,12 @@ function NotFoundPage() {
       className="min-h-screen flex flex-col items-center justify-center gap-6"
       style={{ background: '#0a0a0b' }}
     >
-      <p className="text-metallic-400 text-sm tracking-widest uppercase">
+      <p className="text-txt-muted text-sm tracking-widest uppercase">
         Page not found
       </p>
       <a
         href="/"
-        className="text-amber-forge text-xs tracking-widest uppercase underline underline-offset-4"
+        className="text-telemetry-primary text-xs tracking-widest uppercase underline underline-offset-4"
       >
         Return Home
       </a>
@@ -120,9 +117,6 @@ export default function App() {
 
               <Route path="/systems/rejection-analysis-system" element={<RejectionAnalysisSystem />} />
               <Route path="/systems/plant-intelligence" element={<PlantIntelligence />} />
-
-              {/* Public system documentation */}
-              <Route path="/system" element={<SystemDocs />} />
 
               <Route path="/portal" element={<PortalLogin />} />
 

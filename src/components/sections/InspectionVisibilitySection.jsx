@@ -11,7 +11,7 @@ export function InspectionVisibilitySection() {
           subtitle={inspectionVisibilityContent.subtitle}
         />
         
-        <p className="text-lg text-metallic-300 leading-relaxed mb-12 text-center max-w-3xl mx-auto">
+        <p className="text-lg text-txt-secondary leading-relaxed mb-12 text-center max-w-3xl mx-auto">
           {inspectionVisibilityContent.body}
         </p>
 
@@ -37,7 +37,7 @@ export function InspectionVisibilitySection() {
                 <h3 className="text-base font-bold mb-2 text-white">
                   {screenshot.title}
                 </h3>
-                <p className="text-sm text-metallic-400 leading-relaxed">
+                <p className="text-sm text-txt-secondary leading-relaxed">
                   {screenshot.description}
                 </p>
               </div>
@@ -45,7 +45,7 @@ export function InspectionVisibilitySection() {
           ))}
         </div>
 
-        <p className="text-center text-sm text-metallic-400 mt-12 max-w-2xl mx-auto">
+        <p className="text-center text-sm text-txt-secondary mt-12 max-w-2xl mx-auto">
           {inspectionVisibilityContent.keyMessage}
         </p>
       </div>

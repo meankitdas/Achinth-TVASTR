@@ -1,5 +1,3 @@
-import { SectionHeader } from './SectionHeader'
-
 export function SectionShell({ children, id, className, style }) {
   return (
     <section

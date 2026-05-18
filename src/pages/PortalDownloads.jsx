@@ -177,8 +177,8 @@ export function PortalDownloads() {
         {/* Page header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 h-px bg-amber-forge opacity-60" />
-            <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-60">
+            <div className="w-6 h-px bg-signal-warning opacity-60" />
+            <span className="text-xs font-semibold tracking-[0.3em] uppercase text-signal-warning opacity-60">
               Software Downloads
             </span>
           </div>
@@ -193,17 +193,17 @@ export function PortalDownloads() {
           >
             Latest Releases
           </h1>
-          <p className="text-sm text-metallic-400">
+          <p className="text-sm text-txt-secondary">
             Download the latest versions of your licensed Tvastr systems.
           </p>
           {user && (
-            <p className="text-xs text-metallic-500 mt-2">
-              Signed in as <span className="text-metallic-300">{user.email}</span>
+            <p className="text-xs text-txt-muted mt-2">
+              Signed in as <span className="text-txt-secondary">{user.email}</span>
             </p>
           )}
           {tier && (
-            <p className="text-xs text-metallic-500 mt-1">
-              License Tier: <span className="text-metallic-300 font-semibold">{TIER_LABELS[tier] || tier}</span>
+            <p className="text-xs text-txt-muted mt-1">
+              License Tier: <span className="text-txt-secondary font-semibold">{TIER_LABELS[tier] || tier}</span>
             </p>
           )}
         </div>
@@ -221,7 +221,7 @@ export function PortalDownloads() {
                   animation: 'pulse 1.5s ease-in-out infinite',
                 }}
               />
-              <span className="text-xs text-metallic-500 tracking-widest uppercase">
+              <span className="text-xs text-txt-muted tracking-widest uppercase">
                 Loading releases…
               </span>
             </div>
@@ -234,7 +234,7 @@ export function PortalDownloads() {
             <p className="text-sm text-red-400">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-4 text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
+              className="mt-4 text-xs tracking-widest uppercase text-signal-warning underline underline-offset-4"
             >
               Retry
             </button>
@@ -244,13 +244,13 @@ export function PortalDownloads() {
             className="p-8 text-center"
             style={{ border: '1px solid rgba(168,168,180,0.08)', background: 'rgba(17,17,19,0.5)' }}
           >
-            <p className="text-sm text-metallic-400">
+            <p className="text-sm text-txt-secondary">
               No downloads available for your current license tier.
             </p>
             {tier !== 'TIER_3' && (
               <a
                 href={generateMailtoLink(CONFIG.emails.support, CONFIG.emailTemplates.licenseUpgrade('Full Stack').subject, CONFIG.emailTemplates.licenseUpgrade('Full Stack').body)}
-                className="mt-4 inline-block text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
+                className="mt-4 inline-block text-xs tracking-widest uppercase text-signal-warning underline underline-offset-4"
               >
                 Upgrade License
               </a>
@@ -258,7 +258,7 @@ export function PortalDownloads() {
             {tier === 'TIER_3' && (
               <a
                 href={generateMailtoLink(CONFIG.emails.support, 'Product Download Issue', 'I have a PIRAS license but no downloads are available. Please assist.')}
-                className="mt-4 inline-block text-xs tracking-widest uppercase text-amber-forge underline underline-offset-4"
+                className="mt-4 inline-block text-xs tracking-widest uppercase text-signal-warning underline underline-offset-4"
               >
                 Contact Support
               </a>
@@ -283,11 +283,11 @@ export function PortalDownloads() {
                 <div className="mb-6">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-6 h-px bg-metallic-600 opacity-40" />
-                    <span className="text-xs font-semibold tracking-[0.3em] uppercase text-metallic-500 opacity-60">
+                    <span className="text-xs font-semibold tracking-[0.3em] uppercase text-txt-muted opacity-60">
                       Version Rollback
                     </span>
                   </div>
-                  <p className="text-sm text-metallic-400">
+                  <p className="text-sm text-txt-secondary">
                     Previous stable releases available for rollback or compatibility testing.
                   </p>
                 </div>

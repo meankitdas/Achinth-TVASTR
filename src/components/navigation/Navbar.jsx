@@ -61,8 +61,8 @@ export function Navbar() {
         href="#hero"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:tracking-widest focus:uppercase focus:transition-all"
         style={{
-          background: 'rgba(245,158,11,0.95)',
-          color: '#0a0a0b',
+          background: 'var(--telemetry-primary)',
+          color: 'var(--bg-primary)',
         }}
       >
         Skip to main content
@@ -76,7 +76,7 @@ export function Navbar() {
             : 'transparent',
           backdropFilter: scrolled || isPortalPage ? 'blur(12px)' : 'none',
           borderBottom: scrolled || isPortalPage
-            ? '1px solid rgba(168,168,180,0.06)'
+            ? '1px solid var(--border-subtle)'
             : '1px solid transparent',
         }}
       >
@@ -101,19 +101,20 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             {mainNavItems.map((item) => {
               if (item.children) {
-                // Dropdown menu - simplified for now
+                // Dropdown menu
                 return (
                   <div key={item.label} className="relative group">
-                    <button className="text-xs font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200">
+                    <button className="text-xs font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors duration-200">
                       {item.label}
                     </button>
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-charcoal-950 border border-metallic-800/30 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <div className="absolute top-full left-0 mt-2 w-48 border rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200" style={{ background: 'var(--bg-primary)', borderColor: 'var(--border-default)' }}>
                       {item.children.map((child) => (
                         <Link
                           key={child.label}
                           to={child.href}
                           onClick={() => child.href.startsWith('#') && handleNavClick(child)}
-                          className="block px-4 py-2 text-xs text-metallic-400 hover:text-metallic-100 hover:bg-metallic-900/20 transition-colors"
+                          className="block px-4 py-2 text-xs text-txt-muted hover:text-txt-primary transition-colors"
+                          style={{ ':hover': { background: 'var(--bg-elevated)' } }}
                         >
                           {child.label}
                         </Link>
@@ -127,7 +128,7 @@ export function Navbar() {
                 <button
                   key={item.label}
                   onClick={() => handleNavClick(item)}
-                  className="text-xs font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
+                  className="text-xs font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors duration-200"
                 >
                   {item.label}
                 </button>
@@ -141,7 +142,7 @@ export function Navbar() {
                       window.scrollTo({ top: 0, behavior: 'smooth' })
                     }
                   }}
-                  className="text-xs font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
+                  className="text-xs font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors duration-200"
                 >
                   {item.label}
                 </Link>
@@ -153,13 +154,13 @@ export function Navbar() {
               <div className="flex items-center gap-4">
                 <Link
                   to="/portal/dashboard"
-                  className="text-xs font-medium tracking-widest uppercase text-amber-forge hover:text-amber-glow transition-colors duration-200"
+                  className="text-xs font-medium tracking-widest uppercase text-telemetry-primary hover:text-telemetry-secondary transition-colors duration-200"
                 >
                   Dashboard
                 </Link>
                 <button
                   onClick={signOut}
-                  className="text-xs font-medium tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
+                  className="text-xs font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors duration-200"
                 >
                   Logout
                 </button>
@@ -169,17 +170,17 @@ export function Navbar() {
                 to="/portal"
                 className="flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-widest uppercase transition-all duration-200"
                 style={{
-                  color: '#f59e0b',
-                  border: '1px solid rgba(245,158,11,0.3)',
-                  background: 'rgba(245,158,11,0.05)',
+                  color: 'var(--telemetry-primary)',
+                  border: '1px solid rgba(79,140,255,0.3)',
+                  background: 'rgba(79,140,255,0.05)',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(245,158,11,0.1)'
-                  e.currentTarget.style.borderColor = 'rgba(245,158,11,0.5)'
+                  e.currentTarget.style.background = 'rgba(79,140,255,0.1)'
+                  e.currentTarget.style.borderColor = 'rgba(79,140,255,0.5)'
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(245,158,11,0.05)'
-                  e.currentTarget.style.borderColor = 'rgba(245,158,11,0.3)'
+                  e.currentTarget.style.background = 'rgba(79,140,255,0.05)'
+                  e.currentTarget.style.borderColor = 'rgba(79,140,255,0.3)'
                 }}
               >
                 <span>Portal</span>
@@ -202,7 +203,7 @@ export function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2 text-metallic-400 hover:text-metallic-100 transition-colors"
+            className="md:hidden p-2 text-txt-muted hover:text-txt-primary transition-colors"
             aria-label="Toggle menu"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -225,12 +226,12 @@ export function Navbar() {
 
         {/* Mobile menu drawer */}
         {menuOpen && (
-          <div className="md:hidden bg-charcoal-950 border-t border-metallic-800/20 py-4">
+          <div className="md:hidden py-4" style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--border-subtle)' }}>
             {mainNavItems.map((item) => {
               if (item.children) {
                 return (
                   <div key={item.label} className="px-6 py-2">
-                    <p className="text-xs font-semibold tracking-widest uppercase text-metallic-500 mb-2">
+                    <p className="text-xs font-semibold tracking-widest uppercase text-txt-muted mb-2">
                       {item.label}
                     </p>
                     {item.children.map((child) => (
@@ -238,7 +239,7 @@ export function Navbar() {
                         key={child.label}
                         to={child.href}
                         onClick={() => child.href.startsWith('#') && handleNavClick(child)}
-                        className="block py-2 pl-4 text-xs text-metallic-400 hover:text-metallic-100"
+                        className="block py-2 pl-4 text-xs text-txt-muted hover:text-txt-primary"
                       >
                         {child.label}
                       </Link>
@@ -251,7 +252,7 @@ export function Navbar() {
                 <button
                   key={item.label}
                   onClick={() => handleNavClick(item)}
-                  className="block w-full text-left px-6 py-3 text-sm font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors"
+                  className="block w-full text-left px-6 py-3 text-sm font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors"
                 >
                   {item.label}
                 </button>
@@ -266,7 +267,7 @@ export function Navbar() {
                       setMenuOpen(false)
                     }
                   }}
-                  className="block px-6 py-3 text-sm font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors"
+                  className="block px-6 py-3 text-sm font-medium tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors"
                 >
                   {item.label}
                 </Link>

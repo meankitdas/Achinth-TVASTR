@@ -13,7 +13,7 @@ export function TechnologyHeroSection() {
       }}
     >
       <div className="max-w-4xl mx-auto text-center space-y-6">
-        <p className="text-amber-forge text-xs tracking-[0.2em] uppercase font-semibold">
+        <p className="text-telemetry-primary text-xs tracking-[0.2em] uppercase font-semibold">
           Technology
         </p>
         
@@ -21,11 +21,11 @@ export function TechnologyHeroSection() {
           {title}
         </h1>
         
-        <p className="text-xl md:text-2xl text-metallic-300 font-light">
+        <p className="text-xl md:text-2xl text-txt-secondary font-light">
           {subtitle}
         </p>
         
-        <p className="text-base md:text-lg text-metallic-400 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-base md:text-lg text-txt-secondary leading-relaxed max-w-3xl mx-auto">
           {body}
         </p>
       </div>

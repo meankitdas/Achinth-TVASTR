@@ -47,8 +47,8 @@ function MobileDocSelector({ manifest, selectedDoc, setSelectedDoc }) {
           }}
         >
           {manifest.sections.map((section) => (
-            <div key={section.id} className="border-b border-metallic-900 last:border-b-0">
-              <h3 className="text-xs font-semibold tracking-widest uppercase text-amber-forge px-4 py-3 bg-[rgba(10,10,11,0.6)]">
+            <div key={section.id} className="border-b border-border-subtle last:border-b-0">
+              <h3 className="text-xs font-semibold tracking-widest uppercase text-signal-warning px-4 py-3 bg-[rgba(10,10,11,0.6)]">
                 {section.title}
               </h3>
               <div className="p-2">
@@ -244,8 +244,8 @@ export function AdminDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={STYLES.background}>
         <div className="text-center">
-          <p className="text-metallic-400 text-sm">Access denied</p>
-          <Link to="/portal/dashboard" className="text-amber-forge text-xs mt-4 inline-block">
+          <p className="text-txt-secondary text-sm">Access denied</p>
+          <Link to="/portal/dashboard" className="text-signal-warning text-xs mt-4 inline-block">
             Return to Dashboard
           </Link>
         </div>
@@ -263,13 +263,13 @@ export function AdminDashboard() {
         <div className="w-full px-4 md:px-6 lg:px-8 xl:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
             <Logo size="sm" />
-            <span className="text-metallic-600 text-xs hidden md:inline">/ Admin Portal</span>
+            <span className="text-txt-muted text-xs hidden md:inline">/ Admin Portal</span>
           </Link>
 
           <div className="flex items-center gap-3 md:gap-6">
             <Link
               to="/portal/dashboard"
-              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-metallic-500 hover:text-metallic-200"
+              className="text-xs font-semibold tracking-wider md:tracking-widest uppercase transition-colors duration-200 text-txt-muted hover:text-txt-primary"
               title="Customer View"
             >
               <span className="hidden sm:inline">Customer View</span>
@@ -277,11 +277,11 @@ export function AdminDashboard() {
             </Link>
             <div className="hidden sm:flex items-center gap-2">
               <div className="w-2 h-2 rounded-full" style={STYLES.statusIndicator} />
-              <span className="text-xs text-metallic-400 font-mono truncate max-w-[120px] md:max-w-none">{user?.email}</span>
+              <span className="text-xs text-txt-secondary font-mono truncate max-w-[120px] md:max-w-none">{user?.email}</span>
             </div>
             <button
               onClick={signOut}
-              className="text-xs font-medium tracking-wider md:tracking-widest uppercase text-metallic-500 hover:text-metallic-200 transition-colors duration-200"
+              className="text-xs font-medium tracking-wider md:tracking-widest uppercase text-txt-muted hover:text-txt-primary transition-colors duration-200"
             >
               Logout
             </button>
@@ -294,15 +294,15 @@ export function AdminDashboard() {
         {/* Page header */}
         <div className="mb-8 md:mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 h-px bg-amber-forge opacity-60" />
-            <span className="text-xs font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase text-amber-forge opacity-60">
+            <div className="w-6 h-px bg-signal-warning opacity-60" />
+            <span className="text-xs font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase text-signal-warning opacity-60">
               Admin Portal
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight mb-3" style={STYLES.titleGradient}>
             System Administration
           </h1>
-          <p className="text-xs md:text-sm text-metallic-400">
+          <p className="text-xs md:text-sm text-txt-secondary">
             Manage customers, licenses, and system documentation.
           </p>
         </div>
@@ -346,7 +346,7 @@ export function AdminDashboard() {
                       animation: 'pulse 1.5s ease-in-out infinite',
                     }}
                   />
-                  <span className="text-xs text-metallic-500 tracking-widest uppercase">
+                  <span className="text-xs text-txt-muted tracking-widest uppercase">
                     Loading customers...
                   </span>
                 </div>
@@ -357,7 +357,7 @@ export function AdminDashboard() {
               </div>
             ) : customers.length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-sm text-metallic-500">No customers found.</p>
+                <p className="text-sm text-txt-muted">No customers found.</p>
               </div>
             ) : (
               <>
@@ -381,7 +381,7 @@ export function AdminDashboard() {
                             <span className="font-mono text-xs">{customer.email || 'N/A'}</span>
                           </td>
                           <td style={STYLES.table.cell}>
-                            <span className="font-mono text-xs text-amber-forge">{customer.license_key}</span>
+                            <span className="font-mono text-xs text-signal-warning">{customer.license_key}</span>
                           </td>
                           <td style={STYLES.table.cell}>
                             <span
@@ -396,7 +396,7 @@ export function AdminDashboard() {
                             </span>
                           </td>
                           <td style={STYLES.table.cell}>
-                            <span className="text-xs text-metallic-500">
+                            <span className="text-xs text-txt-muted">
                               {new Date(customer.created_at).toLocaleDateString('en-IN', {
                                 year: 'numeric',
                                 month: 'short',
@@ -422,7 +422,7 @@ export function AdminDashboard() {
                       }}
                     >
                       <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-sm font-bold text-metallic-200">{customer.customer_name}</h3>
+                        <h3 className="text-sm font-bold text-txt-primary">{customer.customer_name}</h3>
                         <span
                           className="px-2 py-1 text-xs font-semibold rounded"
                           style={{
@@ -437,16 +437,16 @@ export function AdminDashboard() {
                       
                       <div className="space-y-2 text-xs">
                         <div>
-                          <span className="text-metallic-600 uppercase tracking-wider">Email:</span>
-                          <span className="ml-2 font-mono text-metallic-400">{customer.email || 'N/A'}</span>
+                          <span className="text-txt-muted uppercase tracking-wider">Email:</span>
+                          <span className="ml-2 font-mono text-txt-secondary">{customer.email || 'N/A'}</span>
                         </div>
                         <div>
-                          <span className="text-metallic-600 uppercase tracking-wider">License:</span>
-                          <span className="ml-2 font-mono text-amber-forge">{customer.license_key}</span>
+                          <span className="text-txt-muted uppercase tracking-wider">License:</span>
+                          <span className="ml-2 font-mono text-signal-warning">{customer.license_key}</span>
                         </div>
                         <div>
-                          <span className="text-metallic-600 uppercase tracking-wider">Created:</span>
-                          <span className="ml-2 text-metallic-500">
+                          <span className="text-txt-muted uppercase tracking-wider">Created:</span>
+                          <span className="ml-2 text-txt-muted">
                             {new Date(customer.created_at).toLocaleDateString('en-IN', {
                               year: 'numeric',
                               month: 'short',
@@ -478,7 +478,7 @@ export function AdminDashboard() {
                   <div className="p-4">
                     {manifest.sections.map((section) => (
                       <div key={section.id} className="mb-6">
-                        <h3 className="text-xs font-semibold tracking-widest uppercase text-amber-forge mb-3 px-3">
+                        <h3 className="text-xs font-semibold tracking-widest uppercase text-signal-warning mb-3 px-3">
                           {section.title}
                         </h3>
                         <div className="space-y-1">
@@ -502,7 +502,7 @@ export function AdminDashboard() {
                   </div>
                 ) : (
                   <div className="p-4 text-center">
-                    <span className="text-xs text-metallic-500">Loading...</span>
+                    <span className="text-xs text-txt-muted">Loading...</span>
                   </div>
                 )}
               </div>
@@ -526,7 +526,7 @@ export function AdminDashboard() {
                             animation: 'pulse 1.5s ease-in-out infinite',
                           }}
                         />
-                        <span className="text-xs text-metallic-500 tracking-widest uppercase">
+                        <span className="text-xs text-txt-muted tracking-widest uppercase">
                           Loading document...
                         </span>
                       </div>
@@ -540,42 +540,42 @@ export function AdminDashboard() {
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
-                          h1: ({ node, ...props }) => <h1 className="text-xl md:text-2xl font-bold text-metallic-100 mb-4 border-b border-metallic-800 pb-3" {...props} />,
-                          h2: ({ node, ...props }) => <h2 className="text-lg md:text-xl font-bold text-metallic-200 mb-3 mt-6 md:mt-8" {...props} />,
-                          h3: ({ node, ...props }) => <h3 className="text-base md:text-lg font-semibold text-metallic-300 mb-2 mt-4 md:mt-6" {...props} />,
-                          h4: ({ node, ...props }) => <h4 className="text-sm md:text-base font-semibold text-metallic-300 mb-2 mt-3 md:mt-4" {...props} />,
-                          h5: ({ node, ...props }) => <h5 className="text-xs md:text-sm font-semibold text-metallic-400 mb-1 mt-2 md:mt-3" {...props} />,
-                          h6: ({ node, ...props }) => <h6 className="text-xs font-semibold text-metallic-500 mb-1 mt-2" {...props} />,
-                          p: ({ node, ...props }) => <p className="text-xs md:text-sm text-metallic-400 mb-4 leading-relaxed" {...props} />,
-                          ul: ({ node, ...props }) => <ul className="text-xs md:text-sm text-metallic-400 mb-4 ml-4 md:ml-6 list-disc space-y-1" {...props} />,
-                          ol: ({ node, ...props }) => <ol className="text-xs md:text-sm text-metallic-400 mb-4 ml-4 md:ml-6 list-decimal space-y-1" {...props} />,
+                          h1: ({ node, ...props }) => <h1 className="text-xl md:text-2xl font-bold text-txt-primary mb-4 border-b border-border-default pb-3" {...props} />,
+                          h2: ({ node, ...props }) => <h2 className="text-lg md:text-xl font-bold text-txt-primary mb-3 mt-6 md:mt-8" {...props} />,
+                          h3: ({ node, ...props }) => <h3 className="text-base md:text-lg font-semibold text-txt-secondary mb-2 mt-4 md:mt-6" {...props} />,
+                          h4: ({ node, ...props }) => <h4 className="text-sm md:text-base font-semibold text-txt-secondary mb-2 mt-3 md:mt-4" {...props} />,
+                          h5: ({ node, ...props }) => <h5 className="text-xs md:text-sm font-semibold text-txt-secondary mb-1 mt-2 md:mt-3" {...props} />,
+                          h6: ({ node, ...props }) => <h6 className="text-xs font-semibold text-txt-muted mb-1 mt-2" {...props} />,
+                          p: ({ node, ...props }) => <p className="text-xs md:text-sm text-txt-secondary mb-4 leading-relaxed" {...props} />,
+                          ul: ({ node, ...props }) => <ul className="text-xs md:text-sm text-txt-secondary mb-4 ml-4 md:ml-6 list-disc space-y-1" {...props} />,
+                          ol: ({ node, ...props }) => <ol className="text-xs md:text-sm text-txt-secondary mb-4 ml-4 md:ml-6 list-decimal space-y-1" {...props} />,
                           li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
                           code: ({ node, inline, ...props }) =>
                             inline ? (
-                              <code className="px-1.5 py-0.5 rounded text-amber-forge font-mono text-xs" style={{ background: 'rgba(245,158,11,0.1)' }} {...props} />
+                              <code className="px-1.5 py-0.5 rounded text-signal-warning font-mono text-xs" style={{ background: 'rgba(245,158,11,0.1)' }} {...props} />
                             ) : (
-                              <code className="block p-3 md:p-4 rounded font-mono text-xs text-metallic-300 overflow-x-auto" style={{ background: 'rgba(10,10,11,0.6)', border: '1px solid rgba(168,168,180,0.08)' }} {...props} />
+                              <code className="block p-3 md:p-4 rounded font-mono text-xs text-txt-secondary overflow-x-auto" style={{ background: 'rgba(10,10,11,0.6)', border: '1px solid rgba(168,168,180,0.08)' }} {...props} />
                             ),
                           pre: ({ node, ...props }) => <pre className="mb-4" {...props} />,
-                          strong: ({ node, ...props }) => <strong className="font-bold text-amber-forge" {...props} />,
-                          em: ({ node, ...props }) => <em className="italic text-metallic-300" {...props} />,
+                          strong: ({ node, ...props }) => <strong className="font-bold text-signal-warning" {...props} />,
+                          em: ({ node, ...props }) => <em className="italic text-txt-secondary" {...props} />,
                           a: ({ node, href, ...props }) => {
                             // Inter-doc link handler
                             if (href && href.endsWith('.md')) {
                               return (
                                 <button
                                   onClick={() => setSelectedDoc(href)}
-                                  className="text-amber-forge hover:underline break-words cursor-pointer"
+                                  className="text-signal-warning hover:underline break-words cursor-pointer"
                                   {...props}
                                 />
                               )
                             }
-                            return <a href={href} className="text-amber-forge hover:underline break-words" target="_blank" rel="noopener noreferrer" {...props} />
+                            return <a href={href} className="text-signal-warning hover:underline break-words" target="_blank" rel="noopener noreferrer" {...props} />
                           },
-                          hr: ({ node, ...props }) => <hr className="my-6 md:my-8 border-metallic-800" {...props} />,
+                          hr: ({ node, ...props }) => <hr className="my-6 md:my-8 border-border-default" {...props} />,
                           blockquote: ({ node, ...props }) => (
                             <blockquote
-                              className="pl-4 md:pl-6 py-3 my-4 italic text-metallic-300 border-l-4"
+                              className="pl-4 md:pl-6 py-3 my-4 italic text-txt-secondary border-l-4"
                               style={{
                                 borderColor: '#f59e0b',
                                 background: 'rgba(245,158,11,0.05)',
@@ -607,14 +607,14 @@ export function AdminDashboard() {
                           ),
                           th: ({ node, ...props }) => (
                             <th
-                              className="px-3 md:px-4 py-2 text-left font-semibold tracking-wider uppercase text-amber-forge"
+                              className="px-3 md:px-4 py-2 text-left font-semibold tracking-wider uppercase text-signal-warning"
                               style={{ borderBottom: '2px solid rgba(245,158,11,0.3)' }}
                               {...props}
                             />
                           ),
                           td: ({ node, ...props }) => (
                             <td
-                              className="px-3 md:px-4 py-2 text-metallic-300"
+                              className="px-3 md:px-4 py-2 text-txt-secondary"
                               style={{ borderRight: '1px solid rgba(168,168,180,0.08)' }}
                               {...props}
                             />
@@ -626,7 +626,7 @@ export function AdminDashboard() {
                     </div>
                   ) : (
                     <div className="p-4 md:p-8 text-center">
-                      <p className="text-sm text-metallic-500">Select a document to view</p>
+                      <p className="text-sm text-txt-muted">Select a document to view</p>
                     </div>
                   )}
                 </div>
@@ -639,7 +639,7 @@ export function AdminDashboard() {
         <div className="mt-6 md:mt-8 text-center">
           <Link
             to="/"
-            className="text-xs text-metallic-600 hover:text-metallic-300 transition-colors duration-200 tracking-wider"
+            className="text-xs text-txt-muted hover:text-txt-secondary transition-colors duration-200 tracking-wider"
           >
             ← Return to tvastr.ai
           </Link>
