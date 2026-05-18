@@ -9,7 +9,6 @@ import { useDocumentHead } from './hooks/useDocumentHead'
 
 // Landing page sections — loaded eagerly (above the fold)
 import { HomePage } from './components/layout/HomePage'
-import { ContactSection } from './components/sections/ContactSection'
 
 // System detail pages — lazy loaded
 const RejectionAnalysisSystem = lazy(() =>

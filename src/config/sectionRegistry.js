@@ -1,12 +1,10 @@
 // Homepage sections
 import { HeroSection } from '../components/sections/HeroSection'
 import { IndustryProblemSection } from '../components/sections/IndustryProblemSection'
-import { CoreThesisSection } from '../components/sections/home/CoreThesisSection'
 import { IntelligenceLayersSection } from '../components/sections/home/IntelligenceLayersSection'
 import { MultiGateIntelligenceSection } from '../components/sections/home/MultiGateIntelligenceSection'
 import { SignalFirstAISection } from '../components/sections/home/SignalFirstAISection'
 import { IndustrialMemorySection } from '../components/sections/home/IndustrialMemorySection'
-import { FinalPositioningSection } from '../components/sections/home/FinalPositioningSection'
 import { InspectionVisibilitySection } from '../components/sections/InspectionVisibilitySection'
 import { DeploymentSection } from '../components/sections/DeploymentSection'
 import { PlatformOverviewSection } from '../components/sections/PlatformOverviewSection'
@@ -27,7 +25,6 @@ export const sectionRegistry = {
   // Homepage
   'hero': HeroSection,
   'industry-problem': IndustryProblemSection,
-  'core-thesis': CoreThesisSection,
   'intelligence-layers': IntelligenceLayersSection,
   'multi-gate-intelligence': MultiGateIntelligenceSection,
   'signal-first-ai': SignalFirstAISection,
@@ -35,7 +32,6 @@ export const sectionRegistry = {
   'inspection-visibility': InspectionVisibilitySection,
   'industrial-memory': IndustrialMemorySection,
   'deployment': DeploymentSection,
-  'final-positioning': FinalPositioningSection,
   'contact': ContactSection,
 
   // Technology page
