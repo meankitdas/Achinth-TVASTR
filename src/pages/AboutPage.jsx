@@ -1,30 +1,31 @@
-import { useDocumentHead } from '../hooks/useDocumentHead'
+import { useDocumentHead } from "../hooks/useDocumentHead";
 
 export function AboutPage() {
   useDocumentHead(
-    'About Tvastr | Industrial Intelligence Platform',
-    'Learn about Tvastr - pioneering AI-powered quality inspection and process intelligence for manufacturing industries.',
-    'https://tvastr.co/about'
-  )
+    "About Tvastr | Industrial Intelligence Platform",
+    "Learn about Tvastr - pioneering AI-powered quality inspection and process intelligence for manufacturing industries.",
+    "https://tvastr.co/about",
+  );
 
   return (
-    <div className="min-h-screen" style={{ background: '#0a0a0b' }}>
+    <div className="min-h-screen bg-bg-primary">
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <p className="text-telemetry-primary text-xs tracking-[0.2em] uppercase font-semibold">
               About Tvastr
             </p>
-            
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-metallic-50">
               Building the Future of Industrial Intelligence
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-txt-secondary font-light">
-              Empowering manufacturers with explainable AI-driven quality inspection and process optimization.
+              Empowering manufacturers with explainable AI-driven quality
+              inspection and process optimization.
             </p>
           </div>
         </div>
@@ -33,7 +34,7 @@ export function AboutPage() {
       {/* Mission Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -41,27 +42,34 @@ export function AboutPage() {
                 Our Mission
               </h2>
               <p className="text-lg text-txt-secondary leading-relaxed mb-4">
-                Tvastr is on a mission to transform traditional manufacturing quality control through 
-                signal-based AI inspection systems that are explainable, auditable, and deployment-ready.
+                Tvastr is on a mission to transform traditional manufacturing
+                quality control through signal-based AI inspection systems that
+                are explainable, auditable, and deployment-ready.
               </p>
               <p className="text-lg text-txt-secondary leading-relaxed">
-                We believe that quality inspection should not be a black box. Our technology combines 
-                physics-driven signal analysis with machine learning to deliver reliable defect detection 
-                that engineers can trust and understand.
+                We believe that quality inspection should not be a black box.
+                Our technology combines physics-driven signal analysis with
+                machine learning to deliver reliable defect detection that
+                engineers can trust and understand.
               </p>
             </div>
-            
+
             <div className="space-y-6">
               <div className="border border-border-default bg-bg-primary/30 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-telemetry-primary mb-3">Vision</h3>
+                <h3 className="text-xl font-semibold text-telemetry-primary mb-3">
+                  Vision
+                </h3>
                 <p className="text-txt-secondary">
-                  To become the global standard for AI-powered quality inspection in precision manufacturing, 
-                  enabling zero-defect production at scale.
+                  To become the global standard for AI-powered quality
+                  inspection in precision manufacturing, enabling zero-defect
+                  production at scale.
                 </p>
               </div>
-              
+
               <div className="border border-border-default bg-bg-primary/30 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-telemetry-primary mb-3">Values</h3>
+                <h3 className="text-xl font-semibold text-telemetry-primary mb-3">
+                  Values
+                </h3>
                 <ul className="space-y-2 text-txt-secondary">
                   <li className="flex items-start gap-2">
                     <span className="text-telemetry-primary mt-1">•</span>
@@ -87,17 +95,18 @@ export function AboutPage() {
       </section>
 
       {/* Technology Approach */}
-      <section className="relative py-20 overflow-hidden" style={{ background: '#12121a' }}>
+      <section className="relative py-20 overflow-hidden bg-bg-secondary">
         <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="max-w-4xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-metallic-50 mb-6">
               Our Technology Approach
             </h2>
             <p className="text-lg text-txt-secondary">
-              Unlike pure computer vision ML approaches, Tvastr uses multi-sensor signal fusion 
-              combined with physics-based classification rules.
+              Unlike pure computer vision ML approaches, Tvastr uses
+              multi-sensor signal fusion combined with physics-based
+              classification rules.
             </p>
           </div>
 
@@ -107,8 +116,9 @@ export function AboutPage() {
                 Signal-First Classification
               </h3>
               <p className="text-txt-secondary">
-                We extract interpretable features from vision, thermal, eddy current, and ultrasonic sensors 
-                to classify defects based on physical principles.
+                We extract interpretable features from vision, thermal, eddy
+                current, and ultrasonic sensors to classify defects based on
+                physical principles.
               </p>
             </div>
 
@@ -117,8 +127,8 @@ export function AboutPage() {
                 Process Intelligence
               </h3>
               <p className="text-txt-secondary">
-                Our PI system transforms rejection data into actionable insights using SPC, Pareto, 
-                Fishbone, and correlation analytics.
+                Our PI system transforms rejection data into actionable insights
+                using SPC, Pareto, Fishbone, and correlation analytics.
               </p>
             </div>
 
@@ -127,8 +137,8 @@ export function AboutPage() {
                 Edge Deployment
               </h3>
               <p className="text-txt-secondary">
-                Hybrid edge-cloud architecture enables real-time inspection with &lt;200ms latency 
-                while maintaining centralized analytics.
+                Hybrid edge-cloud architecture enables real-time inspection with
+                &lt;200ms latency while maintaining centralized analytics.
               </p>
             </div>
           </div>
@@ -138,15 +148,16 @@ export function AboutPage() {
       {/* Team Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="max-w-4xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-metallic-50 mb-6">
               Built by Engineers, for Engineers
             </h2>
             <p className="text-lg text-txt-secondary">
-              Our team combines deep expertise in computer vision, signal processing, manufacturing engineering, 
-              and industrial AI deployment.
+              Our team combines deep expertise in computer vision, signal
+              processing, manufacturing engineering, and industrial AI
+              deployment.
             </p>
           </div>
 
@@ -157,10 +168,13 @@ export function AboutPage() {
               </h3>
               <div className="space-y-4">
                 <div className="text-center">
-                  <h4 className="text-xl font-semibold text-txt-primary">Achintharya</h4>
+                  <h4 className="text-xl font-semibold text-txt-primary">
+                    Achintharya
+                  </h4>
                   <p className="text-telemetry-primary mb-2">Founder & CEO</p>
                   <p className="text-txt-secondary">
-                    Building AI systems for industrial quality control with focus on explainability and reliability.
+                    Building AI systems for industrial quality control with
+                    focus on explainability and reliability.
                   </p>
                 </div>
               </div>
@@ -170,20 +184,21 @@ export function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 overflow-hidden" style={{ background: '#12121a' }}>
+      <section className="relative py-20 overflow-hidden bg-bg-secondary">
         <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" />
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold text-metallic-50">
               Join Us in Transforming Manufacturing Quality
             </h2>
-            
+
             <p className="text-lg text-txt-secondary">
-              Whether you're a foundry looking to reduce scrap or a manufacturing engineer seeking better 
-              process insights, we'd love to discuss how Tvastr can help.
+              Whether you're a foundry looking to reduce scrap or a
+              manufacturing engineer seeking better process insights, we'd love
+              to discuss how Tvastr can help.
             </p>
-            
+
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a
                 href="#contact"
@@ -202,5 +217,5 @@ export function AboutPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

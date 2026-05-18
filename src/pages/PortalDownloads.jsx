@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { useLicense } from '../context/LicenseContext'
-import { supabase } from '../lib/supabaseClient'
-import { isAllowed, TIER_LABELS } from '../lib/capabilities'
-import { ProductDownloadCard } from '../components/ProductDownloadCard'
-import { RollbackVersionCard } from '../components/RollbackVersionCard'
-import { Logo } from '../components/Logo'
-import { LockedFeatureBlock } from '../components/LockedFeatureBlock'
-import { CONFIG, generateMailtoLink } from '../lib/config'
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useLicense } from "../context/LicenseContext";
+import { supabase } from "../lib/supabaseClient";
+import { isAllowed, TIER_LABELS, tierToBadgeState } from "../lib/capabilities";
+import { ProductDownloadCard } from "../components/ProductDownloadCard";
+import { RollbackVersionCard } from "../components/RollbackVersionCard";
+import { Logo } from "../components/Logo";
+import { LockedFeatureBlock } from "../components/LockedFeatureBlock";
+import { CONFIG, generateMailtoLink } from "../lib/config";
+import { colors } from "../design/colors";
+import { TierBadge } from "../components/portal/TierBadge";
 
 /**
  * PortalDownloads — Protected page showing latest versions filtered by tier.
@@ -22,25 +24,26 @@ import { CONFIG, generateMailtoLink } from '../lib/config'
  * Access: Authenticated users only (content filtered by tier)
  */
 export function PortalDownloads() {
-  const { user, signOut } = useAuth()
-  const { tier, loading: licenseLoading } = useLicense()
-  const [items, setItems] = useState([])   // [{ product, version }] - latest versions
-  const [olderVersions, setOlderVersions] = useState([])  // [{ product, version }] - older versions
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const { user, signOut } = useAuth();
+  const { tier, loading: licenseLoading } = useLicense();
+  const [items, setItems] = useState([]); // [{ product, version }] - latest versions
+  const [olderVersions, setOlderVersions] = useState([]); // [{ product, version }] - older versions
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!tier) return // Wait for tier to load
+    if (!tier) return; // Wait for tier to load
 
     async function fetchData() {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
 
       try {
         // Fetch all versions with product info
         const { data: versions, error: verErr } = await supabase
-          .from('versions')
-          .select(`
+          .from("versions")
+          .select(
+            `
             version_number,
             release_date,
             changelog,
@@ -54,89 +57,94 @@ export function PortalDownloads() {
               name,
               description
             )
-          `)
-          .order('release_date', { ascending: false })
+          `,
+          )
+          .order("release_date", { ascending: false });
 
-        if (verErr) throw verErr
+        if (verErr) throw verErr;
 
         // Filter by tier access
-        const allowedVersions = versions.filter((v) => isAllowed(v, tier))
+        const allowedVersions = versions.filter((v) => isAllowed(v, tier));
 
         // For TIER_3, show all allowed versions grouped as PIRAS
-        if (tier === 'TIER_3') {
-          const pirasVersions = allowedVersions  // Show all allowed versions for TIER_3
-          
+        if (tier === "TIER_3") {
+          const pirasVersions = allowedVersions; // Show all allowed versions for TIER_3
+
           if (pirasVersions.length > 0) {
             // Create a merged PIRAS product
             const pirasProduct = {
-              id: 'piras',
-              name: 'PIRAS',
-              description: 'Complete integrated system: RAS inspection + Plant Intelligence analytics',
-            }
-            
+              id: "piras",
+              name: "PIRAS",
+              description:
+                "Complete integrated system: RAS inspection + Plant Intelligence analytics",
+            };
+
             // Latest version
-            setItems([{ product: pirasProduct, version: pirasVersions[0] }])
-            
+            setItems([{ product: pirasProduct, version: pirasVersions[0] }]);
+
             // Older versions (everything after the first)
-            const older = pirasVersions.slice(1).map((v) => ({ product: pirasProduct, version: v }))
-            setOlderVersions(older)
+            const older = pirasVersions
+              .slice(1)
+              .map((v) => ({ product: pirasProduct, version: v }));
+            setOlderVersions(older);
           } else {
-            setItems([])
-            setOlderVersions([])
+            setItems([]);
+            setOlderVersions([]);
           }
         } else {
           // For other tiers, group by product and pick latest per product
-          const productMap = new Map()
-          const olderMap = new Map() // Track older versions per product
-          
+          const productMap = new Map();
+          const olderMap = new Map(); // Track older versions per product
+
           allowedVersions.forEach((version) => {
-            const product = version.products
-            const productId = product.id
+            const product = version.products;
+            const productId = product.id;
 
             if (!productMap.has(productId)) {
               // First version encountered (latest due to ORDER BY)
-              productMap.set(productId, { product, version })
-              olderMap.set(productId, [])
+              productMap.set(productId, { product, version });
+              olderMap.set(productId, []);
             } else {
               // Subsequent versions are older
-              olderMap.get(productId).push({ product, version })
+              olderMap.get(productId).push({ product, version });
             }
-          })
+          });
 
-          setItems(Array.from(productMap.values()))
-          
+          setItems(Array.from(productMap.values()));
+
           // Flatten all older versions from all products
-          const allOlder = []
+          const allOlder = [];
           olderMap.forEach((versions) => {
-            allOlder.push(...versions)
-          })
-          setOlderVersions(allOlder)
+            allOlder.push(...versions);
+          });
+          setOlderVersions(allOlder);
         }
       } catch (err) {
-        console.error('[PortalDownloads]', err)
-        setError('Failed to load product data. Please refresh.')
+        console.error("[PortalDownloads]", err);
+        setError("Failed to load product data. Please refresh.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchData()
-  }, [tier])
+    fetchData();
+  }, [tier]);
 
   return (
-    <div className="min-h-screen" style={{ background: '#0a0a0b' }}>
+    <div className="min-h-screen bg-bg-primary">
       {/* Top nav */}
       <header
         className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
-        style={{ background: 'rgba(10,10,11,0.95)', borderBottom: '1px solid rgba(168,168,180,0.08)', backdropFilter: 'blur(12px)' }}
+        style={{
+          background: "rgba(10,10,11,0.95)",
+          borderBottom: "1px solid rgba(168,168,180,0.08)",
+          backdropFilter: "blur(12px)",
+        }}
       >
         <div className="flex items-center gap-4">
           <Link to="/portal/dashboard" className="flex items-center gap-3">
             <Logo size="sm" />
-            <span
-              className="text-xs font-semibold tracking-[0.25em] uppercase"
-              style={{ color: '#888896' }}
-            >
+            <span className="text-xs font-semibold tracking-[0.25em] uppercase text-txt-muted">
               Customer Portal
             </span>
           </Link>
@@ -145,28 +153,22 @@ export function PortalDownloads() {
         <nav className="flex items-center gap-6">
           <Link
             to="/portal/dashboard"
-            className="text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: '#686878' }}
+            className="text-xs tracking-widest uppercase transition-colors duration-200 text-txt-muted"
           >
             Dashboard
           </Link>
-          <span
-            className="text-xs tracking-widest uppercase"
-            style={{ color: '#f59e0b' }}
-          >
+          <span className="text-xs tracking-widest uppercase text-signal-warning">
             Downloads
           </span>
           <Link
             to="/portal/manual"
-            className="text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: '#686878' }}
+            className="text-xs tracking-widest uppercase transition-colors duration-200 text-txt-muted"
           >
             User Manual
           </Link>
           <button
             onClick={signOut}
-            className="text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: '#686878' }}
+            className="text-xs tracking-widest uppercase transition-colors duration-200 text-txt-muted"
           >
             Sign Out
           </button>
@@ -185,10 +187,10 @@ export function PortalDownloads() {
           <h1
             className="text-3xl md:text-4xl font-black tracking-tight mb-3"
             style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #a8a8b4 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              background: `linear-gradient(135deg, ${colors.background.primary} 0%, ${colors.text.muted} 100%)`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
             Latest Releases
@@ -198,12 +200,16 @@ export function PortalDownloads() {
           </p>
           {user && (
             <p className="text-xs text-txt-muted mt-2">
-              Signed in as <span className="text-txt-secondary">{user.email}</span>
+              Signed in as{" "}
+              <span className="text-txt-secondary">{user.email}</span>
             </p>
           )}
           {tier && (
             <p className="text-xs text-txt-muted mt-1">
-              License Tier: <span className="text-txt-secondary font-semibold">{TIER_LABELS[tier] || tier}</span>
+              License Tier:{" "}
+              <span className="text-txt-secondary font-semibold">
+                {TIER_LABELS[tier] || tier}
+              </span>
             </p>
           )}
         </div>
@@ -215,10 +221,10 @@ export function PortalDownloads() {
               <div
                 className="w-8 h-8"
                 style={{
-                  background: 'rgba(245,158,11,0.1)',
-                  border: '1px solid rgba(245,158,11,0.3)',
-                  transform: 'rotate(45deg)',
-                  animation: 'pulse 1.5s ease-in-out infinite',
+                  background: "rgba(245,158,11,0.1)",
+                  border: "1px solid rgba(245,158,11,0.3)",
+                  transform: "rotate(45deg)",
+                  animation: "pulse 1.5s ease-in-out infinite",
                 }}
               />
               <span className="text-xs text-txt-muted tracking-widest uppercase">
@@ -229,7 +235,10 @@ export function PortalDownloads() {
         ) : error ? (
           <div
             className="p-6 text-center"
-            style={{ border: '1px solid rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.05)' }}
+            style={{
+              border: "1px solid rgba(239,68,68,0.2)",
+              background: "rgba(239,68,68,0.05)",
+            }}
           >
             <p className="text-sm text-red-400">{error}</p>
             <button
@@ -242,22 +251,33 @@ export function PortalDownloads() {
         ) : items.length === 0 ? (
           <div
             className="p-8 text-center"
-            style={{ border: '1px solid rgba(168,168,180,0.08)', background: 'rgba(17,17,19,0.5)' }}
+            style={{
+              border: "1px solid rgba(168,168,180,0.08)",
+              background: "rgba(17,17,19,0.5)",
+            }}
           >
             <p className="text-sm text-txt-secondary">
               No downloads available for your current license tier.
             </p>
-            {tier !== 'TIER_3' && (
+            {tier !== "TIER_3" && (
               <a
-                href={generateMailtoLink(CONFIG.emails.support, CONFIG.emailTemplates.licenseUpgrade('Full Stack').subject, CONFIG.emailTemplates.licenseUpgrade('Full Stack').body)}
+                href={generateMailtoLink(
+                  CONFIG.emails.support,
+                  CONFIG.emailTemplates.licenseUpgrade("Full Stack").subject,
+                  CONFIG.emailTemplates.licenseUpgrade("Full Stack").body,
+                )}
                 className="mt-4 inline-block text-xs tracking-widest uppercase text-signal-warning underline underline-offset-4"
               >
                 Upgrade License
               </a>
             )}
-            {tier === 'TIER_3' && (
+            {tier === "TIER_3" && (
               <a
-                href={generateMailtoLink(CONFIG.emails.support, 'Product Download Issue', 'I have a PIRAS license but no downloads are available. Please assist.')}
+                href={generateMailtoLink(
+                  CONFIG.emails.support,
+                  "Product Download Issue",
+                  "I have a PIRAS license but no downloads are available. Please assist.",
+                )}
                 className="mt-4 inline-block text-xs tracking-widest uppercase text-signal-warning underline underline-offset-4"
               >
                 Contact Support
@@ -267,14 +287,33 @@ export function PortalDownloads() {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-              {items.map(({ product, version }, i) => (
-                <ProductDownloadCard
-                  key={product.id}
-                  product={product}
-                  version={version}
-                  index={i}
-                />
-              ))}
+              {items.map(({ product, version }, i) => {
+                // Map the user's tier + product to a Tier_Badge state so the
+                // download card surfaces the same gating signal as the
+                // dashboard (Reqs 15.5–15.7). The merged "piras" pseudo-product
+                // shown to TIER_3 users maps to plant_intelligence semantics.
+                const productIdForBadge =
+                  product.id === "piras" ? "plant_intelligence" : product.id;
+                const badgeState = tierToBadgeState(tier, productIdForBadge);
+                return (
+                  <div key={product.id} className="flex flex-col gap-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted">
+                        {product.name}
+                      </span>
+                      <TierBadge
+                        state={badgeState}
+                        productId={productIdForBadge}
+                      />
+                    </div>
+                    <ProductDownloadCard
+                      product={product}
+                      version={version}
+                      index={i}
+                    />
+                  </div>
+                );
+              })}
             </div>
 
             {/* Version Rollback Section */}
@@ -288,7 +327,8 @@ export function PortalDownloads() {
                     </span>
                   </div>
                   <p className="text-sm text-txt-secondary">
-                    Previous stable releases available for rollback or compatibility testing.
+                    Previous stable releases available for rollback or
+                    compatibility testing.
                   </p>
                 </div>
 
@@ -305,15 +345,15 @@ export function PortalDownloads() {
             )}
 
             {/* Upgrade prompt for non-TIER_3 users */}
-            {tier && tier !== 'TIER_3' && (
+            {tier && tier !== "TIER_3" && (
               <LockedFeatureBlock
                 title="Looking for the complete integrated system?"
                 description="PIRAS combines RAS inspection and Plant Intelligence into a unified quality intelligence platform."
                 requiredTier="PIRAS"
                 features={[
-                  'RAS inspection + Plant Intelligence analytics',
-                  'end-to-end quality intelligence pipeline',
-                  'FMEA, SPC, decision tracking, cost of quality',
+                  "RAS inspection + Plant Intelligence analytics",
+                  "end-to-end quality intelligence pipeline",
+                  "FMEA, SPC, decision tracking, cost of quality",
                 ]}
               />
             )}
@@ -321,5 +361,5 @@ export function PortalDownloads() {
         )}
       </main>
     </div>
-  )
+  );
 }

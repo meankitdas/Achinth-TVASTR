@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { useLicense } from '../context/LicenseContext'
-import { getVersionLabel } from '../lib/capabilities'
+import { useState } from "react";
+import { useLicense } from "../context/LicenseContext";
+import { getVersionLabel } from "../lib/capabilities";
+import { cardClipPath } from "../design/clipPaths";
 
-const UPDATE_SERVER_URL = import.meta.env.VITE_UPDATE_SERVER_URL
+const UPDATE_SERVER_URL = import.meta.env.VITE_UPDATE_SERVER_URL;
 
 /**
  * ProductDownloadCard — Shows a product's latest version with a download button.
@@ -18,71 +19,79 @@ const UPDATE_SERVER_URL = import.meta.env.VITE_UPDATE_SERVER_URL
  *   3. Browser opens the signed URL in a new tab
  */
 export function ProductDownloadCard({ product, version, index }) {
-  const { licenseKey } = useLicense()
-  const [downloading, setDownloading] = useState(false)
-  const [error, setError] = useState(null)
+  const { licenseKey } = useLicense();
+  const [downloading, setDownloading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleDownload = async () => {
     if (!version?.version_number || !product?.name) {
-      setError('No file available for this version.')
-      return
+      setError("No file available for this version.");
+      return;
     }
 
     if (!licenseKey) {
-      setError('License key not found. Please contact support.')
-      return
+      setError("License key not found. Please contact support.");
+      return;
     }
 
     if (!UPDATE_SERVER_URL) {
-      setError('Update server URL not configured.')
-      return
+      setError("Update server URL not configured.");
+      return;
     }
 
-    setDownloading(true)
-    setError(null)
+    setDownloading(true);
+    setError(null);
 
     try {
       // Call update server API to get S3 pre-signed URL
       const response = await fetch(
-        `${UPDATE_SERVER_URL}/api/download/${encodeURIComponent(product.name)}/${encodeURIComponent(version.version_number)}?license_key=${encodeURIComponent(licenseKey)}`
-      )
+        `${UPDATE_SERVER_URL}/api/download/${encodeURIComponent(product.name)}/${encodeURIComponent(version.version_number)}?license_key=${encodeURIComponent(licenseKey)}`,
+      );
 
       if (!response.ok) {
-        const errData = await response.json().catch(() => ({}))
-        throw new Error(errData.detail || 'Download request failed')
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.detail || "Download request failed");
       }
 
-      const data = await response.json()
+      const data = await response.json();
 
       // Open the S3 pre-signed URL — triggers browser download
-      window.open(data.download_url, '_blank', 'noopener,noreferrer')
+      window.open(data.download_url, "_blank", "noopener,noreferrer");
     } catch (err) {
-      setError(err.message || 'Download failed. Please try again or contact support.')
-      console.error('[Download]', err)
+      setError(
+        err.message || "Download failed. Please try again or contact support.",
+      );
+      console.error("[Download]", err);
     } finally {
-      setDownloading(false)
+      setDownloading(false);
     }
-  }
+  };
 
   const formattedDate = version?.release_date
-    ? new Date(version.release_date).toLocaleDateString('en-IN', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+    ? new Date(version.release_date).toLocaleDateString("en-IN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       })
-    : '—'
+    : "—";
 
   // Determine card tag based on version tier
-  const tierLabel = version?.required_tier ? getVersionLabel(version) : 'Unknown'
-  const cardTag = version?.includes_pi ? 'Plant AI' : 'Vision AI'
+  const tierLabel = version?.required_tier
+    ? getVersionLabel(version)
+    : "Unknown";
+  const cardTag = version?.includes_pi ? "Plant AI" : "Vision AI";
 
   return (
-    <div className="liquid-glass rounded-xl flex flex-col h-full">
+    <div
+      className="surface-panel flex flex-col h-full"
+      style={{ clipPath: cardClipPath, borderRadius: 0 }}
+    >
       {/* Top amber accent strip */}
       <div
         className="absolute top-0 left-0 right-0 h-px z-10"
         style={{
-          background: 'linear-gradient(to right, transparent, rgba(245,158,11,0.5), transparent)',
+          background:
+            "linear-gradient(to right, transparent, rgba(245,158,11,0.5), transparent)",
         }}
       />
 
@@ -92,17 +101,17 @@ export function ProductDownloadCard({ product, version, index }) {
           <div className="flex items-center gap-4 mb-5">
             <span
               className="text-xs font-mono tracking-widest opacity-40"
-              style={{ color: '#888896' }}
+              style={{ color: "#888896" }}
             >
-              {String(index + 1).padStart(2, '0')}
+              {String(index + 1).padStart(2, "0")}
             </span>
             <div className="w-px h-4 bg-metallic-600 opacity-40" />
             <span
               className="text-xs font-semibold tracking-[0.2em] uppercase px-3 py-1"
               style={{
-                color: '#f59e0b',
-                background: 'rgba(245,158,11,0.08)',
-                border: '1px solid rgba(245,158,11,0.15)',
+                color: "#f59e0b",
+                background: "rgba(245,158,11,0.08)",
+                border: "1px solid rgba(245,158,11,0.15)",
               }}
             >
               {cardTag}
@@ -112,10 +121,10 @@ export function ProductDownloadCard({ product, version, index }) {
           <h3
             className="text-2xl md:text-3xl font-black tracking-tight mb-3"
             style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              background: "linear-gradient(135deg, #ffffff 0%, #c8c8d0 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
             {product.name}
@@ -138,8 +147,8 @@ export function ProductDownloadCard({ product, version, index }) {
           <div
             className="flex-1 p-5 space-y-4"
             style={{
-              background: 'rgba(10,10,11,0.6)',
-              border: '1px solid rgba(168,168,180,0.06)',
+              background: "rgba(10,10,11,0.6)",
+              border: "1px solid rgba(168,168,180,0.06)",
             }}
           >
             <div className="flex items-center justify-between">
@@ -184,7 +193,7 @@ export function ProductDownloadCard({ product, version, index }) {
         ) : (
           <div
             className="flex-1 flex items-center justify-center p-8"
-            style={{ border: '1px solid rgba(168,168,180,0.06)' }}
+            style={{ border: "1px solid rgba(168,168,180,0.06)" }}
           >
             <p className="text-sm text-txt-muted text-center">
               No releases available yet.
@@ -194,29 +203,30 @@ export function ProductDownloadCard({ product, version, index }) {
 
         {/* Download button */}
         <div className="space-y-3">
-          {error && (
-            <p className="text-xs text-red-400 text-center">{error}</p>
-          )}
+          {error && <p className="text-xs text-red-400 text-center">{error}</p>}
           <button
             onClick={handleDownload}
             disabled={!version || downloading}
             className="w-full py-4 text-sm font-semibold tracking-widest uppercase transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed relative overflow-hidden group"
             style={{
-              background: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05))',
-              border: '1px solid rgba(245,158,11,0.4)',
-              color: '#fbbf24',
+              background:
+                "linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05))",
+              border: "1px solid rgba(245,158,11,0.4)",
+              color: "#fbbf24",
             }}
           >
             <span
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{ background: 'rgba(245,158,11,0.08)' }}
+              style={{ background: "rgba(245,158,11,0.08)" }}
             />
             <span className="relative">
-              {downloading ? 'Generating link…' : `Download v${version?.version_number ?? '—'}`}
+              {downloading
+                ? "Generating link…"
+                : `Download v${version?.version_number ?? "—"}`}
             </span>
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

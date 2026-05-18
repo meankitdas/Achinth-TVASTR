@@ -1,13 +1,22 @@
-import { SectionShell } from '@/components/primitives/SectionShell'
-import { SectionHeader } from '@/components/primitives/SectionHeader'
-import { coreArchitectureContent } from '@/content/technology/core-architecture'
+import { useRef } from "react";
+
+import { SectionShell } from "@/components/primitives/SectionShell";
+import { SectionHeader } from "@/components/primitives/SectionHeader";
+import { coreArchitectureContent } from "@/content/technology/core-architecture";
+import { useSectionReveal } from "../../../hooks/useSectionReveal";
 
 export function CoreArchitectureSection() {
-  const { title, subtitle, body, layers, keyMessage } = coreArchitectureContent
+  const { title, subtitle, body, layers, keyMessage } = coreArchitectureContent;
+  const sectionRef = useRef(null);
+  useSectionReveal(sectionRef);
 
   return (
-    <SectionShell id="core-architecture">
-      <SectionHeader title={title} subtitle={subtitle} eyebrow="System Architecture" />
+    <SectionShell ref={sectionRef} id="core-architecture">
+      <SectionHeader
+        title={title}
+        subtitle={subtitle}
+        eyebrow="System Architecture"
+      />
 
       <p className="text-sm text-txt-secondary leading-relaxed max-w-4xl mt-4 mb-12">
         {body}
@@ -16,7 +25,7 @@ export function CoreArchitectureSection() {
       {/* Layered architecture diagram — stacked with flow indicators */}
       <div className="space-y-4">
         {layers.map((layer, i) => (
-          <div key={layer.id} className="relative">
+          <div key={layer.id} data-reveal-item className="relative">
             {/* Flow arrow between layers */}
             {i > 0 && (
               <div className="flex justify-center -mt-2 mb-2">
@@ -28,15 +37,21 @@ export function CoreArchitectureSection() {
               {/* Layer label */}
               <div className="flex-shrink-0 md:w-48 flex items-center gap-3">
                 <div className="w-8 h-8 rounded-md bg-telemetry-primary/10 border border-telemetry-primary/30 flex items-center justify-center">
-                  <span className="text-xs font-bold text-telemetry-primary">{i + 1}</span>
+                  <span className="text-xs font-bold text-telemetry-primary">
+                    {i + 1}
+                  </span>
                 </div>
-                <h4 className="text-sm font-bold text-txt-primary">{layer.name}</h4>
+                <h4 className="text-sm font-bold text-txt-primary">
+                  {layer.name}
+                </h4>
               </div>
 
               {/* Description */}
               <div className="flex-1">
-                <p className="text-xs text-txt-secondary leading-relaxed mb-3">{layer.description}</p>
-                
+                <p className="text-xs text-txt-secondary leading-relaxed mb-3">
+                  {layer.description}
+                </p>
+
                 {/* Responsibilities */}
                 <div className="flex flex-wrap gap-2">
                   {layer.responsibilities.map((resp, j) => (
@@ -59,5 +74,5 @@ export function CoreArchitectureSection() {
         {keyMessage}
       </p>
     </SectionShell>
-  )
+  );
 }

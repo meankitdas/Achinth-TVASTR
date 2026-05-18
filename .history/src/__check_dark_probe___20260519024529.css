@@ -1,0 +1,9 @@
+/* prefers-color-scheme: dark must render the same as Light_Theme — intentional reference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: red;
+  }
+}
+.foo {
+  @apply dark:bg-black;
+}

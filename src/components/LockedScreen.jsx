@@ -1,5 +1,6 @@
-import { CONFIG, openContact } from '../lib/config'
-import { useLicense } from '../context/LicenseContext'
+import { CONFIG, openContact } from "../lib/config";
+import { useLicense } from "../context/LicenseContext";
+import { TierBadge } from "./portal/TierBadge";
 
 /**
  * LockedScreen — Full-page locked state for tier-restricted features.
@@ -8,12 +9,15 @@ import { useLicense } from '../context/LicenseContext'
  *   title   — Feature name (e.g., "Plant Intelligence not enabled")
  *   message — Explanation text (e.g., "This feature is available in Full Stack deployments.")
  */
-export function LockedScreen({ title = 'Feature Locked', message = 'This feature requires a higher license tier.' }) {
-  const { tier } = useLicense()
+export function LockedScreen({
+  title = "Feature Locked",
+  message = "This feature requires a higher license tier.",
+}) {
+  const { tier } = useLicense();
   return (
     <div
       className="min-h-screen flex items-center justify-center relative"
-      style={{ background: '#0a0a0b' }}
+      style={{ background: "#0a0a0b" }}
     >
       {/* Background grid */}
       <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
@@ -24,9 +28,9 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
         <div
           className="w-16 h-16 mx-auto mb-6 flex items-center justify-center"
           style={{
-            background: 'rgba(168,168,180,0.06)',
-            border: '1px solid rgba(168,168,180,0.12)',
-            borderRadius: '8px',
+            background: "rgba(168,168,180,0.06)",
+            border: "1px solid rgba(168,168,180,0.12)",
+            borderRadius: "8px",
           }}
         >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -39,14 +43,20 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
           </svg>
         </div>
 
+        {/* Tier_Badge — sits next to the lock icon to make the gated
+            state explicit per the canonical badge contract (Req 15.4). */}
+        <div className="mb-6 flex justify-center">
+          <TierBadge state="LOCKED" />
+        </div>
+
         {/* Title */}
         <h1
           className="text-2xl md:text-3xl font-black tracking-tight mb-4"
           style={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #a8a8b4 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
+            background: "linear-gradient(135deg, #ffffff 0%, #a8a8b4 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
           }}
         >
           {title}
@@ -58,24 +68,29 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
         </p>
 
         {/* Upgrade CTA - Only show for TIER_1 and TIER_2 */}
-        {tier !== 'TIER_3' && (
+        {tier !== "TIER_3" && (
           <button
             onClick={() => {
-              const template = CONFIG.emailTemplates.licenseUpgrade('a higher tier')
-              openContact(CONFIG.emails.support, template.subject, template.body)
+              const template =
+                CONFIG.emailTemplates.licenseUpgrade("a higher tier");
+              openContact(
+                CONFIG.emails.support,
+                template.subject,
+                template.body,
+              );
             }}
             className="inline-block px-8 py-3.5 text-sm font-semibold tracking-[0.15em] uppercase transition-all duration-200"
             style={{
-              background: 'rgba(245,158,11,0.12)',
-              border: '1px solid rgba(245,158,11,0.35)',
-              color: '#fbbf24',
-              borderRadius: '4px',
+              background: "rgba(245,158,11,0.12)",
+              border: "1px solid rgba(245,158,11,0.35)",
+              color: "#fbbf24",
+              borderRadius: "4px",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(245,158,11,0.2)'
+              e.currentTarget.style.background = "rgba(245,158,11,0.2)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(245,158,11,0.12)'
+              e.currentTarget.style.background = "rgba(245,158,11,0.12)";
             }}
           >
             Upgrade License
@@ -93,5 +108,5 @@ export function LockedScreen({ title = 'Feature Locked', message = 'This feature
         </div>
       </div>
     </div>
-  )
+  );
 }

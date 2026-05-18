@@ -1,0 +1,5 @@
+# Placeholder so `src/design/cohere_kit/` is tracked before the
+# `npx getdesign@latest add cohere` artifacts land in task 2.1.
+#
+# See tasks.md § 2.1 and design.md § Components and Interfaces >
+# Token system upgrades (`src/design/cohere_kit/`).

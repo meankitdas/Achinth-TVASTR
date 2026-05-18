@@ -1,0 +1,101 @@
+{
+  "capturedAt": "2026-05-18T19:51:54.808Z",
+  "node": "v24.13.0",
+  "viteVersion": "^5.4.21",
+  "totals": {
+    "rawBytes": 1567686,
+    "gzipBytes": 459358
+  },
+  "assets": [
+    {
+      "path": "assets/AboutPage-C9nhGyIb.js",
+      "rawBytes": 8161,
+      "gzipBytes": 2051
+    },
+    {
+      "path": "assets/AdminDashboard-YDfio5EO.js",
+      "rawBytes": 172552,
+      "gzipBytes": 51247
+    },
+    {
+      "path": "assets/DownloadPresentationButton-yvhZMd31.js",
+      "rawBytes": 6708,
+      "gzipBytes": 2493
+    },
+    {
+      "path": "assets/PlantIntelligence-DTntNBgW.js",
+      "rawBytes": 16774,
+      "gzipBytes": 4669
+    },
+    {
+      "path": "assets/PortalDashboard-CYMRfmRl.js",
+      "rawBytes": 19858,
+      "gzipBytes": 4767
+    },
+    {
+      "path": "assets/PortalLogin-SrN-SFnG.js",
+      "rawBytes": 5856,
+      "gzipBytes": 2121
+    },
+    {
+      "path": "assets/PortalManual-CsIcS60z.js",
+      "rawBytes": 53855,
+      "gzipBytes": 8945
+    },
+    {
+      "path": "assets/RejectionAnalysisSystem-BErLuuAT.js",
+      "rawBytes": 17002,
+      "gzipBytes": 5024
+    },
+    {
+      "path": "assets/ResearchPage-Dq2EDay7.js",
+      "rawBytes": 7417,
+      "gzipBytes": 2423
+    },
+    {
+      "path": "assets/TechnologyPage-Cs7Ud9dI.js",
+      "rawBytes": 1104,
+      "gzipBytes": 539
+    },
+    {
+      "path": "assets/index-BVItaC3Z.css",
+      "rawBytes": 33343,
+      "gzipBytes": 7272
+    },
+    {
+      "path": "assets/index-DVbCp68D.js",
+      "rawBytes": 85225,
+      "gzipBytes": 22221
+    },
+    {
+      "path": "assets/index.es-Cp7K6LiY.js",
+      "rawBytes": 150756,
+      "gzipBytes": 51562
+    },
+    {
+      "path": "assets/purify.es-8E279hYE.js",
+      "rawBytes": 25613,
+      "gzipBytes": 9716
+    },
+    {
+      "path": "assets/v-p-Cd3z76Ix.js",
+      "rawBytes": 593778,
+      "gzipBytes": 177074
+    },
+    {
+      "path": "assets/v-r-DWa-a35S.js",
+      "rawBytes": 162327,
+      "gzipBytes": 53010
+    },
+    {
+      "path": "assets/v-s-3IMqbN4E.js",
+      "rawBytes": 207356,
+      "gzipBytes": 54203
+    },
+    {
+      "path": "assets/v-t-l0sNRNKZ.js",
+      "rawBytes": 1,
+      "gzipBytes": 21
+    }
+  ]
+}

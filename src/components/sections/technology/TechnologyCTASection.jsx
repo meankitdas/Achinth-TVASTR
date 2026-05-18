@@ -1,48 +1,56 @@
-import { SectionShell } from '../../primitives/SectionShell'
-import { technologyCTAContent } from '@/content/technology/index'
+import { useRef } from "react";
+
+import { SectionShell } from "../../primitives/SectionShell";
+import { technologyCTAContent } from "@/content/technology/index";
+import { colors } from "../../../design/colors";
+import { useSectionReveal } from "../../../hooks/useSectionReveal";
 
 export function TechnologyCTASection() {
-  const { title, subtitle, buttons } = technologyCTAContent
+  const { title, subtitle, buttons } = technologyCTAContent;
+  const sectionRef = useRef(null);
+  useSectionReveal(sectionRef);
 
   const handleClick = (href) => {
-    if (href.startsWith('#')) {
+    if (href.startsWith("#")) {
       // Navigate to home then scroll
-      window.location.href = `/${href}`
+      window.location.href = `/${href}`;
     }
-  }
+  };
 
   return (
     <SectionShell
+      ref={sectionRef}
       id="technology-cta"
       className="text-center"
       style={{
-        background: 'linear-gradient(to bottom, #0a0a0b 0%, #12121a 100%)'
+        background: `linear-gradient(to bottom, ${colors.background.primary} 0%, ${colors.background.secondary} 100%)`,
       }}
     >
       <div className="max-w-4xl mx-auto space-y-8">
         <h2 className="text-3xl md:text-4xl font-bold text-metallic-50">
           {title}
         </h2>
-        
-        <p className="text-lg text-txt-secondary">
+
+        <p data-subheading className="text-lg text-txt-secondary">
           {subtitle}
         </p>
-        
+
         <div className="flex flex-wrap items-center justify-center gap-4">
           {buttons.map((button, idx) => (
             <a
               key={idx}
+              data-reveal-item
               href={button.href}
               onClick={(e) => {
-                if (button.href.startsWith('#')) {
-                  e.preventDefault()
-                  handleClick(button.href)
+                if (button.href.startsWith("#")) {
+                  e.preventDefault();
+                  handleClick(button.href);
                 }
               }}
               className={
-                button.variant === 'primary'
-                  ? 'px-8 py-3 bg-amber-forge text-metallic-950 font-semibold rounded hover:bg-amber-600 transition-colors'
-                  : 'px-8 py-3 border border-metallic-700 text-txt-primary font-semibold rounded hover:border-amber-forge hover:text-telemetry-primary transition-colors'
+                button.variant === "primary"
+                  ? "px-8 py-3 bg-amber-forge text-metallic-950 font-semibold rounded hover:bg-amber-600 transition-colors"
+                  : "px-8 py-3 border border-metallic-700 text-txt-primary font-semibold rounded hover:border-amber-forge hover:text-telemetry-primary transition-colors"
               }
             >
               {button.label}
@@ -51,5 +59,5 @@ export function TechnologyCTASection() {
         </div>
       </div>
     </SectionShell>
-  )
+  );
 }

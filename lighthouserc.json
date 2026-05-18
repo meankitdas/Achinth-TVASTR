@@ -1,0 +1,39 @@
+{
+  "//": "Lighthouse CI configuration for the Light_Theme Industrial Redesign performance budget. Asserts LCP <= 2.5s and CLS <= 0.1 on `/`, taking the median of three cold loads against `pnpm preview` (Vite preview server, port 4173). Wired in via the `lhci` npm script (`lhci autorun`). See requirements.md Requirement 19.3 / 19.6 and design.md §Testing Strategy > Visual regression and build checks.",
+  "ci": {
+    "collect": {
+      "startServerCommand": "pnpm preview",
+      "startServerReadyPattern": "Local:.*http",
+      "startServerReadyTimeout": 120000,
+      "url": ["http://localhost:4173/"],
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop",
+        "throttlingMethod": "provided",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1920,
+          "height": 1080,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        }
+      }
+    },
+    "assert": {
+      "assertions": {
+        "largest-contentful-paint": [
+          "error",
+          { "maxNumericValue": 2500, "aggregationMethod": "median" }
+        ],
+        "cumulative-layout-shift": [
+          "error",
+          { "maxNumericValue": 0.1, "aggregationMethod": "median" }
+        ]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "server": {}
+  }
+}

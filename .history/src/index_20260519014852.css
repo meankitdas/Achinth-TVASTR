@@ -1,0 +1,432 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ── CSS Design Tokens (manually synced from src/design/colors.js) ── */
+  /* Property 12: every value below MUST be byte-equal to the corresponding
+     JS literal in src/design/colors.js. Do not reformat (no removed spaces,
+     no case changes) — the theme integrity check compares strings. */
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1f5ff;
+    --bg-elevated: #ffffff;
+    --bg-panel: #eeece7;
+    --text-primary: #212121;
+    --text-secondary: #616161;
+    --text-muted: #93939f;
+    --telemetry-primary: #1863dc;
+    --telemetry-secondary: #4c6ee6;
+    --telemetry-muted: #071829;
+    --process-primary: #003c33;
+    --process-secondary: #75758a;
+    --signal-warning: #b45309;
+    --signal-glow: #ff7759;
+    --signal-danger: #b30000;
+    --border-subtle: rgba(0, 0, 0, 0.05);
+    --border-default: rgba(0, 0, 0, 0.1);
+    --border-strong: rgba(0, 0, 0, 0.15);
+    --semantic-brand: #1863dc;
+    --semantic-alert: #b45309;
+    --semantic-danger: #b30000;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: "Inter", system-ui, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar — telemetry blue */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--telemetry-primary);
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: rgba(24, 99, 220, 0.2);
+    color: var(--text-primary);
+  }
+}
+
+@layer utilities {
+  /* ── Scroll reveal — triggered by useScrollReveal hook ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 {
+    transition-delay: 0.1s;
+  }
+  .reveal-delay-2 {
+    transition-delay: 0.2s;
+  }
+  .reveal-delay-3 {
+    transition-delay: 0.3s;
+  }
+  .reveal-delay-4 {
+    transition-delay: 0.4s;
+  }
+
+  /* ── Defect pulse — ProductCard DefectGrid cells (amber correct here) ── */
+  @keyframes defectPulse {
+    0%,
+    100% {
+      opacity: 0.4;
+      background: rgba(245, 158, 11, 0.15);
+    }
+    50% {
+      opacity: 1;
+      background: rgba(245, 158, 11, 0.35);
+    }
+  }
+
+  /* ── Scan line sweep — ProductCard DefectGrid ── */
+  @keyframes scanLine {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  /* ── Spinner — portal loading buttons ── */
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ── RuntimeLoader — Minimal industrial pulse animation ── */
+  .runtime-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .runtime-loader-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .runtime-loader-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--telemetry-primary);
+    opacity: 0.3;
+    animation: runtimePulse 1.4s ease-in-out infinite;
+  }
+
+  .runtime-loader-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .runtime-loader-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes runtimePulse {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  .runtime-loader-text {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ── Surface Panel — Light_Theme industrial card with subtle elevation ── */
+  .surface-panel {
+    position: relative;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px var(--border-subtle);
+  }
+
+  /* Elevated surface for modals/overlays */
+  .surface-elevated {
+    position: relative;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--border-default);
+  }
+
+  /* Signal/alert surface (warning amber on light background) */
+  .surface-signal {
+    position: relative;
+    background: var(--bg-panel);
+    border: 1px solid var(--signal-warning);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px var(--border-subtle);
+  }
+
+  /* Telemetry accent surface */
+  .surface-accent {
+    position: relative;
+    background: var(--bg-secondary);
+    border: 1px solid var(--telemetry-primary);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px var(--border-subtle);
+  }
+
+  /* Fade-in animation for modals */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  /* Belt chevron scrolling — conveyor belt animation */
+  @keyframes beltMove {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(80px);
+    }
+  }
+
+  @keyframes beltMoveVertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(80px);
+    }
+  }
+
+  .belt-chevrons {
+    animation: beltMove 3s linear infinite;
+  }
+
+  .belt-chevrons-mobile {
+    animation: beltMoveVertical 3s linear infinite;
+  }
+
+  /* Disable animations for users with reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .belt-chevrons,
+    .belt-chevrons-mobile,
+    .animated-spheres,
+    .animated-spheres-mobile,
+    .return-spheres,
+    .return-spheres-mobile,
+    .animate-belt-travel,
+    .animate-belt-turn,
+    .runtime-loader-dot {
+      animation: none !important;
+    }
+
+    .animated-spheres circle,
+    .animated-spheres-mobile circle,
+    .return-spheres circle,
+    .return-spheres-mobile circle {
+      display: none;
+    }
+  }
+
+  /* Grid background pattern — used via .bg-grid class */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(142, 147, 161, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(142, 147, 161, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Telemetry gradient text — replaces amber gradient text */
+  .text-telemetry-gradient {
+    background: linear-gradient(135deg, #4f8cff 0%, #3b7aed 50%, #2563c4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Legacy amber gradient text — kept for signal/alert contexts */
+  .text-amber-gradient {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Presentation / PDF slide styles ──────────────────────────── */
+
+  .presentation-slide {
+    position: relative;
+    background: #ffffff;
+  }
+
+  .slide-footer {
+    display: none;
+  }
+
+  .slide-image {
+    margin-top: 24px;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .slide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 640px) {
+    .slide-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .slide-bullets {
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .slide-bullets li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #374151;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  /* PDF EXPORT MODE */
+  .pdf-export-mode .presentation-slide {
+    width: 794px;
+    min-height: 1122px;
+    padding: 80px 80px 80px 80px;
+    page-break-after: always;
+    break-after: page;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pdf-export-mode .slide-title {
+    text-align: center;
+    align-items: center;
+  }
+
+  .pdf-export-mode h1 {
+    font-size: 42px !important;
+    margin-bottom: 20px !important;
+    color: #111827 !important;
+  }
+
+  .pdf-export-mode h2 {
+    font-size: 28px !important;
+    margin-bottom: 16px !important;
+    color: #111827 !important;
+  }
+
+  .pdf-export-mode p {
+    max-width: 650px !important;
+    line-height: 1.6 !important;
+  }
+
+  .pdf-export-mode .slide-image {
+    max-width: 85%;
+    margin-top: 32px;
+    align-self: center;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .pdf-export-mode .slide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    width: 100%;
+  }
+
+  .pdf-export-mode .no-pdf-export {
+    display: none !important;
+  }
+
+  .pdf-export-mode .slide-footer {
+    display: flex;
+    position: absolute;
+    bottom: 24px;
+    left: 80px;
+    right: 80px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #9ca3af;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 8px;
+  }
+}

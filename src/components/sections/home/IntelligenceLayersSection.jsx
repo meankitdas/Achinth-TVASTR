@@ -1,49 +1,83 @@
-import { SectionShell } from '@/components/primitives/SectionShell'
-import { SectionHeader } from '@/components/primitives/SectionHeader'
-import { intelligenceLayersContent } from '@/content/homepage/intelligence-layers'
+import { useRef } from "react";
+
+import { SectionShell } from "@/components/primitives/SectionShell";
+import { SectionHeader } from "@/components/primitives/SectionHeader";
+import { intelligenceLayersContent } from "@/content/homepage/intelligence-layers";
+import { useSectionReveal } from "../../../hooks/useSectionReveal";
 
 export function IntelligenceLayersSection() {
-  const { title, subtitle, columns, keyMessage } = intelligenceLayersContent
+  const { title, subtitle, columns, keyMessage } = intelligenceLayersContent;
+  const sectionRef = useRef(null);
+  useSectionReveal(sectionRef);
 
   return (
-    <SectionShell id="intelligence-layers">
+    <SectionShell ref={sectionRef} id="intelligence-layers">
       <SectionHeader title={title} subtitle={subtitle} eyebrow="Architecture" />
 
-      {/* Three-column intelligence layer diagram */}
-      <div className="grid md:grid-cols-3 gap-6 mt-12">
-        {columns.map((col) => (
+      {/* Three-column intelligence layer diagram — soft stone capability cards */}
+      <div className="grid md:grid-cols-3 gap-6 mt-16">
+        {columns.map((col, idx) => (
           <div
             key={col.id}
-            className="relative p-6 rounded-xl border backdrop-blur-sm"
-            style={{ borderColor: 'var(--border-default)', background: 'rgba(10,10,11,0.6)' }}
+            data-reveal-item
+            className="relative p-8 rounded-lg overflow-hidden"
+            style={{
+              background: "var(--bg-panel)",
+            }}
           >
-            {/* Layer indicator bar */}
-            <div className="absolute top-0 left-6 right-6 h-[2px] rounded-full" style={{ background: 'linear-gradient(90deg, rgba(79,140,255,0.6) 0%, transparent 100%)' }} />
+            {/* Layer indicator bar — coral accent */}
+            <div
+              className="absolute top-0 left-0 right-0 h-[3px]"
+              style={{
+                background: "var(--signal-glow)",
+              }}
+            />
 
-            <h3 className="text-lg font-bold text-txt-primary mt-3 mb-2">
+            <p className="font-mono text-[11px] tracking-[0.24em] uppercase text-txt-muted mt-4 mb-3">
+              Layer {String(idx + 1).padStart(2, "0")}
+            </p>
+            <h3 className="text-2xl font-medium text-txt-primary leading-tight mb-3">
               {col.name}
             </h3>
-            <p className="text-sm text-txt-secondary leading-relaxed mb-4">
+            <p className="text-sm text-txt-secondary leading-relaxed mb-6">
               {col.description}
             </p>
 
-            {/* Capability list */}
-            <ul className="space-y-2">
-              {col.capabilities.map((cap, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-txt-secondary">
-                  <span className="text-telemetry-primary/70 mt-0.5 flex-shrink-0">&#9642;</span>
-                  <span>{cap}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Capability list — checkmark bullets, hairline divider above */}
+            <div className="border-t border-border-default pt-4">
+              <ul className="space-y-2.5">
+                {col.capabilities.map((cap, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 text-sm text-txt-primary"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="mt-1 flex-shrink-0 text-process-primary"
+                      aria-hidden="true"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{cap}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Connecting message */}
-      <p className="mt-10 text-center text-base text-txt-muted leading-relaxed max-w-3xl mx-auto italic">
+      <p className="mt-16 text-center text-base text-txt-secondary leading-relaxed max-w-3xl mx-auto">
         {keyMessage}
       </p>
     </SectionShell>
-  )
+  );
 }

@@ -1,11 +1,8 @@
-import { colors } from './src/design/colors.js'
+import { colors } from "./src/design/colors.js";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -17,10 +14,18 @@ export default {
         border: colors.border,
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Elms Sans"', "Inter", "system-ui", "sans-serif"],
+        display: ['"Elms Sans"', "Inter", "system-ui", "sans-serif"],
+        mono: [
+          "JetBrains Mono",
+          "IBM Plex Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
+        ],
       },
     },
   },
   plugins: [],
-}
+};

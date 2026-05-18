@@ -6,15 +6,15 @@ A premium product website and customer portal for **Tvastr** — an industrial A
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | React 18 + Vite 5 |
-| Styling | TailwindCSS 3 |
-| 3D Graphics | Three.js + React Three Fiber + Drei |
-| Routing | React Router v6 |
-| Authentication | Supabase Auth |
-| Database | Supabase (PostgreSQL) |
-| File Storage | Supabase Storage |
+| Layer          | Technology                          |
+| -------------- | ----------------------------------- |
+| Framework      | React 18 + Vite 5                   |
+| Styling        | TailwindCSS 3                       |
+| 3D Graphics    | Three.js + React Three Fiber + Drei |
+| Routing        | React Router v6                     |
+| Authentication | Supabase Auth                       |
+| Database       | Supabase (PostgreSQL)               |
+| File Storage   | Supabase Storage                    |
 
 ---
 
@@ -59,7 +59,7 @@ src/
 │   ├── capabilities.js             — Tier-based capability system
 │   └── config.js                   — Centralized config (emails, templates)
 ├── hooks/
-│   └── useScrollReveal.js          — Scroll animation hook
+│   └── useSectionReveal.js         — GSAP/ScrollTrigger section reveal hook
 ├── App.jsx                         — Router + layout root
 ├── main.jsx                        — React entry point
 └── index.css                       — Tailwind + global styles
@@ -74,12 +74,14 @@ The marketing site (`/`) showcases Tvastr's industrial AI systems with a dark in
 ### Sections
 
 **1. Hero**
+
 - TVASTR wordmark with metallic gradient
 - Tagline: "Industrial Intelligence, Forged."
 - Three.js animated forge core (rotating icosahedron) + floating geometric particles
 - CTA: "Explore Systems"
 
 **2. About**
+
 - Origin story: Named after Tvāṣṭṛ (Vedic artisan deity)
 - Company philosophy: ancient craftsmanship meets modern AI
 - Three focus pillars:
@@ -89,11 +91,13 @@ The marketing site (`/`) showcases Tvastr's industrial AI systems with a dark in
 - Vedic yantra-inspired geometric divider
 
 **3. Product Ecosystem**
+
 - Vertical flow diagram showing data transformation:
   - Inspection Images → RAS (AI detection) → Structured Data → Plant Intelligence → Decisions
 - Explains how inspection becomes plant-level intelligence
 
 **4. Deployment Model**
+
 - On-premise architecture diagram:
   - Inspection Workstation → RAS → Plant SQL Database → Plant Intelligence Dashboard
 - Emphasis on local deployment within plant network (no cloud dependency)
@@ -118,6 +122,7 @@ Technical presentation-style pages (exportable as PDF):
 - `/systems/plant-intelligence` — PI technical deep-dive with screenshots
 
 Each page includes:
+
 - Problem statement
 - Solution architecture
 - Application screenshots (inspection, batch processing, analytics, process intelligence)
@@ -125,6 +130,7 @@ Each page includes:
 - Business impact metrics
 
 **7. Contact**
+
 - Founder: Achintharya Patil
 - Email + LinkedIn links
 - Footer nav + copyright
@@ -136,6 +142,7 @@ Each page includes:
 Authenticated users access a protected portal at `/portal` with tier-driven features.
 
 ### Login (`/portal`)
+
 - Email + password authentication via Supabase Auth
 - No self-registration (users created manually)
 - "Request Access" link for new customers
@@ -143,6 +150,7 @@ Authenticated users access a protected portal at `/portal` with tier-driven feat
 ### Dashboard (`/portal/dashboard`)
 
 **Upgrade Banner** (tier-specific, hidden for `full_stack`)
+
 - **RAS Core users see:** "Upgrade to RAS Enterprise" with enterprise feature bullets
 - **RAS Enterprise users see:** "Upgrade to Full Stack" with PI feature bullets
 
@@ -163,6 +171,7 @@ Authenticated users access a protected portal at `/portal` with tier-driven feat
 Each active card has a "Download Latest" button linking to `/portal/downloads`.
 
 ### Downloads (`/portal/downloads`)
+
 - Latest software versions filtered by user's license tier
 - Each version has:
   - Product name + description
@@ -175,7 +184,9 @@ Each active card has a "Download Latest" button linking to `/portal/downloads`.
   - Promotes Full Stack with feature bullets
 
 ### Route Guards
+
 Protected routes (e.g., `/portal/pi`) show a locked screen if user doesn't have the required tier:
+
 - Lock icon
 - Title: "Plant Intelligence not enabled"
 - Message: "This feature is available in Full Stack deployments."
@@ -187,11 +198,11 @@ Protected routes (e.g., `/portal/pi`) show a locked screen if user doesn't have 
 
 The system uses three license tiers to control feature access:
 
-| Tier | Access |
-|------|--------|
-| **`ras_core`** | RAS Core only (standalone inspection) |
+| Tier                 | Access                                              |
+| -------------------- | --------------------------------------------------- |
+| **`ras_core`**       | RAS Core only (standalone inspection)               |
 | **`ras_enterprise`** | RAS Core + RAS Enterprise (integrated with ERP/SQL) |
-| **`full_stack`** | All systems (RAS + Plant Intelligence) |
+| **`full_stack`**     | All systems (RAS + Plant Intelligence)              |
 
 ### Capability Logic
 
@@ -200,10 +211,10 @@ Defined in `src/lib/capabilities.js`:
 ```javascript
 export function getCapabilities(tier) {
   return {
-    ras_core: true,                          // All tiers have RAS Core
-    ras_enterprise: tier !== 'ras_core',     // Enterprise and Full Stack
-    plant_intelligence: tier === 'full_stack' // Full Stack only
-  }
+    ras_core: true, // All tiers have RAS Core
+    ras_enterprise: tier !== "ras_core", // Enterprise and Full Stack
+    plant_intelligence: tier === "full_stack", // Full Stack only
+  };
 }
 ```
 
@@ -222,12 +233,14 @@ Users with higher tiers see "INCLUDED" badges on lower-tier products.
 ### Tables
 
 **`products`**
+
 - Product registry (name, description)
 - Example products:
   - Rejection Analysis System
   - Plant Intelligence
 
 **`versions`**
+
 - Software release versions
 - Fields:
   - `product_id` — links to products table
@@ -240,6 +253,7 @@ Users with higher tiers see "INCLUDED" badges on lower-tier products.
   - `includes_pi` — boolean flag (true for PI versions)
 
 **`licenses`**
+
 - User license records
 - Fields:
   - `user_id` — links to Supabase Auth `auth.users`
@@ -251,6 +265,7 @@ Users with higher tiers see "INCLUDED" badges on lower-tier products.
   - `expiry_date` — license expiration date
 
 **`download_logs`**
+
 - Audit trail of software downloads
 - Fields:
   - `license_key` — who downloaded
@@ -262,6 +277,7 @@ Users with higher tiers see "INCLUDED" badges on lower-tier products.
 ### Storage
 
 **Bucket: `updates`** (private)
+
 - Stores installer ZIP files
 - Structure:
   ```
@@ -293,16 +309,16 @@ All contact emails and email templates are centralized in `src/lib/config.js` fo
 ```javascript
 export const CONFIG = {
   emails: {
-    support: 'support@tvastr.ai',              // License upgrades & support
-    contact: 'achintharya@gmail.com',          // General contact
-    installationSupport: 'support@tvastr.ai'   // Installation help
+    support: "support@tvastr.ai", // License upgrades & support
+    contact: "achintharya@gmail.com", // General contact
+    installationSupport: "support@tvastr.ai", // Installation help
   },
   emailTemplates: {
-    licenseUpgrade: (tier) => ({ subject: '...', body: '...' }),
-    portalAccess: { subject: '...', body: '...' },
-    installationSupport: { subject: '...', body: '...' }
-  }
-}
+    licenseUpgrade: (tier) => ({ subject: "...", body: "..." }),
+    portalAccess: { subject: "...", body: "..." },
+    installationSupport: { subject: "...", body: "..." },
+  },
+};
 ```
 
 **To change contact emails:** Edit values in `src/lib/config.js` — all components will automatically use the updated emails.
@@ -332,23 +348,27 @@ The dashboard includes a complete upgrade funnel to guide users toward higher ti
 All upgrade buttons trigger mailto links using centralized config:
 
 ```javascript
-const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier)
-window.location.href = generateMailtoLink(CONFIG.emails.support, template.subject, template.body)
+const template = CONFIG.emailTemplates.licenseUpgrade(requiredTier);
+window.location.href = generateMailtoLink(
+  CONFIG.emails.support,
+  template.subject,
+  template.body,
+);
 ```
 
 ---
 
 ## Design System
 
-| Token | Value |
-|---|---|
-| Background | `#0a0a0b` (charcoal-950) |
-| Surface | `#111113` (charcoal-900) |
-| Text primary | `#e8e8ec` (metallic-100) |
-| Text muted | `#888896` (metallic-400) |
-| Accent | `#f59e0b` (amber-forge) |
-| Accent bright | `#fbbf24` (amber-glow) |
-| Font | Inter (Google Fonts) |
+| Token         | Value                    |
+| ------------- | ------------------------ |
+| Background    | `#0a0a0b` (charcoal-950) |
+| Surface       | `#111113` (charcoal-900) |
+| Text primary  | `#e8e8ec` (metallic-100) |
+| Text muted    | `#888896` (metallic-400) |
+| Accent        | `#f59e0b` (amber-forge)  |
+| Accent bright | `#fbbf24` (amber-glow)   |
+| Font          | Inter (Google Fonts)     |
 
 ---
 
