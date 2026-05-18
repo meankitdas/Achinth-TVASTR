@@ -9,11 +9,9 @@ export const intelligenceLayersContent = {
       name: "Perception Intelligence",
       description: "Signal-first defect detection across quality gates with explainable classification and topology-aware reasoning.",
       capabilities: [
-        "Visual inspection with multi-signal analysis",
-        "Texture, geometry, and edge signal extraction",
+        "Multi-signal defect detection",
         "Anomaly detection and topology scoring",
-        "Explainable defect classification",
-        "Multi-stage fusion and agreement systems"
+        "Explainable defect classification"
       ]
     },
     {
@@ -23,10 +21,7 @@ export const intelligenceLayersContent = {
       capabilities: [
         "Statistical Process Control (SPC)",
         "Pareto and root cause analysis",
-        "Fishbone diagram generation",
-        "Heat and mold risk scoring",
-        "Process drift detection and alerting",
-        "Defect trend tracking across batches"
+        "Process drift detection and alerting"
       ]
     },
     {
@@ -35,10 +30,7 @@ export const intelligenceLayersContent = {
       description: "Persistent manufacturing intelligence that accumulates knowledge across inspections, heats, and production cycles.",
       capabilities: [
         "Defect fingerprinting and spatial clustering",
-        "Recurring pattern identification",
-        "Heat-level and mold-level intelligence",
         "Complete production traceability",
-        "Manufacturing context persistence",
         "Historical defect relationships"
       ]
     }

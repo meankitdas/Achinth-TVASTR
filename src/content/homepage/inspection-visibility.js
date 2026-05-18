@@ -24,22 +24,10 @@ export const inspectionVisibilityContent = {
       imagePath: "/pi_overview_ss.png"
     },
     {
-      id: "pi-decisions",
-      title: "Decision Intelligence",
-      description: "Root cause analysis, defect pattern identification, and corrective action tracking.",
-      imagePath: "/pi_decisions_ss.png"
-    },
-    {
       id: "analytics",
       title: "Quality Analytics",
       description: "Defect trend analysis, rejection rate tracking, and manufacturing KPI visualization.",
       imagePath: "/analytics_app_ss.png"
-    },
-    {
-      id: "batch-processing",
-      title: "Batch Processing",
-      description: "High-volume inspection workflows with consolidated results and batch-level reporting.",
-      imagePath: "/batchProc_app_ss.png"
     }
   ],
   keyMessage: "Visibility at every level — from individual casting inspection to plant-wide manufacturing intelligence."
