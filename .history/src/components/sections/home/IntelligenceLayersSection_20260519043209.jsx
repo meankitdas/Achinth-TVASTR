@@ -25,18 +25,15 @@ export function IntelligenceLayersSection() {
               background: "var(--bg-panel)",
             }}
           >
-            {/* Layer indicator bar — coral brand accent */}
+            {/* Layer indicator bar — deep green secondary accent */}
             <div
               className="absolute top-0 left-0 right-0 h-[3px]"
               style={{
-                background: "var(--signal-glow)",
+                background: "var(--process-primary)",
               }}
             />
 
-            <p
-              className="font-mono text-[11px] tracking-[0.24em] uppercase mt-4 mb-3"
-              style={{ color: "var(--signal-glow)" }}
-            >
+            <p className="font-mono text-[11px] tracking-[0.24em] uppercase text-txt-muted mt-4 mb-3">
               Layer {String(idx + 1).padStart(2, "0")}
             </p>
             <h3 className="text-2xl font-medium text-txt-primary leading-tight mb-3">
@@ -63,8 +60,7 @@ export function IntelligenceLayersSection() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="mt-1 flex-shrink-0"
-                      style={{ color: "var(--signal-glow)" }}
+                      className="mt-1 flex-shrink-0 text-process-primary"
                       aria-hidden="true"
                     >
                       <polyline points="20 6 9 17 4 12" />

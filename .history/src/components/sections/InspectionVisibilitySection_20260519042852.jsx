@@ -42,9 +42,8 @@ export function InspectionVisibilitySection() {
 
   useSectionReveal(sectionRef);
 
-  // Auto-advance interval (ms) — short enough to feel responsive,
-  // long enough to read the caption.
-  const AUTO_ADVANCE_MS = 2800;
+  // Auto-advance interval (ms) — chosen to feel deliberate, not rushed.
+  const AUTO_ADVANCE_MS = 5000;
 
   // Pause auto-advance when the section is off-screen so the carousel
   // doesn't burn cycles when nobody is looking. IntersectionObserver
@@ -138,10 +137,7 @@ export function InspectionVisibilitySection() {
           {/* Caption row directly under the image */}
           <div className="mt-5 md:mt-6 flex items-baseline justify-between gap-6">
             <div className="min-w-0">
-              <p
-                className="font-mono text-[11px] tracking-[0.28em] uppercase mb-1.5"
-                style={{ color: "var(--signal-glow)" }}
-              >
+              <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-txt-muted mb-1.5">
                 Surface · {String(active + 1).padStart(2, "0")} /{" "}
                 {String(total).padStart(2, "0")}
               </p>

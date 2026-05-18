@@ -138,10 +138,7 @@ export function InspectionVisibilitySection() {
           {/* Caption row directly under the image */}
           <div className="mt-5 md:mt-6 flex items-baseline justify-between gap-6">
             <div className="min-w-0">
-              <p
-                className="font-mono text-[11px] tracking-[0.28em] uppercase mb-1.5"
-                style={{ color: "var(--signal-glow)" }}
-              >
+              <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-txt-muted mb-1.5">
                 Surface · {String(active + 1).padStart(2, "0")} /{" "}
                 {String(total).padStart(2, "0")}
               </p>

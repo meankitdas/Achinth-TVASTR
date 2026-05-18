@@ -63,8 +63,7 @@ export function IntelligenceLayersSection() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="mt-1 flex-shrink-0"
-                      style={{ color: "var(--signal-glow)" }}
+                      className="mt-1 flex-shrink-0 text-process-primary"
                       aria-hidden="true"
                     >
                       <polyline points="20 6 9 17 4 12" />
