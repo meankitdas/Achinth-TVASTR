@@ -5,7 +5,7 @@ Improved industrial-style Tkinter theme editor for website-only visual tokens.
 
 Features:
 - Sidebar category navigation
-- Large live preview panel
+- Large live preview panel with dynamic updates
 - Card-based color controls
 - Modern industrial UI styling
 - Theme export/import
@@ -524,96 +524,161 @@ class ThemeEditor:
         )
         heading.pack(fill='x', padx=20, pady=(20, 16))
 
+        # Main preview card - uses background.secondary
         self.preview_card = tk.Frame(
             self.preview_container,
-            bg='#111113',
+            bg=self._get_color('background.secondary', '#111113'),
             highlightthickness=1,
             highlightbackground=BORDER
         )
         self.preview_card.pack(fill='both', expand=True, padx=20, pady=(0, 20))
+        self.preview_widgets['preview_card'] = ('bg', 'background.secondary')
 
-        # Navbar
-        navbar = tk.Frame(self.preview_card, bg='#0a0a0b', height=58)
+        # Navbar - uses background.primary
+        navbar = tk.Frame(
+            self.preview_card,
+            bg=self._get_color('background.primary', '#0a0a0b'),
+            height=58
+        )
         navbar.pack(fill='x')
         navbar.pack_propagate(False)
+        self.preview_widgets['navbar'] = (navbar, 'bg', 'background.primary')
 
+        # Logo - uses signal.warning
         logo = tk.Label(
             navbar,
             text='TVASTR',
             font=(FONT, 12, 'bold'),
-            fg=WARNING,
-            bg='#0a0a0b'
+            fg=self._get_color('signal.warning', '#f59e0b'),
+            bg=self._get_color('background.primary', '#0a0a0b')
         )
         logo.pack(side='left', padx=16)
+        self.preview_widgets['logo'] = (logo, 'fg', 'signal.warning', 'bg', 'background.primary')
 
+        # Nav button - uses telemetry.primary
         nav_btn = tk.Label(
             navbar,
             text='Technology',
             font=(FONT, 10),
-            fg=ACCENT,
-            bg='#0a0a0b'
+            fg=self._get_color('telemetry.primary', '#4f8cff'),
+            bg=self._get_color('background.primary', '#0a0a0b')
         )
         nav_btn.pack(side='right', padx=16)
+        self.preview_widgets['nav_btn'] = (nav_btn, 'fg', 'telemetry.primary', 'bg', 'background.primary')
 
-        # Hero
-        hero = tk.Frame(self.preview_card, bg='#111113')
+        # Hero section - uses background.secondary
+        hero = tk.Frame(
+            self.preview_card,
+            bg=self._get_color('background.secondary', '#111113')
+        )
         hero.pack(fill='x', padx=18, pady=18)
+        self.preview_widgets['hero'] = (hero, 'bg', 'background.secondary')
 
+        # Hero title - uses text.primary
         hero_title = tk.Label(
             hero,
             text='Persistent Manufacturing Intelligence',
             font=(FONT, 18, 'bold'),
-            fg=TEXT,
-            bg='#111113',
+            fg=self._get_color('text.primary', '#e2e4ea'),
+            bg=self._get_color('background.secondary', '#111113'),
             justify='left',
             wraplength=280,
             anchor='w'
         )
         hero_title.pack(fill='x')
+        self.preview_widgets['hero_title'] = (hero_title, 'fg', 'text.primary', 'bg', 'background.secondary')
 
+        # Hero subtitle - uses text.secondary
         hero_sub = tk.Label(
             hero,
             text='Inspection, traceability, and process intelligence.',
             font=(FONT, 10),
-            fg=TEXT_SECONDARY,
-            bg='#111113',
+            fg=self._get_color('text.secondary', '#c0c4ce'),
+            bg=self._get_color('background.secondary', '#111113'),
             justify='left',
             wraplength=280,
             anchor='w'
         )
         hero_sub.pack(fill='x', pady=(8, 0))
+        self.preview_widgets['hero_sub'] = (hero_sub, 'fg', 'text.secondary', 'bg', 'background.secondary')
 
-        # Sample cards
-        cards = tk.Frame(self.preview_card, bg='#111113')
+        # Sample cards container
+        cards = tk.Frame(
+            self.preview_card,
+            bg=self._get_color('background.secondary', '#111113')
+        )
         cards.pack(fill='both', expand=True, padx=18, pady=10)
+        self.preview_widgets['cards'] = (cards, 'bg', 'background.secondary')
 
-        self._preview_stat_card(cards, 'Telemetry', ACCENT)
-        self._preview_stat_card(cards, 'Process', '#5bc4cc')
-        self._preview_stat_card(cards, 'Alert', WARNING)
+        # Create stat cards with dynamic colors
+        self._preview_stat_card(cards, 'Telemetry', 'telemetry.primary', 'telemetry_card')
+        self._preview_stat_card(cards, 'Process', 'process.primary', 'process_card')
+        self._preview_stat_card(cards, 'Alert', 'signal.warning', 'alert_card')
 
-    def _preview_stat_card(self, parent, title, color):
+    def _get_color(self, path, fallback):
+        """Get color from self.colors or return fallback."""
+        return self.colors.get(path, fallback)
 
+    def _preview_stat_card(self, parent, title, color_path, widget_key):
+        """Create a stat card with dynamic color dot."""
+        # Card uses background.elevated
         card = tk.Frame(
             parent,
-            bg='#1a1a1e',
+            bg=self._get_color('background.elevated', '#1a1a1e'),
             highlightthickness=1,
             highlightbackground=BORDER,
             pady=14
         )
         card.pack(fill='x', pady=8)
+        self.preview_widgets[f'{widget_key}_frame'] = (card, 'bg', 'background.elevated')
 
-        dot = tk.Frame(card, bg=color, width=12, height=12)
+        # Colored dot
+        dot = tk.Frame(
+            card,
+            bg=self._get_color(color_path, '#4f8cff'),
+            width=12,
+            height=12
+        )
         dot.pack(side='left', padx=14)
         dot.pack_propagate(False)
+        self.preview_widgets[f'{widget_key}_dot'] = (dot, 'bg', color_path)
 
+        # Label uses text.primary
         label = tk.Label(
             card,
             text=title,
             font=(FONT, 10, 'bold'),
-            fg=TEXT,
-            bg='#1a1a1e'
+            fg=self._get_color('text.primary', '#e2e4ea'),
+            bg=self._get_color('background.elevated', '#1a1a1e')
         )
         label.pack(side='left')
+        self.preview_widgets[f'{widget_key}_label'] = (label, 'fg', 'text.primary', 'bg', 'background.elevated')
+
+    def _update_preview(self):
+        """Update all preview widgets with current colors."""
+        # Update main preview card
+        self.preview_card.configure(bg=self._get_color('background.secondary', '#111113'))
+
+        # Update all stored preview widgets
+        for key, config in self.preview_widgets.items():
+            if key == 'preview_card':
+                continue  # Already handled above
+
+            widget = config[0]
+            
+            # Parse the configuration tuple: (widget, prop1, colorpath1, prop2, colorpath2, ...)
+            i = 1
+            while i < len(config):
+                prop = config[i]
+                color_path = config[i + 1]
+                color_value = self._get_color(color_path, '#ffffff')
+                
+                try:
+                    widget.configure(**{prop: color_value})
+                except tk.TclError:
+                    pass  # Skip if property doesn't exist
+                
+                i += 2
 
     # -----------------------------
     # ACTIONS
@@ -636,6 +701,9 @@ class ThemeEditor:
 
             self.swatches[path].configure(bg=result[1])
 
+            # Update live preview
+            self._update_preview()
+
     def _update_from_entry(self, path):
 
         value = self.entries[path].get().strip()
@@ -643,6 +711,9 @@ class ThemeEditor:
         if re.match(r'^#[0-9a-fA-F]{6}$', value):
             self.colors[path] = value
             self.swatches[path].configure(bg=value)
+            
+            # Update live preview
+            self._update_preview()
         else:
             messagebox.showwarning(
                 'Invalid Color',
@@ -674,6 +745,9 @@ class ThemeEditor:
             self.entries[path].delete(0, tk.END)
             self.entries[path].insert(0, value)
             self.swatches[path].configure(bg=value)
+
+        # Update live preview
+        self._update_preview()
 
     def _export_theme(self):
 
@@ -708,6 +782,9 @@ class ThemeEditor:
                 self.entries[path_key].insert(0, value)
 
                 self.swatches[path_key].configure(bg=value)
+
+        # Update live preview
+        self._update_preview()
 
 
 # -----------------------------
