@@ -42,7 +42,7 @@ export function HeroSection() {
           <div className="flex items-center gap-3 mb-5 md:mb-8">
             <div className="w-8 h-px bg-amber-forge" />
             <span className="text-xs font-semibold tracking-[0.3em] uppercase text-amber-forge opacity-80">
-              Industrial AI
+              Industrial Intelligence
             </span>
           </div>
 
@@ -52,40 +52,6 @@ export function HeroSection() {
             subtitle={heroContent.subtitle}
           />
 
-          {/* CTA */}
-          <div className="flex items-center gap-6">
-            {heroContent.ctas.map((cta, i) => (
-              <a
-                key={i}
-                href={cta.href}
-                onClick={(e) => {
-                  if (cta.href.startsWith('#')) {
-                    e.preventDefault()
-                    document.getElementById(cta.href.slice(1))?.scrollIntoView({ behavior: 'smooth' })
-                  }
-                }}
-                className="group relative inline-block px-8 py-4 text-sm font-semibold tracking-widest uppercase overflow-hidden transition-all duration-300"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.05) 100%)',
-                  border: '1px solid rgba(245,158,11,0.4)',
-                  color: '#fbbf24',
-                  letterSpacing: '0.2em',
-                }}
-              >
-                {/* Hover fill animation */}
-                <span
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: 'rgba(245,158,11,0.1)' }}
-                />
-                {/* Glow on hover */}
-                <span
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ boxShadow: 'inset 0 0 20px rgba(245,158,11,0.15)' }}
-                />
-                <span className="relative">{cta.label}</span>
-              </a>
-            ))}
-          </div>
         </div>
       </div>
 
