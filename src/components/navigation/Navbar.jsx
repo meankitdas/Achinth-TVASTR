@@ -129,6 +129,12 @@ export function Navbar() {
                 <Link
                   key={item.label}
                   to={item.href}
+                  onClick={(e) => {
+                    if (item.href === '/' && location.pathname === '/') {
+                      e.preventDefault()
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }
+                  }}
                   className="text-xs font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors duration-200"
                 >
                   {item.label}
@@ -247,6 +253,13 @@ export function Navbar() {
                 <Link
                   key={item.label}
                   to={item.href}
+                  onClick={(e) => {
+                    if (item.href === '/' && location.pathname === '/') {
+                      e.preventDefault()
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                      setMenuOpen(false)
+                    }
+                  }}
                   className="block px-6 py-3 text-sm font-medium tracking-widest uppercase text-metallic-400 hover:text-metallic-100 transition-colors"
                 >
                   {item.label}
