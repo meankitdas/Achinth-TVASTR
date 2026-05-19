@@ -42,14 +42,14 @@ export function RejectionAnalysisSystem() {
       <div
         className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-12 h-14"
         style={{
-          background: "rgba(255,255,255,0.95)",
+          background: "rgba(255,255,255,0.92)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)",
           borderBottom: `1px solid ${colors.border.default}`,
           backdropFilter: "blur(8px)",
         }}
       >
         <Link
           to="/"
-          className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted hover:text-slate-700 transition-colors"
+          className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow hover:text-process-primary transition-colors"
         >
           ← Tvastr
         </Link>
@@ -64,13 +64,13 @@ export function RejectionAnalysisSystem() {
         style={{ background: colors.background.primary }}
       >
         <div className="max-w-[900px] mx-auto px-6 md:px-8 py-16 md:py-20 w-full">
-          <p className="text-xs font-semibold tracking-[0.3em] uppercase text-txt-muted mb-6">
+          <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow mb-6">
             Tvastr · Industrial AI Systems
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
+          <h1 className="text-4xl md:text-5xl font-medium text-txt-primary leading-tight mb-6">
             Rejection Analysis System
           </h1>
-          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed">
+          <p className="text-xl text-txt-secondary font-light max-w-[680px] leading-relaxed">
             An industrial AI platform that transforms casting inspection into
             structured plant-level quality intelligence.
           </p>
@@ -102,12 +102,12 @@ export function RejectionAnalysisSystem() {
             }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-2 h-2 rounded-full bg-slate-400 flex-shrink-0" />
-              <p className="text-base font-bold text-gray-800">
+              <span className="w-2 h-2 rounded-full bg-txt-muted flex-shrink-0" />
+              <p className="text-base font-medium text-txt-primary">
                 Core (Standalone)
               </p>
             </div>
-            <p className="text-sm text-slate-500 mb-4 leading-relaxed">
+            <p className="text-sm text-txt-secondary mb-4 leading-relaxed">
               Image-based inspection system with no integration requirements.
             </p>
             <ul className="space-y-2">
@@ -119,9 +119,9 @@ export function RejectionAnalysisSystem() {
               ].map((c, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-2 text-sm text-gray-600"
+                  className="flex items-center gap-2 text-sm text-txt-secondary"
                 >
-                  <span className="w-1 h-1 rounded-full bg-slate-300 flex-shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-border-default flex-shrink-0" />
                   {c}
                 </li>
               ))}
@@ -138,12 +138,12 @@ export function RejectionAnalysisSystem() {
             }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-2 h-2 rounded-full bg-sky-500 flex-shrink-0" />
-              <p className="text-base font-bold text-gray-800">
+              <span className="w-2 h-2 rounded-full bg-process-primary flex-shrink-0" />
+              <p className="text-base font-medium text-txt-primary">
                 Enterprise (Integrated)
               </p>
             </div>
-            <p className="text-sm text-slate-500 mb-4 leading-relaxed">
+            <p className="text-sm text-txt-secondary mb-4 leading-relaxed">
               Fully integrated system with process-aware quality analysis.
             </p>
             <ul className="space-y-2">
@@ -155,9 +155,9 @@ export function RejectionAnalysisSystem() {
               ].map((c, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-2 text-sm text-gray-600"
+                  className="flex items-center gap-2 text-sm text-txt-secondary"
                 >
-                  <span className="w-1 h-1 rounded-full bg-sky-400 flex-shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-process-primary flex-shrink-0" />
                   {c}
                 </li>
               ))}
@@ -165,7 +165,7 @@ export function RejectionAnalysisSystem() {
           </div>
         </div>
         <p
-          className="mt-5 text-sm text-slate-500 italic text-center"
+          className="mt-5 text-sm text-txt-secondary italic text-center"
           style={{ maxWidth: "720px" }}
         >
           The Enterprise configuration transforms inspection into a continuous
@@ -286,7 +286,7 @@ export function RejectionAnalysisSystem() {
             borderRadius: "8px",
           }}
         >
-          <p className="text-sm font-semibold text-gray-700 mb-3">
+          <p className="text-sm font-semibold text-txt-primary mb-3">
             Decision Engine Rules
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -299,9 +299,9 @@ export function RejectionAnalysisSystem() {
             ].map((rule, i) => (
               <div
                 key={i}
-                className="text-sm text-slate-600 flex items-center gap-2"
+                className="text-sm text-txt-secondary flex items-center gap-2"
               >
-                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-slate-300" />
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-border-default" />
                 {rule}
               </div>
             ))}
@@ -326,7 +326,7 @@ export function RejectionAnalysisSystem() {
               borderRadius: "8px",
             }}
           >
-            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted mb-4">
+            <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow mb-4">
               Inspection Record
             </p>
             <div className="space-y-2 mb-5">
@@ -342,7 +342,7 @@ export function RejectionAnalysisSystem() {
                   <span className="text-xs text-txt-muted w-28 flex-shrink-0">
                     {k}
                   </span>
-                  <span className="text-sm font-medium text-gray-700">{v}</span>
+                  <span className="text-sm font-medium text-txt-primary">{v}</span>
                 </div>
               ))}
             </div>
@@ -351,9 +351,9 @@ export function RejectionAnalysisSystem() {
               style={{ borderTop: `1px solid ${colors.border.default}` }}
             >
               {[
-                ["Detected Defect", "Porosity", "text-gray-700"],
-                ["Severity", "High", "text-red-600 font-semibold"],
-                ["Decision", "Reject", "text-red-600 font-semibold"],
+                ["Detected Defect", "Porosity", "text-txt-primary"],
+                ["Severity", "High", "text-signal-danger font-semibold"],
+                ["Decision", "Reject", "text-signal-danger font-semibold"],
               ].map(([k, v, cls]) => (
                 <div key={k} className="flex items-baseline gap-2 mt-2">
                   <span className="text-xs text-txt-muted w-28 flex-shrink-0">
@@ -427,7 +427,7 @@ export function RejectionAnalysisSystem() {
               borderRadius: "8px",
             }}
           >
-            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted mb-4">
+            <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow mb-4">
               Process Insight
             </p>
             <div className="space-y-2 mb-4">
@@ -441,7 +441,7 @@ export function RejectionAnalysisSystem() {
                   <span className="text-xs text-txt-muted w-32 flex-shrink-0">
                     {k}
                   </span>
-                  <span className="text-sm font-medium text-gray-700">{v}</span>
+                  <span className="text-sm font-medium text-txt-primary">{v}</span>
                 </div>
               ))}
             </div>
@@ -451,13 +451,13 @@ export function RejectionAnalysisSystem() {
             >
               <div>
                 <p className="text-xs text-txt-muted mb-1">Dominant Defect</p>
-                <p className="text-sm font-semibold text-gray-800">Porosity</p>
+                <p className="text-sm font-semibold text-txt-primary">Porosity</p>
               </div>
               <div>
                 <p className="text-xs text-txt-muted mb-1">
                   Likely Process Cause
                 </p>
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-txt-primary">
                   Gas entrapment or pouring temperature variation
                 </p>
               </div>
@@ -473,9 +473,9 @@ export function RejectionAnalysisSystem() {
                   ].map((check, i) => (
                     <li
                       key={i}
-                      className="flex items-start gap-2 text-sm text-gray-600"
+                      className="flex items-start gap-2 text-sm text-txt-secondary"
                     >
-                      <span className="mt-1.5 w-1 h-1 rounded-full bg-slate-400 flex-shrink-0" />
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-txt-muted flex-shrink-0" />
                       {check}
                     </li>
                   ))}
@@ -490,7 +490,7 @@ export function RejectionAnalysisSystem() {
         </div>
 
         {/* Bottom summary line */}
-        <p className="mt-6 text-sm text-slate-500 text-center italic">
+        <p className="mt-6 text-sm text-txt-secondary text-center italic">
           Rejection data becomes a structured diagnostic layer for the
           manufacturing process.
         </p>

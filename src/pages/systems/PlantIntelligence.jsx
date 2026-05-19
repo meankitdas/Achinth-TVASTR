@@ -51,14 +51,14 @@ export function PlantIntelligence() {
         <div
           className="sticky top-0 z-40 flex items-center justify-between px-6 md:px-12 h-14"
           style={{
-            background: "rgba(255,255,255,0.95)",
+            background: "rgba(255,255,255,0.92)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)",
             borderBottom: `1px solid ${colors.border.default}`,
             backdropFilter: "blur(8px)",
           }}
         >
           <Link
             to="/"
-            className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted hover:text-slate-700 transition-colors"
+            className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow hover:text-process-primary transition-colors"
           >
             ← Tvastr
           </Link>
@@ -74,13 +74,13 @@ export function PlantIntelligence() {
         style={{ background: colors.background.primary }}
       >
         <div className="max-w-[900px] mx-auto px-6 md:px-8 py-16 md:py-20 w-full">
-          <p className="text-xs font-semibold tracking-[0.3em] uppercase text-txt-muted mb-6">
+          <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow mb-6">
             Tvastr · Industrial AI Systems
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
+          <h1 className="text-4xl md:text-5xl font-medium text-txt-primary leading-tight mb-6">
             Plant Intelligence
           </h1>
-          <p className="text-xl text-slate-500 font-light max-w-[680px] leading-relaxed mb-3">
+          <p className="text-xl text-txt-secondary font-light max-w-[680px] leading-relaxed mb-3">
             Plant-level analytics and decision support system built on
             structured inspection and production data.
           </p>
@@ -136,7 +136,7 @@ export function PlantIntelligence() {
                   borderRadius: "6px",
                 }}
               >
-                <p className="text-sm font-semibold text-gray-800">{step}</p>
+                <p className="text-sm font-semibold text-txt-primary">{step}</p>
               </div>
               {i < arr.length - 1 && (
                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
@@ -152,7 +152,7 @@ export function PlantIntelligence() {
             </div>
           ))}
         </div>
-        <p className="text-sm text-slate-500 text-center italic">
+        <p className="text-sm text-txt-secondary text-center italic">
           Inspection becomes a continuous intelligence layer when structured
           data feeds analytics.
         </p>
@@ -177,8 +177,8 @@ export function PlantIntelligence() {
             }}
           >
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-2 h-2 rounded-full bg-slate-400 flex-shrink-0" />
-              <p className="text-sm font-bold text-gray-800">
+              <span className="w-2 h-2 rounded-full bg-txt-muted flex-shrink-0" />
+              <p className="text-sm font-bold text-txt-primary">
                 Rejection Analysis System
               </p>
             </div>
@@ -194,9 +194,9 @@ export function PlantIntelligence() {
               ].map((c, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-2 text-sm text-gray-600"
+                  className="flex items-center gap-2 text-sm text-txt-secondary"
                 >
-                  <span className="w-1 h-1 rounded-full bg-slate-300 flex-shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-border-default flex-shrink-0" />
                   {c}
                 </li>
               ))}
@@ -230,8 +230,8 @@ export function PlantIntelligence() {
             }}
           >
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-2 h-2 rounded-full bg-sky-400 flex-shrink-0" />
-              <p className="text-sm font-bold text-gray-800">
+              <span className="w-2 h-2 rounded-full bg-process-primary flex-shrink-0" />
+              <p className="text-sm font-bold text-txt-primary">
                 Plant Intelligence
               </p>
             </div>
@@ -248,9 +248,9 @@ export function PlantIntelligence() {
               ].map((c, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-2 text-sm text-gray-600"
+                  className="flex items-center gap-2 text-sm text-txt-secondary"
                 >
-                  <span className="w-1 h-1 rounded-full bg-sky-300 flex-shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-process-primary flex-shrink-0" />
                   {c}
                 </li>
               ))}
@@ -258,7 +258,7 @@ export function PlantIntelligence() {
           </div>
         </div>
         <p
-          className="mt-5 text-sm text-slate-500 italic"
+          className="mt-5 text-sm text-txt-secondary italic"
           style={{ maxWidth: "600px" }}
         >
           Plant Intelligence is designed to operate on data produced by RAS
@@ -293,9 +293,9 @@ export function PlantIntelligence() {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2 text-sm text-gray-600"
+                  className="flex items-start gap-2 text-sm text-txt-secondary"
                 >
-                  <span className="mt-1.5 w-1 h-1 rounded-full bg-slate-400 flex-shrink-0" />
+                  <span className="mt-1.5 w-1 h-1 rounded-full bg-txt-muted flex-shrink-0" />
                   {item}
                 </li>
               ))}
@@ -312,7 +312,7 @@ export function PlantIntelligence() {
             <p className="text-xs font-semibold text-txt-muted uppercase tracking-wide mb-3">
               Engineering Value
             </p>
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <p className="text-sm text-txt-secondary leading-relaxed">
               These analytics allow engineers to detect quality drift and
               emerging defect patterns early — before they compound into larger
               scrap losses or process failures.
@@ -372,16 +372,16 @@ export function PlantIntelligence() {
                 borderRadius: "8px",
               }}
             >
-              <p className="text-sm font-semibold text-gray-800 mb-2">
+              <p className="text-sm font-semibold text-txt-primary mb-2">
                 {fw.name}
               </p>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-txt-secondary leading-relaxed">
                 {fw.detail}
               </p>
             </div>
           ))}
         </div>
-        <p className="mt-5 text-sm text-slate-500">
+        <p className="mt-5 text-sm text-txt-secondary">
           These tools convert inspection data into structured quality
           diagnostics.
         </p>
@@ -425,16 +425,16 @@ export function PlantIntelligence() {
                 borderRadius: "6px",
               }}
             >
-              <p className="text-sm font-semibold text-gray-700 sm:w-40 flex-shrink-0">
+              <p className="text-sm font-semibold text-txt-primary sm:w-40 flex-shrink-0">
                 {item.method}
               </p>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-txt-secondary leading-relaxed">
                 {item.detail}
               </p>
             </div>
           ))}
         </div>
-        <p className="mt-5 text-sm text-slate-500 italic">
+        <p className="mt-5 text-sm text-txt-secondary italic">
           These indicators help engineers identify process instability before it
           becomes scrap.
         </p>
@@ -473,16 +473,16 @@ export function PlantIntelligence() {
                 borderRadius: "8px",
               }}
             >
-              <p className="text-sm font-semibold text-gray-800 mb-2">
+              <p className="text-sm font-semibold text-txt-primary mb-2">
                 {item.metric}
               </p>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-txt-secondary leading-relaxed">
                 {item.detail}
               </p>
             </div>
           ))}
         </div>
-        <p className="mt-5 text-sm text-slate-500 italic">
+        <p className="mt-5 text-sm text-txt-secondary italic">
           This helps management prioritize improvement initiatives based on
           economic impact.
         </p>
@@ -511,10 +511,10 @@ export function PlantIntelligence() {
                 borderRadius: "6px",
               }}
             >
-              <span className="mt-0.5 text-xs font-mono font-semibold text-slate-300 flex-shrink-0">
+              <span className="mt-0.5 text-xs font-mono font-semibold text-txt-muted flex-shrink-0">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <p className="text-sm text-gray-600 italic">&ldquo;{q}&rdquo;</p>
+              <p className="text-sm text-txt-secondary italic">&ldquo;{q}&rdquo;</p>
             </div>
           ))}
         </div>
@@ -558,16 +558,16 @@ export function PlantIntelligence() {
                 borderRadius: "8px",
               }}
             >
-              <p className="text-sm font-semibold text-gray-800 mb-2">
+              <p className="text-sm font-semibold text-txt-primary mb-2">
                 {item.title}
               </p>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-txt-secondary leading-relaxed">
                 {item.detail}
               </p>
             </div>
           ))}
         </div>
-        <p className="mt-5 text-sm text-slate-500 italic">
+        <p className="mt-5 text-sm text-txt-secondary italic">
           Managers can detect and respond to quality issues earlier.
         </p>
       </SystemDetailSection>
@@ -601,7 +601,7 @@ export function PlantIntelligence() {
               borderRadius: "8px 0 0 8px",
             }}
           >
-            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted mb-4">
+            <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow mb-4">
               Rejection Analysis System
             </p>
             <ul className="space-y-2">
@@ -612,9 +612,9 @@ export function PlantIntelligence() {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2 text-sm text-gray-600"
+                  className="flex items-start gap-2 text-sm text-txt-secondary"
                 >
-                  <span className="mt-1.5 w-1 h-1 rounded-full bg-slate-400 flex-shrink-0" />
+                  <span className="mt-1.5 w-1 h-1 rounded-full bg-txt-muted flex-shrink-0" />
                   {item}
                 </li>
               ))}
@@ -665,7 +665,7 @@ export function PlantIntelligence() {
               borderRadius: "0 8px 8px 0",
             }}
           >
-            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-txt-muted mb-4">
+            <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-signal-glow mb-4">
               Plant Intelligence
             </p>
             <ul className="space-y-2">
@@ -676,9 +676,9 @@ export function PlantIntelligence() {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2 text-sm text-gray-600"
+                  className="flex items-start gap-2 text-sm text-txt-secondary"
                 >
-                  <span className="mt-1.5 w-1 h-1 rounded-full bg-sky-400 flex-shrink-0" />
+                  <span className="mt-1.5 w-1 h-1 rounded-full bg-process-primary flex-shrink-0" />
                   {item}
                 </li>
               ))}
